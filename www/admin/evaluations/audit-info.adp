@@ -2,8 +2,6 @@
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 
-<h2>#evaluation.lt_Audit_info_for_task_t#</h2>
-
 <if @parties:rowcount@ gt 0>
 <ul>
 <multiple name="parties">
