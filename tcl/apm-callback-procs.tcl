@@ -169,7 +169,7 @@ ad_proc -public evaluation::apm_callback::package_instantiate {
 
 } {
 
-    set creation_user [ad_verify_and_get_user_id]
+    set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
     set exams_name "[_ evaluation.Exams_]"
     set exams_singular_name "[_ evaluation.Exam]"

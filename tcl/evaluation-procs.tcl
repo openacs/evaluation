@@ -222,7 +222,7 @@ ad_proc -public evaluation::new_grade {
     if { [empty_string_p $package_id] } {
     set package_id [ad_conn package_id]
     }
-    set creation_user [ad_verify_and_get_user_id]
+    set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
     set creation_date [db_string get_date { *SQL* }]
     set item_name "${content_type}_${item_id}"
@@ -433,7 +433,7 @@ ad_proc -public evaluation::new_solution {
 } {
 
     set package_id [ad_conn package_id]
-    set creation_user [ad_verify_and_get_user_id]
+    set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
     set item_name "${item_id}_${title}"
@@ -495,7 +495,7 @@ ad_proc -public evaluation::new_answer {
 } {
 
     set package_id [ad_conn package_id]
-    set creation_user [ad_verify_and_get_user_id]
+    set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
     set creation_date [db_string get_date { *SQL* }]
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
@@ -574,7 +574,7 @@ ad_proc -public evaluation::new_evaluation {
 } {
 
     set package_id [ad_conn package_id]
-    set creation_user [ad_verify_and_get_user_id]
+    set creation_user [ad_conn user_id]
     set creation_date [db_string get_date { *SQL* }]
     set creation_ip [ad_conn peeraddr]
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
@@ -629,7 +629,7 @@ ad_proc -public evaluation::new_evaluation_group {
     if { [empty_string_p $context] } {
 	set context [ad_conn package_id]
     }
-    set creation_user [ad_verify_and_get_user_id]
+    set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
 
     if { [empty_string_p $creation_date] } {
@@ -683,7 +683,7 @@ ad_proc -public evaluation::new_grades_sheet {
 } {
 
     set package_id [ad_conn package_id]
-    set creation_user [ad_verify_and_get_user_id]
+    set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
     set item_name "${item_id}_${title}"

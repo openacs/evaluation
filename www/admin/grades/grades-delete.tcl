@@ -13,7 +13,7 @@ ad_page_contract {
 	{return_url "index"}
 }
 
-set user_id [ad_verify_and_get_user_id]
+set user_id [ad_conn user_id]
 
 set page_title "[_ evaluation.lt_Delete_Assignment_Typ]"
 
