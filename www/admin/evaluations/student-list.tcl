@@ -303,7 +303,6 @@ if { $number_of_members > 1 } {
     }
     set sql_query [db_map sql_query_groups]
 } else {
-    set community_id [dotlrn_community::get_community_id]
     if { [llength $done_students] > 0 } {
 	set not_in_clause [db_map not_yet_in_clause_non_empty]
     } else {
