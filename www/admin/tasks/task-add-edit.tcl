@@ -233,67 +233,73 @@ ad_form -extend -name task -form {
 		{ ([string eq $unattach_p "t"] && [empty_string_p $upload_file] && [string eq $url "http://"]) || [empty_string_p $unattach_p] }
 		{First unattach the file/url, then submit another one or just upload a new file/url and leave this in blank}
 	}
+} -new_data {
+    
+    evaluation::notification::do_notification -task_id $revision_id -package_id [ad_conn package_id] -edit_p 0 -notif_type one_assignment_notif
+    
+} -edit_data {
+
+    evaluation::notification::do_notification -task_id $revision_id -package_id [ad_conn package_id] -edit_p 1 -notif_type one_assignment_notif
+
 } -on_submit {
+    
+    db_transaction {
 	
-	db_transaction {
-
-		set mime_type "text/plain"
-		set title ""
-		set storage_type text
-
-		if { ![empty_string_p $upload_file] } {
-			
-			# Get the filename part of the upload file
-			if { ![regexp {[^//\\]+$} $upload_file filename] } {
-				# no match
-				set filename $upload_file
-			}
-        
-			set title [template::util::file::get_property filename $upload_file]
-			set mime_type [cr_filename_to_mime_type -create $title]
-
-			set storage_type lob
-		} 
-		
-		set due_date [db_string set_date { *SQL* }]
-
-		if { [ad_form_new_p -key task_id] } {
-			set item_id $task_id
-		} 
-
-		set revision_id [evaluation::new_task -new_item_p [ad_form_new_p -key grade_id] -item_id $item_id -content_type evaluation_tasks \
-							 -content_table evaluation_tasks -content_id task_id -name $task_name -description $description -weight $weight \
-							 -grade_id $grade_id -number_of_members $number_of_members -online_p $online_p -storage_type $storage_type \
-							 -due_date  $due_date -late_submit_p $late_submit_p -requires_grade_p $requires_grade_p -title $title \
-							 -mime_type $mime_type]
-		
-		evaluation::set_live -revision_id $revision_id
-		
-		if { ![empty_string_p $upload_file] }  {
-			
-			set tmp_file [template::util::file::get_property tmp_filename $upload_file]
-			
-			# create the new item
-			db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
-			
-			set content_length [file size $tmp_file]
-            # Unfortunately, we can only calculate the file size after the lob is uploaded 
-            db_dml lob_size { *SQL* }
-			
-		} elseif { ![string eq $url "http://"] } {
-			
-			db_dml link_content { *SQL* }
-			
-		} elseif { [string eq $attached_p "t"] && ![string eq $unattach_p "t"] } {
-			ns_log Notice "si pues.... \n"
-			# just copy the old content to the new revision
-			db_exec_plsql copy_content { *SQL* }
-		}	
-	}
-
-	evaluation::notification::do_notification -task_id $revision_id -package_id [ad_conn package_id]
- 	ad_returnredirect "$return_url"
- 	ad_script_abort
-}
+	set mime_type "text/plain"
+	set title ""
+	set storage_type text
+	
+	if { ![empty_string_p $upload_file] } {
+	    
+	    # Get the filename part of the upload file
+	    if { ![regexp {[^//\\]+$} $upload_file filename] } {
+		# no match
+		set filename $upload_file
+	    }
+	    
+	    set title [template::util::file::get_property filename $upload_file]
+	    set mime_type [cr_filename_to_mime_type -create $title]
+	    
+	    set storage_type lob
+	} 
+	
+	set due_date [db_string set_date { *SQL* }]
+	
+	if { [ad_form_new_p -key task_id] } {
+	    set item_id $task_id
+	} 
+	
+	set revision_id [evaluation::new_task -new_item_p [ad_form_new_p -key grade_id] -item_id $item_id -content_type evaluation_tasks \
+			     -content_table evaluation_tasks -content_id task_id -name $task_name -description $description -weight $weight \
+			     -grade_id $grade_id -number_of_members $number_of_members -online_p $online_p -storage_type $storage_type \
+			     -due_date  $due_date -late_submit_p $late_submit_p -requires_grade_p $requires_grade_p -title $title \
+			     -mime_type $mime_type]
+	
+	evaluation::set_live -revision_id $revision_id
+	
+	if { ![empty_string_p $upload_file] }  {
+	    
+	    set tmp_file [template::util::file::get_property tmp_filename $upload_file]
+	    
+	    # create the new item
+	    db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
+	    
+	    set content_length [file size $tmp_file]
+	    # Unfortunately, we can only calculate the file size after the lob is uploaded 
+	    db_dml lob_size { *SQL* }
+	    
+	} elseif { ![string eq $url "http://"] } {
+	    
+	    db_dml link_content { *SQL* }
+	    
+	} elseif { [string eq $attached_p "t"] && ![string eq $unattach_p "t"] } {
+	    # just copy the old content to the new revision
+	    db_exec_plsql copy_content { *SQL* }
+	}	
+    }
+} -after_submit {
+    ad_returnredirect "$return_url"
+    ad_script_abort
+} 
 
 ad_return_template

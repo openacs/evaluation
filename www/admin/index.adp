@@ -8,7 +8,7 @@
 </ul>
 
 <h2>Assignments</h2>
-<p>@notification_chunk;noquote@</p>
+<p>@assignments_notification_chunk;noquote@</p>
 <ul>
 <if @grades:rowcount@ eq 0>
 <li>There are no tasks for this package.</li>
@@ -22,6 +22,7 @@
 </ul>
 <br />
 <h2>Evaluations</h2>
+<p>@evaluations_notification_chunk;noquote@</p>
 <ul>
 <if @grades:rowcount@ eq 0>
 <li>There are no tasks to evaluate for this package.</li>

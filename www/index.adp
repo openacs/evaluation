@@ -25,10 +25,13 @@
 <if @grades:rowcount@ eq 0>
 <li>There are no tasks to evaluate for this package.</li>
 </if><else>
-<multiple name="grades">
+ <multiple name="grades">
 	<li><strong>@grades.grade_name@</strong> <br />
 	<include src="../lib/evaluations-chunk" grade_id=@grades.grade_id@>
 	</li>
-</multiple>
+ </multiple>
+ <if @admin_p@ eq "0">
+ <br />Your total grade in this class is: @total_class_grade@
+ </if>
 </else>
 </ul>

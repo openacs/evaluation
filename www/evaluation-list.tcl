@@ -1,4 +1,4 @@
-# /packages/evaluation/www/task-list.tcl
+# /packages/evaluation/www/evaluation-list.tcl
 
 ad_page_contract {
 	

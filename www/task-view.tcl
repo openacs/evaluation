@@ -7,13 +7,13 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 } {
-	grade_id:integer,notnull
-	task_id:integer,notnull,optional
-	item_id:integer,notnull,optional
+    grade_id:integer,notnull
+    task_id:integer,notnull,optional
+    item_id:integer,notnull,optional
+    {return_url "/"}
 }
 
 set package_id [ad_conn package_id]
-set return_url "task-list?[export_vars { grade_id }]"
 set page_title "View Task"
 
 db_1row get_grade_info { *SQL* }

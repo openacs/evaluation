@@ -23,6 +23,8 @@ db_multirow grades get_grades { *SQL* } {
 	
 }
 
+set total_class_grade [format %.2f [db_string get_total_grade "select evaluation__class_total_grade(:user_id,:package_id)"]]
+
 set notification_chunk [notification::display::request_widget \
 							-type one_assignment_notif \
 							-object_id $package_id \

@@ -9,7 +9,7 @@
 		select evaluation__party_name(ese.party_id,:task_id) as party_name,
 		ese.grade,
 		ese.show_student_p,
-		ese.description
+		ese.description as comments
 		from evaluation_student_evalsx ese
 		where ese.evaluation_id = :evaluation_id
 	

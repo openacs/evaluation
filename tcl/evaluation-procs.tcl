@@ -8,6 +8,7 @@ ad_library {
 
 namespace eval evaluation {}
 namespace eval evaluation::notification {}
+namespace eval evaluation::apm {}
 
 #####
 #
@@ -16,42 +17,75 @@ namespace eval evaluation::notification {}
 #####
 
 ad_proc -public evaluation::notification::get_url { 
-	-task_id:required
+    -task_id:required
+    -notif_type:required
+    {-evaluation_id ""}
 } { 
 	returns a full url to the object_id. 
-	handles messages and forums. 
+	handles assignments and evaluations. 
 } {  
  
-	db_1row get_grade_id "select grade_id from evaluation_tasks where task_id = :task_id and content_revision__is_live(task_id) = true" 
-	set assignment_url  "[ad_url][ad_conn package_url]" 
-	return [export_vars -base "${assignment_url}task-view" { task_id grade_id }]
-	
+    set base_url "[ad_url][ad_conn package_url]" 
+    switch $notif_type {
+	"one_assignment_notif" {
+	    db_1row get_grade_id { *SQL* }
+	    return [export_vars -base "${base_url}task-view" { task_id grade_id }]
+	} 
+	"one_evaluation_notif" {
+	    set evaluation_mode display
+	    return [export_vars -base "${base_url}admin/evaluations/one-evaluation-edit" { task_id evaluation_id evaluation_mode }]
+	} 
+	default {
+	    error "Unrecognized value for notif type: $notif_type. Possible values are one_assignment_notif and one_evaluation_notif." 
+	    ad_script_abort
+	}
+    }
 } 
 
 ad_proc -public evaluation::notification::do_notification { 
-	-task_id:required
-	-package_id:required
+    -task_id:required
+    -package_id:required
+    -notif_type:required
+    {-evaluation_id ""}
+    {-edit_p 0}
 } {  
-	
-	db_1row  select_names {
-		select eg.grade_name, 
-		et.task_name 
-		from evaluation_grades eg, 
-		evaluation_tasks et 
-		where et.task_id = :task_id
-		and et.grade_id = eg.grade_id
-	} 
-	
-	set new_content "If you wan to see more.... ok see [evaluation::notification::get_url -task_id $task_id]"
-	
-    # Notifies the users that requested notification for the specific assignment
- 
+
+    db_1row select_names { *SQL* } 
+    
+    switch $notif_type {
+	"one_assignment_notif" { 	    
+	    if { [string eq $edit_p 0] } {
+		set notif_subject "New Assignment ($grade_name)"
+		set notif_text "A new assignment was uploaded, if you want to see more details \n"
+	    } else {
+		set notif_subject "Assignment Edited ($grade_name)"
+		set notif_text "An assignment was modified, if you want to see more details \n"
+	    }
+	    append notif_text "click on this link: [evaluation::notification::get_url -task_id $task_id -notif_type one_assignment_notif] \n"
+	    set response_id $task_id
+	    
+	}
+	"one_evaluation_notif" {
+	    db_1row get_eval_info { *SQL* }
+	    set user_name [person::name -person_id [ad_conn user_id]]
+	    set notif_subject "Evaluation Modified"
+	    set notif_text "$user_name has modified the grade of ${party_name}. \n The edit reason given by $user_name was: $edit_reason \n The current grade is: $current_grade \n\n Click on this link to see the evaluation details: [evaluation::notification::get_url -task_id $task_id -evaluation_id $evaluation_id -notif_type one_evaluation_notif] \n"
+	    set response_id $evaluation_id
+	}
+	default {
+	    error "Unrecognized value for notif type: $notif_type. Possible values are one_assignment_notif and one_evaluation_notif." 
+	    ad_script_abort
+	}
+    }
+    
+    # Notifies the users that requested notification for the specific object
+    
     notification::new \
-		-type_id [notification::type::get_type_id -short_name one_assignment_notif] \
-		-object_id $package_id \
-		-response_id $task_id \
-		-notif_subject "New Assignment" \
-		-notif_text $new_content 
+	-type_id [notification::type::get_type_id -short_name $notif_type] \
+	-object_id $package_id \
+	-response_id $response_id \
+	-notif_subject $notif_subject \
+	-notif_text $notif_text 
 } 
 
 ad_proc -public evaluation::package_key {} {
@@ -59,57 +93,57 @@ ad_proc -public evaluation::package_key {} {
 }
 
 ad_proc -public evaluation::make_url { 
-	-file_name_from_db:required 
+    -file_name_from_db:required 
 } {
     if { [regexp "view" $file_name_from_db] } {
-		return $file_name_from_db
-	} elseif { [regexp "http://" $file_name_from_db] } {
-		return $file_name_from_db
-	} else {
-		return $file_name_from_db
-	}
+	return $file_name_from_db
+    } elseif { [regexp "http://" $file_name_from_db] } {
+	return $file_name_from_db
+    } else {
+	return $file_name_from_db
+    }
 }
 
 
 ad_proc -public evaluation::new_grade {
-	-item_id:required
-	-content_type:required
-	-content_table:required
-	-content_id:required
-	-new_item_p:required
-	-description:required
-	-weight:required
-	-name:required
+    -item_id:required
+    -content_type:required
+    -content_table:required
+    -content_id:required
+    -new_item_p:required
+    -description:required
+    -weight:required
+    -name:required
 } {
-
-	Build a new content revision of a evaluation subtype.  If new_item_p is
-	set true then a new item is first created, otherwise a new revision is created for
-	the item indicated by item_id.
-
-	@param item_id The item to update or create.
-	@param content_type The type to make
-	@param content_table
-	@param new_item_p If true make a new item using item_id
-
+    
+    Build a new content revision of a evaluation subtype.  If new_item_p is
+    set true then a new item is first created, otherwise a new revision is created for
+    the item indicated by item_id.
+    
+    @param item_id The item to update or create.
+    @param content_type The type to make
+    @param content_table
+    @param new_item_p If true make a new item using item_id
+    
 } {
-
-	set package_id [ad_conn package_id]
-	set creation_user [ad_verify_and_get_user_id]
-	set creation_ip [ad_conn peeraddr]
-
-	set item_name "${content_type}_${item_id}"
-
-	set revision_id [db_nextval acs_object_id_seq]
-	set revision_name "${content_type}_${revision_id}"
-
-	if { $new_item_p } {
-		db_exec_plsql content_item_new { *SQL* }
-		
-	}
+    
+    set package_id [ad_conn package_id]
+    set creation_user [ad_verify_and_get_user_id]
+    set creation_ip [ad_conn peeraddr]
+    
+    set item_name "${content_type}_${item_id}"
+    
+    set revision_id [db_nextval acs_object_id_seq]
+    set revision_name "${content_type}_${revision_id}"
+    
+    if { $new_item_p } {
+	db_exec_plsql content_item_new { *SQL* }
 	
-	db_exec_plsql content_revision_new { *SQL* }
-	
-	return $revision_id
+    }
+    
+    db_exec_plsql content_revision_new { *SQL* }
+    
+    return $revision_id
 } 
 
 
@@ -536,6 +570,195 @@ ad_proc -public evaluation::generate_grades_sheet {} {
     $csv_formatted_content" 
 }
 
+ad_proc -private evaluation::apm::delete_one_assignment_impl {} {
+    Unregister the NotificationType implementation for one_assignment_notif_type.
+} {
+    acs_sc::impl::delete \
+        -contract_name "NotificationType" \
+        -impl_name one_assignment_notif_type
+}
+
+ad_proc -private evaluation::apm::delete_one_evaluation_impl {} {
+    Unregister the NotificationType implementation for one_evaluation_notif_type.
+} {
+    acs_sc::impl::delete \
+        -contract_name "NotificationType" \
+        -impl_name one_evaluation_notif_type
+}
+
+ad_proc -private evaluation::apm::create_one_assignment_impl {} {
+    Register the service contract implementation and return the impl_id
+    @return impl_id of the created implementation 
+} {
+    return [acs_sc::impl::new_from_spec -spec {
+	name one_assignment_notif_type
+	contract_name NotificationType
+	owner evaluation
+	aliases {
+	    GetURL evaluation::notification::get_url
+	    ProcessReply evaluation::notification::process_reply
+	}
+    }]
+}
+
+ad_proc -private evaluation::apm::create_one_evaluation_impl {} {
+    Register the service contract implementation and return the impl_id
+    @return impl_id of the created implementation 
+} {
+    return [acs_sc::impl::new_from_spec -spec {
+	name one_evaluation_notif_type
+	contract_name NotificationType
+	owner evaluation
+	aliases {
+	    GetURL evaluation::notification::get_url
+	    ProcessReply evaluation::notification::process_reply
+	}
+    }]
+}
  
+ad_proc -private evaluation::apm::create_one_assignment_type {
+    -impl_id:required
+} {
+    Create the notification type for one specific assignment
+    @return the type_id of the created type
+} {
+    return [notification::type::new \
+		-sc_impl_id $impl_id \
+		-short_name one_assignment_notif \
+		-pretty_name "One Assignment" \
+		-description "Notification for assignments"]
+}
+
+ad_proc -private evaluation::apm::create_one_evaluation_type {
+    -impl_id:required
+} {
+    Create the notification type for one specific evaluation
+    @return the type_id of the created type
+} {
+    return [notification::type::new \
+		-sc_impl_id $impl_id \
+		-short_name one_evaluation_notif \
+		-pretty_name "One Evaluation" \
+		-description "Notification for evaluations"]
+}
+
+ad_proc -public evaluation::apm::enable_intervals_and_methods {
+    -type_id:required
+} {
+    Enable the intervals and delivery methods of a specific type
+} {
+    # Enable the various intervals and delivery method
+    notification::type::interval_enable \
+	-type_id $type_id \
+	-interval_id [notification::interval::get_id_from_name -name instant]
+    
+    notification::type::interval_enable \
+	-type_id $type_id \
+	-interval_id [notification::interval::get_id_from_name -name hourly]
+    
+    notification::type::interval_enable \
+	-type_id $type_id \
+	-interval_id [notification::interval::get_id_from_name -name daily]
+    
+    # Enable the delivery methods
+    notification::type::delivery_method_enable \
+	-type_id $type_id \
+	-delivery_method_id [notification::delivery::get_id -short_name email]
+}
+
+ad_proc -public evaluation::apm::create_folders {
+    -package_id:required
+} {
+    Helper for the apm_proc
+} {
+    db_transaction {
+	db_exec_plsql create_evaluation_folders { *SQL* }
+
+	set creation_user [ad_verify_and_get_user_id]
+	set creation_ip [ad_conn peeraddr]
+	
+	set exams_item_id [db_nextval acs_object_id_seq]
+	set exams_item_name "evaluation_grades_${exams_item_id}"		
+	set exams_revision_id [db_nextval acs_object_id_seq]
+	set exams_revision_name "evaluation_grades_${exams_revision_id}"
+	
+	db_exec_plsql exams_item_new { *SQL* }
+	
+	db_exec_plsql exams_revision_new { *SQL* }
+	
+	db_exec_plsql exams_live_revision { *SQL* }
+	
+	set projects_item_id [db_nextval acs_object_id_seq]
+	set projects_item_name "evaluation_grades_${projects_item_id}"		
+	set projects_revision_id [db_nextval acs_object_id_seq]
+	set projects_revision_name "evaluation_grades_${projects_revision_id}"
+	
+	db_exec_plsql projects_item_new { *SQL* }
+	
+	db_exec_plsql projects_revision_new { 			
+	    select evaluation__new_grade (
+					  :projects_item_id,		
+					  :projects_revision_id,	
+					  'Projects', 	
+					  -1,		-- class_id temporal
+					  20,		
+					  'evaluation_grades',	
+					  now(), --creation date	
+					  :creation_user, 
+					  :creation_ip,	
+					  :projects_revision_name,			
+					  'Projects for students',	
+					  now(),  --publish date
+					  null, --nls_language
+					  'text/plain' --mime_type
+					  );
+	}
+
+	db_exec_plsql projects_live_revision { *SQL* }
+	
+	set tasks_item_id [db_nextval acs_object_id_seq]
+	set tasks_item_name "evaluation_grades_${tasks_item_id}"		
+	set tasks_revision_id [db_nextval acs_object_id_seq]
+	set tasks_revision_name "evaluation_grades_${tasks_revision_id}"
+	
+	db_exec_plsql tasks_item_new { *SQL* }
+	
+	db_exec_plsql tasks_revision_new { *SQL* }
+	
+	db_exec_plsql tasks_live_revision { *SQL* }
+
+    }
+}
+
+ad_proc -public evaluation::apm::delete_contents {
+    -package_id:required
+} {
+    Helper for the apm_proc
+} {
+
+    set ev_grades_fid [db_string get_f_id "select content_item__get_id('evaluation_grades_'||:package_id,null,'f')"]
+    set ev_grades_sheets_fid [db_string get_f_id "select content_item__get_id('evaluation_grades_sheets_'||:package_id,null,'f')"]
+    set ev_tasks_fid [db_string get_f_id "select content_item__get_id('evaluation_tasks_'||:package_id,null,'f')"]
+    set ev_tasks_sols_fid [db_string get_f_id "select content_item__get_id('evaluation_tasks_sols_'||:package_id,null,'f')"]
+    set ev_answers_fid [db_string get_f_id "select content_item__get_id('evaluation_answers_'||:package_id,null,'f')"]
+    set ev_student_evals_fid [db_string get_f_id "select content_item__get_id('evaluation_student_evals_'||:package_id,null,'f')"]
+
+    db_transaction {
+	db_exec_plsql delte_evaluation_contents { *SQL* }
+	
+	db_exec_plsql delte_grades_sheets_folder { *SQL* }
+	
+	db_exec_plsql delte_grades_folder { *SQL* }
+	
+	db_exec_plsql delte_task_folder { *SQL* }
+	
+	db_exec_plsql delte_task_sols_folder { *SQL* }
+	
+	db_exec_plsql delte_answers_folder { *SQL* }
+
+	db_exec_plsql delte_evals_folder { *SQL* }
+    }
+}
+
 ad_register_proc GET /grades-sheet-csv* evaluation::generate_grades_sheet 
 ad_register_proc POST /grades-sheet-csv* evaluation::generate_grades_sheet

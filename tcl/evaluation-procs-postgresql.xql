@@ -344,5 +344,311 @@
 
       </querytext>
 </fullquery>
+
+<fullquery name="evaluation::notification::get_url.get_grade_id">      
+      <querytext>
+
+	select grade_id from evaluation_tasks where task_id = :task_id and content_revision__is_live(task_id) = true
+	
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::notification::do_notification.select_names">      
+      <querytext>
+
+	select eg.grade_name, 
+	et.task_name 
+	from evaluation_grades eg, 
+	evaluation_tasks et 
+	where et.task_id = :task_id
+	and et.grade_id = eg.grade_id
+	
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::notification::do_notification.get_eval_info">      
+      <querytext>
+
+	select description as edit_reason, 
+	grade as current_grade,
+	evaluation__party_name(party_id,task_id) as party_name
+	from evaluation_student_evalsi
+	where evaluation_id = :evaluation_id
+	
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.create_evaluation_folders">      
+      <querytext>
+
+	    select evaluation__new_folder (
+					   'evaluation_grades_'||:package_id,
+					   'evaluation_grades_'||:package_id,
+					   'Evaluation grades folder',
+					   null,
+					   'evaluation_grades'
+					   );
+	    
+	    select evaluation__new_folder (
+					   'evaluation_tasks_'||:package_id,
+					   'evaluation_tasks_'||:package_id,
+					   'Evaluation tasks folder',
+					   null,
+					   'evaluation_tasks'
+					   );
+	    
+	    select evaluation__new_folder (
+					   'evaluation_tasks_sols_'||:package_id,
+					   'evaluation_tasks_sols_'||:package_id,
+					   'Evaluation tasks solutions folder',
+					   null,
+					   'evaluation_tasks_sols'
+					   );
+	    
+	    select evaluation__new_folder (
+					   'evaluation_answers_'||:package_id,
+					   'evaluation_answers_'||:package_id,
+					   'Evaluation answers folder',
+					   null,
+					   'evaluation_answers'
+					   );
+	    
+	    select evaluation__new_folder (
+					   'evaluation_grades_sheets_'||:package_id,
+					   'evaluation_grades_sheets_'||:package_id,
+					   'Grades sheets folder',
+					   null,
+					   'evaluation_grades_sheets'
+					   );
+	    
+	    select evaluation__new_folder (
+					   'evaluation_student_evals_'||:package_id,
+					   'evaluation_student_evals_'||:package_id,
+					   'Evaluation student evaluations folder',
+					   null,
+					   'evaluation_student_evals'
+					   );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.exams_item_new">      
+      <querytext>
+
+	    select evaluation__new_item (
+					 :exams_item_id, --item_id
+					 :exams_item_name,
+					 null,
+					 :creation_user,
+					 :package_id,
+					 :creation_ip,
+					 'Exams',
+					 'Exams for students',
+					 'text/plain',
+					 null,
+					 null,
+					 'text',
+					 'content_item', -- item_subtype
+					 'evaluation_grades' -- content_type
+					 );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.exams_revision_new">      
+      <querytext>
+
+	    select evaluation__new_grade (
+					  :exams_item_id,		
+					  :exams_revision_id,	
+					  'Exams', 	
+					  -1,		-- class_id temporal
+					  40,		
+					  'evaluation_grades',	
+					  now(), --creation date	
+					  :creation_user, 
+					  :creation_ip,	
+					  :exams_revision_name,			
+					  'Exams for students',	
+					  now(),  --publish date
+					  null, --nls_language
+					  'text/plain' --mime_type
+					  );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.exams_live_revision">      
+      <querytext>
+
+	    select content_item__set_live_revision (
+						    :exams_revision_id			
+						    );
+
+      </querytext>
+</fullquery>
+<fullquery name="evaluation::apm::create_folders.projects_item_new">      
+      <querytext>
+
+	    select evaluation__new_item (
+					 :projects_item_id, --item_id
+					 :projects_item_name,
+					 null,
+					 :creation_user,
+					 :package_id,
+					 :creation_ip,
+					 'Projects',
+					 'Projects for students',
+					 'text/plain',
+					 null,
+					 null,
+					 'text',
+					 'content_item', -- item_subtype
+					 'evaluation_grades' -- content_type
+					 );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.projects_live_revision">      
+      <querytext>
+
+	    select content_item__set_live_revision (
+						    :projects_revision_id			
+						    );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.tasks_item_new">      
+      <querytext>
+
+	    select evaluation__new_item (
+					 :tasks_item_id, --item_id
+					 :tasks_item_name,
+					 null,
+					 :creation_user,
+					 :package_id,
+					 :creation_ip,
+					 'Tasks',
+					 'Tasks for students',
+					 'text/plain',
+					 null,
+					 null,
+					 'text',
+					 'content_item', -- item_subtype
+					 'evaluation_grades' -- content_type
+					 );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.tasks_revision_new">      
+      <querytext>
+
+	    select evaluation__new_grade (
+					  :tasks_item_id,		
+					  :tasks_revision_id,	
+					  'Tasks', 	
+					  -1,		-- class_id temporal
+					  40,		
+					  'evaluation_grades',	
+					  now(), --creation date	
+					  :creation_user, 
+					  :creation_ip,	
+					  :tasks_revision_name,			
+					  'Tasks for students',	
+					  now(),  --publish date
+					  null, --nls_language
+					  'text/plain' --mime_type
+					  );
+
+      </querytext>
+</fullquery>
+<fullquery name="evaluation::apm::create_folders.tasks_live_revision">      
+      <querytext>
+
+	    select content_item__set_live_revision (
+						    :tasks_revision_id			
+						    );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::delete_contents.delte_evaluation_contents">      
+      <querytext>
+
+	select evaluation__delete_contents (
+					:package_id
+					);
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::delete_contents.delte_grades_sheets_folder">      
+      <querytext>
+
+	    select evaluation__delete_folder (
+					      :ev_grades_sheets_fid,
+					      'evaluation_grades_sheets'
+					      );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::delete_contents.delte_grades_folder">      
+      <querytext>
+
+	    select evaluation__delete_folder (
+					      :ev_grades_fid,
+					      'evaluation_grades'
+					      );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::delete_contents.delte_task_folder">      
+      <querytext>
+
+	    select evaluation__delete_folder (
+					      :ev_tasks_fid,
+					      'evaluation_tasks'
+					      );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::delete_contents.delte_task_sols_folder">      
+      <querytext>
+
+	    select evaluation__delete_folder (
+					      :ev_tasks_sols_fid,
+					      'evaluation_tasks_sols'
+					      );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::delete_contents.delte_answers_folder">      
+      <querytext>
+
+	    select evaluation__delete_folder (
+					      :ev_answers_fid,
+					      'evaluation_answers'
+					      );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::delete_contents.delte_evals_folder">      
+      <querytext>
+
+	    select evaluation__delete_folder (
+					      :ev_student_evals_fid,
+					      'evaluation_student_evals'
+					      );
+
+      </querytext>
+</fullquery>
  
 </queryset>

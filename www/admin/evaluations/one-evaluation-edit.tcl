@@ -7,8 +7,9 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 } {
-	task_id:integer,notnull
-	evaluation_id:integer,notnull
+    task_id:integer,notnull
+    evaluation_id:integer,notnull
+    {evaluation_mode "edit"}
 } 
 
 set return_url "student-list?[export_vars -url { task_id }]"
@@ -17,7 +18,7 @@ set page_title "View/Edit Evaluation"
 
 set context [list [list [export_vars -base student-list { task_id }] "Students List"] $page_title]
 
-if { [ad_form_new_p -key evaluation_id] } {
+if { [ad_form_new_p -key evaluation_id] || [string eq $evaluation_mode "display"] } {
 	set comment_label "Comments"
 } else {
 	set comment_label "Edit Reason"
@@ -25,7 +26,7 @@ if { [ad_form_new_p -key evaluation_id] } {
 
 db_1row get_evaluation_info { *SQL* }
 	
-ad_form -name evaluation -cancel_url $return_url -export { task_id item_id party_id } -form {
+ad_form -name evaluation -cancel_url $return_url -export { task_id item_id party_id } -mode $evaluation_mode -form {
 
 	evaluation_id:key
 
@@ -77,6 +78,9 @@ ad_form -name evaluation -cancel_url $return_url -export { task_id item_id party
 		evaluation::set_live -revision_id $revision_id
 		
 	}
+
+	# send the notification to everyone suscribed
+	evaluation::notification::do_notification -task_id $task_id -evaluation_id $revision_id -package_id [ad_conn package_id] -notif_type one_evaluation_notif
 
  	ad_returnredirect "$return_url"
  	ad_script_abort

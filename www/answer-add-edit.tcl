@@ -7,19 +7,19 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 } {
-	task_id:integer,notnull
-	grade_id:integer,notnull
-	answer_id:integer,notnull,optional
-	item_id:integer,notnull,optional
+    task_id:integer,notnull
+    grade_id:integer,notnull
+    answer_id:integer,notnull,optional
+    item_id:integer,notnull,optional
     upload_file:trim,optional
     upload_file.tmpfile:tmpfile,optional
+    {return_url "/"}
 } 
 
 set user_id [ad_conn user_id]
 set party_id [db_string get_party_id { *SQL* }]
 
 set package_id [ad_conn package_id]
-set return_url "task-list?[export_vars { grade_id }]"
 
 if { [ad_form_new_p -key answer_id] } {
 	set page_title "Upload Answer"
