@@ -114,12 +114,12 @@ if { $admin_p } {
 		
 	    } else {
 		set grade "[_ evaluation-portlet.Not_available_]"
-		set task_weight "[_ evaluation-portlet.Not_available_]"
+		set task_weight [lc_numeric $task_weight]
 	    }
 	} else {
 	    set grade "[_ evaluation-portlet.Not_evaluated_]"
 	    set max_grade [expr $task_weight + $max_grade] 	    
-	    set task_weight "[_ evaluation-portlet.Not_evaluated_]"
+	    set task_weight [lc_numeric $task_weight]
 	}
 	
 
