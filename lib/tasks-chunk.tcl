@@ -83,6 +83,7 @@ template::list::create \
     -key task_id \
     -pass_properties { return_url mode base_url grade_id } \
     -filters { grade_id {} } \
+    -no_data "[_ evaluation.No_assignments_]" \
     -orderby_name assignments_orderby \
     -elements $elements \
     -orderby { default_value task_name }

@@ -56,6 +56,7 @@ template::list::create \
     -pass_properties { return_url base_url } \
     -filters { grade_id {} student_id {} } \
     -elements $elements \
+    -no_data "[_ evaluation.No_assignments_]" \
     -orderby_name orderby \
     -orderby { default_value task_name }
 

@@ -437,6 +437,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="New_Group_">New Group </msg>
   <msg key="No">No</msg>
   <msg key="No_">No </msg>
+  <msg key="No_assignments_">No assignments </msg>
   <msg key="No_data_">(No data) </msg>
   <msg key="No_group_for_task_">No group for task </msg>
   <msg key="No_of_Members_">No. of Members </msg>
