@@ -44,7 +44,7 @@ ad_proc -public evaluation::notification::get_url {
 
 ad_proc -public evaluation::get_user_portrait { 
     -user_id:required
-    {tag_attributes ""}
+    {-tag_attributes ""}
 } { 
 	returns the portrait for the given user or a default portrait if not found.
 } {  
@@ -55,11 +55,16 @@ ad_proc -public evaluation::get_user_portrait {
 	set output "<img src=\"[lindex [site_node::get_url_from_object_id -object_id [ad_conn package_id]] 0]resources/photo_na.gif\" "
     }
 
-    foreach attribute_name [array names tag_attributes] {
-	if { [string equal $tag_attributes($attribute_name) {}] } {
-        append output " $attribute_name"
-	} else {
-        append output " $attribute_name=\"$attributes($attribute_name)\""
+    if { ![empty_string_p $tag_attributes] } {
+	for {set i 0} { $i < [ns_set size $tag_attributes] } { incr i } {
+	    set attribute_name [ns_set key $tag_attributes $i]
+	    set attribute_value [ns_set value $tag_attributes $i]
+	    
+	    if { [string equal $attribute_name {}] } {
+		append output " $attribute_name"
+	    } else {
+		append output " $attribute_name=\"$attribute_value\""
+	    }
 	}
     }
 

@@ -212,7 +212,11 @@ db_multirow -extend { party_url answer answer_url submission_date_pretty portrai
     
     incr not_evaluated_with_answer
     if { $number_of_members == 1 } {
-	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id { {alt "[_ evaluation.lt_No_portrait_for_party]"} }]</a>"
+	set tag_attributes [ns_set create]
+	ns_set put $tag_attributes alt "[_ evaluation.lt_No_portrait_for_party]"
+	ns_set put $tag_attributes width 98
+	ns_set put $tag_attributes height 104
+	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id -tag_attributes]</a>"
     } else {
 	set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
     }
@@ -314,7 +318,11 @@ db_multirow -extend { party_url portrait } not_evaluated_na get_not_evaluated_na
     
     incr not_evaluated_with_no_answer
     if { $number_of_members == 1 } {
-	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id { {alt "[_ evaluation.lt_No_portrait_for_party]"} }]</a>"
+	set tag_attributes [ns_set create]
+	ns_set put $tag_attributes alt "[_ evaluation.lt_No_portrait_for_party]"
+	ns_set put $tag_attributes width 98
+	ns_set put $tag_attributes height 104
+	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id -tag_attributes $tag_attributes]</a>"
     } else {
 	set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
     }
