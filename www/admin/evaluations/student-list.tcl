@@ -19,6 +19,7 @@ ad_page_contract {
 
 set user_id [ad_conn user_id]
 db_1row get_task_info { *SQL* }
+set community_id [dotlrn_community::get_community_id]
 
 set page_title "[_ evaluation.lt_Students_List_for_tas]"
 set context [list "[_ evaluation.lt_Students_List_for_tas]"]
