@@ -53,7 +53,9 @@ create table evaluation_tasks (
 					check(late_submit_p in ('t','f')),
 	requires_grade_p char(1)
 					constraint evaluations_tasks_rgp_ck
-					check(late_submit_p in ('t','f'))	
+					check(late_submit_p in ('t','f')),
+	-- estimated time to complete the assigment
+	estimated_time	decimal	
 );
 
 create index evalutaion_tasks_gid_index on evaluation_tasks(grade_item_id);
@@ -210,6 +212,98 @@ end;
 ---------------------------------------
 -- TASKS
 ---------------------------------------
+
+create function evaluation__new_task (integer, integer, varchar, integer, integer, varchar, numeric, timestamptz, char, char, char, decimal, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar)
+returns integer as '
+declare
+	p_item_id			alias for $1;
+	p_revision_id		alias for $2;
+	p_task_name 		alias for $3;
+	p_number_of_members alias for $4;
+	p_grade_item_id		alias for $5;
+	p_description  		alias for $6;
+	p_weight			alias for $7;
+	p_due_date     	 	alias for $8;
+ 	p_late_submit_p  	alias for $9;
+	p_online_p  		alias for $10;
+	p_requires_grade_p  alias for $11;
+	estimated_time		alias for $12;
+	p_object_type		alias for $13;
+	p_creation_date		alias for $14;
+	p_creation_user 	alias for $15;
+	p_creation_ip		alias for $16;
+	p_title				alias for $17; -- default null
+	p_publish_date		alias for $18;
+	p_nls_language   	alias for $19; -- default null
+	p_mime_type   		alias for $20; -- default null
+
+	v_revision_id		integer;
+
+begin
+
+    v_revision_id := content_revision__new(
+        p_title,               	-- title
+		p_description,			-- description
+		p_publish_date,			-- publish_date
+		p_mime_type,			-- mime_type
+		p_nls_language,			-- nls_language
+		null,					-- data
+		p_item_id,				-- item_id
+		p_revision_id,			-- revision_id
+		p_creation_date,		-- creation_date
+		p_creation_user,		-- creation_user
+		p_creation_ip,			-- creation_ip
+	    null				    -- content length
+    );
+
+	insert into evaluation_tasks 
+			(task_id,
+			task_item_id,
+	        task_name,
+			number_of_members, 
+			due_date, 	
+			grade_item_id, 
+			weight, 	
+			online_p, 
+			late_submit_p,
+		    requires_grade_p)
+	values
+			(v_revision_id,
+			p_item_id, 
+	   		p_task_name,
+			p_number_of_members, 
+			p_due_date, 	
+			p_grade_item_id, 
+			p_weight, 	
+			p_online_p, 
+			p_late_submit_p,
+			p_requires_grade_p);
+
+	return v_revision_id;
+end;
+' language 'plpgsql';
+
+create function evaluation__delete_task (integer)
+returns integer as '
+declare
+	p_task_item_id 	alias for $1;
+	del_rec	 	record;
+begin
+	
+
+	PERFORM evaluation__delete_student_eval(evaluation_id) from evaluation_student_evals where task_item_id = p_task_item_id;
+	PERFORM evaluation__delete_answer(answer_id) from evaluation_answers where task_item_id = p_task_item_id;
+	PERFORM evaluation__delete_task_sol(solution_id) from evaluation_tasks_sols where task_item_id = p_task_item_id;
+	PERFORM evaluation__delete_grades_sheet(grades_sheet_id) from evaluation_grades_sheets where task_item_id = p_task_item_id;
+
+	delete from evaluation_tasks where task_id = p_task_item_id;
+	
+	PERFORM content_revision__delete(task_id) from evaluation_tasks where task_item_id = p_task_item_id;
+
+	return 0;
+
+end;' language 'plpgsql';
+
 create function task__name(integer)
 returns varchar as '
 declare 
