@@ -48,13 +48,13 @@ content::type::new -content_type {evaluation_student_evals} -supertype {content_
 content::type::new -content_type {evaluation_grades_sheets} -supertype {content_revision} -pretty_name {Evaluation Grades Sheet} -pretty_plural {Evaluation Grades Sheets} -table_name {evaluation_grades_sheets} -id_column {grades_sheet_id}
 
 #Create the new and register template
-set template_id [content::template::new -name {evaluation-tasks-default} -text {@text;noquote@} -is_live {true}]
+set template_id [content::template::new -name {evaluation-tasks-default} -text {@text;noquote@} -is_live {t}]
 content::type::register_template -content_type {evaluation_tasks} -template_id $template_id -use_context {public} -is_default {t}
-set template_id [content::template::new -name {evaluation-tasks-sols-default} -text {@text;noquote@} -is_live {true}]
+set template_id [content::template::new -name {evaluation-tasks-sols-default} -text {@text;noquote@} -is_live {t}]
 content::type::register_template -content_type {evaluation_tasks_sols} -template_id $template_id -use_context {public} -is_default {t}
-set template_id [content::template::new -name {evaluation-answers-default} -text {@text;noquote@} -is_live {true}]
+set template_id [content::template::new -name {evaluation-answers-default} -text {@text;noquote@} -is_live {t}]
 content::type::register_template -content_type {evaluation_answers} -template_id $template_id -use_context {public} -is_default {t}
-set template_id [content::template::new -name {evaluation-grades-sheets-default} -text {@text;noquote@} -is_live {true}]
+set template_id [content::template::new -name {evaluation-grades-sheets-default} -text {@text;noquote@} -is_live {t}]
 content::type::register_template -content_type {evaluation_grades_sheets} -template_id $template_id -use_context {public} -is_default {t}
 
 #evaluation_grades
@@ -200,14 +200,17 @@ ad_proc -public evaluation::apm_callback::package_instantiate {
     set folder_id [content::folder::new -name "evaluation_student_evals_$package_id" -label "evaluation_student_evals_$package_id" -package_id $package_id ]
     content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_student_evals} -include_subtypes t  
     }
+    ns_log notice "Primer Error"
     set exams_item_id [db_nextval acs_object_id_seq]
     set revision_id [evaluation::new_grade -new_item_p 1 -item_id $exams_item_id -content_type evaluation_grades -content_table evaluation_grades -content_id grade_id -name $exams_singular_name -plural_name $exams_name -description $exams_desc -weight 40 -package_id $package_id]
     content::item::set_live_revision -revision_id $revision_id
 
+    ns_log notice "Segundo Error"
     set tasks_item_id [db_nextval acs_object_id_seq]
     set revision_id [evaluation::new_grade -new_item_p 1 -item_id $tasks_item_id -content_type evaluation_grades -content_table evaluation_grades -content_id grade_id -name $tasks_singular_name -plural_name $tasks_name -description $tasks_desc -weight 40 -package_id $package_id]
     content::item::set_live_revision -revision_id $revision_id
 
+    ns_log notice "Tercer Error"
     set projects_item_id [db_nextval acs_object_id_seq]
     set revision_id [evaluation::new_grade -new_item_p 1 -item_id $projects_item_id -content_type evaluation_grades -content_table evaluation_grades -content_id grade_id -name $projects_singular_name -plural_name $projects_name -description $projects_desc -weight 20 -package_id $package_id]
     content::item::set_live_revision -revision_id $revision_id   

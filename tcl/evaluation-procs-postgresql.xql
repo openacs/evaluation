@@ -479,5 +479,61 @@
 
       </querytext>
 </fullquery>
+
+<fullquery name="evaluation::new_grade.get_date">
+      <querytext>
+                                                                                                                                                            
+        select now
+                                                                                                                                                          
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::new_task.get_date">
+      <querytext>
+                                                                                                                                                            
+        select now
+                                                                                                                                                            
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::new_evaluation.get_date">
+      <querytext>
+                                                                                                                                                            
+        select now
+                                                                                                                                                            
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::new_evaluation_group.get_date">
+      <querytext>
+                                                                                                                                                            
+        select now
+                                                                                                                                                            
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::new_answer.get_date">
+      <querytext>
+                                                                                                                                                            
+        select now
+                                                                                                                                                            
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::new_grades_sheet.get_date">
+      <querytext>
+                                                                                                                                                            
+        select now
+                                                                                                                                                            
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::new_solution.get_date">
+      <querytext>
+                                                                                                                                                            
+        select now
+                                                                                                                                                            
+      </querytext>
+</fullquery>
  
 </queryset>

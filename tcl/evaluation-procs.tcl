@@ -511,25 +511,28 @@ ad_proc -public evaluation::new_answer {
 	set creation_date [db_string get_date { *SQL* }]
     }
     if { $new_item_p } {
-	ns_log Notice "Entro !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \"$title\""
-	set item_id [content::item::new -item_id $item_id \
-                                        -parent_id $folder_id \
-                                        -content_type $content_type \
-                                        -name $item_name \
-                                        -context_id $package_id \
-                                        -mime_type $mime_type \
-                                        -title $title \
-                                        -creation_date $creation_date]
-    }
+        set item_id [content::item::new \
+			 -item_id $item_id \
+			 -parent_id $folder_id \
+			 -content_type $content_type \
+			 -name $item_name \
+			 -context_id $package_id \
+			 -mime_type $mime_type \
+			 -storage_type $storage_type \
+			 -creation_date $creation_date]
+
     set revision_id [content::revision::new \
                                   -item_id $item_id \
                                   -content_type $content_type \
                                   -mime_type $mime_type \
-                                  -title $title \
+                                  -title $title\
                                   -creation_date $creation_date \
-  			          -attributes [list [list answer_item_id $item_id] \
-					            [list party_id $party_id]] ]
+			 -attributes [list [list answer_item_id  $item_id] \
+					  [list party_id $party_id] \
+					  [list task_item_id $task_item_id]] ]
 
+
+                                                                                                                                                            
     # in order to find the file we have to set the name in cr_items the same that in cr_revisions
     db_dml update_item_name { *SQL* }
     return $revision_id
