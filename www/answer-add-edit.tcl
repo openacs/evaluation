@@ -14,7 +14,13 @@ ad_page_contract {
     upload_file:trim,optional
     upload_file.tmpfile:tmpfile,optional
     return_url:notnull
-} 
+} -validate {
+    late_submit {
+	if { ([template::util::date::compare [db_string due_date "select due_date from evaluation_tasks where task_id = :task_id"] [template::util::date::now]] < 0) } {
+	    ad_complain "tarde manin"
+	}
+    }
+}
 
 set user_id [ad_conn user_id]
 set party_id [db_string get_party_id { *SQL* }]
@@ -56,14 +62,14 @@ ad_form -extend -name answer -form {
 	db_1row item_data { *SQL* }
 
 } -validate {
-	{url
-		{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || (![string eq $url "http://"] && [util_url_valid_p $url]) }
-		{Upload a file OR a valid url, and not both }
-	}
-	{upload_file
-		{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) }
-		{Upload a file OR a url, and not both}
-	}
+    {url
+	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || (![string eq $url "http://"] && [util_url_valid_p $url]) }
+	{Upload a file OR a valid url, and not both }
+    }
+    {upload_file
+	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) }
+	{Upload a file OR a url, and not both}
+    }
 } -on_submit {
 	
 	db_transaction {

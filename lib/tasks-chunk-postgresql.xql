@@ -55,10 +55,10 @@
       </querytext>
 </fullquery>
 
-<fullquery name="grade_name">      
+<fullquery name="grade_names">      
       <querytext>
 
-		select grade_name from evaluation_grades where grade_id = :grade_id
+		select grade_name, grade_plural_name, grade_name from evaluation_grades where grade_id = :grade_id
 	
       </querytext>
 </fullquery>

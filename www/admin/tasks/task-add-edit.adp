@@ -35,4 +35,9 @@
     	}
 </script>
 
+<if @new_p@ eq 1 and @community_id@ not nil>
+  <p align="right">
+    To add this assignment to other classes (where you are administrator)  <br /> please check the last check box at the bottom of the form.
+  </p>
+</if>
 <p><formtemplate id="task"></formtemplate></p>

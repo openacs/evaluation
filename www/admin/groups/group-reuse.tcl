@@ -23,10 +23,10 @@ set elements [list task_name \
 				  [list label "No. of Members" \
 									 orderby_asc {number_of_members asc} \
 									 orderby_desc {number_of_members desc}] \
-				  grade_name \
+				  grade_plural_name \
 				  [list label "Assignment Type" \
-									 orderby_asc {grade_name asc} \
-									 orderby_desc {grade_name desc}] \
+									 orderby_asc {grade_plural_name asc} \
+									 orderby_desc {grade_plural_name desc}] \
 				 ]
 
 template::list::create \

@@ -26,7 +26,7 @@ if { $admin_p } {
 	     orderby_asc {task_weight asc} \
 	     orderby_desc {task_weight desc}] 
     set multirow_name grade_tasks_admin
-    set actions [list "Edit grades distribution of $grade_name" [export_vars -base "${base_url}admin/grades/distribution-edit" { grade_id }]]
+    set actions [list "Edit grades distribution of $grade_plural_name" [export_vars -base "${base_url}admin/grades/distribution-edit" { grade_id }]]
 } else { 
     #student
     lappend elements grade \
@@ -91,7 +91,7 @@ if { $admin_p } {
 	    
 	    if { ![empty_string_p $grade] } {
 		set grade [format %.2f $grade]
-		set over_weight "[format %.2f $task_grade] /"
+		set over_weight "[format %.2f $task_grade]/"
 		set total_grade [expr $total_grade + $task_grade] 
 	    } else {
 		set grade "Not evaluated"
@@ -101,7 +101,7 @@ if { $admin_p } {
 	} else {
 	    set grade "Not available"
 	}
-	set task_weight "$over_weight [format %.2f $task_weight]"
+	set task_weight "${over_weight}[format %.2f $task_weight]"
 	
 	# working with answer stuff (if it has a file/url attached)
 	if { [empty_string_p $answer_data] } {
@@ -126,8 +126,8 @@ if { $admin_p } {
 }
 
 if { $admin_p } {
-    set bottom_line "<small>Weight used in $grade_name: ${category_weight}% (of 100% of $grade_name) <br />
-                    $grade_name represents ${grade_weight}% of the 100% of the class</small>"
+    set bottom_line "<small>Weight used in $grade_plural_name: ${category_weight}% (of 100% of $grade_plural_name) <br />
+                    $grade_plural_name represents ${grade_weight}% of the 100% of the class</small>"
 } else {
     set bottom_line "<small>Total points in this category: $total_grade / $max_grade<br />
                      This grade category represents the ${grade_weight}% of the 100% of the class</small>"

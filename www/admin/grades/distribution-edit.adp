@@ -2,7 +2,7 @@
 <property name="title">@page_title@</property>
 <property name="context">@context@</property>
 
-<p>Distribution for grade "@grade_name@"
+<p>Distribution for grade "@grade_plural_name@"
 <if @grade_comments@ not nil>
 <p>@grade_comments@
 </if>

@@ -33,10 +33,10 @@ template::list::create \
     -key grade_id \
     -pass_properties { return_url aggregate_label } \
     -elements {
-        grade_name {
+        grade_plural_name {
             label "Name"
-	    orderby_asc {grade_name asc}
-	    orderby_desc {grade_name desc}
+	    orderby_asc {grade_plural_name asc}
+	    orderby_desc {grade_plural_name desc}
             link_url_eval {[export_vars -base "distribution-edit" { grade_id }]}
             link_html { title "View assignment type distribution" }
         }
@@ -76,7 +76,7 @@ template::list::create \
 set orderby [template::list::orderby_clause -orderby -name grades]
 
 if {[string equal $orderby ""]} {
-    set orderby " order by grade_name asc"
+    set orderby " order by grade_plural_name asc"
 }
 
 db_multirow grades get_class_grades { *SQL* } 

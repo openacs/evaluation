@@ -149,8 +149,6 @@ drop view evaluation_answersi;
 drop view evaluation_answersx;
 drop table evaluation_answers;
 
-drop table evaluation_tasks_class_map;
-
 drop table evaluation_task_groups;
 
 drop view evaluation_tasksi;
@@ -167,7 +165,7 @@ drop function evaluation__new_item (integer,varchar,varchar,integer,integer,varc
 -- GRADES
 ---------------------------------------
 
-drop function evaluation__new_grade (integer, integer, varchar, numeric, varchar, timestamptz, integer, varchar, varchar, varchar, timestamptz, varchar, varchar);
+drop function evaluation__new_grade (integer, integer, varchar, varchar, numeric, varchar, timestamptz, integer, varchar, varchar, varchar, timestamptz, varchar, varchar);
 
 drop function evaluation__delete_grade (integer);
 

@@ -8,7 +8,7 @@
 
 	select et.task_name, et.number_of_members,
     et.task_id as from_task_id,
-    eg.grade_name
+    eg.grade_plural_name
 	from evaluation_tasksi et, evaluation_gradesi eg
 	where content_revision__is_live(et.task_id) = true 
       and et.number_of_members > 1

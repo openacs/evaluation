@@ -8,7 +8,7 @@
 
 	    select eg.grade_id, 
 		eg.item_id,
-		eg.grade_name,
+		eg.grade_plural_name,
 		eg.comments,
 		eg.weight
    	    from evaluation_gradesx eg, acs_objects ao

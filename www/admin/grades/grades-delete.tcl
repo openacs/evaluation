@@ -21,7 +21,7 @@ set context [list [list "grades" "Assignment Types"] "Delete Assignment Type"]
 
 db_1row get_grade_info "
     select item_id,
-	grade_name
+	grade_plural_name
     from evaluation_gradesx
 	where grade_id = :grade_id
 "

@@ -29,7 +29,7 @@
 </tr>
 <tr>
   <th align=right>Grades Category<th>
-  <td>@grade_name@ - @grade_weight@%</td>
+  <td>@grade_plural_name@ - @grade_weight@%</td>
 </tr>
 <tr>
   <th align=right>Will this task be submitted on line?<th>

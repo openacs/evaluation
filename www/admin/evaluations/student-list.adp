@@ -23,6 +23,7 @@
 <h2>Students with answers that have not been evaluated (@not_evaluated_with_answer@)</h2>
 
 <if @not_evaluated_wa:rowcount@ gt 0>
+<p>Click <a href=download-archive/?task_id=@task_id@>here</a> if you want to download all the answers in one file</p>
 <form action="evaluate-students" method="post">
     <input type=hidden name=task_id value="@task_id@">
     <input type=hidden name=grade_id value="@grade_id@">

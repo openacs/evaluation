@@ -33,6 +33,7 @@
 			:item_id,		
 			:revision_id,	
 			:name, 	
+			:plural_name,
 			:weight,		
 			'evaluation_grades',	
 			now(), --creation date	
@@ -54,6 +55,96 @@
 		select content_item__set_live_revision (
 		:revision_id			
 		);
+	
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::clone_task.from_task_info">      
+      <querytext>
+
+	select et.task_name,
+	et.number_of_members,
+	et.due_date,
+	et.weight,
+	et.online_p,
+	et.late_submit_p,
+	et.requires_grade_p,
+	crr.lob, crr.content, 
+	crr.content_length,
+	crr.title,
+	crr.description,
+	crr.mime_type,
+	cri.storage_type
+	from evaluation_tasksi et, 
+	cr_revisions crr, 
+	cr_items cri
+	where task_id = :from_task_id 
+	and et.task_id = crr.revision_id
+	and cri.item_id = crr.item_id
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::clone_task.content_item_new">      
+      <querytext>
+	
+	select coalesce((select evaluation__new_item (
+				     :item_id, --item_id
+				     :item_name,
+				     null, --locale
+				     :creation_user,
+				     :to_package_id,
+				     :creation_ip,
+				     :task_name,
+				     :description,
+				     :mime_type, --mime_type
+				     null, --nls_language
+				     null, --text
+				     :storage_type, --storage_type
+				     'content_item', -- item_subtype
+				     'evaluation_tasks' -- content_type
+				     )
+	where not exists (select 1 from cr_items where item_id = :item_id)),0)
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::clone_task.content_revision_new">      
+      <querytext>
+	
+	select evaluation__new_task (
+				     :item_id,		
+				     :revision_id,	
+				     :task_name,
+				     :number_of_members,
+				     :to_grade_id,
+				     :description,  	
+				     :weight,	
+				     :due_date,
+				     :late_submit_p,
+				     :online_p,
+				     :requires_grade_p,
+				     'evaluation_tasks',	
+				     now(), --creation date	
+				     :creation_user, 
+				     :creation_ip,	
+				     :item_name,			
+				     now(),  --publish date
+				     null,  -- nls_language
+				     :mime_type --mime_type
+				     )
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::clone_task.clone_content">      
+      <querytext>
+
+	update cr_revisions	
+ 	set content = :content,
+	content_length = :content_length,
+	lob = :lob
+	where revision_id = :revision_id
 	
       </querytext>
 </fullquery>
@@ -89,6 +180,7 @@
 			:revision_id,	
 			:name,
 			:number_of_members,
+			:grade_id,
 			:description,  	
 			:weight,	
 			:due_date,
@@ -459,6 +551,7 @@
 	    select evaluation__new_grade (
 					  :exams_item_id,		
 					  :exams_revision_id,	
+					  'Exam',
 					  'Exams', 	
 					  40,		
 					  'evaluation_grades',	
@@ -513,6 +606,7 @@
 	    select evaluation__new_grade (
 					  :projects_item_id,		
 					  :projects_revision_id,	
+					  'Project',
 					  'Projects', 	
 					  20,		
 					  'evaluation_grades',	
@@ -568,7 +662,8 @@
 	    select evaluation__new_grade (
 					  :tasks_item_id,		
 					  :tasks_revision_id,	
-					  'Tasks', 	
+					  'Task', 	
+					  'Tasks',
 					  40,		
 					  'evaluation_grades',	
 					  now(), --creation date	
@@ -665,6 +760,44 @@
 					      :ev_student_evals_fid,
 					      'evaluation_student_evals'
 					      );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::public_answers_to_file_system.get_answers_for_task">      
+      <querytext>
+
+	select evaluation__party_name(ea.party_id, ea.task_id) as party_name,
+	ea.title as answer_title,
+	ea.revision_id,
+	cri.storage_type
+	from evaluation_answersi ea, 
+	evaluation_tasks et,
+	cr_items cri
+	where ea.task_id = et.task_id
+	and ea.item_id = cri.item_id
+	and et.task_id = :task_id
+	and ea.data is not null
+	and content_revision__is_live(ea.answer_id) = true
+	and not exists (select 1 from evaluation_student_evals ese where ese.party_id = ea.party_id and ese.task_id = :task_id and content_revision__is_live(ese.evaluation_id) = true)
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::public_answers_to_file_system.url">      
+      <querytext>
+
+	select content_revision__get_content(:revision_id) 
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::public_answers_to_file_system.select_object_content">      
+      <querytext>
+
+	select lob
+	from cr_revisions
+	where revision_id = :revision_id
 
       </querytext>
 </fullquery>

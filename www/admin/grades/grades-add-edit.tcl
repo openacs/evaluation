@@ -30,8 +30,13 @@ ad_form -name grade -cancel_url [export_vars -base grades { }] -export { } -form
 		{label "Assignment Type Name"}
 		{html {size 30}}
 	}
+
+	{grade_plural_name:text  
+		{label "Assignment Plural Type Name"}
+		{html {size 30}}
+	}
 	
-	{weight:text  
+	{weight:float
 		{label "Weight"}
 		{html {size 5}}
 	}
@@ -48,9 +53,8 @@ ad_form -name grade -cancel_url [export_vars -base grades { }] -export { } -form
 	set grade_id $item_id
 
 } -validate {
-
 	{weight
-		{ [ad_var_type_check_number_p $weight] && ($weight >= 0) && ($weight <= 100) }
+		{ ($weight >= 0) && ($weight <= 100) }
 		{Weight must be a real number and between 0 and 100}
 	}
 
@@ -59,7 +63,7 @@ ad_form -name grade -cancel_url [export_vars -base grades { }] -export { } -form
 	db_transaction {
 		
 		set revision_id [evaluation::new_grade -new_item_p [ad_form_new_p -key grade_id] -item_id $grade_id -content_type evaluation_grades \
-							 -content_table evaluation_grades -content_id grade_id -name $grade_name -description $comments -weight $weight]
+							 -content_table evaluation_grades -content_id grade_id -name $grade_name -plural_name $grade_plural_name -description $comments -weight $weight]
 		
 		evaluation::set_live -revision_id $revision_id
 		

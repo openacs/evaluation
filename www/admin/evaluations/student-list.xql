@@ -8,7 +8,7 @@
 
 	select et.task_name,
 		eg.grade_id,
-		eg.grade_name,
+		eg.grade_plural_name,
 		eg.weight as grade_weight,
 		et.weight as task_weight,
 		to_char(et.due_date,'Month DD YYYY') as due_date,

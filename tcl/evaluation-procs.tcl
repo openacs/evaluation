@@ -114,6 +114,7 @@ ad_proc -public evaluation::new_grade {
     -description:required
     -weight:required
     -name:required
+    -plural_name:required
 } {
     
     Build a new content revision of a evaluation subtype.  If new_item_p is
@@ -190,6 +191,36 @@ ad_proc -private evaluation::now_plus_days { -ndays } {
 	return [eval template::util::date::create $now]
 }
 
+ad_proc -public evaluation::clone_task {
+    -item_id:required
+    -from_task_id:required
+    -to_grade_id:required
+    -to_package_id:required
+} {
+    Cone a task
+
+    @param item_id The item to create.
+    @param from_task_id Task to clon.
+    @param to_grade_id Grade that will "own" the task
+} {
+
+    db_1row from_task_info { *SQL* }
+
+    set creation_user [ad_conn user_id]
+    set creation_ip [ad_conn peeraddr]
+
+    set item_name "${item_id}_${title}"
+
+    set revision_id [db_nextval acs_object_id_seq]
+
+    db_exec_plsql content_item_new { *SQL* }
+
+    db_exec_plsql content_revision_new { *SQL* }
+
+    db_dml clone_content { *SQL* }
+    return $revision_id
+}
+
 ad_proc -public evaluation::new_task {
 	-item_id:required
 	-content_type:required
@@ -232,7 +263,7 @@ ad_proc -public evaluation::new_task {
 } {
 
 	set package_id [ad_conn package_id]
-	set creation_user [ad_verify_and_get_user_id]
+	set creation_user [ad_conn user_id]
 	set creation_ip [ad_conn peeraddr]
 
 	if { [empty_string_p $item_name] } {
@@ -243,7 +274,6 @@ ad_proc -public evaluation::new_task {
 
 	if { $new_item_p } {
 		db_exec_plsql content_item_new { *SQL* }
-		
 	}
 	
 	db_exec_plsql content_revision_new { *SQL* }
@@ -719,6 +749,75 @@ ad_proc -public evaluation::apm::delete_contents {
 
 	db_exec_plsql delte_evals_folder { *SQL* }
     }
+}
+
+ad_proc -public evaluation::get_archive_command {
+    {-in_file ""}
+    {-out_file ""}
+} {
+    return the archive command after replacing {in_file} and {out_file} with
+    their respective values.
+} {
+    set cmd [parameter::get -parameter ArchiveCommand -default "cat `find {in_file} -type f` > {out_file}"]
+    
+    regsub -all {(\W)} $in_file {\\\1} in_file
+    regsub -all {\\/} $in_file {/} in_file
+    regsub -all {\\\.} $in_file {.} in_file
+    
+    regsub -all {(\W)} $out_file {\\\1} out_file
+    regsub -all {\\/} $out_file {/} out_file
+    regsub -all {\\\.} $out_file {.} out_file
+    
+    regsub -all {{in_file}} $cmd $in_file cmd
+    regsub -all {{out_file}} $cmd $out_file cmd
+    
+    return $cmd
+}
+
+ad_proc -public evaluation::public_answers_to_file_system {
+    -task_id:required
+    -path:required
+    -folder_name:required
+} {
+    Writes all the answers of a given task in the file sytem.
+} {
+
+    set dir [file join ${path} ${folder_name}]
+    file mkdir $dir
+
+    db_foreach get_answers_for_task { *SQL* } {
+	if { [string eq $storage_type "lob"] } {
+	    # it is a file
+	    
+	    regsub -all {[<>:\"|/@\\\#%&+\\ ,]} $party_name {_} file_name
+	    append file_name [file extension $answer_title]
+	    
+	    db_blob_get_file select_object_content { *SQL* } -file [file join ${dir} ${file_name}]
+	    
+	} else {
+	    # it is a url
+
+	    set url [db_string url { *SQL* }]
+
+	    
+	    set file_name "${party_name}.url"
+	    
+	    regsub -all {[<>:\"|/@\\\#%&+\\ ,]} $file_name {_} file_name
+	    set fp [open [file join ${dir} ${file_name}] w]
+	    puts $fp {[InternetShortcut]}
+	    puts $fp URL=$url
+	    close $fp
+	}
+    }
+
+    return $dir
+}
+
+ad_proc -public evaluation::get_archive_extension {} {
+    return the archive extension that should be added to the output file of
+    an archive command
+} {
+    return [parameter::get -parameter ArchiveExtension -default "txt"]
 }
 
 ad_register_proc GET /grades-sheet-csv* evaluation::generate_grades_sheet 

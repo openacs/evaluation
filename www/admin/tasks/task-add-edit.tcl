@@ -15,11 +15,14 @@ ad_page_contract {
     {mode "edit"}
     return_url
     admin_groups_p:optional
+    {add_to_more_classes_p ""}
 }
 
 set package_id [ad_conn package_id]
 
-if { [ad_form_new_p -key task_id] } {
+set community_id [dotlrn_community::get_community_id]
+set new_p [ad_form_new_p -key task_id] 
+if { $new_p } {
     set page_title "Add Task"
 } else {
     set page_title "Edit Task"
@@ -35,7 +38,7 @@ if { [info exists admin_groups_p] } {
 
 db_1row get_grade_info { *SQL* }
 
-set context [list [list [export_vars -base grades { package_id }] "Grades"] $page_title]
+set context [list $page_title]
 
 set attached_p "f"
 ad_form -html { enctype multipart/form-data } -name task -cancel_url $return_url -export { return_url item_id storage_type grade_id attached_p } -mode $mode -form {
@@ -49,7 +52,7 @@ ad_form -html { enctype multipart/form-data } -name task -cancel_url $return_url
     
 }
 
-if { ![ad_form_new_p -key task_id] } {
+if { !$new_p } {
 
     db_1row get_task_info { *SQL* }
     
@@ -184,7 +187,7 @@ ad_form -extend -name task -form {
 	{value {[evaluation::now_plus_days -ndays 15]}}
     }
 
-    {number_of_members:text  
+    {number_of_members:naturalnum
 	{label "Number of Members"}
 	{value "1"}
 	{html {size 5 onChange TaskInGroups()}}
@@ -192,10 +195,10 @@ ad_form -extend -name task -form {
 	{after_html {<div id="silentDiv" style="visibility:$div_visibility;"><div class="form-help-text"><input type="checkbox" name="admin_groups_p" $checked_p> Check this if you want to go to the groups admin page after submitting the task </div></div>}}
     }
 
-    {weight:text  
+    {weight:float  
 	{label "Weight"}
 	{html {size 5}}
-	{help_text "over $grade_weight% of $grade_name"}
+	{help_text "over $grade_weight% of $grade_plural_name"}
     }
     
     {online_p:text(radio)     
@@ -215,6 +218,19 @@ ad_form -extend -name task -form {
 	{options {{Yes t} {"No" f}}}
 	{value t}
     }
+}
+
+if { $new_p && ![empty_string_p $community_id] } {
+    ad_form -extend -name task -form {
+	{add_to_more_classes_p:text(checkbox),optional 
+	    {label "Add this assignment to other class(es)"} 
+	    {options {{"" "t"}}}
+	    {help_text "Check this if you want to add the assignment to other class(es) that you administer"}
+	}
+    }
+} 
+
+ad_form -extend -name task -form {
 
 } -edit_request {
     
@@ -223,10 +239,6 @@ ad_form -extend -name task -form {
     set due_date [template::util::date::from_ansi $due_date]
 
 } -validate {
-    {weight
-	{ [ad_var_type_check_number_p $weight] }
-	{Weight is not a real number}
-    }
     {due_date
 	{ [template::util::date::compare $due_date [template::util::date::now]] > 0 }
 	{Due date must be in the future}
@@ -238,10 +250,6 @@ ad_form -extend -name task -form {
     {upload_file
 	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || ([string eq $url "http://"] && [empty_string_p $upload_file]) }
 	{Upload a file OR a url, not both}
-    }
-    {number_of_members
-	{ [ad_var_type_check_integer_p $number_of_members] }
-	{Number of members must be an integer}
     }
     {unattach_p 
 	{ ([string eq $unattach_p "t"] && [empty_string_p $upload_file] && [string eq $url "http://"]) || [empty_string_p $unattach_p] }
@@ -312,7 +320,13 @@ ad_form -extend -name task -form {
 	}	
     }
 } -after_submit {
+    set redirect_to_groups_p 0
     if { [info exists admin_groups_p] && $number_of_members > 1 } {
+	set redirect_to_groups_p 1
+    }
+    if { ![empty_string_p $add_to_more_classes_p] } {
+	ad_returnredirect [export_vars -base "task-add-to-communities" { redirect_to_groups_p {task_id $revision_id} return_url }]
+    } elseif { $redirect_to_groups_p } {
 	ad_returnredirect [export_vars -base "../groups/one-task" { {task_id $revision_id} }]
 	ad_script_abort
     } else {

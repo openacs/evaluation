@@ -13,7 +13,7 @@
 <li>There are no tasks for this package.</li>
 </if><else>
 <multiple name="grades">
-	<li><strong>@grades.grade_name@</strong> <br />
+	<li><strong>@grades.grade_plural_name@</strong> <br />
 	<include src="../lib/tasks-chunk" grade_id=@grades.grade_id@ assignments_orderby=@assignments_orderby@>
 	</li>
 </multiple>
@@ -26,7 +26,7 @@
 <li>There are no tasks to evaluate for this package.</li>
 </if><else>
  <multiple name="grades">
-	<li><strong>@grades.grade_name@</strong> <br />
+	<li><strong>@grades.grade_plural_name@</strong> <br />
 	<include src="../lib/evaluations-chunk" grade_id=@grades.grade_id@ evaluations_orderby=@evaluations_orderby@>
 	</li>
  </multiple>

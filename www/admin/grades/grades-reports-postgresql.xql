@@ -19,13 +19,13 @@
       <querytext>
 
 	    select eg.grade_id, 
-		eg.grade_name,
+		eg.grade_plural_name,
 		eg.weight
    	    from evaluation_gradesx eg, acs_objects ao
 		where content_revision__is_live(eg.grade_id) = true
           and eg.item_id = ao.object_id
    		  and ao.context_id = :package_id
-	    order by grade_name
+	    order by grade_plural_name
 
       </querytext>
 </fullquery>

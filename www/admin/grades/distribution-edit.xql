@@ -6,7 +6,7 @@
 <fullquery name="grade_info">      
       <querytext>
 
-	select eg.grade_name,
+	select eg.grade_plural_name,
 		eg.weight as grade_weight,
 		eg.comments as grade_comments
 		from evaluation_gradesi eg
