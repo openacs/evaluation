@@ -69,7 +69,7 @@ set max_weight 0.00
 set max_grade 0.00
 set total_grade 0.00
 
-db_multirow -extend { task_status due_date_pretty assignment_group } student_grades get_student_grades { *SQL* } {
+db_multirow -extend { task_status due_date_pretty assignment_group grade net_grade grader_name comments } student_grades get_student_grades { *SQL* } {
 
     set due_date_pretty  [lc_time_fmt $due_date_ansi "%q"]
 
@@ -78,20 +78,24 @@ db_multirow -extend { task_status due_date_pretty assignment_group } student_gra
     } else {
 	set online_p "[_ evaluation.No_]"
     }
-
-    if { [empty_string_p $comments] } {
-	set comments "[_ evaluation.na_]"
-    }
     
     set over_weight ""
     set task_status ""
-	
-    # working with answer stuff (if it has a file/url attached)
+
+    # working with answer stuff (if it has a file/url attached)	
+    set answer_id ""
+    db_0or1row get_answer_data { *SQL* }
+
     if { [empty_string_p $answer_id] } {
 	append task_status " [_ evaluation.Not_answered_] "
     } else {
 	append task_status " [_ evaluation.Already_answered_] "
     }
+
+    # working with grade stuff (if there is any)
+    set grade ""
+    set comments ""
+    db_0or1row get_grade_info { *SQL* }
 
     if { ![empty_string_p $grade] } {
 	set grade [format %.2f [lc_numeric $grade]]
@@ -106,6 +110,10 @@ db_multirow -extend { task_status due_date_pretty assignment_group } student_gra
 	append task_status " [_ evaluation.Not_evaluated_] "
     }
 	    
+    if { [empty_string_p $comments] } {
+	set comments "[_ evaluation.na_]"
+    }
+
     set max_grade [expr $task_weight + $max_grade] 
 
     set task_weight "${over_weight}[format %.2f [lc_numeric $task_weight]]"
