@@ -487,7 +487,7 @@ create function task__name(integer)
 returns varchar as '
 declare 
     p_task_id      alias for $1;
-    v_task_name    evaluations_tasks.task_name%TYPE;
+    v_task_name    evaluation_tasks.task_name%TYPE;
 begin
 	select task_name  into v_task_name
 		from evaluation_tasks
