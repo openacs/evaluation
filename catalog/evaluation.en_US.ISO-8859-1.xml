@@ -16,6 +16,7 @@
   <msg key="Already_answered_">Already answered </msg>
   <msg key="Answer">Answer</msg>
   <msg key="Answer_">Answer </msg>
+  <msg key="Answer_1">OK</msg>
   <msg key="Answer_Date">Answer Date</msg>
   <msg key="Assignment_Group_">Assignment Group </msg>
   <msg key="Assignment_Groups_">Assignment Groups </msg>
@@ -176,7 +177,7 @@
   <msg key="Last_Modified_">Last Modified </msg>
   <msg key="late_">late </msg>
   <msg key="late__1">(late) </msg>
-  <msg key="lt_A_new_assignment_was_">A new assignment was uploaded, if you want to see more details </msg>
+  <msg key="lt_A_new_assignment_was_">A new assignment was uploaded -%community_name%-</msg>
   <msg key="lt_able_to_see_the_grade">able to see the grade?</msg>
   <msg key="lt_Add_a_member_to_a_gro">Add a member to a group </msg>
   <msg key="lt_Add_Assignment_to_Com">Add Assignment to Communities </msg>
@@ -186,7 +187,7 @@
   <msg key="lt_Allow_the_students_br">Allow the students &lt;br&gt; to see the grade? </msg>
   <msg key="lt_Already_created_group">Already created groups</msg>
   <msg key="lt_Also_you_will_see_the">Also, you will see the list of already created groups (if there are any created groups). Click on the &quot;Group administration&quot; link in order to administer the group. In this administration pages you will be able to unassociate members of a given group, rename the group and/or delete the group.</msg>
-  <msg key="lt_An_assignment_was_mod">An assignment was modified, if you want to see more details </msg>
+  <msg key="lt_An_assignment_was_mod">An assignment was modified -%community_name%-.</msg>
   <msg key="lt_Are_you_sure_remove">Are you sure you want to remove the evaluaiton on &quot;%party_name%&quot;?</msg>
   <msg key="lt_Are_you_sure_you_want">Are you sure you want to remove the assignment type &quot;%grade_plural_name%&quot;? (If your answer is yes, all the evaluations, tasks, tasks solutions and answers associated with this assignment type will be deleted too)</msg>
   <msg key="lt_Are_you_sure_you_want_1">Are you sure you want to remove the group &quot;%group_name%&quot;? (If the group has an evaluation/answer associated, it will be deleted too)</msg>
@@ -543,4 +544,5 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="Y">upi , pero no yupin</msg>
   <msg key="Yes">Yes</msg>
   <msg key="Yes_">Yes </msg>
+  <msg key="Your">answer has been submited successfully. Click &lt;a href=&quot;%return_url;noquote%&quot;&gt; here &lt;/a&gt; to continue.</msg>
 </message_catalog>

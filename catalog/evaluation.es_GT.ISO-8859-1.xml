@@ -16,6 +16,7 @@
   <msg key="Already_answered_">Ya respondido</msg>
   <msg key="Answer">Respuesta</msg>
   <msg key="Answer_">Respuesta</msg>
+  <msg key="Answer_1">Respuesta enviada exitosamente</msg>
   <msg key="Answer_Date">Fecha en que se subi&amp;oacute; la respuesta</msg>
   <msg key="Assignment_Group_">Grupo de Asignación</msg>
   <msg key="Assignment_Groups_">Grupos de Asignaciones</msg>
@@ -33,7 +34,7 @@
   <msg key="Bad_input_">Datos no validos</msg>
   <msg key="Change_Answer_">Cambiar Respuesta </msg>
   <msg key="Click">Click</msg>
-  <msg key="click_on_this_link_">haga click en este link: </msg>
+  <msg key="click_on_this_link_">Para ver mas detalles, haga click en este link: </msg>
   <msg key="Comments">Comentarios:</msg>
   <msg key="Comments_">Comentarios</msg>
   <msg key="Comments_1">Commentarios</msg>
@@ -112,7 +113,7 @@
   <msg key="Last_Modified_">Ultima Modificación</msg>
   <msg key="late_">tarde</msg>
   <msg key="late__1">(tarde) </msg>
-  <msg key="lt_A_new_assignment_was_">Una nueva asignación se ha subido, si usted desea ver mas detalles
+  <msg key="lt_A_new_assignment_was_">Una nueva asignación se ha subido -%community_name%-.
  </msg>
   <msg key="lt_able_to_see_the_grade">¿podrán ver sus notas?</msg>
   <msg key="lt_Add_a_member_to_a_gro">Agregar miembro al grupo </msg>
@@ -124,7 +125,7 @@
   <msg key="lt_Allow_the_students_br">¿Permitir a los estudiantes &lt;br&gt; ver sus notas? </msg>
   <msg key="lt_Already_created_group">Grupos ya creados</msg>
   <msg key="lt_Also_you_will_see_the">También, vera la lista de los grupos ya creados (si hubiera algún grupo creado). Haga click en el link de &quot;Administración del Grupo&quot; para administrar el grupo. En estas paginas de administración usted será capaz de desasociar miembros de un grupo dado, renombrar el grupo y/o eliminar el grupo.</msg>
-  <msg key="lt_An_assignment_was_mod">Una asignación ha sido modificada, si desea ver mas detalles</msg>
+  <msg key="lt_An_assignment_was_mod">Una asignación ha sido modificada -%community_name%-.</msg>
   <msg key="lt_Are_you_sure_remove">¿Esta seguro de querer eliminar la evaluación en  &quot;%party_name%&quot;?
 </msg>
   <msg key="lt_Are_you_sure_you_want">¿Esta seguro de querer eliminar la asignación de tipo &quot;%grade_plural_name%&quot;?
@@ -133,7 +134,7 @@
   <msg key="lt_Are_you_sure_you_want_1">¿Esta seguro de querer eliminar el grupo &quot;%group_name%&quot;? (Si el grupo tiene una evaluación/respuesta asociada, esta será eliminada también)</msg>
   <msg key="lt_Are_you_sure_you_want_2">¿Esta seguro de querer eliminar la tarea &quot;%task_name%&quot;? (Si usted elimina esta tarea, toda la información asociada a la tarea, como respuestas, soluciones, entre otros, serán eliminados también) </msg>
   <msg key="lt_Assignment_Attachment">Adjunto de la Asignación </msg>
-  <msg key="lt_Assignment_Edited_gra">Asignaci&amp;oacute;n Editada (%grade_name% %community_name%)</msg>
+  <msg key="lt_Assignment_Edited_gra">Asignacion Editada (%grade_name% %community_name%)</msg>
   <msg key="lt_Assignment_Groups_for">Grupos para %task_name%</msg>
   <msg key="lt_Assignment_Plural_Typ">Plural del Nombre del Tipo de Asignación
  </msg>
@@ -191,7 +192,7 @@
   <msg key="lt_Error_deleting_the_ta">Error al eliminar la tarea</msg>
   <msg key="lt_Error_while_storing_f">Error al guardar el archivo </msg>
   <msg key="lt_Evaluated_Students_to">Estudiantes Evaluados (%total_evaluated%)</msg>
-  <msg key="lt_Evaluation_Modified_c">Evaluaci&amp;oacute;n Modificada %community_name%</msg>
+  <msg key="lt_Evaluation_Modified_c">Evaluacion Modificada %community_name%</msg>
   <msg key="lt_First_unattach_the_fi">Primero debe de quitar el archio/url adjunto, luego subir otro o solo subir un nuevo archivo/url y dejar este en blanco  
 </msg>
   <msg key="lt_First_you_will_see_th">Primero, usted encontrara una lista de estudiantes sin grupo (si hubieran estudiantes sin grupo) y puede crear un grupo seleccionando los miembros del grupo y haciendo click en el botón &quot;Crear Grupo&quot;.</msg>
@@ -233,7 +234,7 @@
 las respuestas electrónicamente?</msg>
   <msg key="lt_Max_Grade_does_not_se">La Nota Máxima parece no ser un numero valido. Por favor no la deje en blanco.
 </msg>
-  <msg key="lt_New_Assignment_grade_">Nueva Asignaci&amp;oacute;n (%grade_name% %community_name%)</msg>
+  <msg key="lt_New_Assignment_grade_">Nueva Asignacion (%grade_name% %community_name%)</msg>
   <msg key="lt_No_fileurl_associated">No hay ningún archivo/URL asociado a esta tarea</msg>
   <msg key="lt_No_fileurl_associated_1">No hay ningún archivo/URL asociado a la solución de esta tarea
 </msg>
@@ -391,8 +392,7 @@ one_assignment_notif and one_evaluation_notif.
   <msg key="lt_Upload_a_file_OR_a_va">Subir un archivo O un URL, pero no ambos</msg>
   <msg key="lt_Upload_a_solution_for">Subir una solución para esta asignación para que los estudiantes puedan verla y aprender de ella.</msg>
   <msg key="lt_Upload_Answer_for_tas">Enviar respuesta para &quot;%task_name%&quot;</msg>
-  <msg key="lt_user_name_has_modifie">user_name ha modificado el %party_name%. \n La razón de edición dada por %user_name% fue: %edit_reason% \n La nota actual es: %current_grade% \n\n Haga click en este link para ver los detalles de la evaluación: %url_link% \n 
-</msg>
+  <msg key="lt_user_name_has_modifie">user_name ha modificado la nota de %party_name%. \n La razón de edición dada por %user_name% fue: %edit_reason% \n La nota actual es: %current_grade% \n\n Haga click en este link para ver los detalles de la evaluación: %url_link% \n </msg>
   <msg key="lt_View_evaluation_detai">Ver detalles de la evaluación</msg>
   <msg key="lt_ViewEdit_Task_Solutio">Ver/Editar Solución de la Tarea</msg>
   <msg key="lt_We_got_the_following_">Hubo un error al tratar de eliminar la evaluación: 
@@ -540,4 +540,5 @@ esta tarea?</msg>
   <msg key="Y">upi , pero no yupin</msg>
   <msg key="Yes">Sí</msg>
   <msg key="Yes_">Sí</msg>
+  <msg key="Your">Su respuesta ha sido enviada exitosamente. Haga click &lt;a href=&quot;%return_url;noquote%&quot;&gt; aqui &lt;/a&gt; para continuar.</msg>
 </message_catalog>
