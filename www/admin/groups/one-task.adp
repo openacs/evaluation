@@ -2,7 +2,7 @@
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 
-<if @students_without_group:rowcount@ gt 0>
+<if @@query_name@:rowcount@ gt 0>
 	<table width="100%">
 		<tr>
 		<td align=right>@reuse_link;noquote@</td>

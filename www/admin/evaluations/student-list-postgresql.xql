@@ -37,6 +37,17 @@
       </querytext>
 </fullquery>
 
+<fullquery name="count_evaluated_students">      
+      <querytext>
+
+		select count(*) 
+		from evaluation_student_evals 
+		where task_id = :task_id 
+		and content_revision__is_live(evaluation_id) = true
+	
+      </querytext>
+</fullquery>
+
 <partialquery name="processed_clause">
 	  <querytext>         
 
@@ -49,7 +60,7 @@
       <querytext>
 
 	select evaluation__party_name(ea.party_id, ea.task_id) as party_name,
-    ea.party_id,
+        ea.party_id,
 	ea.data as answer_data,
 	ea.title as answer_title,
 	ea.revision_id,
@@ -59,10 +70,10 @@
 	from evaluation_answersi ea, 
 	     evaluation_tasks et
 	where ea.task_id = et.task_id
-      and et.task_id = :task_id
-      and ea.data is not null
+          and et.task_id = :task_id
+          and ea.data is not null
 	  and content_revision__is_live(ea.answer_id) = true
-    $processed_clause
+        $processed_clause
 	
       </querytext>
 </fullquery>

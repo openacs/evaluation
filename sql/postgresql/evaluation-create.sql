@@ -1048,12 +1048,7 @@ begin
         p_description, -- description
 		p_parent_id      -- parent_id
     );
-	-- associate content types with the folder
-    PERFORM content_folder__register_content_type (
-        v_folder_id, -- folder_id
-        ''evaluation_grades'',    -- content_type
-        ''t''        -- include_subtypes
-    );
+	-- associate content types witQh the folder
     PERFORM content_folder__register_content_type (
         v_folder_id,          -- folder_id
         p_content_type, -- content_type

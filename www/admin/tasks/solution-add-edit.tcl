@@ -65,7 +65,7 @@ if { ![ad_form_new_p -key solution_id] } {
 					{label "File"} 
 					{html "size 30"}
 					{value "[return $title]"}
-					{after_html "<a href=../view/$title>$title</a>"}
+				    {after_html "<a href=\"[export_vars -base \"../../view/$title\" { revision_id }]\">$title</a>"}
 				}
 				{unattach_p:text(hidden)
 				}

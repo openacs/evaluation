@@ -97,11 +97,11 @@ if { ![db_string file_exists { *SQL* }] } {
 		set comments [string trim [lindex $evaluation 3]]
 		
 		# removing the first and last " that comes from the csv format
-		regsub  ^\" $comments "" see_comments
-		regsub  \"\$ $comments "" see_comments
+		regsub  ^\" $comments "" comments
+		regsub  \"\$ $comments "" comments
 		
 		if { [empty_string_p $party_id] && [empty_string_p $grade] && [empty_string_p $comments] } { 
-			# "blank" line, jump it
+			# "blank" line, skip it
 			continue 
 		} 
 		
@@ -123,9 +123,9 @@ if { ![db_string file_exists { *SQL* }] } {
 			} 
 
 			# editing without reason
-			if { [string compare [db_string check_evaluated { *SQL* } -default $grade] $grade] && [empty_string_p $comments] } { 
+			if { ![string eq [format %.2f [db_string check_evaluated { *SQL* } -default $grade]] [format %.2f $grade]] && [empty_string_p $comments] } { 
 				incr errors
-				append errors_text "<li> There must be an edit reason if you want to edit the grade on party_id ${party_id}.</li>"
+			    append errors_text "<li> (ahora $grade, antes [db_string check_evaluated { *SQL* } -default $grade] There must be an edit reason if you want to edit the grade on party_id ${party_id}.</li>"
 			} 
 			
 			if { $errors } { 

@@ -35,6 +35,28 @@
       </querytext>
 </fullquery>
 
+<fullquery name="get_community_students_without_group">      
+      <querytext>
+
+		select p.last_name ||', '|| p.first_names as student_name,
+		p.person_id as student_id
+		from cc_users p,
+		registered_users ru,
+                dotlrn_member_rels_approved app
+		where p.person_id not in (select map.object_id_two from acs_rels map, evaluation_task_groups etg 
+							  where map.object_id_two = p.person_id
+							  and map.object_id_one = etg.group_id
+							  and etg.task_id = :task_id
+							  and map.rel_type = 'evaluation_task_group_rel')
+	        and app.community_id = :community_id
+                and app.user_id = ru.user_id
+	        and app.user_id = p.person_id
+	        and app.role = 'student'		
+		$orderby
+	
+      </querytext>
+</fullquery>
+
 <fullquery name="get_task_groups">      
       <querytext>
 
@@ -65,7 +87,8 @@
 <fullquery name="get_groups_for_task">      
       <querytext>
 
-		select count(*) from evaluation_task_groups where task_id = :task_id
+		select count(*) from evaluation_task_groups 
+		where task_id = :task_id
 	
       </querytext>
 </fullquery>

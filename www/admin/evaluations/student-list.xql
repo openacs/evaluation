@@ -21,14 +21,6 @@
       </querytext>
 </fullquery>
 
-<fullquery name="count_evaluated_students">      
-      <querytext>
-
-		select count(*) from evaluation_student_evals where task_id = :task_id
-	
-      </querytext>
-</fullquery>
-
 <fullquery name="get_not_evaluated_na">      
       <querytext>
 
@@ -67,7 +59,23 @@
       </querytext>
 </fullquery>
 
-<partialquery name="sql_query_one">
+<fullquery name="get_community_not_evaluated_left">      
+      <querytext>
+
+		select count(*) 
+		from cc_users p,
+		registered_users ru,
+                dotlrn_member_rels_approved app
+		$not_in_clause
+	        and app.community_id = :community_id
+                and app.user_id = ru.user_id
+	        and app.user_id = p.person_id
+	        and app.role = 'student'
+	
+      </querytext>
+</fullquery>
+
+<partialquery name="sql_query_groups">
 	  <querytext>         
 		select acs_group__name(etg.group_id) as party_name,
 		etg.group_id as party_id
@@ -78,13 +86,29 @@
 	  </querytext>
 </partialquery>
 
-<partialquery name="sql_query_two">
+<partialquery name="sql_query_individual">
 	  <querytext>         
 		select p.person_id as party_id,
 		p.last_name||', '||p.first_names as party_name
 		from cc_users p 
 		$not_in_clause
 		$orderby_na
+	  </querytext>
+</partialquery>
+
+<partialquery name="sql_query_community_individual">
+	  <querytext>         
+            select app.user_id as party_id,
+  		   p.last_name||', '||p.first_names as party_name
+            from registered_users ru,
+                 dotlrn_member_rels_approved app,
+		 cc_users p
+            $not_in_clause
+	      and app.community_id = :community_id
+              and app.user_id = ru.user_id
+	      and app.user_id = p.person_id
+	      and app.role = 'student'
+	      $orderby_na
 	  </querytext>
 </partialquery>
 

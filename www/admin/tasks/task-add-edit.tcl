@@ -7,13 +7,13 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 } {
-	grade_id:integer,notnull
-	task_id:integer,notnull,optional
-	item_id:integer,notnull,optional
+    grade_id:integer,notnull
+    task_id:integer,notnull,optional
+    item_id:integer,notnull,optional
     upload_file:trim,optional
     upload_file.tmpfile:tmpfile,optional
-	{mode "edit"}
-	return_url
+    {mode "edit"}
+    return_url
 }
 
 set package_id [ad_conn package_id]
@@ -268,7 +268,7 @@ ad_form -extend -name task -form {
 	if { [ad_form_new_p -key task_id] } {
 	    set item_id $task_id
 	} 
-	
+
 	set revision_id [evaluation::new_task -new_item_p [ad_form_new_p -key grade_id] -item_id $item_id -content_type evaluation_tasks \
 			     -content_table evaluation_tasks -content_id task_id -name $task_name -description $description -weight $weight \
 			     -grade_id $grade_id -number_of_members $number_of_members -online_p $online_p -storage_type $storage_type \

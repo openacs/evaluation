@@ -9,7 +9,8 @@
 		select content_revision__get_content(ets.solution_id) as content, 
 		crr.title,
 		crr.item_id,
-		cri.storage_type
+		cri.storage_type,
+		crr.revision_id
 		from evaluation_tasks_sols ets, cr_items cri, cr_revisions crr
 		where ets.solution_id = :solution_id
 		  and ets.solution_id = crr.revision_id

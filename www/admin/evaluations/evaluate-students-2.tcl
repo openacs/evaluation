@@ -126,7 +126,7 @@ ad_page_contract {
 }
 
 if { ![empty_string_p $tmp_filename] } {
-    
+
     set tmp_filename "${tmp_filename}_grades_sheet"
 
     db_transaction {
@@ -141,17 +141,11 @@ if { ![empty_string_p $tmp_filename] } {
 	evaluation::set_live -revision_id $revision_id
 
 	# create the new item
-	db_dml lob_content " 		update cr_revisions	
-			set lob = [set __lob_id [db_string get_lob_id "select empty_lob()"]]
-			where revision_id = :revision_id
-		" -blob_files [list $tmp_filename]
+	db_dml lob_content { *SQL* } -blob_files [list $tmp_filename]
 	
 	set content_length [file size $tmp_filename]
 	# Unfortunately, we can only calculate the file size after the lob is uploaded 
-	db_dml lob_size { 	update cr_revisions
-	    set content_length = :content_length
-	    where revision_id = :revision_id
-	}
+	db_dml lob_size { *SQL* }
 	
 	foreach party_id [array names grades_gs] {
 	    if { ![info exists comments_gs($party_id)] } {

@@ -24,9 +24,20 @@ db_1row get_info { *SQL* }
 set page_title "Groups for task $task_name"
 set context [list "Task Groups"]
 
+# we have to decide if we are going to show all the users in the system
+# or only the students of a given class (community in dotrln)
+# in order to create the groups
+
+set community_id [dotlrn_community::get_community_id]
+if { [empty_string_p $community_id] } {
+    set query_name students_without_group
+} else {
+    set query_name community_students_without_group
+}
+
 set elements [list associate \
 				  [list label "" \
-				   display_template { <input type=checkbox name=student_ids.@students_without_group.student_id@ value=@students_without_group.student_id@> } \
+				   display_template { <input type=checkbox name=student_ids.@query_name@.student_id@ value=@@query_name@.student_id@> } \
 				   ] \
 				  student_name \
 				  [list label "Name" \
@@ -38,13 +49,12 @@ set elements [list associate \
 					   link_html { title "Associate to group..." }] \
 				  ]
 
-
 template::list::create \
     -name students_without_group \
-    -multirow students_without_group \
-	-key student_id \
-	-pass_properties { return_url student_id } \
-	-filters { task_id {} } \
+    -multirow $query_name \
+    -key student_id \
+    -pass_properties { return_url student_id query_name } \
+    -filters { task_id {} } \
     -elements $elements 
 
 
@@ -54,7 +64,7 @@ if { [string equal $orderby ""] } {
     set orderby " order by student_name asc"
 }
 
-db_multirow -extend { associate_to_group_url associate_to_group } students_without_group get_students_without_group { *SQL* } {
+db_multirow -extend { associate_to_group_url associate_to_group } $query_name get_$query_name { *SQL* } {
 	set associate_to_group_url [export_vars -base "group-member-add" -url { task_id student_id }]
 	set associate_to_group "Associate to group..."
 }

@@ -10,7 +10,7 @@ ad_page_contract {
     grade_id:integer,notnull
     task_id:integer,notnull,optional
     item_id:integer,notnull,optional
-    {return_url "/"}
+    {return_url ""}
 }
 
 set package_id [ad_conn package_id]
@@ -52,7 +52,7 @@ if { [empty_string_p $solution_data] } {
 	set solution_url "<a href=\"$solution_data\">$solution_data</a>"
 } else {
 	# we assume it's a file
-	set solution_url "<a href=\"../view/$solution_title\">$solution_title</a>"
+    set solution_url "<a href=\"[export_vars -base "view/$solution_title" { revision_id }]\">$solution_title</a>"
 }
 
 ad_return_template

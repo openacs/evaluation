@@ -16,10 +16,10 @@
         <requires url="notifications" version="5.0.0b4"/>
 
         <callbacks>
-            <callback type="after-instantiate"  proc="evaluation::apm_callbacks::package_instantiate"/>
-            <callback type="before-uninstantiate"  proc="evaluation::apm_callbacks::package_uninstantiate"/>
-            <callback type="before-uninstall"  proc="evaluation::apm_callbacks::package_uninstall"/>
-            <callback type="before-install"  proc="evaluation::apm_callbacks::package_install"/>
+            <callback type="before-uninstall"  proc="evaluation::apm::package_uninstall"/>
+            <callback type="before-uninstantiate"  proc="evaluation::apm::package_uninstantiate"/>
+            <callback type="before-install"  proc="evaluation::apm::package_install"/>
+            <callback type="after-instantiate"  proc="evaluation::apm::package_instantiate"/>
         </callbacks>
         <parameters>
             <parameter datatype="number"  min_n_values="1"  max_n_values="1"  name="MaxNumberOfBytes"  default="5000" description="Maximun number of bytes allowed for the files in this package. (tasks, tasks sols, student answers, grades sheets, ect)"/>

@@ -239,15 +239,25 @@ if { $number_of_members > 1 } {
 	set not_in_clause ""
     }
     set not_evaluated_with_no_answer [db_string count_not_eval_na { *SQL* }]
-    set sql_query [db_map sql_query_one]
+    set sql_query [db_map sql_query_groups]
 } else {
+    set community_id [dotlrn_community::get_community_id]
     if { [llength $done_students] > 0 } {
 	set not_in_clause [db_map not_yet_in_clause]
     } else {
-	set not_in_clause ""
+	set not_in_clause "where p.member_state = 'approved'"
     }
-    set not_evaluated_with_no_answer [db_string get_not_evaluated_left { *SQL* }]
-    set sql_query [db_map sql_query_two]
+
+    # if this page is called from within a community (dotlrn) we have to show only the students
+
+    if { [empty_string_p $community_id] } {
+	set not_evaluated_with_no_answer [db_string get_not_evaluated_left { *SQL* }]
+	set sql_query [db_map sql_query_individual]
+    } else {
+	set not_evaluated_with_no_answer [db_string get_community_not_evaluated_left { *SQL* }]
+	set sql_query [db_map sql_query_community_individual]
+    }
+
 }
 
 db_multirow not_evaluated_na get_not_evaluated_na_students { *SQL* } {

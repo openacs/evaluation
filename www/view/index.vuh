@@ -15,14 +15,9 @@ set the_url [ad_conn path_info]
 set package_id [ad_conn package_id]
 
 # Get the IDs
-set content_type [db_string get_content_type "select cri.content_type
-                                              from cr_items cri, cr_revisions crr
-                                              where cri.item_id = crr.item_id 
- 											    and crr.revision_id = :revision_id"]
+set content_type [db_string get_content_type { *SQL* }]
 
-set content_root [db_string get_folder_id "select crf.folder_id 
-										   from cr_folders crf
-										   where crf.label = :content_type||'_'||:package_id"]
+set content_root [db_string get_folder_id { *SQL* }]
 
 set template_root ""
 

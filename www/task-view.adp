@@ -47,4 +47,7 @@
 
 </table>
 
+<if @return_url@ ne "">
+  <p><a href=@return_url@>Go Back</a></p>
+</if>
 
