@@ -40,6 +40,16 @@
       </querytext>
 </fullquery>
 
+<fullquery name="lob_size">      
+      <querytext>
+
+	update cr_revisions
+ 	set content_length = :content_length
+	where revision_id = :revision_id
+
+     </querytext>
+</fullquery>
+
 <fullquery name="lob_content">      
       <querytext>
 	
