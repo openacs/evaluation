@@ -31,6 +31,22 @@
       </querytext>
 </fullquery>
 
+<fullquery name="compare_evaluation_date">      
+      <querytext>
+
+	select 1 from dual where :submission_date > :evaluation_date
+	
+      </querytext>
+</fullquery>
+
+<fullquery name="compare_submission_date">      
+      <querytext>
+
+	select 1 from dual where :submission_date > :due_date
+	
+      </querytext>
+</fullquery>
+
 <fullquery name="get_answer_info">      
       <querytext>
 

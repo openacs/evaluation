@@ -64,8 +64,9 @@ if { $admin_p } {
 	#student
 	lappend elements answer \
 		[list label "" \
-			 link_url_col answer_url \
-			 link_html { title "[_ evaluation-portlet.Addedit_answer_]" }]
+		     link_url_col answer_url \
+		     display_template { @tasks.answer;noquote@ } \
+		     link_html { title "[_ evaluation-portlet.Addedit_answer_]" }]
 	lappend elements view \
 		[list label "" \
 			 sub_class narrow \
@@ -166,7 +167,7 @@ if { $admin_p } {
 	}
 
 	if { [string eq $online_p "t"] } {
-	    if { ([template::util::date::compare $due_date [template::util::date::now]] > 0) } {
+	    if { [db_string compare_due_date { *SQL* } -default 0] } {
 		if { [empty_string_p $answer_id] } {
 		    set answer "[_ evaluation-portlet.submit_answer_]"
 		    set answer_mode edit
@@ -176,7 +177,7 @@ if { $admin_p } {
 		    set answer_mode display
 		    set answer_url "[export_vars -base "${base_url}answer-add-edit" { grade_id task_id answer_id return_url answer_mode }]"
 		}
-	    } elseif { [string eq $turn_in_late_p "t"] } {
+	    } elseif { [string eq $late_submit_p "t"] } {
 		if { [empty_string_p $answer_id] } {
 		    set answer "[_ evaluation-portlet.lt_submit_answer_style_f]"
 		    set answer_mode edit
@@ -184,7 +185,7 @@ if { $admin_p } {
 		} else {
 		    set answer "[_ evaluation-portlet.lt_submit_answer_style_f_1]"
 		    set answer_mode display
-		    set answer_url "[export_vars -base "${base_url}admin/tasks/solution-add-edit" { grade_id task_id answer_id return_url solution_mode }]"
+		    set answer_url "[export_vars -base "${base_url}answer-add-edit" { grade_id task_id answer_id return_url answer_mode }]"
 		}
 	    }
 	    if { $number_of_members > 1 && [string eq [db_string get_group_id { *SQL* }] 0] } {

@@ -21,7 +21,7 @@ set context [list $page_title]
 
 db_1row get_task_info { *SQL* }
 
-ad_form -name task -has_submit 1 -has_edit 1 -export { return_url item_id storage_type grade_id attached_p } -mode display -form {
+ad_form -name task -has_submit 1 -has_edit 1 -export { return_url item_id storage_type grade_id } -mode display -form {
 
     task_id:key
 

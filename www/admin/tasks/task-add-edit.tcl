@@ -16,6 +16,7 @@ ad_page_contract {
     return_url
     admin_groups_p:optional
     {add_to_more_classes_p ""}
+    {attached_pd "f"}
 }
 
 set package_id [ad_conn package_id]
@@ -40,8 +41,7 @@ if { [info exists admin_groups_p] } {
 
 set context [list $page_title]
 
-set attached_p "f"
-ad_form -html { enctype multipart/form-data } -name task -cancel_url $return_url -export { return_url item_id storage_type grade_id attached_p } -mode $mode -form {
+ad_form -html { enctype multipart/form-data } -name task -cancel_url $return_url -export { return_url item_id storage_type grade_id } -mode $mode -form {
 
     task_id:key
 
@@ -248,10 +248,6 @@ ad_form -extend -name task -form {
     set weight [format %.2f [lc_numeric $weight]]
 
 } -validate {
-    {due_date
-	{ [template::util::date::compare $due_date [template::util::date::now]] > 0 }
-	{ [_ evaluation.lt_Due_date_must_be_in_t] }
-    }
     {url
 	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || ([string eq $url "http://"] && [empty_string_p $upload_file]) || (![string eq $url "http://"] && [util_url_valid_p $url]) }
 	{[_ evaluation.lt_Upload_a_file_OR_a_ur_1] }
@@ -291,11 +287,7 @@ ad_form -extend -name task -form {
     }
 
     db_transaction {
-	
-	set mime_type "text/plain"
-	set title ""
-	set storage_type text
-	
+		
 	if { ![empty_string_p $upload_file] } {
 	    
 	    # Get the filename part of the upload file
@@ -311,6 +303,10 @@ ad_form -extend -name task -form {
 	} elseif { ![string eq $url "http://"] } {
 	    set mime_type "text/plain"
 	    set title "link"
+	    set storage_type text
+	} elseif { [string eq $attached_p "f"] } {
+	    set mime_type "text/plain"
+	    set title ""
 	    set storage_type text
 	}
 	
@@ -343,10 +339,11 @@ ad_form -extend -name task -form {
 	} elseif { ![string eq $url "http://"] } {
 	    
 	    db_dml link_content { *SQL* }
-	    set content_length 0
+	    set content_length [string length $url]
 	    db_dml lob_size { *SQL* }
 	    
 	} elseif { [string eq $attached_p "t"] && ![string eq $unattach_p "t"] } {
+
 	    # just copy the old content to the new revision
 	    db_exec_plsql copy_content { *SQL* }
 	}	

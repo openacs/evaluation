@@ -143,7 +143,6 @@ if { ![db_string file_exists { *SQL* }] } {
 
 	    } else {
 		set community_id [dotlrn_community::get_community_id]
-		ns_log notice "vamos bien... part $party_id comm $community_id\n"
 		if { [empty_string_p $community_id] } {
 		    if { ![db_string valid_user { *SQL* }] } {
 			incr errors

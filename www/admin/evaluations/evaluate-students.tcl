@@ -73,7 +73,7 @@ ad_page_contract {
 				    if { ![string eq $old_grade  [format %.2f [lc_numeric $grades($party_id)]]] } {
 						incr counter
 						if { ![info exists reasons($party_id)] || [empty_string_p $reasons($party_id)] } {
-						    set grade_wo_reason $grades$party_id)
+						    set grade_wo_reason $grades($party_id)
 						    ad_complain "[_ evaluation.lt_You_must_give_an_edit]"
 						}
 						set grades_to_edit($party_id) $grades($party_id)

@@ -62,7 +62,7 @@ set elements [list party_name \
 		       display_template { @evaluated_students.action;noquote@ } \
 		       link_url_col action_url \
 		      ] \
-		  ]
+		 ]
 
 if { [string eq $online_p "t"] } {
     lappend elements submission_date_pretty \
@@ -78,7 +78,7 @@ lappend elements view \
 	 display_template {<img src="/resources/acs-subsite/Zoom16.gif" width="16" height="16" border="0">} \
 	 link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id evaluation_mode }]} \
 	 link_html { title "[_ evaluation.View_evaluation_]" } \
-	 ]
+	]
 lappend elements edit \
     [list label "" \
 	 sub_class narrow \
@@ -117,7 +117,7 @@ db_multirow -extend { action action_url submission_date_pretty } evaluated_stude
     incr total_evaluated
     lappend done_students $party_id
     set grade [format %.2f [lc_numeric $grade]]
-
+    
     if { [string eq $online_p "t"] } {
 	if { [db_0or1row get_answer_info { *SQL* }] } {
 	    # working with answer stuff (if it has a file/url attached)
@@ -131,11 +131,11 @@ db_multirow -extend { action action_url submission_date_pretty } evaluated_stude
 		set action_url "[export_vars -base "../../view/$answer_title" { revision_id }]"
 		set action "[_ evaluation.View_answer_]"
 	    }
-	    if { [string eq $action "[_ evaluation.View_answer_]"] && ([template::util::date::compare $submission_date $evaluation_date] > 0) } {
+	    if { [string eq $action "[_ evaluation.View_answer_]"] && ([db_string compare_evaluation_date { *SQL* } -default 0] ) } {
 		set action "<span style=\"color:red;\"> [_ evaluation.View_NEW_answer_]</span>"
 	    }
 	    set submission_date_pretty [lc_time_fmt $submission_date_ansi "%c"]
-	    if { [template::util::date::compare $submission_date $due_date] > 0 } {
+	    if { [db_string compare_submission_date { *SQL* } -default 0] } {
 		set submission_date_pretty "[_ evaluation.lt_submission_date_prett]"
 	    }
 	} else {
@@ -161,8 +161,8 @@ set elements [list party_name \
 		       orderby_asc {party_name asc} \
 		       orderby_desc {party_name desc} \
 		       link_url_col party_url \
-		  ] \
-	     ]
+		      ] \
+		 ]
 
 if { [string eq $show_portrait_p "t"] && [string eq $number_of_members "1"] } {
     lappend elements portrait \
@@ -220,7 +220,7 @@ db_multirow -extend { party_url answer answer_url submission_date_pretty portrai
     lappend done_students $party_id
     if { [string eq $online_p "t"] } {
 	set submission_date_pretty  "[lc_time_fmt $submission_date_ansi "%Q"] [lc_time_fmt $submission_date_ansi "%X"]"
-	if { [template::util::date::compare $submission_date $due_date] > 0 } {
+	if { [db_string compare_submission_date { *SQL* } -default 0] } {
 	    set submission_date_pretty "[_ evaluation.lt_submission_date_prett_1]"
 	} else {
 	}
@@ -244,7 +244,7 @@ set elements [list party_name \
 		       orderby_asc {party_name asc} \
 		       orderby_desc {party_name desc} \
 		       link_url_col party_url \
-		  ] \
+		      ] \
 		 ]
 
 if { [string eq $show_portrait_p "t"] && [string eq $number_of_members "1"] } {

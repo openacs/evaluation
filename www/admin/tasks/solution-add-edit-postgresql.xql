@@ -10,12 +10,23 @@
 		crr.title,
 		crr.item_id,
 		cri.storage_type,
-		crr.revision_id
-		from evaluation_tasks_sols ets, cr_items cri, cr_revisions crr
+		crr.revision_id,
+		ets.mime_type
+		from evaluation_tasks_solsi ets, cr_items cri, cr_revisions crr
 		where ets.solution_id = :solution_id
 		  and ets.solution_id = crr.revision_id
           and crr.item_id = cri.item_id
 	
+      </querytext>
+</fullquery>
+
+<fullquery name="unassociate_task_sol">      
+      <querytext>
+
+	select evaluation__delete_task_sol(solution_id) 
+	from evaluation_tasks_sols 
+	where task_item_id = :task_item_id
+	    	
       </querytext>
 </fullquery>
 

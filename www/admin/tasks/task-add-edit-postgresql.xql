@@ -21,6 +21,7 @@
 		select content_revision__get_content(et.revision_id) as content, 
 		et.title,
         	et.item_id,
+		et.mime_type,
 		cri.storage_type
 		from evaluation_tasksi et, cr_items cri
 		where et.task_id = :task_id
@@ -81,7 +82,7 @@
 <fullquery name="copy_content">      
       <querytext>
 
-		content_revision__content_copy(:task_id, :revision_id)
+	select content_revision__content_copy(:task_id,:revision_id)
 
      </querytext>
 </fullquery>

@@ -67,7 +67,7 @@
           </multiple>
         </table>
 		</blockquote>
-        <input type=submit value="<# Confirm #>">
+        <input type=submit value="#evaluation.Confirm#">
     </form>
 </if>
 

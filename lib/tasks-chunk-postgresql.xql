@@ -40,7 +40,8 @@
 		cr.title as task_title,
 		et.data as task_data,
 	   	et.task_id as revision_id,
-		cr.content_length,
+		coalesce(cr.content_length,0) as content_length,
+		et.late_submit_p,
 		ea.answer_id as answer_id
 	from cr_revisions cr, 
 		 evaluation_tasksi et left outer join evaluation_answersi ea on (ea.task_item_id = et.task_item_id and content_revision__is_live(ea.answer_id) = true
@@ -49,6 +50,14 @@
 	  and grade_item_id = :grade_item_id
 	  and content_revision__is_live(et.task_id) = true 
     $assignments_orderby
+	
+      </querytext>
+</fullquery>
+
+<fullquery name="compare_due_date">      
+      <querytext>
+
+	select 1 from dual where :due_date > now()
 	
       </querytext>
 </fullquery>

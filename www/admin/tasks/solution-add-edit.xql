@@ -55,12 +55,4 @@
       </querytext>
 </fullquery>
 
-<fullquery name="unassociate_task_sol">      
-      <querytext>
-
-		delete from evaluation_tasks_sols where task_id=:task_id
-	
-      </querytext>
-</fullquery>
-
 </queryset>

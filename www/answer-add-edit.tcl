@@ -16,7 +16,7 @@ ad_page_contract {
     return_url:notnull
 } -validate {
     late_submit {
-	if { ![db_string late_turn_in { *SQL* }] && ([template::util::date::compare [db_string due_date "select due_date from evaluation_tasks where task_id = :task_id"] [template::util::date::now]] < 0) } {
+	if { [string eq [db_string late_turn_in { *SQL* }] "f"] && [db_string compare_dates { *SQL* } -default 0] } {
 	    ad_complain "[_ evaluation.lt_This_task_can_not_be_]"
 	}
     }
@@ -39,7 +39,7 @@ set context [list $page_title]
 
 db_1row task_info { *SQL* }
 
-ad_form -html { enctype multipart/form-data } -name answer -cancel_url $return_url -export { item_id grade_id task_id attached_p return_url } -form {
+ad_form -html { enctype multipart/form-data } -name answer -cancel_url $return_url -export { item_id grade_id task_id return_url } -form {
 
 	answer_id:key
 
