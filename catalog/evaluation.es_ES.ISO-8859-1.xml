@@ -433,6 +433,7 @@ esta tarea?</msg>
   <msg key="New_Group_">Nuevo Grupo </msg>
   <msg key="No">No</msg>
   <msg key="No_">No </msg>
+  <msg key="No_assignments_">No hay asignaciones</msg>
   <msg key="No_data_">(No hay datos) </msg>
   <msg key="No_group_for_task_">No hay grupo para la tarea</msg>
   <msg key="No_of_Members_">Numero de Miembros</msg>

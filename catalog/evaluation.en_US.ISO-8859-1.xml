@@ -81,11 +81,7 @@
   <msg key="Comments_">Comments </msg>
   <msg key="CommentsEdit_reason">Comments/Edit reason:</msg>
   <msg key="CommentsEdit_reason_">Comments/Edit reason </msg>
-  <msg key="Confirm">#&gt;&quot;&gt;
-    &lt;/form&gt;
-&lt;/if&gt;
-
-&lt;# Confirm </msg>
+  <msg key="Confirm">Confirm</msg>
   <msg key="Confirm_Evaluation_">Confirm Evaluation </msg>
   <msg key="Create">Group </msg>
   <msg key="Create_Group_">Create Group </msg>
