@@ -95,7 +95,7 @@ create table evaluation_student_evals
                                         not null
                                         constraint evaluation_stu_evals_pid_fk
                                         references parties(party_id),
-        grade                   number(5,5),
+        grade                   number(5,2),
         show_student_p  	char(1) default 't'
                                         constraint evaluation_stu_evals_ssp_ck
                                         check (show_student_p in ('t','f'))
@@ -257,7 +257,7 @@ end task_name;
         where task_id = party_name.p_task_id;                                                                                                                                  if v_number_of_members = 1 then
                 return person.last_name(p_party_id)||', '||person.first_names(p_party_id);
         else
-                return acs_group.name(party_name.p_party_id);
+                return acs_group.name(p_party_id);
         end if;
  end party_name;
 
@@ -280,9 +280,9 @@ end task_name;
                                                 evaluation_tasks et,
                                                 acs_rels map
                                                 where map.object_id_one = etg.group_id
-                                                  and map.object_id_two = p_user_id
+                                                  and map.object_id_two = party_id.p_user_id
                                                   and etg.task_item_id = et.task_item_id
-                                                  and et.task_id = p_task_id;
+                                                  and et.task_id = party_id.p_task_id;
                return midato;                
        end if;
  end party_id;
