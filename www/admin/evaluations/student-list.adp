@@ -79,7 +79,9 @@
 
 <br />
 <h2>#evaluation.lt_Students_who_have_not#</h2>
+
 <p>#evaluation.lt_These_are_the_student_1#</p>
+<if @not_evaluated_na:rowcount@ gt 0>
 <if @number_of_members@ eq "1">
  <if @show_portrait_p@ eq "t">
 	<p>#evaluation.Click# <a href=@this_url@> #evaluation.here# </a> #evaluation.lt_if_you_do_not_want_to#</p>
@@ -90,7 +92,6 @@
 <p>#evaluation.If#</p>
 </else>
 
-<if @not_evaluated_na:rowcount@ gt 0>
 <form action="evaluate-students" method="post">
     <input type=hidden name=task_id value=@task_id@>
 	<blockquote>
