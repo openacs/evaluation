@@ -211,19 +211,25 @@ ad_proc -private evaluation::now_plus_days { -ndays } {
     
     set day [lindex $now 2]
     set month [lindex $now 1]
+    set year [lindex $now 0]
     set interval_def [template::util::date::defaultInterval day]
-    for { set i [lindex $interval_def 0] }  { $i <= 15 }  { incr i 1 } {
+    for { set i [lindex $interval_def 0] }  { $i <= $ndays }  { incr i 1 } {
 	incr day
-	if { [expr $day + $i] >= [lindex $interval_def 1] } {
+	if { [expr $day + 1] >= [lindex $interval_def 1] } {
 	    incr month 1
 	    set day 1
+	    if { $month > 12 } {
+		incr year 1
+		set month 1
+	    }
 	}
     }
     
     # replace the hour and minute values in the now list with new values
     set now [lreplace $now 2 2 $day]
     set now [lreplace $now 1 1 $month]
-    
+    set now [lreplace $now 0 0 $year]
+ 
     # set default time
     set now [lreplace $now 3 3 23]    
     set now [lreplace $now 4 4 59]    
