@@ -19,7 +19,7 @@
 <fullquery name="get_grades">      
       <querytext>
 
-		select cu.first_names||', '||cu.last_name as student_name,
+		select cu.last_name||', '||cu.first_names as student_name,
 		cu.user_id
 		$sql_query
    	 	from cc_users cu 
@@ -31,7 +31,7 @@
 <fullquery name="community_get_grades">      
       <querytext>
 
-		select cu.first_names||', '||cu.last_name as student_name,
+		select cu.last_name||', '||cu.first_names as student_name,
 		cu.user_id
 		$sql_query
    	 	from cc_users cu,
