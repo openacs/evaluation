@@ -237,6 +237,7 @@ ad_proc -private evaluation::apm_callbacks::package_uninstantiate {
 } {
 	
 	set ev_grades_fid [db_string get_f_id "select content_item__get_id('evaluation_grades_'||:package_id,null,'f')"]
+	set ev_grades_sheets_fid [db_string get_f_id "select content_item__get_id('evaluation_grades_sheets_'||:package_id,null,'f')"]
 	set ev_tasks_fid [db_string get_f_id "select content_item__get_id('evaluation_tasks_'||:package_id,null,'f')"]
 	set ev_tasks_sols_fid [db_string get_f_id "select content_item__get_id('evaluation_tasks_sols_'||:package_id,null,'f')"]
 	set ev_answers_fid [db_string get_f_id "select content_item__get_id('evaluation_answers_'||:package_id,null,'f')"]
@@ -248,28 +249,28 @@ ad_proc -private evaluation::apm_callbacks::package_uninstantiate {
 												:package_id
 												);
 		}
-
+		
 		db_exec_plsql delte_grades_folder {
 			select evaluation__delete_folder (
-											  :ev_grades_fid,
+											  :ev_grades_sheets_fid,
 											  'evaluation_grades_sheets'
 											  );
 		}
-
+		
 		db_exec_plsql delte_grades_folder {
 			select evaluation__delete_folder (
 											  :ev_grades_fid,
 											  'evaluation_grades'
 											  );
 		}
-			
+		
 		db_exec_plsql delte_task_folder {
 			select evaluation__delete_folder (
 											  :ev_tasks_fid,
 											  'evaluation_tasks'
 											  );
 		}
-
+		
 		db_exec_plsql delte_task_sols_folder {
 			select evaluation__delete_folder (
 											  :ev_tasks_sols_fid,
@@ -289,6 +290,5 @@ ad_proc -private evaluation::apm_callbacks::package_uninstantiate {
 											  'evaluation_student_evals'
 											  );
 		}
-		}
-    }
+	}
 }

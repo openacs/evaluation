@@ -8,7 +8,6 @@
    <form action="evaluate-students-2" method="post">
 	@export_vars;noquote@
       <input type=hidden name=task_id value="@task_id@">
-      <input type=hidden name=grade_id value="@grade_id@">
       <input type=hidden name=max_grade value="@max_grade@">
 		<blockquote>
         <table>
@@ -31,7 +30,6 @@
    <form action="evaluate-students-2" method+"post">
 	@export_vars;noquote@
       <input type=hidden name=task_id value="@task_id@">
-      <input type=hidden name=grade_id value="@grade_id@">
       <input type=hidden name=max_grade value="@max_grade@">
 		<blockquote>
         <table>
@@ -54,7 +52,6 @@
    <form action="evaluate-students-2" method="post">
 	@export_vars;noquote@
       <input type=hidden name=task_id value="@task_id@">
-      <input type=hidden name=grade_id value="@grade_id@">
       <input type=hidden name=max_grade value="@max_grade@">
 		<blockquote>
         <table>

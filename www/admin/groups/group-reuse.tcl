@@ -24,7 +24,7 @@ set elements [list task_name \
 									 orderby_asc {number_of_members asc} \
 									 orderby_desc {number_of_members desc}] \
 				  grade_name \
-				  [list label "Task Type" \
+				  [list label "Assignment Type" \
 									 orderby_asc {grade_name asc} \
 									 orderby_desc {grade_name desc}] \
 				 ]

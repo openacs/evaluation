@@ -27,8 +27,8 @@ set elements [list task_name \
 					  ] \
 				  requires_grade \
 				  [list label "Requires Grade?" \
-					   display_template { [if { [string eq @grades.requires_grade_p@ "t"] } { return "Yes <input checked type=radio name=\"no_grade.@grades.task_id@\" value=t> No <input type=radio name=\"no_grade.@grades.task_id@\" value=f>" } else { return "Yes <input type=radio name=\"no_grade.@grades.task_id@\" value=t> No <input checked type=radio name=\"no_grade.@grades.task_id@\" value=f>" }] } \
-					   ] \
+					   display_template { Yes <input @grades.radio_yes_checked@ type=radio name="no_grade.@grades.task_id@" value=t> No <input @grades.radio_no_checked@ type=radio name="no_grade.@grades.task_id@" value=f> } \
+					  ] \
 				  ]
 
 template::list::create \
@@ -45,7 +45,16 @@ if { [string equal $orderby ""] } {
     set orderby " order by task_name asc"
 }
 
-db_multirow grades get_grade_tasks { *SQL* } {
+db_multirow -extend { radio_yes_checked radio_no_checked } grades get_grade_tasks { *SQL* } {
+
+	if { [string eq $requires_grade_p "t"] } {
+		set radio_yes_checked "checked"
+		set radio_no_checked ""
+	} else {
+		set radio_yes_checked ""
+		set radio_no_checked "checked"
+	}
+
 } 	
 
 

@@ -35,8 +35,9 @@ set elements [list party_name \
 					  ] \
 				  show_student_p \
 				  [list label "Allow the students <br> to see the grade?" \
-					   display_template { [if { [string eq @evaluated_students.show_student_p@ "t"] } { return "Yes <input checked type=radio name=\"show_student.@evaluated_students.party_id@\" value=t> No <input type=radio name=\"show_student.@evaluated_students.party_id@\" value=f>" } else { return "Yes <input type=radio name=\"show_student.@evaluated_students.party_id@\" value=t> No <input checked type=radio name=\"show_student.@evaluated_students.party_id@\" value=f>" }] } ] \
-				  ]\
+					   display_template { Yes <input @evaluated_students.radio_yes_checked@ type=radio name="show_student.@evaluated_students.party_id@" value=t> No <input @evaluated_students.radio_no_checked@ type=radio name="show_student.@evaluated_students.party_id@" value=f> } \
+					  ] \
+				 ]
 
 template::list::create \
     -name evaluated_students \
@@ -51,7 +52,7 @@ if {[string equal $orderby ""]} {
     set orderby " order by party_name asc"
 } 
 
-db_multirow -extend { answer answer_url } evaluated_students get_evaluated_students { *SQL* } {
+db_multirow -extend { answer answer_url radio_yes_checked radio_no_checked } evaluated_students get_evaluated_students { *SQL* } {
 	
 	set grade [format %.2f $grade]
 	if { [string eq $online_p "t"] } {
@@ -63,7 +64,7 @@ db_multirow -extend { answer answer_url } evaluated_students get_evaluated_stude
 			set answer "View answer"
 		} else {
 			# we assume it's a file
-			set answer_url "[export_vars -base "../../view/$answer_title" { }]"
+			set answer_url "[export_vars -base "[ad_conn package_url]view/$answer_title" { }]"
 		}
 		if { ![string eq $answer "No response"] && ([template::util::date::compare $submission_date $evaluation_date] > 0) } {
 			append answer_url "<span style=\"color:red;\"> (NEW answer)</span>"
@@ -73,8 +74,19 @@ db_multirow -extend { answer answer_url } evaluated_students get_evaluated_stude
 		}
 	}
 
+	if { [string eq $show_student_p "t"] } {
+		set radio_yes_checked "checked"
+		set radio_no_checked ""
+	} else {
+		set radio_yes_checked ""
+		set radio_no_checked "checked"
+	}
+
+	set evaluation_ids($party_id) $evaluation_id
+	set item_to_edit_ids($party_id) $item_id
 } 
 
 set grades_sheet_item_id [db_nextval acs_object_id_seq]
+set export_vars [export_vars -form { evaluation_ids item_to_edit_ids }]
 
 ad_return_template

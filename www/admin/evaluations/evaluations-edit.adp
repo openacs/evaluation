@@ -7,6 +7,7 @@
       <input type=hidden name=task_id value="@task_id@">
 	   <blockquote><listtemplate name="evaluated_students"></listtemplate></blockquote>
         <input type=submit value="Edit Grades">
+		@export_vars;noquote@
   </form>
   <blockquote>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
