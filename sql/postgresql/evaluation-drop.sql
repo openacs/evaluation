@@ -136,3 +136,10 @@ drop function evaluation__party_id (integer,integer);
 
 drop function evaluation__delete_contents (integer);
 
+---------------------------------------
+-- TEMPLATES
+---------------------------------------
+
+drop function evaluation__delete_template ();
+
+drop function evaluation__create_template ();
