@@ -226,6 +226,12 @@ ad_form -extend -name task -form {
 	{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
 	{value t}
     }
+
+    {estimated_time:float,optional     
+	{label "[_ evaluation.lt_Time_estimated_to_com]"}
+	{html {size 5}} 
+	{value "0"}
+    }
 }
 
 if { $new_p && ![empty_string_p $community_id] && [db_string get_user_comunities { *SQL* }] } {
@@ -268,9 +274,13 @@ ad_form -extend -name task -form {
 	{ !$weight || ([empty_string_p $weight] && [string eq $requires_grade_p f]) || (($weight > 0) && (!$net_value || [empty_string_p $net_value])) }
 	{ [_ evaluation.lt_The_weight_must_be_gr] }
     }
-    {number_of_members
+     {number_of_members
 	{ $number_of_members >= 1 }
 	{ [_ evaluation.lt_The_number_of_members]}
+    }
+    {estimated_time
+	{ $estimated_time >= 0 }
+	{ [_ evaluation.lt_The_estimated_time_mu] }
     }
 } -new_data {
     
@@ -329,7 +339,7 @@ ad_form -extend -name task -form {
 			     -content_table evaluation_tasks -content_id task_id -name $task_name -description $description -weight $weight \
 			     -grade_item_id $grade_item_id -number_of_members $number_of_members -online_p $online_p -storage_type $storage_type \
 			     -due_date  $due_date -late_submit_p $late_submit_p -requires_grade_p $requires_grade_p -title $title \
-			     -mime_type $mime_type]
+			     -mime_type $mime_type -estimated_time $estimated_time]
 	
 	evaluation::set_live -revision_id $revision_id
 

@@ -189,6 +189,7 @@
 			:late_submit_p,
 			:online_p,
 			:requires_grade_p,
+			:estimated_time,
 			'evaluation_tasks',	
 			now(), --creation date	
 			:creation_user, 

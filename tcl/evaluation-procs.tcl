@@ -21,10 +21,10 @@ ad_proc -public evaluation::notification::get_url {
     -notif_type:required
     {-evaluation_id ""}
 } { 
-	returns a full url to the object_id. 
-	handles assignments and evaluations. 
+    returns a full url to the object_id. 
+    handles assignments and evaluations. 
 } {  
- 
+    
     set base_url "[ad_url][ad_conn package_url]" 
     switch $notif_type {
 	"one_assignment_notif" {
@@ -46,9 +46,9 @@ ad_proc -public evaluation::get_user_portrait {
     -user_id:required
     {-tag_attributes ""}
 } { 
-	returns the portrait for the given user or a default portrait if not found.
+    returns the portrait for the given user or a default portrait if not found.
 } {  
-        
+    
     if { [db_0or1row user_portrait { *SQL* }] } {
 	set output "<img src=\"/shared/portrait-bits.tcl?user_id=$user_id\" "
     } else {
@@ -185,15 +185,15 @@ ad_proc -public evaluation::new_grade {
 
 
 ad_proc -public evaluation::set_live {
-	-revision_id:required
+    -revision_id:required
 } {
 
-	Makes a live revision of the revision_id provided.
+    Makes a live revision of the revision_id provided.
 
-	@param revision_id The revision to set live.
+    @param revision_id The revision to set live.
 } {
-	db_exec_plsql content_set_live_revision { *SQL* }
-	return 
+    db_exec_plsql content_set_live_revision { *SQL* }
+    return 
 }
 
 ad_proc -private evaluation::now_plus_days { -ndays } {
@@ -223,7 +223,7 @@ ad_proc -private evaluation::now_plus_days { -ndays } {
     # replace the hour and minute values in the now list with new values
     set now [lreplace $now 2 2 $day]
     set now [lreplace $now 1 1 $month]
- 
+    
     # set default time
     set now [lreplace $now 3 3 23]    
     set now [lreplace $now 4 4 59]    
@@ -263,65 +263,66 @@ ad_proc -public evaluation::clone_task {
 }
 
 ad_proc -public evaluation::new_task {
-	-item_id:required
-	-content_type:required
-	-content_table:required
-	-content_id:required
-	-new_item_p:required
-	-name:required
-	-grade_item_id:required
-	-number_of_members:required
-	-requires_grade_p:required
-	-storage_type:required
-	{-online_p ""}
-	{-due_date ""}
-	{-weight:required ""}
-	{-late_submit_p ""}
-	{-description ""}
-	{-title ""}
-	{-mime_type "text/plain"}
-	{-item_name ""}
+    -item_id:required
+    -content_type:required
+    -content_table:required
+    -content_id:required
+    -new_item_p:required
+    -name:required
+    -grade_item_id:required
+    -number_of_members:required
+    -requires_grade_p:required
+    -storage_type:required
+    {-estimated_time 0}
+    {-online_p ""}
+    {-due_date ""}
+    {-weight:required ""}
+    {-late_submit_p ""}
+    {-description ""}
+    {-title ""}
+    {-mime_type "text/plain"}
+    {-item_name ""}
 } {
 
-	Build a new content revision of a task.  If new_item_p is
-	set true then a new item is first created, otherwise a new revision is created for
-	the item indicated by item_id.
+    Build a new content revision of a task.  If new_item_p is
+    set true then a new item is first created, otherwise a new revision is created for
+    the item indicated by item_id.
 
-	@param item_id The item to update or create.
-	@param content_type The type to make
-	@param content_table
-	@param new_item_p If true make a new item using item_id
-	@param grade_item_id Grade type where the task belongs
-	@param name The name of the task
-	@number_of_members If the task is in groups this parameter must be > 1
-	@param online_p If the task will be submited online
-	@due_date Due date of the task
-	@weight Weight of the task in the grade type
-	@late_submit_p If the students will be able to submit the task after due date
-	@description Description of the task
-	@storage_type File or text, depending on what are we going to store
+    @param item_id The item to update or create.
+    @param content_type The type to make
+    @param content_table
+    @param new_item_p If true make a new item using item_id
+    @param grade_item_id Grade type where the task belongs
+    @param name The name of the task
+    @number_of_members If the task is in groups this parameter must be > 1
+    @param online_p If the task will be submited online
+    @due_date Due date of the task
+    @weight Weight of the task in the grade type
+    @late_submit_p If the students will be able to submit the task after due date
+    @description Description of the task
+    @storage_type File or text, depending on what are we going to store
 
 } {
 
-	set package_id [ad_conn package_id]
-	set creation_user [ad_conn user_id]
-	set creation_ip [ad_conn peeraddr]
+    set package_id [ad_conn package_id]
+    set creation_user [ad_conn user_id]
+    set creation_ip [ad_conn peeraddr]
 
-	if { [empty_string_p $item_name] } {
-		set item_name "${item_id}_${title}"
-	}
+    if { [empty_string_p $item_name] } {
+	set item_name "${item_id}_${title}"
+    }
 
-	set revision_id [db_nextval acs_object_id_seq]
+    set revision_id [db_nextval acs_object_id_seq]
 
-	if { $new_item_p } {
-		db_exec_plsql content_item_new { *SQL* }
-	}
-	
-	db_exec_plsql content_revision_new { *SQL* }
+    if { $new_item_p } {
+	db_exec_plsql content_item_new { *SQL* }
+    }
+    
+    db_exec_plsql content_revision_new { *SQL* }
 
-	# in order to find the file we have to set the name in cr_items the same that in cr_revisions
-	db_dml update_item_name { *SQL* }
-	return $revision_id
+    # in order to find the file we have to set the name in cr_items the same that in cr_revisions
+    db_dml update_item_name { *SQL* }
+    return $revision_id
 } 
 
 ad_proc -public evaluation::new_solution {
@@ -338,45 +339,45 @@ ad_proc -public evaluation::new_solution {
     {-creation_date ""}
 } {
 
-	Build a new content revision of a task solution.  If new_item_p is
-	set true then a new item is first created, otherwise a new revision is created for
-	the item indicated by item_id.
+    Build a new content revision of a task solution.  If new_item_p is
+    set true then a new item is first created, otherwise a new revision is created for
+    the item indicated by item_id.
 
-	@param item_id The item to update or create.
-	@param content_type The type to make
-	@param content_table
-	@param new_item_p If true make a new item using item_id
-	@param task_id Task which "owns" the solution
-	@param title The name of the task solution
-	@param storage_type lob, file or text, depending on what are we going to store
+    @param item_id The item to update or create.
+    @param content_type The type to make
+    @param content_table
+    @param new_item_p If true make a new item using item_id
+    @param task_id Task which "owns" the solution
+    @param title The name of the task solution
+    @param storage_type lob, file or text, depending on what are we going to store
 
 } {
 
-	set package_id [ad_conn package_id]
-	set creation_user [ad_verify_and_get_user_id]
-	set creation_ip [ad_conn peeraddr]
+    set package_id [ad_conn package_id]
+    set creation_user [ad_verify_and_get_user_id]
+    set creation_ip [ad_conn peeraddr]
 
-	set item_name "${item_id}_${title}"
+    set item_name "${item_id}_${title}"
 
-	set revision_id [db_nextval acs_object_id_seq]
+    set revision_id [db_nextval acs_object_id_seq]
 
-	if { [empty_string_p $publish_date] } {
-	    set publish_date [db_string get_publish_date "select now()"]
-	}
+    if { [empty_string_p $publish_date] } {
+	set publish_date [db_string get_publish_date "select now()"]
+    }
 
-	if { [empty_string_p $creation_date] } {
-	    set creation_date [db_string get_creation_date "select now()"]
-	}
+    if { [empty_string_p $creation_date] } {
+	set creation_date [db_string get_creation_date "select now()"]
+    }
 
-	if { $new_item_p } {
-		db_exec_plsql content_item_new { *SQL* }
-	}
-	
-	db_exec_plsql content_revision_new { *SQL* }
+    if { $new_item_p } {
+	db_exec_plsql content_item_new { *SQL* }
+    }
+    
+    db_exec_plsql content_revision_new { *SQL* }
 
-	# in order to find the file we have to set the name in cr_items the same that in cr_revisions
-	db_dml update_item_name { *SQL* }
-	return $revision_id
+    # in order to find the file we have to set the name in cr_items the same that in cr_revisions
+    db_dml update_item_name { *SQL* }
+    return $revision_id
 } 
 
 
@@ -395,45 +396,45 @@ ad_proc -public evaluation::new_answer {
     {-creation_date ""}
 } {
 
-	Build a new content revision of an answer.  If new_item_p is
-	set true then a new item is first created, otherwise a new revision is created for
-	the item indicated by item_id.
+    Build a new content revision of an answer.  If new_item_p is
+    set true then a new item is first created, otherwise a new revision is created for
+    the item indicated by item_id.
 
-	@param item_id The item to update or create.
-	@param content_type The type to make
-	@param content_table
-	@param new_item_p If true make a new item using item_id
-	@param task_id Task which "owns" the answer
-	@param title The name of the task solution
-	@param storage_type lob, file or text, depending on what are we going to store
-	@param party_id Group or user_id thaw owns the anser
+    @param item_id The item to update or create.
+    @param content_type The type to make
+    @param content_table
+    @param new_item_p If true make a new item using item_id
+    @param task_id Task which "owns" the answer
+    @param title The name of the task solution
+    @param storage_type lob, file or text, depending on what are we going to store
+    @param party_id Group or user_id thaw owns the anser
 } {
 
-	set package_id [ad_conn package_id]
-	set creation_user [ad_verify_and_get_user_id]
-	set creation_ip [ad_conn peeraddr]
+    set package_id [ad_conn package_id]
+    set creation_user [ad_verify_and_get_user_id]
+    set creation_ip [ad_conn peeraddr]
 
-	set item_name "${item_id}_${title}"
+    set item_name "${item_id}_${title}"
 
-	set revision_id [db_nextval acs_object_id_seq]
+    set revision_id [db_nextval acs_object_id_seq]
 
-	if { [empty_string_p $publish_date] } {
-	    set publish_date [db_string get_publish_date "select now()"]
-	}
+    if { [empty_string_p $publish_date] } {
+	set publish_date [db_string get_publish_date "select now()"]
+    }
 
-	if { [empty_string_p $creation_date] } {
-	    set creation_date [db_string get_creation_date "select now()"]
-	}
+    if { [empty_string_p $creation_date] } {
+	set creation_date [db_string get_creation_date "select now()"]
+    }
 
-	if { $new_item_p } {
-		db_exec_plsql content_item_new { *SQL* }
-	}
-	
-	db_exec_plsql content_revision_new { *SQL* }
+    if { $new_item_p } {
+	db_exec_plsql content_item_new { *SQL* }
+    }
+    
+    db_exec_plsql content_revision_new { *SQL* }
 
-	# in order to find the file we have to set the name in cr_items the same that in cr_revisions
-	db_dml update_item_name { *SQL* }
-	return $revision_id
+    # in order to find the file we have to set the name in cr_items the same that in cr_revisions
+    db_dml update_item_name { *SQL* }
+    return $revision_id
 } 
 
 ad_proc -public evaluation::new_evaluation {
@@ -453,45 +454,45 @@ ad_proc -public evaluation::new_evaluation {
     {-publish_date ""}
     {-creation_date ""}
 } {
-	
-	Build a new content revision of an evaluation.  If new_item_p is
-	set true then a new item is first created, otherwise a new revision is created for
-	the item indicated by item_id.
+    
+    Build a new content revision of an evaluation.  If new_item_p is
+    set true then a new item is first created, otherwise a new revision is created for
+    the item indicated by item_id.
 
-	@param item_id The item to update or create.
-	@param content_type The type to make
-	@param content_table
-	@param new_item_p If true make a new item using item_id
-	@param task_id Task been evaluated
-	@param party_id Party been evaluated
-	@param grade Grade of the evaluation
-	@param show_student_p If the student(s) will be able to see the grade
-	@param storage_type lob, file or text, depending on what are we going to store
-	@param description Comments on the evaluation
-	@param mime_type Mime type of the evaluation.
+    @param item_id The item to update or create.
+    @param content_type The type to make
+    @param content_table
+    @param new_item_p If true make a new item using item_id
+    @param task_id Task been evaluated
+    @param party_id Party been evaluated
+    @param grade Grade of the evaluation
+    @param show_student_p If the student(s) will be able to see the grade
+    @param storage_type lob, file or text, depending on what are we going to store
+    @param description Comments on the evaluation
+    @param mime_type Mime type of the evaluation.
 } {
 
-	set package_id [ad_conn package_id]
-	set creation_user [ad_verify_and_get_user_id]
-	set creation_ip [ad_conn peeraddr]
+    set package_id [ad_conn package_id]
+    set creation_user [ad_verify_and_get_user_id]
+    set creation_ip [ad_conn peeraddr]
 
-	set item_name "${item_id}_${title}"
+    set item_name "${item_id}_${title}"
 
-	set revision_id [db_nextval acs_object_id_seq]
+    set revision_id [db_nextval acs_object_id_seq]
 
-	if { [empty_string_p $publish_date] } {
-	    set publish_date [db_string get_publish_date "select now()"]
-	}
+    if { [empty_string_p $publish_date] } {
+	set publish_date [db_string get_publish_date "select now()"]
+    }
 
-	if { [empty_string_p $creation_date] } {
-	    set creation_date [db_string get_creation_date "select now()"]
-	}
+    if { [empty_string_p $creation_date] } {
+	set creation_date [db_string get_creation_date "select now()"]
+    }
 
-	if { $new_item_p } {
-		db_exec_plsql content_item_new { *SQL* }
-	}
-	
-	db_exec_plsql content_revision_new { *SQL* }
+    if { $new_item_p } {
+	db_exec_plsql content_item_new { *SQL* }
+    }
+    
+    db_exec_plsql content_revision_new { *SQL* }
 
 } 
 
@@ -503,42 +504,42 @@ ad_proc -public evaluation::new_evaluation_group {
     {-creation_date ""}
 } {
 
-	Build a new group of type evlaution_groups for the tasks.
-	This procedure is just a wrapper for the pl/sql function evaluation.new_evalatuion_group
-	which uses the acs_group.new funcion.
+    Build a new group of type evlaution_groups for the tasks.
+    This procedure is just a wrapper for the pl/sql function evaluation.new_evalatuion_group
+    which uses the acs_group.new funcion.
 
-	@param group_id The group_id that will be created.
-	@param group_key Key for the group.
-	@param pretty_name 
-	@param task_id The task that will be done by the group.
-	@param context_id If not provided, it will be the package_id.
+    @param group_id The group_id that will be created.
+    @param group_key Key for the group.
+    @param pretty_name 
+    @param task_id The task that will be done by the group.
+    @param context_id If not provided, it will be the package_id.
 
 } {
 
-	if { [empty_string_p $context] } {
-		set context [ad_conn package_id]
-	}
-	set creation_user [ad_verify_and_get_user_id]
-	set creation_ip [ad_conn peeraddr]
+    if { [empty_string_p $context] } {
+	set context [ad_conn package_id]
+    }
+    set creation_user [ad_verify_and_get_user_id]
+    set creation_ip [ad_conn peeraddr]
 
-	if { [empty_string_p $creation_date] } {
-	    set creation_date [db_string get_creation_date "select now()"]
-	}
+    if { [empty_string_p $creation_date] } {
+	set creation_date [db_string get_creation_date "select now()"]
+    }
 
-	db_exec_plsql evaluation_group_new { *SQL* }
-	
-	return $group_id
+    db_exec_plsql evaluation_group_new { *SQL* }
+    
+    return $group_id
 } 
 
 ad_proc -public evaluation::evaluation_group_name {
-	-group_id:required
+    -group_id:required
 } {
 
-	@param group_id
+    @param group_id
 
 } {
 
-	return [db_exec_plsql evaluation_group_name { *SQL* }]
+    return [db_exec_plsql evaluation_group_name { *SQL* }]
 
 } 
 
@@ -556,103 +557,103 @@ ad_proc -public evaluation::new_grades_sheet {
     {-publish_date ""}
 } {
 
-	Build a new content revision of a grades sheet.  If new_item_p is
-	set true then a new item is first created, otherwise a new revision is created for
-	the item indicated by item_id.
+    Build a new content revision of a grades sheet.  If new_item_p is
+    set true then a new item is first created, otherwise a new revision is created for
+    the item indicated by item_id.
 
-	@param item_id The item to update or create.
-	@param content_type The type to make
-	@param content_table
-	@param new_item_p If true make a new item using item_id
-	@param task_id Task which "owns" the grades sheet
-	@param title The name of the grades sheet
-	@param storage_type lob or file 
-	@param mime_type Mime tipe of the grades sheet
+    @param item_id The item to update or create.
+    @param content_type The type to make
+    @param content_table
+    @param new_item_p If true make a new item using item_id
+    @param task_id Task which "owns" the grades sheet
+    @param title The name of the grades sheet
+    @param storage_type lob or file 
+    @param mime_type Mime tipe of the grades sheet
 
 } {
 
-	set package_id [ad_conn package_id]
-	set creation_user [ad_verify_and_get_user_id]
-	set creation_ip [ad_conn peeraddr]
+    set package_id [ad_conn package_id]
+    set creation_user [ad_verify_and_get_user_id]
+    set creation_ip [ad_conn peeraddr]
 
-	set item_name "${item_id}_${title}"
+    set item_name "${item_id}_${title}"
 
-	set revision_id [db_nextval acs_object_id_seq]
+    set revision_id [db_nextval acs_object_id_seq]
 
-	if { [empty_string_p $publish_date] } {
-	    set publish_date [db_string get_publish_date "select now()"]
-	}
+    if { [empty_string_p $publish_date] } {
+	set publish_date [db_string get_publish_date "select now()"]
+    }
 
-	if { [empty_string_p $creation_date] } {
-	    set creation_date [db_string get_creation_date "select now()"]
-	}
+    if { [empty_string_p $creation_date] } {
+	set creation_date [db_string get_creation_date "select now()"]
+    }
 
-	if { $new_item_p } {
-		db_exec_plsql content_item_new { *SQL* }
-	}
-	
-	db_exec_plsql content_revision_new { *SQL* }
+    if { $new_item_p } {
+	db_exec_plsql content_item_new { *SQL* }
+    }
+    
+    db_exec_plsql content_revision_new { *SQL* }
 
-	return $revision_id
+    return $revision_id
 } 
 
 ad_proc -public evaluation::generate_grades_sheet {} {
 
     # Get file_path from url 
     set url [ns_conn url] 
-	
+    
     regexp {/grades-sheet-csv-([^.]+).csv$} $url match task_id  
-	
+    
     if { ![db_0or1row get_task_info { *SQL* }] } { 
-		# this should never happen
+	# this should never happen
         ad_return_error "No information" "There has been an error, there is no infomraiton about the task $task_id"
         return 
     } 
-	
+    
     set csv_content [list] 
     lappend csv_content "[_ evaluation.lt_Grades_sheet_for_assi]"  
 
-	lappend csv_content "\n[_ evaluation.Max_Grade_]"
-  	lappend csv_content "100"
-	lappend csv_content "\n[_ evaluation.lt_Will_the_student_be_a]"
-  	lappend csv_content "1"
+    lappend csv_content "\n[_ evaluation.Max_Grade_]"
+    lappend csv_content "100"
+    lappend csv_content "\n[_ evaluation.lt_Will_the_student_be_a]"
+    lappend csv_content "1"
 
-	lappend csv_content "\n\n[_ evaluation.Id_]"  
-	lappend csv_content "[_ evaluation.Name_]"  
-	lappend csv_content "[_ evaluation.Grade_]"  
-	lappend csv_content "[_ evaluation.CommentsEdit_reason_]"
-	
-	if { $number_of_members == 1 } {
-		# the task is individual
+    lappend csv_content "\n\n[_ evaluation.Id_]"  
+    lappend csv_content "[_ evaluation.Name_]"  
+    lappend csv_content "[_ evaluation.Grade_]"  
+    lappend csv_content "[_ evaluation.CommentsEdit_reason_]"
+    
+    if { $number_of_members == 1 } {
+	# the task is individual
 
-		set community_id [dotlrn_community::get_community_id]
-		if { [empty_string_p $community_id] } {
-		    set sql_query [db_map sql_query_individual] 
-		} else {
-		    set sql_query [db_map sql_qyery_comm_ind]
-		}
-
-	} else { 
-		# the task is in groups
-		
-		set sql_query [db_map sql_query_groups]
+	set community_id [dotlrn_community::get_community_id]
+	if { [empty_string_p $community_id] } {
+	    set sql_query [db_map sql_query_individual] 
+	} else {
+	    set sql_query [db_map sql_qyery_comm_ind]
 	}
+
+    } else { 
+	# the task is in groups
 	
+	set sql_query [db_map sql_query_groups]
+    }
+    
     db_foreach parties_with_to_grade { *SQL* } {
 	if { ![empty_string_p $grade] } {
 	    set grade [lc_numeric $grade]
 	}
-	    lappend csv_content "\n$party_id" 
-	    lappend csv_content "$party_name" 
-	    lappend csv_content "$grade" 
-	    lappend csv_content "$comments" 
-	} if_no_rows { 
-		ad_return_error "[_ evaluation.No_parties_to_grade_]" "[_ evaluation.lt_In_order_to_generate_]"
-		return 
-	} 
-	
+	lappend csv_content "\n$party_id" 
+	lappend csv_content "$party_name" 
+	lappend csv_content "$grade" 
+	lappend csv_content "$comments" 
+    } if_no_rows { 
+	ad_return_error "[_ evaluation.No_parties_to_grade_]" "[_ evaluation.lt_In_order_to_generate_]"
+	return 
+    } 
+    
     set csv_formatted_content [join $csv_content ","] 
-	
+    
     doc_return 200 text/csv " 
     $csv_formatted_content" 
 }
@@ -702,7 +703,7 @@ ad_proc -public evaluation::apm::create_one_evaluation_impl {} {
 	}
     }]
 }
- 
+
 ad_proc -public evaluation::apm::create_one_assignment_type {
     -impl_id:required
 } {

@@ -297,6 +297,7 @@
   <msg key="lt_The_assignment_task_n">The assignment &quot;%task_name%&quot; has been uploaded in this community.</msg>
   <msg key="lt_The_commentsedit_reas">The comments/edit reason is a string with no more than 4,000 characters.</msg>
   <msg key="lt_The_edit_reason_must_">The edit reason must be less than 4000 characteras long </msg>
+  <msg key="lt_The_estimated_time_mu">The estimated time must be grather than 0</msg>
   <msg key="lt_The_file_extension_of">The file extension of the file is &quot;%file_extension&quot; and it should be .CSV. Sorry, we can't process it&quot;
 	} 
     } 
@@ -388,6 +389,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
                &lt;blockquote&gt; 
                 &lt;pre&gt;%errmsg%&lt;/pre&gt; 
                 &lt;/blockquote&gt; </msg>
+  <msg key="lt_Time_estimated_to_com">Time estimated to complete this $grade_name (in hours)</msg>
   <msg key="lt_To_add_this_assignmen">To add this assignment to other classes (where you are administrator)</msg>
   <msg key="lt_To_chanche_the_name_e">To chanche the name, edit the name in the text input and then click on the &quot;Rename Group&quot; botton.</msg>
   <msg key="lt_To_delete_the_group_c">To delete the group, click on the &quot;Delete Group&quot; botton.</msg>
