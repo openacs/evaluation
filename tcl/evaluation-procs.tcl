@@ -8,7 +8,7 @@ ad_library {
 
 namespace eval evaluation {}
 namespace eval evaluation::notification {}
-namespace eval evaluation::apm {}
+namespace eval evaluation::apm_callback {}
 
 #####
 #
@@ -739,7 +739,7 @@ ad_proc -public evaluation::generate_grades_sheet {} {
     $csv_formatted_content" 
 }
 
-ad_proc -public evaluation::apm::delete_one_assignment_impl {} {
+ad_proc -public evaluation::apm_callback::delete_one_assignment_impl {} {
     Unregister the NotificationType implementation for one_assignment_notif_type.
 } {
     acs_sc::impl::delete \
@@ -747,7 +747,7 @@ ad_proc -public evaluation::apm::delete_one_assignment_impl {} {
         -impl_name one_assignment_notif_type
 }
 
-ad_proc -public evaluation::apm::delete_one_evaluation_impl {} {
+ad_proc -public evaluation::apm_callback::delete_one_evaluation_impl {} {
     Unregister the NotificationType implementation for one_evaluation_notif_type.
 } {
     acs_sc::impl::delete \
@@ -755,7 +755,7 @@ ad_proc -public evaluation::apm::delete_one_evaluation_impl {} {
         -impl_name one_evaluation_notif_type
 }
 
-ad_proc -public evaluation::apm::create_one_assignment_impl {} {
+ad_proc -public evaluation::apm_callback::create_one_assignment_impl {} {
     Register the service contract implementation and return the impl_id
     @return impl_id of the created implementation 
 } {
@@ -770,7 +770,7 @@ ad_proc -public evaluation::apm::create_one_assignment_impl {} {
     }]
 }
 
-ad_proc -public evaluation::apm::create_one_evaluation_impl {} {
+ad_proc -public evaluation::apm_callback::create_one_evaluation_impl {} {
     Register the service contract implementation and return the impl_id
     @return impl_id of the created implementation 
 } {
@@ -785,7 +785,7 @@ ad_proc -public evaluation::apm::create_one_evaluation_impl {} {
     }]
 }
 
-ad_proc -public evaluation::apm::create_one_assignment_type {
+ad_proc -public evaluation::apm_callback::create_one_assignment_type {
     -impl_id:required
 } {
     Create the notification type for one specific assignment
@@ -798,7 +798,7 @@ ad_proc -public evaluation::apm::create_one_assignment_type {
 		-description "[_ evaluation.lt_Notification_for_assi]"]
 }
 
-ad_proc -public evaluation::apm::create_one_evaluation_type {
+ad_proc -public evaluation::apm_callback::create_one_evaluation_type {
     -impl_id:required
 } {
     Create the notification type for one specific evaluation
@@ -811,7 +811,7 @@ ad_proc -public evaluation::apm::create_one_evaluation_type {
 		-description "[_ evaluation.lt_Notification_for_eval]"]
 }
 
-ad_proc -public evaluation::apm::enable_intervals_and_methods {
+ad_proc -public evaluation::apm_callback::enable_intervals_and_methods {
     -type_id:required
 } {
     Enable the intervals and delivery methods of a specific type
@@ -834,116 +834,6 @@ ad_proc -public evaluation::apm::enable_intervals_and_methods {
 	-type_id $type_id \
 	-delivery_method_id [notification::delivery::get_id -short_name email]
 
-}
-
-ad_proc -public evaluation::apm::create_folders {
-    -package_id:required
-} {
-    Helper for the apm_proc
-} {
-    db_transaction {
-	set exams_name "[_ evaluation.Exams_]"
-	set exams_singular_name "[_ evaluation.Exam]"
-	set exams_desc "[_ evaluation.Exams_for_students_]"
-	set tasks_name "[_ evaluation.Tasks_]"
-	set tasks_singular_name "[_ evaluation.Task]"
-	set tasks_desc "[_ evaluation.Tasks_for_students_]"
-	set projects_name "[_ evaluation.Projects_]"
-	set projects_singular_name "[_ evaluation.Project]"
-	set projects_desc "[_ evaluation.lt_Projects_for_students]"
-        set folder_id [content::folder::new -name "evaluation_grades_$package_id" -label "evaluation_grades_$package_id" -package_id $package_id ]
-	content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_grades} -include_subtypes t
-
-        set folder_id [content::folder::new -name "evaluation_tasks_$package_id" -label "evaluation_tasks_$package_id" -package_id $package_id ]
-        content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_tasks} -include_subtypes t
-
-        set folder_id [content::folder::new -name "evaluation_tasks_sols_$package_id" -label "evaluation_tasks_sols_$package_id" -package_id $package_id ]
-        content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_tasks_sols} -include_subtypes t
-
-        set folder_id [content::folder::new -name "evaluation_answers_$package_id" -label "evaluation_answers_$package_id" -package_id $package_id ]
-        content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_answers} -include_subtypes t
-
-        set folder_id [content::folder::new -name "evaluation_grades_sheets_$package_id" -label "evaluation_grades_sheets_$package_id" -package_id $package_id ]
-        content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_grades_sheets} -include_subtypes t
-
-        set folder_id [content::folder::new -name "evaluation_student_evals_$package_id" -label "evaluation_student_evals_$package_id" -package_id $package_id ]
-        content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_student_evals} -include_subtypes t
-    }
-}
-
-ad_proc -public evaluation::apm::delete_contents {
-    -package_id:required
-} {
-    Helper for the apm_proc
-} {
-#Delete all content templates
-db_foreach v1 { select ea.answer_id from evaluation_answersi ea, acs_objects ao where ea.item_id = ao.object_id and ao.context_id = p_package_id } {
-content::revision::delete -revision_id $answer_id
-}
-db_foreach v2 { select ets.solution_id from evaluation_tasks_solsi ets, acs_objects ao where ets.item_id = ao.object_id and ao.context_id = p_package_id  } { content::revision::delete -revision_id $solution_id }
-db_foreach v3 { select egs.grades_sheet_id from evaluation_grades_sheetsi egs, acs_objects ao where egs.item_id = ao.object_id and ao.context_id = p_package_id  } {
-content::revision::delete -revision_id $grades_sheet_id }
-db_foreach v4 { select ese.evaluation_id from evaluation_student_evalsi ese, acs_objects ao where ese.item_id = ao.object_id and ao.context_id = p_package_id  } {
-content::revision::delete -revision_id $evaluation_id }
-db_foreach v5 { select et.task_id from evaluation_tasksi et, acs_objects ao where et.item_id = ao.object_id and ao.context_id = p_package_id  } {
-content::revision::delete -revision_id $task_id }
-db_foreach v6 { select eg.grade_id from evaluation_gradesi eg, acs_objects ao where eg.item_id = ao.object_id and ao.context_id = p_package_id  } {
-content::revision::delete -revision_id $grade_id}
-
-#Evaluation_Task_Sols
-set v_folder_id [content::item::get_id -item_path "evaluation_tasks_sols_$package_id" -resolve_index {f}]
-db_foreach v11 { select item_id from cr_items where  parent_id = :v_folder_id } {
-        evaluation::delete_grade -grade_item_id $item_id
-}
-content::folder::unregister_content_type -folder_id $v_folder_id  -content_type {content_revision} -include_subtypes {t}
-content::folder::unregister_content_type -folder_id $v_folder_id  -content_type {evaluation_tasks_sols} -include_subtypes {t}
-db_dml delete_v11 "delete from cr_folder_type_map where content_type = 'evaluation_tasks_sols'"
-content::folder::delete -folder_id $v_folder_id
-                                                                                                                                                             
-#evaluation_answers
-set v_folder_id [content::item::get_id -item_path "evaluation_answers_$package_id" -resolve_index {f}]
-db_foreach v12 {select item_id from cr_items where  parent_id = :v_folder_id } {
-        evaluation::delete_grade -grade_item_id $item_id }
-content::folder::unregister_content_type -folder_id $v_folder_id -content_type {content_revision} -include_subtypes {t}
-content::folder::unregister_content_type -folder_id $v_folder_id -content_type {evaluation_answers} -include_subtypes {t}
-db_dml delete_v12 "delete from cr_folder_type_map where content_type = 'evaluation_answers'"
-content::folder::delete -folder_id $v_folder_id
-                                                                                                                                                             
-#evaluation_students_eval
-set v_folder_id [content::item::get_id -item_path "evaluation_student_evals_$package_id" -resolve_index {f}]
-db_foreach v13 { select item_id from cr_items where  parent_id = :v_folder_id } {
-       evaluation::delete_grade -grade_item_id $item_id }
-content::folder::unregister_content_type -folder_id $v_folder_id -content_type {content_revision} -include_subtypes {t}
-content::folder::unregister_content_type -folder_id $v_folder_id -content_type {evaluation_student_evals} -include_subtypes {t}
-db_dml delete_v13 "delete from cr_folder_type_map where content_type = 'evaluation_student_evals'"
-content::folder::delete -folder_id $v_folder_id
-                                                                                                                                                             
-#evaluation_grades_sheets
-set v_folder_id [content::item::get_id -item_path "evaluation_grades_sheets_$package_id" -resolve_index {f}]
-db_foreach v14 { select item_id  from cr_items where  parent_id = :v_folder_id } {
-       evaluation::delete_grade -grade_item_id $item_id }
-content::folder::unregister_content_type -folder_id $v_folder_id -content_type {content_revision} -include_subtypes {t}
-content::folder::unregister_content_type -folder_id $v_folder_id -content_type {evaluation_grades_sheets} -include_subtypes {t}
-db_dml delete_v14 "delete from cr_folder_type_map where content_type = 'evaluation_grades_sheets'"
-content::folder::delete -folder_id $v_folder_id
-
-#evaluation_tasks
-set v_folder_id [content::item::get_id -item_path "evaluation_tasks_$package_id" -resolve_index {f}]
-db_foreach v15 { select etg.group_id from evaluation_tasks et, evaluation_task_groups etg where etg.task_item_id = et.task_item_id } {
-       evaluation::delete_grade -grade_item_id $item_id }
-content::folder::unregister_content_type -folder_id $v_folder_id -content_type {content_revision} -include_subtypes {t}
-content::folder::unregister_content_type -folder_id $v_folder_id -content_type {evaluation_tasks} -include_subtypes {t}
-db_dml delete_v15 "delete from cr_folder_type_map where content_type = 'evaluation_tasks'"
-content::folder::delete -folder_id $v_folder_id
-                                                                                                                                                             
-#evaluation_grades
-set v_folder_id [content::item::get_id -item_path "evaluation_grades_$package_id" -resolve_index {f}]
-db_foreach v16 { select item_id from cr_items where  parent_id = :v_folder_id } {
-       evaluation::delete_grade -grade_item_id $item_id }
-content::folder::unregister_content_type -folder_id $v_folder_id -content_type {content_revision} -include_subtypes {t}
-content::folder::unregister_content_type -folder_id $v_folder_id -content_type {evaluation_grades} -include_subtypes {t}
-db_dml delete_v16 "delete from cr_folder_type_map where content_type = 'evaluation_grades'"
-content::folder::delete -folder_id $v_folder_id
 }
 
 ad_proc -public evaluation::get_archive_command {
