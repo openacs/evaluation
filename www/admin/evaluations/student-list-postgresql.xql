@@ -65,7 +65,7 @@
 <partialquery name="processed_clause">
 	  <querytext>         
 
-		and ea.party_id not in ([join $done_students ","]) 
+		and ev.party_id not in ([join $done_students ","]) 
 
 	  </querytext>
 </partialquery>
