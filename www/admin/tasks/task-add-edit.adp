@@ -35,7 +35,7 @@
     	}
 </script>
 
-<if @new_p@ eq 1 and @community_id@ not nil>
+<if @more_communities_option@ eq 1>
   <p align="right">
     #evaluation.lt_To_add_this_assignmen#  <br /> #evaluation.lt_please_check_the_last#
   </p>

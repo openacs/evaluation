@@ -80,7 +80,8 @@ ad_form -extend -name answer -form {
 
 		set mime_type "text/plain"
 		set title ""
-		set storage_type text
+		# set storage_type to its default value according to a db constraint
+		set storage_type ""
 		if { ![empty_string_p $upload_file] } {
 			
 			# Get the filename part of the upload file
@@ -94,14 +95,10 @@ ad_form -extend -name answer -form {
 
 			if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
 			    set storage_type file
-			} else {
-			    set storage_type lob
 			}
-
 		}  elseif { ![string eq $url "http://"] } {
 			set mime_type "text/plain"
 			set title "link"
-			set storage_type text
 		}
 		
 		set title [evaluation::safe_url_name -name $title]

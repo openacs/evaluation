@@ -1,28 +1,27 @@
 <?xml version="1.0"?>
 
 <queryset>
-   <rdbms><type>postgresql</type><version>7.3</version></rdbms>
+   <rdbms><type>oracle</type><version>8.1.6</version></rdbms>
 
 <fullquery name="get_task_info">      
       <querytext>
 
-		select content_revision__get_content(et.revision_id) as content, 
-		et.title,
-        	et.item_id,
-		et.mime_type,
+		select crr.filename as content,
+		crr.title,
+		crr.content_length,
+        	crr.item_id,
+		crr.mime_type,
 		cri.storage_type
-		from evaluation_tasksi et, cr_items cri
-		where et.task_id = :task_id
-          and et.item_id = cri.item_id
+		from cr_revisions crr, cr_items cri
+		where crr.revision_id = :task_id
+          and crr.item_id = cri.item_id
 	
       </querytext>
 </fullquery>
 
 <fullquery name="set_date">      
       <querytext>
-
-		select to_timestamp('[template::util::date::get_property linear_date $due_date]','YYYY MM DD HH24 MI SS')l
-	
+ 	  select to_date('[template::util::date::get_property linear_date $due_date]','YYYY-MM-DD HH24:MI:SS') from dual
       </querytext>
 </fullquery>
 
@@ -30,7 +29,7 @@
       <querytext>
 
 		update cr_revisions	
- 		set lob = [set __lob_id [db_string get_lob_id "select empty_lob()"]]
+ 		set lob = [set __lob_id [db_string get_lob_id "select empty_lob() from dual"]]
 		where revision_id = :revision_id
 
      </querytext>
@@ -40,7 +39,7 @@
       <querytext>
 
 	update cr_revisions	
- 	set content = :url
+ 	set filename = :url
 	where revision_id = :revision_id
 
      </querytext>
@@ -48,9 +47,9 @@
 
 <fullquery name="copy_content">      
       <querytext>
-
-	select content_revision__content_copy(:task_id,:revision_id)
-
+	begin
+	 content_revision.content_copy (:task_id, :revision_id);
+	end;
      </querytext>
 </fullquery>
 
@@ -58,7 +57,7 @@
       <querytext>
 
 		update cr_revisions
-		set content = :filename,
+		set filename = :title,
 		mime_type = :mime_type,
 		content_length = :content_length
 		where revision_id = :revision_id
@@ -76,7 +75,7 @@
     	where dotlrn_communities_all.community_id = dotlrn_member_rels_approved.community_id
     	and dotlrn_communities_all.community_type = dotlrn_classes.class_key
     	and dotlrn_member_rels_approved.user_id = :user_id
-    	and acs_permission__permission_p(dotlrn_communities_all.community_id, :user_id, 'admin') = true
+    	and acs_permission.permission_p(dotlrn_communities_all.community_id, :user_id, 'admin') = 't'
 	and dotlrn_communities_all.community_id <> [dotlrn_community::get_community_id]
 	
       </querytext>

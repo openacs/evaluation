@@ -45,16 +45,6 @@
       </querytext>
 </fullquery>
 
-<fullquery name="lob_content">      
-      <querytext>
-
-		update cr_revisions	
-	 	set lob = [set __lob_id [db_string get_lob_id "select empty_lob()"]]
-		where revision_id = :revision_id
-	
-      </querytext>
-</fullquery>
-
 <fullquery name="task_info">      
       <querytext>
 	

@@ -179,5 +179,45 @@
 
       </querytext>
 </fullquery>
+
+<fullquery name="evaluation::clone_task.from_task_info">      
+      <querytext>
+
+	select et.task_name,
+	et.number_of_members,
+	et.due_date,
+	et.weight,
+	et.online_p,
+	et.late_submit_p,
+	et.requires_grade_p,
+	crr.lob, 
+	crr.content, 
+	crr.content_length,
+	crr.title,
+	crr.description,
+	crr.mime_type,
+	cri.storage_type,
+	cri.content_type
+	from evaluation_tasksi et, 
+	cr_revisions crr, 
+	cr_items cri
+	where task_id = :from_task_id 
+	and et.task_id = crr.revision_id
+	and cri.item_id = crr.item_id
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::clone_task.clone_content">      
+      <querytext>
+
+	update cr_revisions	
+ 	set content = :content,
+	content_length = :content_length,
+	lob = :lob
+	where revision_id = :revision_id
+	
+      </querytext>
+</fullquery>
  
 </queryset>

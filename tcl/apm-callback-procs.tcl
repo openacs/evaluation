@@ -69,7 +69,7 @@ ad_proc -public evaluation::apm_callback::package_install {
 	content::type::attribute::new -content_type evaluation_tasks -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
 	content::type::attribute::new -content_type evaluation_tasks -attribute_name task_name -datatype number -pretty_name task_name -column_spec integer
 	content::type::attribute::new -content_type evaluation_tasks -attribute_name number_of_members -datatype string -pretty_name number_of_members -column_spec varchar
-	content::type::attribute::new -content_type evaluation_tasks -attribute_name due_date -datatype number -pretty_name due_date -column_spec timestamptz
+	content::type::attribute::new -content_type evaluation_tasks -attribute_name due_date -datatype timestamp -pretty_name due_date -column_spec timestamptz
 	content::type::attribute::new -content_type evaluation_tasks -attribute_name grade_item_id -datatype number -pretty_name grade_item_id -column_spec integer
 	content::type::attribute::new -content_type evaluation_tasks -attribute_name weight -datatype number -pretty_name weight -column_spec numeric
 	content::type::attribute::new -content_type evaluation_tasks -attribute_name online_p -datatype string -pretty_name online_p -column_spec "varchar(1)"

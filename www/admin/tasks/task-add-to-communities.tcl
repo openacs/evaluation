@@ -57,7 +57,7 @@ ad_form -extend -name communities -on_submit {
     
     foreach id [array names communities_packages_ids] {
 	set revision_id [evaluation::clone_task -item_id $item_ids($id) -from_task_id $task_id -to_grade_item_id $communities_packages_ids($id) -to_package_id $id]
-	evaluation::set_live -revision_id $revision_id
+	content::item::set_live_revision -revision_id $revision_id
     }
 
     ad_returnredirect $return_url

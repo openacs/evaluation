@@ -21,9 +21,7 @@ if { [string eq $operation "[_ evaluation.lt_Yes_I_really_want_to__1]"] } {
 	    calendar::item::delete -cal_item_id $cal_item_id
 	}
 	# calendar integration (end)
-        #db_1row get_grade_id { select grade_item_id from evaluation_grades where grade_id = :grade_id}        
         evaluation::delete_grade -grade_id $grade_id 
-	#db_exec_plsql delete_grade { *SQL* }		
 	
     } on_error {
 	ad_return_error "[_ evaluation.lt_Error_deleting_the_gr]" "[_ evaluation.lt_We_got_the_following__1]"

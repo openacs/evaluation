@@ -24,6 +24,12 @@ set user_id [ad_conn user_id]
 
 set community_id [dotlrn_community::get_community_id]
 set new_p [ad_form_new_p -key task_id] 
+
+set more_communities_option 0
+if { $new_p && ![empty_string_p $community_id] && [db_string get_user_comunities { *SQL* }] } {
+    set more_communities_option 1
+}
+
 db_1row get_grade_info { *SQL* }
 if { $new_p } {
     set page_title "[_ evaluation.Add_grade_name_]"
@@ -56,7 +62,7 @@ if { !$new_p } {
 
     db_1row get_task_info { *SQL* }
     
-    if { [string eq $storage_type "lob"] || [string eq $storage_type "file"] } {
+    if { ![string eq $title "link"] && $content_length > 0 } {
 
 	if { [string eq $mode "edit"] } {
 	    set attached_p "t"
@@ -82,7 +88,7 @@ if { !$new_p } {
 		{upload_file:text,optional
 		    {label "[_ evaluation.File_]"} 
 		    {html "size 30"}
-		    {value "$title"}
+		    {value "$content"}
 		}
 		{unattach_p:text(hidden)
 		}
@@ -179,7 +185,7 @@ ad_form -extend -name task -form {
 	{html {rows 4 cols 40 wrap soft}}
     }
 
-    {due_date:date,to_sql(linear_date),from_sql(sql_date)
+    {due_date:date,to_sql(linear_date),from_sql(sql_date),optional
 	{label "[_ evaluation.Due_Date_]"}
 	{format "MONTH DD YYYY HH24 MI SS"}
 	{today}
@@ -234,7 +240,7 @@ ad_form -extend -name task -form {
     }
 }
 
-if { $new_p && ![empty_string_p $community_id] && [db_string get_user_comunities { *SQL* }] } {
+if { $more_communities_option } {
     ad_form -extend -name task -form {
 	{add_to_more_classes_p:text(checkbox),optional 
 	    {label "[_ evaluation.lt_Add_this_assignment_t]"} 
@@ -278,6 +284,10 @@ ad_form -extend -name task -form {
 	{ $number_of_members >= 1 }
 	{ [_ evaluation.lt_The_number_of_members]}
     }
+    {online_p
+	{ ([empty_string_p $due_date] && [string eq $online_p "f"]) || (![empty_string_p $due_date] && [string eq $online_p "t"]) }
+	{ "You can't leave the due date empty if the students have to submit their answers online." }
+    }
     {estimated_time
 	{ $estimated_time >= 0 }
 	{ [_ evaluation.lt_The_estimated_time_mu] }
@@ -302,8 +312,11 @@ ad_form -extend -name task -form {
 
     db_transaction {
 		
-	if { ![empty_string_p $upload_file] } {
+	# set storage_type to its default value according to a db constraint
+	set storage_type "lob"
 	    
+	if { ![empty_string_p $upload_file] } {
+
 	    # Get the filename part of the upload file
 	    if { ![regexp {[^//\\]+$} $upload_file filename] } {
 		# no match
@@ -315,33 +328,50 @@ ad_form -extend -name task -form {
 	    
 	    if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
 		set storage_type file
-	    } else {
-		set storage_type lob
 	    }
 	} elseif { ![string eq $url "http://"] } {
 	    set mime_type "text/plain"
 	    set title "link"
-	    set storage_type text
 	} elseif { [string eq $attached_p "f"] } {
 	    set mime_type "text/plain"
 	    set title ""
-	    set storage_type text
 	}
 	
 	set title [evaluation::safe_url_name -name $title]
 	set cal_due_date [calendar::to_sql_datetime -date $due_date -time $due_date -time_p 1]
-	set due_date [db_string set_date { *SQL* }]
+	set due_date_ansi [db_string set_date " *SQL* "]
+
 	if { [ad_form_new_p -key task_id] } {
 	    set item_id $task_id
 	} 
 
-	set revision_id [evaluation::new_task -new_item_p [ad_form_new_p -key grade_id] -item_id $item_id -content_type evaluation_tasks \
-			     -content_table evaluation_tasks -content_id task_id -name $task_name -description $description -weight $weight \
-			     -grade_item_id $grade_item_id -number_of_members $number_of_members -online_p $online_p -storage_type $storage_type \
-			     -due_date  $due_date -late_submit_p $late_submit_p -requires_grade_p $requires_grade_p -title $title \
-			     -mime_type $mime_type -estimated_time $estimated_time]
+	set revision_id [evaluation::new_task -new_item_p [ad_form_new_p -key grade_id] -item_id $item_id \
+			     -content_type evaluation_tasks \
+			     -content_table evaluation_tasks \
+			     -content_id task_id \
+			     -name $task_name \
+			     -description $description \
+			     -weight $weight \
+			     -grade_item_id $grade_item_id \
+			     -number_of_members $number_of_members \
+			     -online_p $online_p \
+			     -storage_type $storage_type \
+			     -due_date  $due_date_ansi \
+			     -late_submit_p $late_submit_p \
+			     -requires_grade_p $requires_grade_p \
+			     -title $title \
+			     -mime_type $mime_type \
+			     -estimated_time $estimated_time]
 	
 	content::item::set_live_revision -revision_id $revision_id
+
+	# by the moment, since I'm having a date problem with oracle10g, I have to do this in order 
+	# to store the entire date
+
+ 	db_dml update_date {
+ 	    update evaluation_tasks set due_date = (select to_date(:due_date,'YYYY-MM-DD HH24:MI:SS') from dual)
+ 	    where task_id = :revision_id
+ 	}
 
 	if { ![empty_string_p $upload_file] }  {
 	    
@@ -391,9 +421,8 @@ ad_form -extend -name task -form {
 	    db_dml insert_cal_mapping { *SQL* }
 	} else {
 	    # edit previous cal_item
-	    calendar::item::edit -cal_item_id $cal_item_id -start_date $due_date -end_date $due_date -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id
+	    calendar::item::edit -cal_item_id $cal_item_id -start_date $due_date_ansi -end_date $due_date_ansi -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id
 	}
-
     }
 } -after_submit {
     set redirect_to_groups_p 0

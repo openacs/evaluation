@@ -13,7 +13,7 @@
 		et.item_id,
 		et.requires_grade_p, et.description, et.grade_item_id,
 		nvl(round(cr.content_length/1024,0),0) as content_length,
-		et.data as task_data,
+		cr.filename as task_data,
 		crmt.label as pretty_mime_type,
 		cr.title as task_title,
    		et.task_id as revision_id
@@ -40,7 +40,7 @@
 		et.due_date,
 		et.requires_grade_p, et.description, et.grade_item_id,
 		cr.title as task_title,
-		et.data as task_data,
+		cr.filename task_data,
 	   	et.task_id as revision_id,
 		nvl(round(cr.content_length/1024,0),0) as content_length,
 		et.late_submit_p,
