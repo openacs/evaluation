@@ -130,7 +130,7 @@
 				     now(), --creation date	
 				     :creation_user, 
 				     :creation_ip,	
-				     :item_name,			
+				     :title,			
 				     now(),  --publish date
 				     null,  -- nls_language
 				     :mime_type --mime_type
@@ -305,7 +305,7 @@
 			now(), --creation date	
 			:creation_user, 
 			:creation_ip,	
-			:item_name,			
+			:title,			
 			now(),  --publish date
 			null,  -- nls_language
 			:mime_type --mime_type
@@ -433,7 +433,7 @@
 			now(), --creation date	
 			:creation_user, 
 			:creation_ip,	
-			:item_name,			
+			:title,			
 			now(),  --publish date
 			null,  -- nls_language
 			:mime_type --mime_type
