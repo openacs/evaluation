@@ -26,6 +26,16 @@ if { [format %2.f [db_string sum_grades { *SQL* }]] > 100.00} {
     set aggregate_label "[_ evaluation.Total_]"
 }
 
+#         edit {
+#             label {}
+#             sub_class narrow
+#             display_template {
+#                 <img src="/resources/acs-subsite/Edit16.gif" width="16" height="16" border="0">
+#             } 
+#             link_url_eval {[export_vars -base "grades-add-edit" { item_id grade_id }]}
+#             link_html { title "[_ evaluation.lt_Edit_assignment_type_]" }
+#         }
+
 template::list::create \
     -name grades \
     -multirow grades \
@@ -52,15 +62,6 @@ template::list::create \
             label "[_ evaluation.Description_]"
 	    orderby_asc {comments asc}
 	    orderby_desc {comments desc}
-        }
-        edit {
-            label {}
-            sub_class narrow
-            display_template {
-                <img src="/resources/acs-subsite/Edit16.gif" width="16" height="16" border="0">
-            } 
-            link_url_eval {[export_vars -base "grades-add-edit" { item_id grade_id }]}
-            link_html { title "[_ evaluation.lt_Edit_assignment_type_]" }
         }
         delete {
             label {}

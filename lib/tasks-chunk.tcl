@@ -39,18 +39,18 @@ if { $admin_p } {
 	[list label "" \
 	     link_url_col groups_admin_url \
 	     link_html { title "[_ evaluation.lt_Groups_administration]" }]
-    lappend elements view \
-	[list label "" \
-	     sub_class narrow \
-	     display_template {<img src="/resources/acs-subsite/Zoom16.gif" width="16" height="16" border="0">} \
-	     link_url_eval {[export_vars -base "${base_url}admin/tasks/task-add-edit" { grade_id task_id return_url mode }]} \
-	     link_html { title "[_ evaluation.View_task_]" }]
-    lappend elements edit \
-	[list label "" \
-	     sub_class narrow \
-	     display_template {<img src="/resources/acs-subsite/Edit16.gif" width="16" height="16" border="0">} \
-	     link_url_eval {[export_vars -base "${base_url}admin/tasks/task-add-edit" { return_url item_id grade_id task_id }]} \
-	     link_html { title "[_ evaluation.Edit_task_]" }] 
+#     lappend elements view \
+# 	[list label "" \
+# 	     sub_class narrow \
+# 	     display_template {<img src="/resources/acs-subsite/Zoom16.gif" width="16" height="16" border="0">} \
+# 	     link_url_eval {[export_vars -base "${base_url}admin/tasks/task-add-edit" { grade_id task_id return_url mode }]} \
+# 	     link_html { title "[_ evaluation.View_task_]" }]
+#     lappend elements edit \
+# 	[list label "" \
+# 	     sub_class narrow \
+# 	     display_template {<img src="/resources/acs-subsite/Edit16.gif" width="16" height="16" border="0">} \
+# 	     link_url_eval {[export_vars -base "${base_url}admin/tasks/task-add-edit" { return_url item_id grade_id task_id }]} \
+# 	     link_html { title "[_ evaluation.Edit_task_]" }] 
     lappend elements delete \
 	[list label "" \
 	     sub_class narrow \

@@ -248,10 +248,10 @@ ad_form -extend -name task -form {
     set weight [format %.2f [lc_numeric $weight]]
 
 } -validate {
-    {due_date
-	{ [template::util::date::compare $due_date [template::util::date::now]] > 0 }
-	{ [_ evaluation.lt_Due_date_must_be_in_t] }
-    }
+#    {due_date
+#	{ [template::util::date::compare $due_date [template::util::date::now]] > 0 }
+#	{ [_ evaluation.lt_Due_date_must_be_in_t] }
+#    }
     {url
 	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || ([string eq $url "http://"] && [empty_string_p $upload_file]) || (![string eq $url "http://"] && [util_url_valid_p $url]) }
 	{[_ evaluation.lt_Upload_a_file_OR_a_ur_1] }
