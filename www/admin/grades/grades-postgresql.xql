@@ -33,7 +33,7 @@
 
 <fullquery name="sum_grades">      
       <querytext>
-    select sum(eg.weight) 
+    select coalesce(sum(eg.weight),0)
     from evaluation_gradesx eg, acs_objects ao 
     where content_revision__is_live(eg.grade_id) = true 
     and eg.item_id = ao.object_id 
