@@ -8,7 +8,7 @@
 </if>
 
 <if @grades:rowcount@ gt 0>
-<p><# @grade_plural_name@ represents the @grade_weight@% of the 100% of the grade of the class. #></p>
+<p> #evaluation.lt_grade_plural_name_rep_1# </p>
    <form action="distribution-edit-2">
       <input type=hidden name=grade_id value="@grade_id@">
 		<blockquote>
@@ -17,6 +17,7 @@
         <input type=submit value=Submit>
     </form>
 </if><else>
-<p>#evaluation.lt_There_are_no_tasks_as#
+<p>#evaluation.lt_There_are_no_tasks_as#</p>
 </else>
 </p>
+

@@ -230,6 +230,7 @@
   <msg key="lt_Grade_grade_does_not_">Grade %grade% does not seem to be a real number. </msg>
   <msg key="lt_Grade_over_100_points">Grade over 100 points</msg>
   <msg key="lt_grade_plural_name_rep">%grade_plural_name% represents the %grade_weight%% of the 100% of the class</msg>
+  <msg key="lt_grade_plural_name_rep_1">%grade_plural_name% represents the %grade_weight%% of the 100% of the grade of the class.</msg>
   <msg key="lt_Grade_students_using_">Grade students using generated file:</msg>
   <msg key="lt_Grade_students_using_file">Grade students using generated file:</msg>
   <msg key="lt_Grade_students_with_0">Grade students with 0</msg>
