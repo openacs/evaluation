@@ -37,7 +37,7 @@ ad_form -name grade -cancel_url [export_vars -base grades { }] -export { } -form
 	}
 	
 	{weight:float
-		{label "[_ evaluation.Weight_]"}
+		{label "[_ evaluation.lt_Weight_over_100_br__o]"}
 		{html {size 5}}
 	}
 

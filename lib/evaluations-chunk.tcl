@@ -108,7 +108,13 @@ if { $admin_p } {
 	if { [empty_string_p $answer_data] } {
 	    set answer_url ""
 	    set answer ""
-	} elseif { [regexp "http://" $answer_data] } {
+	} elseif { [empty_string_p [db_string content_length "select content_length from cr_revisions where revision_id = :answer_id"]] } {
+	    # there is a bug in the template::list, if the url does not has a http://, ftp://, the url is not absolute,
+	    # so we have to deal with this case
+	    array set community_info [site_node::get -url "[dotlrn_community::get_community_url [dotlrn_community::get_community_id]][evaluation::package_key]"]
+	    if { ![regexp ([join [split [parameter::get -parameter urlProtocols -package_id $community_info(package_id)] ","] "|"]) "$answer_data"] } {
+		set answer_data "http://$answer_data"
+	    } 
 	    set answer_url "[export_vars -base "$answer_data" { }]"
 	    set answer "[_ evaluation.View_my_answer_]"
 	} else {

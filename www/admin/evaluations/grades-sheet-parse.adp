@@ -20,7 +20,7 @@
           </multiple>
         </table>
 		</blockquote>
-        <input type=submit value="Grade Students">
+        <input type=submit value="#evaluation.Grade_1#"> <input type=button value="<# Back #>" onClick="history.go(-1)">
     </form>
 </if><else>
 #evaluation.lt_There_is_no_info_#

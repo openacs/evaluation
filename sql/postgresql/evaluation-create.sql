@@ -1171,10 +1171,7 @@ begin
 
     template_id := content_template__new( 
       ''evaluation-tasks-default'', -- name
-      ''<master>
-<property name="title">@title;noquote@</property>
-<property name="context">@context;noquote@</property>
-@text;noquote@'',               -- text
+      ''@text;noquote@'',               -- text
       true                      -- is_live
     );
 
@@ -1191,10 +1188,7 @@ begin
 
     template_id := content_template__new( 
       ''evaluation-tasks-sols-default'', -- name
-      ''<master>
-<property name="title">@title;noquote@</property>
-<property name="context">@context;noquote@</property>
-@text;noquote@'',               -- text
+      ''@text;noquote@'',               -- text
       true                      -- is_live
     );
 
@@ -1211,10 +1205,7 @@ begin
 
     template_id := content_template__new( 
       ''evaluation-answers-default'', -- name
-      ''<master>
-<property name="title">@title;noquote@</property>
-<property name="context">@context;noquote@</property>
-@text;noquote@'',               -- text
+      ''@text;noquote@'',               -- text
       true                      -- is_live
     );
 
@@ -1231,10 +1222,7 @@ begin
 
     template_id := content_template__new( 
       ''evaluation-grades-sheets-default'', -- name
-      ''<master>
-<property name="title">@title;noquote@</property>
-<property name="context">@context;noquote@</property>
-@text;noquote@'',               -- text
+      ''@text;noquote@'',               -- text
       true                      -- is_live
     );
 

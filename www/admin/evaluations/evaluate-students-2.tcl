@@ -193,8 +193,14 @@ db_transaction {
 	}
 	
 	if { [info exists grades_wa($party_id)] && ![empty_string_p $grades_wa($party_id)] } {
+	    # new file?
+	    if { [db_string grades_wa_new "select count(*) from evaluation_student_evals where party_id = :party_id and task_id = :task_id and content_revision__is_live(evaluation_id) = true"] } {
+		set new_item_p 0
+	    } else {
+		set new_item_p 1
+	    }
 	    set grades_wa($party_id) [expr ($grades_wa($party_id)*100)/$max_grade.0]
-	    set revision_id [evaluation::new_evaluation -new_item_p 1 -item_id $item_ids($party_id) -content_type evaluation_student_evals \
+	    set revision_id [evaluation::new_evaluation -new_item_p $new_item_p -item_id $item_ids($party_id) -content_type evaluation_student_evals \
 				 -content_table evaluation_student_evals -content_id evaluation_id -description $comments_wa($party_id) \
 				 -show_student_p $show_student_wa($party_id) -grade $grades_wa($party_id) -task_id $task_id -party_id $party_id]
 	    
@@ -211,8 +217,14 @@ db_transaction {
 	    set comments_na($party_id) [DoubleApos $comments_na($party_id)]
 	}
 	if { [info exists grades_na($party_id)] && ![empty_string_p $grades_na($party_id)] } {
+	    # new file?
+	    if { [db_string grades_na_new "select count(*) from evaluation_student_evals where party_id = :party_id and task_id = :task_id and content_revision__is_live(evaluation_id) = true"] } {
+		set new_item_p 0
+	    } else {
+		set new_item_p 1
+	    }
 	    set grades_na($party_id) [expr ($grades_na($party_id)*100)/$max_grade.0]
-	    set revision_id [evaluation::new_evaluation -new_item_p 1 -item_id $item_ids($party_id) -content_type evaluation_student_evals \
+	    set revision_id [evaluation::new_evaluation -new_item_p $new_item_p -item_id $item_ids($party_id) -content_type evaluation_student_evals \
 				 -content_table evaluation_student_evals -content_id evaluation_id -description $comments_na($party_id) \
 				 -show_student_p $show_student_na($party_id) -grade $grades_na($party_id) -task_id $task_id -party_id $party_id]
 	    

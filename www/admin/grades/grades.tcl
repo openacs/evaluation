@@ -41,7 +41,7 @@ template::list::create \
             link_html { title "View assignment type distribution" }
         }
         weight {
-            label "[_ evaluation.Weight_]"
+            label "[_ evaluation.lt_Weight_over_100_br__o]"
 	    orderby_asc {weight asc}
 	    orderby_desc {weight desc}
 	    display_template { @grades.weight@% }

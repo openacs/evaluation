@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <queryset>
-   <rdbms><type>postgresql</type><version>7.4</version></rdbms>
+   <rdbms><type>postgresql</type><version>7.3</version></rdbms>
 
 <fullquery name="count_grades_sheets">      
       <querytext>
@@ -11,7 +11,7 @@
       </querytext>
 </fullquery>
 
-<fullquery name="grades_sheets">      
+<fullquery name="get_grades_sheets">      
       <querytext>
 
 	select egs.title as grades_sheet_name,

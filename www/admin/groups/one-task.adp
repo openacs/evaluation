@@ -33,11 +33,14 @@
 </if>
 
 <if @task_groups:rowcount@ gt 0>
+	<a name="groups">
 	<h2>#evaluation.lt_Already_created_group#</h2>
 	<blockquote>
 	<listtemplate name="task_groups"></listtemplate>
 	</blockquote>
 </if>
 
-
+<if @return_url@ not nil>
+<a href="@return_url@">#evaluation.Go#</a>
+</if>
 

@@ -5,6 +5,7 @@
   <msg key="Add_Assignment_">Add Assignment </msg>
   <msg key="Add_Assignment_Type_">Add Assignment Type </msg>
   <msg key="Add_assignment_type_">Add assignment type </msg>
+  <msg key="Add_grade_name_">Add %grade_name% </msg>
   <msg key="Add_Member_to_group_">Add Member to group </msg>
   <msg key="Add_Task_">Add Task </msg>
   <msg key="Add_Task_Solution_">Add Task Solution </msg>
@@ -26,6 +27,51 @@
   <msg key="Audit_info_">Audit info </msg>
   <msg key="Audit_Info__1">Audit Info </msg>
   <msg key="Audit_info_for_task_">Audit info for task </msg>
+  <msg key="Back">#&gt;&quot; onClick=&quot;history.go(-1)&quot;&gt;
+    &lt;/form&gt;
+&lt;/if&gt;
+
+&lt;if %evaluations_na:rowcount% gt 0&gt;
+   &lt;form action=&quot;evaluate-students-2&quot; method+&quot;post&quot;&gt;
+	@export_vars;noquote@
+      &lt;input type=hidden name=task_id value=&quot;%task_id%&quot;&gt;
+      &lt;input type=hidden name=max_grade value=&quot;%max_grade%&quot;&gt;
+		&lt;blockquote&gt;
+        &lt;table&gt;
+          &lt;multiple name=&quot;evaluations_na&quot;&gt;
+                &lt;if %evaluations_na.rownum% odd&gt;&lt;table bgcolor=&quot;#EAF2FF&quot;&gt;&lt;/if&gt;&lt;else&gt;&lt;table bgcolor=&quot;white&quot;&gt;&lt;/else&gt;
+						&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Name#&lt;/th&gt;&lt;td&gt;%evaluations_na.party_name%&lt;/td&gt;&lt;/tr&gt;
+					 	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.grade% / %max_grade%&lt;/td&gt;&lt;/tr&gt;
+                     	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Comments#&lt;/th&gt;&lt;td&gt;%evaluations_na.comment%&lt;/td&gt;&lt;/tr&gt;
+                     	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Will_the_studens_be# &lt;br /&gt; #evaluation.lt_able_to_see_the_grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.show_student%&lt;/td&gt;&lt;/tr&gt;
+                    &lt;/tr&gt;
+					&lt;/table&gt;
+          &lt;/multiple&gt;
+        &lt;/table&gt;
+		&lt;/blockquote&gt;
+        &lt;input type=submit value=&quot;&lt;# Grade Students </msg>
+  <msg key="Back_1">#&gt;&quot; onClick=&quot;history.go(-1)&quot;&gt; 
+    &lt;/form&gt; 
+&lt;/if&gt; 
+&lt;if %evaluations_na:rowcount% gt 0&gt; 
+  &lt;form action=&quot;evaluate-students-2&quot; method+&quot;post&quot;&gt; 
+  @export_vars;noquote@ 
+  &lt;input type=hidden name=task_id value=&quot;%task_id%&quot;&gt; 
+  &lt;input type=hidden name=max_grade value=&quot;%max_grade%&quot;&gt; 
+  &lt;blockquote&gt; 
+  &lt;table&gt; 
+    &lt;multiple name=&quot;evaluations_na&quot;&gt; 
+    &lt;if %evaluations_na.rownum% odd&gt; &lt;table bgcolor=&quot;#EAF2FF&quot;&gt; &lt;/if&gt;
+    &lt;else&gt;&lt;table bgcolor=&quot;white&quot;&gt;&lt;/else&gt; 
+      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Name#&lt;/th&gt;&lt;td&gt;%evaluations_na.party_name%&lt;/td&gt;&lt;/tr&gt; 
+      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.grade% / %max_grade%&lt;/td&gt;&lt;/tr&gt; 
+      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Comments#&lt;/th&gt;&lt;td&gt;%evaluations_na.comment%&lt;/td&gt;&lt;/tr&gt; 
+      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Will_the_studens_be# &lt;br /&gt; #evaluation.lt_able_to_see_the_grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.show_student%&lt;/td&gt;&lt;/tr&gt; &lt;/tr&gt; 
+    &lt;/table&gt; 
+    &lt;/multiple&gt; 
+  &lt;/table&gt; 
+  &lt;/blockquote&gt; 
+  &lt;input type=submit value=&quot;&lt;# Grade Students </msg>
   <msg key="Bad_input_">Bad input </msg>
   <msg key="Change_Answer_">Change Answer </msg>
   <msg key="Click">Click</msg>
@@ -50,6 +96,7 @@
   <msg key="Due_Date_1">Due Date</msg>
   <msg key="Edit_evaluation_">Edit evaluation </msg>
   <msg key="Edit_Evaluations_">Edit Evaluations </msg>
+  <msg key="Edit_grade_name_">Edit %grade_name% </msg>
   <msg key="Edit_Reason">Edit Reason:</msg>
   <msg key="Edit_Reason_">Edit Reason </msg>
   <msg key="Edit_Task_">Edit Task </msg>
@@ -67,6 +114,7 @@
   <msg key="File_">File </msg>
   <msg key="Fileurl_associated">File/url associated</msg>
   <msg key="Generate_file">Generate file</msg>
+  <msg key="Go">Back </msg>
   <msg key="Go_Back">Go Back</msg>
   <msg key="Grade">Grade:</msg>
   <msg key="Grade_">Grade </msg>
@@ -107,6 +155,7 @@
   <msg key="here">here</msg>
   <msg key="How_does_this_work">How does this work?</msg>
   <msg key="Id_">Id </msg>
+  <msg key="If">you want to see the group members, click on the name of the group </msg>
   <msg key="Individual_">Individual </msg>
   <msg key="Insert_Failed_">Insert Failed </msg>
   <msg key="Is_live_">Is live? </msg>
@@ -182,6 +231,7 @@
   <msg key="lt_If_you_click_on_the_s">If you click on the student name, you will see the grades report for that student.</msg>
   <msg key="lt_If_you_do_not_want_to">If you do not want to grade or edit the grade of a student/group, just leave intact the fields of that row, or you can delete the whole row.</msg>
   <msg key="lt_if_you_do_not_want_to">if you do not want to see the portraits of the students</msg>
+  <msg key="lt_If_you_enter_the_net_">If you enter the net value, it must be less than %grade_weight%, which is the net value of %grade_plural_name% over the 100 points of the class. &lt;br /&gt; After uploading the %grade_name%, the system will do the convertion and the net value will be represented as a percentage. </msg>
   <msg key="lt_if_you_want_to_downlo">if you want to download all the answers in one file</msg>
   <msg key="lt_if_you_want_to_see_th">if you want to see the portraits of the students</msg>
   <msg key="lt_In_order_to_generate_">In order to generate this file there must be some parties assigned to this task. </msg>
@@ -262,8 +312,10 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_The_grade_must_be_a_R">The grade must be a REAL NUMBER.</msg>
   <msg key="lt_The_grade_must_be_a_v">The grade must be a valid number: %wrong_grade% </msg>
   <msg key="lt_The_grade_must_be_a_v_1">The grade must be a valid number </msg>
+  <msg key="lt_The_net_value_must_be">The net value must be grather than 0 and less than $grade_weight, and you can not enter Net Value AND Weight. </msg>
   <msg key="lt_The_sum_of_the_weight">The sum of the weight of all the assignment types is %total_weight% and it should be 100 by the end of the term(supposedly). </msg>
   <msg key="lt_The_system_assumes_th">The system assumes that the grades start at the 7th line of the file.</msg>
+  <msg key="lt_The_weight_must_be_gr">The weight must be grather than 0, and you can not enter Net Value AND Weight. </msg>
   <msg key="lt_There_are_no_edit">There are no grades to edit</msg>
   <msg key="lt_There_are_no_files_as">There are no files associated with this task </msg>
   <msg key="lt_There_are_no_grades_f">There are no grades for this group. </msg>
@@ -327,6 +379,12 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_We_got_the_following__1">We got the following error while trying to remove the grade: &lt;pre&gt;%errmsg%&lt;/pre&gt; </msg>
   <msg key="lt_We_got_the_following__2">We got the following error while trying to remove the task: &lt;pre&gt;%errmsg%&lt;/pre&gt; </msg>
   <msg key="lt_Weight_must_be_a_real">Weight must be a real number and between 0 and 100 </msg>
+  <msg key="lt_Weight_over_100_br__o">Weight over 100% &lt;br /&gt; of the Course </msg>
+  <msg key="lt_Weight_over_grade_wei">Weight over %grade_weight%% &lt;br /&gt; of %grade_plural_name% </msg>
+  <msg key="lt_Weight_over_grade_wei_1">Weight over %grade_weight%% of %grade_plural_name%&quot;}
+	{html {size 5}}
+	{help_text &quot;&lt;#_ You can enter the weight over %grade_weight%% of %grade_plural_name% or you can enter the net value of it in the field below. </msg>
+  <msg key="lt_Weight_over_grade_wei_2">Weight over %grade_weight%% of %grade_plural_name% </msg>
   <msg key="lt_Weight_used_in_grade_">Weight used in $grade_plural_name: ${category_weight}% (of 100% of $grade_plural_name) &lt;br /&gt;
                     $grade_plural_name represents ${grade_weight}% of the 100% of the class </msg>
   <msg key="lt_Weight_used_in_grade__1">Weight used in %grade_plural_name%: ${category_weight}% (of 100% of $grade_plural_name) &lt;br /&gt;
@@ -345,6 +403,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_Yes_I_really_want_to__3">Yes, I really want to remove this task </msg>
   <msg key="lt_You_can_also_add_a_st">You can also add a student to an existing group by clicking on the &quot;Associate to group...&quot; link. Here you will be asked to select the group to wich you want to add the user.</msg>
   <msg key="lt_You_can_associate_a_l">You can associate a link to this task by entering the absolute url here (also optional) </msg>
+  <msg key="lt_You_can_enter_the_wei">You can enter the weight over %grade_weight%% of %grade_plural_name% or you can enter the net value of it in the field below. </msg>
   <msg key="lt_You_can_order_the_gra">You can order the grade report by the name of the student, by the total grade, or by any of the assignment types, or see the assignment type details by clicking on the view icon at the left of the assignment type name.</msg>
   <msg key="lt_You_can_order_the_gra_1">You can order the grade report by the name of the student, by the total grade, or by any of the assignments of this assignment type.</msg>
   <msg key="lt_You_can_see_the_csv_f">You can see the csv files associated with the task by clicking on the &quot;See grades sheets associated with this task&quot; botton.</msg>
@@ -360,6 +419,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="Name">Name:</msg>
   <msg key="Name_">Name </msg>
   <msg key="Name_student_name">Name: %student_name%</msg>
+  <msg key="Net_Value_">Net Value </msg>
   <msg key="Net_value_">Net value </msg>
   <msg key="NEW_answer_">(NEW answer) </msg>
   <msg key="New_Assignment_">New Assignment </msg>
@@ -375,6 +435,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="Not_answered_">Not answered </msg>
   <msg key="Not_available_">Not available </msg>
   <msg key="Not_evaluated_">Not evaluated </msg>
+  <msg key="Note">that if you unassociate ALL the members or the group, THE GROUP WILL BE DELETED. </msg>
   <msg key="Number_of_Integrants">Number of Integrants</msg>
   <msg key="Number_of_Members_">Number of Members </msg>
   <msg key="One_Assignment_">One Assignment </msg>
@@ -388,6 +449,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="Rename">Group </msg>
   <msg key="Requires_Grade_">Requires Grade? </msg>
   <msg key="Reuse_Groups_">Reuse Groups </msg>
+  <msg key="Send">file </msg>
   <msg key="Solution_Attachment_">Solution Attachment </msg>
   <msg key="Studen_List_">Studen List </msg>
   <msg key="Student_List_">Student List </msg>
@@ -407,6 +469,8 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="Tasks_">Tasks </msg>
   <msg key="Tasks_for_students_">Tasks for students </msg>
   <msg key="Tasks_List_">Tasks List </msg>
+  <msg key="Theese">are the evaluated students. Note that if you evaluated them over a grad different from 100, the system automatically did the conversion so the grade will be shown over 100 points. </msg>
+  <msg key="There">are no groups for this assignment yet. </msg>
   <msg key="Total_">Total </msg>
   <msg key="Total_current_grade_">Total current grade: </msg>
   <msg key="Total_Grade_">Total Grade </msg>
@@ -437,4 +501,5 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="Y">upi , pero no yupin</msg>
   <msg key="Yes">Yes</msg>
   <msg key="Yes_">Yes </msg>
+  <msg key="evaluationpagename">Class Material </msg>
 </message_catalog>

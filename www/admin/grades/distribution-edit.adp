@@ -8,6 +8,7 @@
 </if>
 
 <if @grades:rowcount@ gt 0>
+<p><# @grade_plural_name@ represents the @grade_weight@% of the 100% of the grade of the class. #></p>
    <form action="distribution-edit-2">
       <input type=hidden name=grade_id value="@grade_id@">
 		<blockquote>

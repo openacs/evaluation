@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <queryset>
-   <rdbms><type>postgresql</type><version>7.4</version></rdbms>
+   <rdbms><type>postgresql</type><version>7.3</version></rdbms>
 
 <fullquery name="evaluation::new_grade.content_item_new">      
       <querytext>
@@ -456,12 +456,22 @@
       </querytext>
 </partialquery>
 
+<fullquery name="evaluation::generate_grades_sheet.get_task_info">      
+      <querytext>
+
+	select et.task_name, et.number_of_members
+               from evaluation_tasks et
+               where et.task_id = :task_id
+
+      </querytext>
+</fullquery>
+
 <partialquery name="evaluation::generate_grades_sheet.sql_query_groups">      
       <querytext>
 
-	"select etg.group_id as party_id, 
+	select etg.group_id as party_id, 
 		g.group_name as party_name,  
-                ese.grade,
+                grade,
                 ese.description as comments
          from groups g,
               evaluation_task_groups etg left outer join evaluation_student_evalsi ese on (ese.party_id = etg.group_id

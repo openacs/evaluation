@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <queryset>
-   <rdbms><type>postgresql</type><version>7.4</version></rdbms>
+   <rdbms><type>postgresql</type><version>7.3</version></rdbms>
 
 <fullquery name="get_grade_info">      
       <querytext>
@@ -80,6 +80,22 @@
 		content_revision__content_copy(:task_id, :revision_id)
 
      </querytext>
+</fullquery>
+
+<fullquery name="get_user_comunities">      
+      <querytext>
+
+    	select count(*)
+    	from dotlrn_communities_all,
+    	dotlrn_member_rels_approved,
+    	dotlrn_classes
+    	where dotlrn_communities_all.community_id = dotlrn_member_rels_approved.community_id
+    	and dotlrn_communities_all.community_type = dotlrn_classes.class_key
+    	and dotlrn_member_rels_approved.user_id = :user_id
+    	and acs_permission__permission_p(dotlrn_communities_all.community_id, :user_id, 'admin') = true
+	and dotlrn_communities_all.community_id <> [dotlrn_community::get_community_id]
+	
+      </querytext>
 </fullquery>
 
 </queryset>

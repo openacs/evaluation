@@ -2,6 +2,8 @@
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 
+@portal_id@ - @page_id@ - @layout_id@ - @ds_id@
+
 <h2>#evaluation.Assignment_Types#</h2>
 <ul>
 <li><a href="grades/grades">#evaluation.lt_Admin_my_Assignment_T#</a></li>

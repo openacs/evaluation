@@ -22,8 +22,10 @@ set elements [list task_name \
 		       orderby_asc {task_name asc} \
 		       orderby_desc {task_name desc}] \
 		  task_weight \
-		  [list label "[_ evaluation.Weight_]" \
-		       display_template { <input size=3 maxlength=6 type=text name=weights.@grades.task_id@ value=@grades.task_weight@> } \
+		  [list label "[_ evaluation.lt_Weight_over_grade_wei]" \
+		       display_template { <input size=3 maxlength=6 type=text name=weights.@grades.task_id@ value=@grades.task_weight@>% } \
+		       aggregate sum \
+		       aggregate_label { Total }
 		      ] \
 		  requires_grade \
 		  [list label "[_ evaluation.Requires_Grade_]" \

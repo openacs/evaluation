@@ -194,27 +194,32 @@ ad_proc -private evaluation::now_plus_days { -ndays } {
     @author jopez@galileo.edu
     @creation-date Mar 2004
 } {
-	set now [list]
-	foreach v [clock format [clock seconds] -format "%Y %m %d %H %M %S"] {
-		lappend now [template::util::leadingTrim $v]
-	}
-
-	set day [lindex $now 2]
-	set month [lindex $now 1]
-	set interval_def [template::util::date::defaultInterval day]
-	for { set i [lindex $interval_def 0] }  { $i <= 15 }  { incr i 1 } {
-		incr day
-		if { [expr $day + $i] >= [lindex $interval_def 1] } {
-			incr month 1
-			set day 1
-		}
-	}
+    set now [list]
+    foreach v [clock format [clock seconds] -format "%Y %m %d %H %M %S"] {
+	lappend now [template::util::leadingTrim $v]
+    }
     
-	# replace the hour and minute values in the now list with new values
-	set now [lreplace $now 2 2 $day]
-	set now [lreplace $now 1 1 $month]
-
-	return [eval template::util::date::create $now]
+    set day [lindex $now 2]
+    set month [lindex $now 1]
+    set interval_def [template::util::date::defaultInterval day]
+    for { set i [lindex $interval_def 0] }  { $i <= 15 }  { incr i 1 } {
+	incr day
+	if { [expr $day + $i] >= [lindex $interval_def 1] } {
+	    incr month 1
+	    set day 1
+	}
+    }
+    
+    # replace the hour and minute values in the now list with new values
+    set now [lreplace $now 2 2 $day]
+    set now [lreplace $now 1 1 $month]
+ 
+    # set default time
+    set now [lreplace $now 3 3 23]    
+    set now [lreplace $now 4 4 59]    
+    set now [lreplace $now 5 5 59]    
+    
+    return [eval template::util::date::create $now]
 }
 
 ad_proc -public evaluation::clone_task {
@@ -544,9 +549,7 @@ ad_proc -public evaluation::generate_grades_sheet {} {
 	
     regexp {/grades-sheet-csv-([^.]+).csv$} $url match task_id  
 	
-    if { ![db_0or1row get_task_info "select et.task_name, et.number_of_members
-                                 from evaluation_tasks et
-                                 where et.task_id = :task_id"] } { 
+    if { ![db_0or1row get_task_info { *SQL* }] } { 
 		# this should never happen
         ad_return_error "No information" "There has been an error, there is no infomraiton about the task $task_id"
         return 
@@ -576,9 +579,12 @@ ad_proc -public evaluation::generate_grades_sheet {} {
 	}
 	
     db_foreach parties_with_to_grade { *SQL* } {
+	if { ![empty_string_p $grade] } {
+	    set grade [format %.2f [lc_numeric $grade]]
+	}
 	    lappend csv_content "\n$party_id" 
 	    lappend csv_content "$party_name" 
-	    lappend csv_content "[format %.2f [lc_numeric $grade]]" 
+	    lappend csv_content "$grade" 
 	    lappend csv_content "$comments" 
 	} if_no_rows { 
 		ad_return_error "[_ evaluation.No_parties_to_grade_]" "[_ evaluation.lt_In_order_to_generate_]"

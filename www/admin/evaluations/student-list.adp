@@ -30,7 +30,7 @@
 </table>
 
 <h2>#evaluation.lt_Evaluated_Students_to#</h2>
-<p><_ Theese are the evaluated students. Note that if you evaluated them over a grad different from 100, the system automatically did the conversion so the grade will be shown over 100 points. ></p>
+<p>#evaluation.Theese#</p>
 <blockquote><listtemplate name="evaluated_students"></listtemplate></blockquote>
 <br />
 <h2>#evaluation.lt_Students_with_answers#</h2>
@@ -44,7 +44,9 @@
  </if><else>
 	<p>#evaluation.Click# <a href=@this_url@> #evaluation.here# </a> #evaluation.lt_if_you_want_to_see_th#</p>
  </else>
-</if>
+</if><else>
+<p>#evaluation.If#</p>
+</else>
 <form action="evaluate-students" method="post">
     <input type=hidden name=task_id value="@task_id@">
     <input type=hidden name=grade_id value="@grade_id@">
@@ -61,7 +63,7 @@
           <tr> 
           <th style="text-align:right;">#evaluation.lt_Grade_students_using_#</th> 
           <td><input type="file" name="upload_file"></td> 
-          <td colspan=2 style="text-align:right;"><input type="submit" value="Send file"></td> 
+          <td colspan=2 style="text-align:right;"><input type="submit" value="#evaluation.Send#"></td> 
           </tr> 
           <tr> 
           <td><a href="grades-sheet-csv-@task_id@.csv">#evaluation.Generate_file#</a></td> 
@@ -84,7 +86,9 @@
  </if><else>
 	<p>#evaluation.Click# <a href=@this_url@> #evaluation.here# </a> #evaluation.lt_if_you_want_to_see_th#</p>
  </else>
-</if>
+</if><else>
+<p>#evaluation.If#</p>
+</else>
 
 <if @not_evaluated_na:rowcount@ gt 0>
 <form action="evaluate-students" method="post">
@@ -107,7 +111,7 @@
           <tr> 
           <th style="text-align:right;">#evaluation.lt_Grade_students_using_#</th> 
           <td><input type="file" name="upload_file"></td> 
-          <td colspan=2 style="text-align:right;"><input type="submit" value="Send file"></td> 
+          <td colspan=2 style="text-align:right;"><input type="submit" value="#evaluation.Send#"></td> 
           </tr> 
           <tr> 
           <td><a href="grades-sheet-csv-@task_id@.csv">#evaluation.Generate_file#</a></td> 

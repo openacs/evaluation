@@ -11,16 +11,15 @@ ad_page_contract {
 } {
     task_id:integer,notnull
     {show_portrait_p ""}
-    {return_url "student-list?[export_vars -url { task_id }]"}
+    {return_url "[ad_conn url]?[export_vars -url { task_id }]"}
     {orderby_wa:optional}
     {orderby_na:optional}
     {orderby:optional}
 } 
 
 set user_id [ad_conn user_id]
-
 set page_title "[_ evaluation.Student_List_]"
-set context { "[_ evaluation.Student_List_]" }
+set context [list "[_ evaluation.Student_List_]"]
 
 if { [string eq $show_portrait_p "t"] } {
     set this_url "student-list?[export_vars -entire_form -url { { show_portrait_p f } }]"
@@ -155,7 +154,9 @@ set not_evaluated_with_answer [db_string get_not_eval_wa { *SQL* }]
 set elements [list party_name \
 		  [list label "[_ evaluation.Name_]" \
 		       orderby_asc {party_name asc} \
-		       orderby_desc {party_name desc}]
+		       orderby_desc {party_name desc} \
+		       link_url_col party_url \
+		  ] \
 	     ]
 
 if { [string eq $show_portrait_p "t"] && [string eq $number_of_members "1"] } {
@@ -201,10 +202,12 @@ if { [string equal $orderby_wa ""] } {
     set orderby_wa " order by party_name asc"
 }
 
-db_multirow -extend { answer answer_url submission_date_pretty portrait } not_evaluated_wa get_not_evaluated_wa_students { *SQL* } {
+db_multirow -extend { party_url answer answer_url submission_date_pretty portrait } not_evaluated_wa get_not_evaluated_wa_students { *SQL* } {
     
     if { $number_of_members == 1 } {
 	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id { {alt "[_ evaluation.lt_No_portrait_for_party]"} }]</a>"
+    } else {
+	set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
     }
 
     lappend done_students $party_id
@@ -232,7 +235,9 @@ db_multirow -extend { answer answer_url submission_date_pretty portrait } not_ev
 set elements [list party_name \
 		  [list label "[_ evaluation.Name_]" \
 		       orderby_asc {party_name asc} \
-		       orderby_desc {party_name desc}] \
+		       orderby_desc {party_name desc} \
+		       link_url_col party_url \
+		  ] \
 		 ]
 
 if { [string eq $show_portrait_p "t"] && [string eq $number_of_members "1"] } {
@@ -298,12 +303,13 @@ if { $number_of_members > 1 } {
 
 }
 
-db_multirow -extend { portrait } not_evaluated_na get_not_evaluated_na_students { *SQL* } {
+db_multirow -extend { party_url portrait } not_evaluated_na get_not_evaluated_na_students { *SQL* } {
     
     if { $number_of_members == 1 } {
 	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id { {alt "[_ evaluation.lt_No_portrait_for_party]"} }]</a>"
+    } else {
+	set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
     }
-    
 }
 
 set grades_sheet_item_id [db_nextval acs_object_id_seq]

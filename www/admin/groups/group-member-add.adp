@@ -8,7 +8,9 @@
 <listtemplate name="evaluation_groups"></listtemplate>
 </blockquote>
 </form>
-</if>
+</if><else>
+<p>#evaluation.There#</p>
+</else>
 
 
 

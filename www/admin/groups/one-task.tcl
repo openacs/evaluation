@@ -10,7 +10,7 @@ ad_page_contract {
 	task_id:integer,notnull
 	{orderby:optional}
 	{orderby_groups:optional}
-	{return_url "one-task?[export_vars -url { task_id }]"}
+	{return_url ""}
 } -validate {
 	group_task {
 		if { [string eq [db_string get_number_of_members { *SQL* }] 1] } {
@@ -53,8 +53,8 @@ template::list::create \
     -name students_without_group \
     -multirow students_without_group \
     -key student_id \
-    -pass_properties { return_url student_id } \
-    -filters { task_id {} } \
+    -pass_properties { student_id } \
+    -filters { task_id {} return_url {} } \
     -elements $elements 
 
 
@@ -92,8 +92,8 @@ template::list::create \
     -name task_groups \
     -multirow task_groups \
     -key evaluation_group_id \
-    -pass_properties { return_url evaluation_group_id } \
-    -filters { task_id {} } \
+    -pass_properties { evaluation_group_id } \
+    -filters { task_id {} return_url {} } \
     -orderby_name orderby_groups \
     -elements $elements 
 

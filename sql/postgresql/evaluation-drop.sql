@@ -203,7 +203,7 @@ drop function evaluation__delete_answer (integer);
 
 drop function evaluation__new_student_eval (integer, integer, integer, integer, numeric, char, text, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
 
-drop function evaluation__delete_student_eval (integer)
+drop function evaluation__delete_student_eval (integer);
 
 ---------------------------------------
 -- STUDENT EVALUATIONS

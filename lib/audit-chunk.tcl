@@ -10,10 +10,12 @@ template::list::create \
     -name grade_tasks \
     -multirow grade_tasks \
     -key task_name \
+    -filters { task_id {} } \
     -pass_properties { return_url } \
+    -orderby { default_value last_modified } \
     -elements {
         task_grade {
-            label "[_ evaluation.Name_]"
+            label "[_ evaluation.Grade_]"
 	    orderby_asc {task_grade asc}
 	    orderby_desc {task_grade desc}
         }
@@ -44,5 +46,12 @@ template::list::create \
 
 db_multirow -extend { last_modified_pretty } grade_tasks get_task_audit_info { *SQL* } {
     set last_modified_pretty [lc_time_fmt $last_modified_ansi "%q"]
+
+    if { $is_live } {
+	set is_live "[_ evaluation.Yes_]"
+    } else {
+	set is_live "[_ evaluation.No_]"
+    }
+
 }
 

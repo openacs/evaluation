@@ -55,7 +55,7 @@ if {[string equal $orderby ""]} {
 db_multirow -extend { answer answer_url radio_yes_checked radio_no_checked submission_date_pretty } evaluated_students get_evaluated_students { *SQL* } {
 
     set submission_date_pretty [lc_time_fmt $submission_date_ansi "%q"]
-    set grade [format %.2f [lc_numeric [$grade]]
+    set grade [format %.2f [lc_numeric $grade]]
 	if { [string eq $online_p "t"] } {
 		# working with answer stuff (if it has a file/url attached)
 		if { [empty_string_p $answer_data] } {

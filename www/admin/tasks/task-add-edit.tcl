@@ -19,13 +19,15 @@ ad_page_contract {
 }
 
 set package_id [ad_conn package_id]
+set user_id [ad_conn user_id]
 
 set community_id [dotlrn_community::get_community_id]
 set new_p [ad_form_new_p -key task_id] 
+db_1row get_grade_info { *SQL* }
 if { $new_p } {
-    set page_title "[_ evaluation.Add_Task_]"
+    set page_title "[_ evaluation.Add_grade_name_]"
 } else {
-    set page_title "[_ evaluation.Edit_Task_]"
+    set page_title "[_ evaluation.Edit_grade_name_]"
 }
 
 if { [info exists admin_groups_p] } {
@@ -35,8 +37,6 @@ if { [info exists admin_groups_p] } {
     set div_visibility hidden
     set checked_p ""
 }
-
-db_1row get_grade_info { *SQL* }
 
 set context [list $page_title]
 
@@ -181,7 +181,7 @@ ad_form -extend -name task -form {
 
     {due_date:date,to_sql(linear_date),from_sql(sql_date)
 	{label "[_ evaluation.Due_Date_]"}
-	{format "MONTH DD YYYY"}
+	{format "MONTH DD YYYY HH24 MI SS"}
 	{today}
 	{help}
 	{value {[evaluation::now_plus_days -ndays 15]}}
@@ -195,10 +195,18 @@ ad_form -extend -name task -form {
 	{after_html {<div id="silentDiv" style="visibility:$div_visibility;"><div class="form-help-text"><input type="checkbox" name="admin_groups_p" $checked_p> [_ evaluation.lt_Check_this_if_you_wan_1] </div></div>}}
     }
 
-    {weight:float  
-	{label "[_ evaluation.Weight_]"}
+    {weight:float,optional
+	{label "[_ evaluation.lt_Weight_over_grade_wei_2]"}
+	{html {size 5}} 
+	{help_text "[_ evaluation.lt_You_can_enter_the_wei]"}
+	{value "0"}
+    }
+
+    {net_value:float,optional
+	{label "[_ evaluation.Net_Value_]"}
 	{html {size 5}}
-	{help_text "[_ evaluation.lt_over_grade_weight_of_]"}
+	{help_text "[_ evaluation.lt_If_you_enter_the_net_]"}
+	{value "0"}
     }
     
     {online_p:text(radio)     
@@ -220,7 +228,7 @@ ad_form -extend -name task -form {
     }
 }
 
-if { $new_p && ![empty_string_p $community_id] } {
+if { $new_p && ![empty_string_p $community_id] && [db_string get_user_comunities { *SQL* }] } {
     ad_form -extend -name task -form {
 	{add_to_more_classes_p:text(checkbox),optional 
 	    {label "[_ evaluation.lt_Add_this_assignment_t]"} 
@@ -256,6 +264,14 @@ ad_form -extend -name task -form {
 	{ ([string eq $unattach_p "t"] && [empty_string_p $upload_file] && [string eq $url "http://"]) || [empty_string_p $unattach_p] }
 	{ [_ evaluation.lt_First_unattach_the_fi] }
     }
+    {net_value 
+	{ [string eq [format %.2f $net_value] 0.00] || ([empty_string_p $net_value] && [string eq $requires_grade_p f]) || (($net_value > 0) && ($net_value <= $grade_weight) && ([string eq [format %.2f $weight] 0.00] || [empty_string_p $weight])) }
+	{ [_ evaluation.lt_The_net_value_must_be] }
+    }
+    {weight
+	{ [string eq [format %.2f $weight] 0.00] || ([empty_string_p $weight] && [string eq $requires_grade_p f]) || (($weight > 0) && ([string eq [format %.2f $net_value] 0.00] || [empty_string_p $net_value])) }
+	{ [_ evaluation.lt_The_weight_must_be_gr] }
+    }
 } -new_data {
     
     evaluation::notification::do_notification -task_id $revision_id -package_id [ad_conn package_id] -edit_p 0 -notif_type one_assignment_notif
@@ -266,6 +282,14 @@ ad_form -extend -name task -form {
 
 } -on_submit {
     
+    if { [string eq $requires_grade_p t] } {
+	if { [info exists net_value] && ($net_value > 0) } {
+	    set weight [expr $net_value*100.000/$grade_weight]
+	}
+    } else {
+	set weight 0
+    }
+
     db_transaction {
 	
 	set mime_type "text/plain"

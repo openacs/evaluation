@@ -5,8 +5,5 @@
 <if @communities_count@ gt 0>
 <p>#evaluation.lt_The_assignment_task_n# <br />#evaluation.lt_Check_the_rest_of_com#</p>
 <blockquote><formtemplate id="communities"></formtemplate></blockquote>
-</if><else>
-#evaluation.lt_There_are_no_more_com# <br />
-#evaluation.lt_If_you_administer_mor#
-</else>
+</if>
 

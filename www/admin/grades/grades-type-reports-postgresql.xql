@@ -1,5 +1,5 @@
 <queryset>
-   <rdbms><type>postgresql</type><version>7.4</version></rdbms>
+   <rdbms><type>postgresql</type><version>7.3</version></rdbms>
 
 <fullquery name="grade_task">      
       <querytext>

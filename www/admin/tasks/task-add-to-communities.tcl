@@ -45,6 +45,9 @@ db_foreach get_user_comunities { *SQL* } {
 				       ]
 	}
     }
+} if_no_rows {
+    ad_returnredirect $return_url
+    ad_script_abort    
 }
 
 ad_form -extend -name communities -form $form_elements
