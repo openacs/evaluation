@@ -28,7 +28,7 @@ db_multirow grades get_grades { *SQL* } {
 	
 }
 
-set total_class_grade [format %.2f [lc_numeric [db_string get_total_grade { *SQL* }]]]
-set max_possible_grade [format %.2f [lc_numeric [db_string max_possible_grade { *SQL* }]]]
+set total_class_grade [lc_numeric [db_string get_total_grade { *SQL* }]]
+set max_possible_grade [lc_numeric [db_string max_possible_grade { *SQL* }]]
 
 ad_return_template

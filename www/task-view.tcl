@@ -120,7 +120,7 @@ ad_form -extend -name task -form {
     db_1row task_info { *SQL* }
 
     set due_date [template::util::date::from_ansi $due_date_ansi]
-    set weight [format %.2f [lc_numeric $weight]]
+    set weight [lc_numeric %.2f $weight]
 
 }
 

@@ -99,10 +99,10 @@ db_multirow -extend { task_status due_date_pretty assignment_group grade net_gra
 
     if { ![empty_string_p $grade] } {
 
-	set grade [format %.2f [lc_numeric $grade]]
-	set over_weight "[format %.2f [lc_numeric $net_grade]]/"
+	set grade [lc_numeric $grade]
+	set over_weight "[lc_numeric $net_grade]/"
 	set total_grade [expr $total_grade + $net_grade]
-	set net_grade [format %.2f [lc_numeric $net_grade]]
+	set net_grade [lc_numeric $net_grade]
 	set task_status "[_ evaluation.Evaluated_]"
     } else {
 	set net_grade "[_ evaluation.na_]"
@@ -117,7 +117,7 @@ db_multirow -extend { task_status due_date_pretty assignment_group grade net_gra
 
     set max_grade [expr $task_weight + $max_grade] 
 
-    set task_weight "${over_weight}[format %.2f [lc_numeric $task_weight]]"
+    set task_weight "${over_weight}[lc_numeric $task_weight]"
     
     set group_id [db_string get_group_id { *SQL* }]
     if { $number_of_members > 1 } {
@@ -133,6 +133,6 @@ db_multirow -extend { task_status due_date_pretty assignment_group grade net_gra
     
 }
 
-set total_grade [format %.2f [lc_numeric [expr $total_grade]]]
-set max_grade [format %.2f [lc_numeric $max_grade]]
-set grade_weight [format %.2f [lc_numeric $grade_weight]]
+set total_grade [lc_numeric [expr $total_grade]]
+set max_grade [lc_numeric $max_grade]
+set grade_weight [lc_numeric $grade_weight]

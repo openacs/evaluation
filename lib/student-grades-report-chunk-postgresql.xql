@@ -28,10 +28,10 @@
     select et.task_name, 
     et.task_item_id,
     eg.weight as g_weight,
-    eg.weight as grade_weight,
+    round(eg.weight,2) as grade_weight,
     et.task_id,
     et.weight as t_weight,
-    (et.weight*eg.weight)/100 as task_weight,
+    round((et.weight*eg.weight)/100,2) as task_weight,
     et.number_of_members,
     to_char(et.due_date, 'YYYY-MM-DD HH24:MI:SS') as due_date_ansi, 
     et.online_p
@@ -84,9 +84,9 @@
 <fullquery name="get_grade_info">      
       <querytext>
 
-	select ese.grade,
+	select round(ese.grade,2) as grade,
 	ese.description as comments,
-	(ese.grade*:t_weight*:g_weight)/10000 as net_grade,
+	round((ese.grade*:t_weight*:g_weight)/10000,2) as net_grade,
 	person__name(ese.creation_user) as grader_name
 	from evaluation_student_evalsi ese,
 	cr_items cri, 

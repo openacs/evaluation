@@ -34,9 +34,9 @@ db_0or1row get_answer_info { *SQL* }
 
 set due_date [template::util::date::from_ansi $due_date_ansi]
 set evaluation_date [template::util::date::from_ansi $evaluation_date_ansi]
-set task_weight [format %.2f [lc_numeric $task_weight]]
-set grade_weight [format %.2f [lc_numeric $grade_weight]]
-set net_grade [format %.2f [lc_numeric $net_grade]]
+set task_weight [lc_numeric %.2f $task_weight]
+set grade_weight [lc_numeric %.2f $grade_weight]
+set net_grade [lc_numeric %.2f $net_grade]
 
 if { ![empty_string_p $answer_data] } {
     

@@ -49,7 +49,7 @@ ad_form -name grade -cancel_url [export_vars -base grades { }] -export { } -form
 } -edit_request {
 	
 	db_1row get_grade_info { *SQL* }
-	set weight [format %.2f [lc_numeric $weight]]
+	set weight [lc_numeric %.2f $weight]
 	set grade_id $item_id
 
 } -validate {

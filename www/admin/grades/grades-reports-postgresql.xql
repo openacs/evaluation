@@ -20,7 +20,7 @@
 
 	    select eg.grade_id, 
 		eg.grade_plural_name,
-		eg.weight
+		round(eg.weight,0) as weight
    	    from evaluation_grades eg, acs_objects ao, cr_items cri
 		where cri.live_revision = eg.grade_id
           and eg.grade_item_id = ao.object_id

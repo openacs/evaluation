@@ -49,7 +49,7 @@ if { [string equal $orderby ""] } {
 
 db_multirow -extend { radio_yes_checked radio_no_checked } grades get_grade_tasks { *SQL* } {
     
-    set task_weight [format %.2f [lc_numeric $task_weight]]
+    set task_weight [lc_numeric %.2f $task_weight]
     if { [string eq $requires_grade_p "t"] } {
 	set radio_yes_checked "checked"
 	set radio_no_checked ""

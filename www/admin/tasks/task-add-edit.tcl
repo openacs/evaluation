@@ -245,7 +245,7 @@ ad_form -extend -name task -form {
     db_1row task_info { *SQL* }
 
     set due_date [template::util::date::from_ansi $due_date_ansi "YYYY-MM-DD HH24:MI:SS"]
-    set weight [format %.2f [lc_numeric $weight]]
+    set weight [lc_numeric %.2f $weight]
 
 } -validate {
     {url
@@ -261,11 +261,11 @@ ad_form -extend -name task -form {
 	{ [_ evaluation.lt_First_unattach_the_fi] }
     }
     {net_value 
-	{ [string eq [format %.2f $net_value] 0.00] || ([empty_string_p $net_value] && [string eq $requires_grade_p f]) || (($net_value > 0) && ($net_value <= $grade_weight) && ([string eq [format %.2f $weight] 0.00] || [empty_string_p $weight])) }
+	{ !$net_value || ([empty_string_p $net_value] && [string eq $requires_grade_p f]) || (($net_value > 0) && ($net_value <= $grade_weight) && (!$weight || [empty_string_p $weight])) }
 	{ [_ evaluation.lt_The_net_value_must_be] }
     }
     {weight
-	{ [string eq [format %.2f $weight] 0.00] || ([empty_string_p $weight] && [string eq $requires_grade_p f]) || (($weight > 0) && ([string eq [format %.2f $net_value] 0.00] || [empty_string_p $net_value])) }
+	{ !$weight || ([empty_string_p $weight] && [string eq $requires_grade_p f]) || (($weight > 0) && (!$net_value || [empty_string_p $net_value])) }
 	{ [_ evaluation.lt_The_weight_must_be_gr] }
     }
     {number_of_members

@@ -32,7 +32,7 @@
 <fullquery name="max_possible_grade">      
       <querytext>
 
-    select sum(et.weight*eg.weight/100)
+    select round(sum(et.weight*eg.weight/100),2)
     from evaluation_tasks et,
     evaluation_grades eg,
     cr_items cri1,
@@ -51,7 +51,7 @@
 <fullquery name="get_total_grade">      
       <querytext>
 
-        select coalesce(sum((ese.grade*et.weight*eg.weight)/10000),0) as grade
+        select coalesce(round(sum((ese.grade*et.weight*eg.weight)/10000),2),0) as grade
         from evaluation_grades eg, evaluation_tasks et, evaluation_student_evals ese, acs_objects ao
         where et.task_item_id = ese.task_item_id
 		  and et.grade_item_id = eg.grade_item_id

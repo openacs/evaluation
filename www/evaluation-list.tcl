@@ -20,7 +20,7 @@ set admin_p [permission::permission_p -party_id $user_id -object_id $package_id 
 if { $admin_p } {
     set actions "<a href=[export_vars -base "admin/grades/grades" { }]>[_ evaluation.Grade_Distribution_]</a>"
 } else {
-    set actions "[_ evaluation.Total_current_grade_] [format %.2f [lc_numeric [db_string total_grade { *SQL* }]]] / [format %.2f [lc_numeric [db_string max_grade { *SQL* }]]]"
+    set actions "[_ evaluation.Total_current_grade_] [lc_numeric %.2f [db_string total_grade { *SQL* }]] / [lc_numeric %.2f [db_string max_grade { *SQL* }]]"
 }
 
 set page_title "[_ evaluation.Evaluations_List_]"
