@@ -13,6 +13,7 @@
         <description format="text/html">This package allows the professors and TAs to assign tasks to the students and to grade them, and to the students to upload their answers and see their grades.</description>
 
         <provides url="evaluation" version="0.1d"/>
+        <requires url="notifications" version="5.0.0b4"/>
 
         <callbacks>
             <callback type="after-instantiate"  proc="evaluation::apm_callbacks::package_instantiate"/>
@@ -22,7 +23,6 @@
         </callbacks>
         <parameters>
             <parameter datatype="number"  min_n_values="1"  max_n_values="1"  name="MaxNumberOfBytes"  default="5000" description="Maximun number of bytes allowed for the files in this package. (tasks, tasks sols, student answers, grades sheets, ect)"/>
-            <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="TmpDir"  default="/tmp/" description="Temporary dir for storing temporary files"/>
         </parameters>
 
     </version>
