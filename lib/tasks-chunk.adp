@@ -1,3 +1,3 @@
 
-<blockquote><listtemplate name="tasks"></listtemplate></blockquote>
+<listtemplate name="tasks"></listtemplate>
 

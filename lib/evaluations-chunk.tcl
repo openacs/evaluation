@@ -101,7 +101,8 @@ if { $admin_p } {
 	    
 	    set over_weight ""
 	    if { ![empty_string_p $show_student_p] && $show_student_p } {
-	    
+
+		set max_grade [expr $task_weight + $max_grade] 	    
 		if { ![empty_string_p $grade] } {
 		    set grade [lc_numeric $grade]
 		    set over_weight "[lc_numeric $task_grade]/"
@@ -109,8 +110,6 @@ if { $admin_p } {
 		} else {
 		    set grade "[_ evaluation-portlet.Not_evaluated_]"
 		}
-		
-		set max_grade [expr $task_weight + $max_grade] 
 		set task_weight "${over_weight}[lc_numeric $task_weight]"
 		
 	    } else {
@@ -119,8 +118,8 @@ if { $admin_p } {
 	    }
 	} else {
 	    set grade "[_ evaluation-portlet.Not_evaluated_]"
-	    set grade "[_ evaluation-portlet.Not_available_]"
-	    set task_weight "[_ evaluation-portlet.Not_available_]"
+	    set max_grade [expr $task_weight + $max_grade] 	    
+	    set task_weight "[_ evaluation-portlet.Not_evaluated_]"
 	}
 	
 

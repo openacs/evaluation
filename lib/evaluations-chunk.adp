@@ -1,4 +1,4 @@
 
-<blockquote><listtemplate name="grade_tasks"></listtemplate>
+<listtemplate name="grade_tasks"></listtemplate>
 @bottom_line;noquote@
-</blockquote>
+
