@@ -193,6 +193,12 @@ as
        p_user_id in evaluation_tasks.task_id%TYPE,
        p_task_id in evaluation_tasks.task_id%TYPE
  )return parties.party_id%TYPE;
+ function answer_info
+ (
+       p_user_id in evaluation_tasks.task_id%TYPE,
+       p_task_id in evaluation_tasks.task_id%TYPE,
+       p_task_item_id in evaluation_tasks.task_id%TYPE
+ )return integer;
  function class_total_grade
  (                                                                                                            
        p_user_id in acs_objects.context_id%TYPE,
@@ -286,6 +292,37 @@ end task_name;
                return midato;                
        end if;
  end party_id;
+ function answer_info
+ (
+       p_user_id in evaluation_tasks.task_id%TYPE,
+       p_task_id in evaluation_tasks.task_id%TYPE,
+       p_task_item_id in evaluation_tasks.task_id%TYPE
+ )return integer
+ is
+       answer_id evaluation_student_evals.grade%TYPE;
+ begin
+       select ea.answer_id into answer_id
+       from evaluation_answers ea, cr_items cri
+       where ea.task_item_id = answer_info.p_task_item_id
+       and cri.live_revision = ea.answer_id
+       and ea.party_id =
+        ( select
+       CASE
+          WHEN et3.number_of_members = 1 THEN answer_info.p_user_id
+          ELSE
+        (select etg2.group_id from evaluation_task_groups etg2,
+                                                      evaluation_tasks et2,
+                                                      acs_rels map
+                                                      where map.object_id_one = etg2.group_id
+                                                        and map.object_id_two = answer_info.p_user_id
+                                                        and etg2.task_item_id = et2.task_item_id
+                                                        and et2.task_id = answer_info.p_task_id)
+        END as nom
+               from evaluation_tasks et3
+              where et3.task_id = answer_info.p_task_id
+        );
+        return answer_id;
+ end answer_info;
 
  function class_total_grade
  (                                                                                                                                                         
