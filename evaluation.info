@@ -11,14 +11,16 @@
         <owner url="mailto:jopez@galileo.edu">Jose Pablo Escobedo Del Cid</owner>
         <summary>This package allows the users (professors and students) to use  the system to submit and grade the tasks.</summary>
         <description format="text/html">This package allows the professors and TAs to assign tasks to the students and to grade them, and to the students to upload their answers and see their grades.</description>
+        <maturity>0</maturity>
 
-        <provides url="evaluation" version="0.3d"/>
+        <provides url="evaluation" version="0.2d"/>
+        <requires url="calendar" version="2.1.0d2"/>
         <requires url="notifications" version="5.0.0b4"/>
 
         <callbacks>
             <callback type="after-install"  proc="evaluation::apm::package_install"/>
-            <callback type="before-uninstantiate"  proc="evaluation::apm::package_uninstantiate"/>
             <callback type="after-instantiate"  proc="evaluation::apm::package_instantiate"/>
+            <callback type="before-uninstantiate"  proc="evaluation::apm::package_uninstantiate"/>
         </callbacks>
         <parameters>
             <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="ArchiveCommand"  default="tar -czf {out_file} {in_file}" description="Program (and program options) to use for archiving file storage objects. Use the special tags {in_file} and {out_file} (including the curly braces) to denote the locations of the input and output files on the command line."/>
