@@ -12,13 +12,13 @@
 	<td>@due_date_pretty@</td>
 </tr>
 <tr>
-	<th>Is the task submitted online?</th>
+	<th>#evaluation.lt_Is_the_task_submitted#</th>
 	<td>
 
 <if @online_p@ gt 0 >
-	<h2> Yes </h2>
+	<h2> #evaluation.Yes# </h2>
 </if><else>
-	<h2> No </h2>
+	<h2> #evaluation.No# </h2>
 </else>
 
 </td>
@@ -30,13 +30,21 @@
 </table>
 
 <h2>#evaluation.lt_Evaluated_Students_to#</h2>
-<p>Theese are the evaluated students. Note that if you evaluated them over a grad different from 100, the system automatically did the conversion so the grade will be shown over 100 points.</p>
+<p><_ Theese are the evaluated students. Note that if you evaluated them over a grad different from 100, the system automatically did the conversion so the grade will be shown over 100 points. ></p>
 <blockquote><listtemplate name="evaluated_students"></listtemplate></blockquote>
 <br />
 <h2>#evaluation.lt_Students_with_answers#</h2>
+<p>#evaluation.lt_These_are_the_student#</p>
 
 <if @not_evaluated_wa:rowcount@ gt 0>
 <p>#evaluation.Click# <a href=download-archive/?task_id=@task_id@>#evaluation.here#</a> #evaluation.lt_if_you_want_to_downlo#</p>
+<if @number_of_members@ eq "1">
+ <if @show_portrait_p@ eq "t">
+	<p>#evaluation.Click# <a href=@this_url@> #evaluation.here# </a> #evaluation.lt_if_you_do_not_want_to#</p>
+ </if><else>
+	<p>#evaluation.Click# <a href=@this_url@> #evaluation.here# </a> #evaluation.lt_if_you_want_to_see_th#</p>
+ </else>
+</if>
 <form action="evaluate-students" method="post">
     <input type=hidden name=task_id value="@task_id@">
     <input type=hidden name=grade_id value="@grade_id@">
@@ -69,6 +77,14 @@
 
 <br />
 <h2>#evaluation.lt_Students_who_have_not#</h2>
+<p>#evaluation.lt_These_are_the_student_1#</p>
+<if @number_of_members@ eq "1">
+ <if @show_portrait_p@ eq "t">
+	<p>#evaluation.Click# <a href=@this_url@> #evaluation.here# </a> #evaluation.lt_if_you_do_not_want_to#</p>
+ </if><else>
+	<p>#evaluation.Click# <a href=@this_url@> #evaluation.here# </a> #evaluation.lt_if_you_want_to_see_th#</p>
+ </else>
+</if>
 
 <if @not_evaluated_na:rowcount@ gt 0>
 <form action="evaluate-students" method="post">
@@ -104,4 +120,5 @@
 </if><else>
 <p>#evaluation.lt_There_are_no_students_1#</p>
 </else>
+
 

@@ -1,8 +1,8 @@
 # /packages/evaluaiton/www/admin/evaluaitons/student-list.tcl
 
 ad_page_contract {
-	Displays the evaluations of students that have already been evaluated,
-	lists the ones that have not been evaluated yet (in order to evaluate them)
+    Displays the evaluations of students that have already been evaluated,
+    lists the ones that have not been evaluated yet (in order to evaluate them)
     and deals with tasks in groups and individual.
 
     @author jopez@galileo.edu
@@ -10,6 +10,7 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     task_id:integer,notnull
+    {show_portrait_p ""}
     {return_url "student-list?[export_vars -url { task_id }]"}
     {orderby_wa:optional}
     {orderby_na:optional}
@@ -21,13 +22,19 @@ set user_id [ad_conn user_id]
 set page_title "[_ evaluation.Student_List_]"
 set context { "[_ evaluation.Student_List_]" }
 
+if { [string eq $show_portrait_p "t"] } {
+    set this_url "student-list?[export_vars -entire_form -url { { show_portrait_p f } }]"
+} else {
+    set this_url "student-list?[export_vars -entire_form -url { { show_portrait_p t } }]"
+}
+
 db_1row get_task_info { *SQL* }
 set due_date_pretty  [lc_time_fmt $due_date_ansi "%q"]
 
 if { $number_of_members > 1 } {
-	set groups_admin "<a href=[export_vars -base ../groups/one-task { task_id }]>[_ evaluation.lt_Groups_administration]</a>"
+    set groups_admin "<a href=[export_vars -base ../groups/one-task { task_id }]>[_ evaluation.lt_Groups_administration]</a>"
 } else {
-	set groups_admin ""
+    set groups_admin ""
 }
 
 set done_students [list]
@@ -148,27 +155,35 @@ set not_evaluated_with_answer [db_string get_not_eval_wa { *SQL* }]
 set elements [list party_name \
 		  [list label "[_ evaluation.Name_]" \
 		       orderby_asc {party_name asc} \
-		       orderby_desc {party_name desc}] \
-		  submission_date_pretty \
-		  [list label "[_ evaluation.Submission_Date_]" \
-		       orderby_asc {submission_date_ansi asc} \
-		       orderby_desc {submission_date_ansi desc}] \
-		  answer \
-		  [list label "[_ evaluation.Answer_]" \
-		       link_url_col answer_url \
-		       link_html { title "[_ evaluation.View_answer_]" }] \
-		  grade \
-		  [list label "[_ evaluation.Maximun_Grade_] <input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"100\">" \
-		       display_template { <input type=text name=grades_wa.@not_evaluated_wa.party_id@ maxlength=\"6\" size=\"3\"> } ] \
-		  comments \
-		  [list label "[_ evaluation.Comments_]" \
-		       display_template { <textarea rows="3" cols="15" wrap name=comments_wa.@not_evaluated_wa.party_id@></textarea> } \
-		      ] \
-		  show_answer \
-		  [list label "[_ evaluation.lt_Allow_the_students_br]" \
-		       display_template { [_ evaluation.Yes_] <input checked type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=t> [_ evaluation.No_] <input type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=f> } \
-		      ] \
-		 ]
+		       orderby_desc {party_name desc}]
+	     ]
+
+if { [string eq $show_portrait_p "t"] && [string eq $number_of_members "1"] } {
+    lappend elements portrait \
+	[list label "[_ evaluation.Students_Portrait_]" \
+	     display_template { @not_evaluated_wa.portrait;noquote@ }
+	]
+} 
+
+lappend elements submission_date_pretty \
+    [list label "[_ evaluation.Submission_Date_]" \
+	 orderby_asc {submission_date_ansi asc} \
+	 orderby_desc {submission_date_ansi desc}]
+lappend elements answer \
+    [list label "[_ evaluation.Answer_]" \
+	 link_url_col answer_url \
+	 link_html { title "[_ evaluation.View_answer_]" }] 
+lappend elements grade \
+    [list label "[_ evaluation.Maximun_Grade_] <input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"100\">" \
+	 display_template { <input type=text name=grades_wa.@not_evaluated_wa.party_id@ maxlength=\"6\" size=\"3\"> } ] 
+lappend elements comments \
+    [list label "[_ evaluation.Comments_]" \
+	 display_template { <textarea rows="3" cols="15" wrap name=comments_wa.@not_evaluated_wa.party_id@></textarea> } \
+	] 
+lappend elements show_answer \
+    [list label "[_ evaluation.lt_Allow_the_students_br]" \
+	 display_template { <pre>[_ evaluation.Yes_]<input checked type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=t> [_ evaluation.No_]<input type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=f></pre> } \
+	] 
 
 template::list::create \
     -name not_evaluated_wa \
@@ -186,8 +201,12 @@ if { [string equal $orderby_wa ""] } {
     set orderby_wa " order by party_name asc"
 }
 
-db_multirow -extend { answer answer_url submission_date_pretty } not_evaluated_wa get_not_evaluated_wa_students { *SQL* } {
+db_multirow -extend { answer answer_url submission_date_pretty portrait } not_evaluated_wa get_not_evaluated_wa_students { *SQL* } {
     
+    if { $number_of_members == 1 } {
+	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id { {alt "[_ evaluation.lt_No_portrait_for_party]"} }]</a>"
+    }
+
     lappend done_students $party_id
     if { [string eq $online_p "t"] } {
 	set submission_date_pretty  "[lc_time_fmt $submission_date_ansi "%Q"] [lc_time_fmt $submission_date_ansi "%X"]"
@@ -214,18 +233,26 @@ set elements [list party_name \
 		  [list label "[_ evaluation.Name_]" \
 		       orderby_asc {party_name asc} \
 		       orderby_desc {party_name desc}] \
-		  grade \
-		  [list label "[_ evaluation.Grade_over_] <input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"100\">" \
-		       display_template { <input type=text name=grades_na.@not_evaluated_na.party_id@ maxlength=\"6\" size=\"3\"> } ] \
-		  comments \
-		  [list label "[_ evaluation.Comments_]" \
-		       display_template { <textarea rows="3" cols="15" wrap name=comments_na.@not_evaluated_na.party_id@></textarea> } \
-		      ] \
-		  show_answer \
-		  [list label "[_ evaluation.lt_Allow_the_students_br]" \
-		       display_template { [_ evaluation.Yes_] <input checked type=radio name="show_student_na.@not_evaluated_na.party_id@" value=t> [_ evaluation.No_] <input type=radio name="show_student_na.@not_evaluated_na.party_id@" value=f> } \
-		      ] \
 		 ]
+
+if { [string eq $show_portrait_p "t"] && [string eq $number_of_members "1"] } {
+    lappend elements portrait \
+	[list label "[_ evaluation.Students_Portrait_]" \
+	     display_template { @not_evaluated_na.portrait;noquote@ }
+	]
+} 
+
+lappend elements grade \
+    [list label "[_ evaluation.Grade_over_] <input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"100\">" \
+	 display_template { <input type=text name=grades_na.@not_evaluated_na.party_id@ maxlength=\"6\" size=\"3\"> } ]
+lappend elements comments \
+    [list label "[_ evaluation.Comments_]" \
+	 display_template { <textarea rows="3" cols="15" wrap name=comments_na.@not_evaluated_na.party_id@></textarea> } \
+	]
+lappend elements show_answer \
+    [list label "[_ evaluation.lt_Allow_the_students_br]" \
+	 display_template { <pre>[_ evaluation.Yes_]<input checked type=radio name="show_student_na.@not_evaluated_na.party_id@" value=t> [_ evaluation.No_]<input type=radio name="show_student_na.@not_evaluated_na.party_id@" value=f></pre> } \
+	]
 
 template::list::create \
     -name not_evaluated_na \
@@ -271,12 +298,16 @@ if { $number_of_members > 1 } {
 
 }
 
-db_multirow not_evaluated_na get_not_evaluated_na_students { *SQL* } {
+db_multirow -extend { portrait } not_evaluated_na get_not_evaluated_na_students { *SQL* } {
+    
+    if { $number_of_members == 1 } {
+	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id { {alt "[_ evaluation.lt_No_portrait_for_party]"} }]</a>"
+    }
     
 }
 
 set grades_sheet_item_id [db_nextval acs_object_id_seq]
 
- 
+
 
 

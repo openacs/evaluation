@@ -14,7 +14,7 @@ ad_page_contract {
     upload_file.tmpfile:tmpfile,optional
     {solution_mode "edit"}
     grade_id:integer,notnull
-    {return_url "/"}
+    return_url
 }
 
 set package_id [ad_conn package_id]
@@ -28,7 +28,7 @@ if { [ad_form_new_p -key solution_id] } {
 set context [list [list [export_vars -base ../grades/grades { }] "[_ evaluation.Grades_]"] $page_title]
 
 set attached_p "f"
-ad_form -html { enctype multipart/form-data } -name solution -cancel_url $return_url -export { grade_id item_id storage_type task_id attached_p } -mode $solution_mode -form {
+ad_form -html { enctype multipart/form-data } -name solution -cancel_url $return_url -export { return_url grade_id item_id storage_type task_id attached_p } -mode $solution_mode -form {
 
 	solution_id:key
 

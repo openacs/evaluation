@@ -42,6 +42,31 @@ ad_proc -public evaluation::notification::get_url {
     }
 } 
 
+ad_proc -public evaluation::get_user_portrait { 
+    -user_id:required
+    {tag_attributes ""}
+} { 
+	returns the portrait for the given user or a default portrait if not found.
+} {  
+        
+    if { [db_0or1row user_portrait { *SQL* }] } {
+	set output "<img src=\"/shared/portrait-bits.tcl?user_id=$user_id\" "
+    } else {
+	set output "<img src=\"[lindex [site_node::get_url_from_object_id -object_id [ad_conn package_id]] 0]resources/photo_na.gif\" "
+    }
+
+    foreach attribute_name [array names tag_attributes] {
+	if { [string equal $tag_attributes($attribute_name) {}] } {
+        append output " $attribute_name"
+	} else {
+        append output " $attribute_name=\"$attributes($attribute_name)\""
+	}
+    }
+
+    append output ">"
+    return $output
+} 
+
 ad_proc -public evaluation::notification::do_notification { 
     -task_id:required
     -package_id:required
@@ -668,6 +693,12 @@ ad_proc -public evaluation::apm::create_folders {
     Helper for the apm_proc
 } {
     db_transaction {
+	set exams_name "[_ evaluation.Exams_]"
+	set exams_desc "[_ evaluation.Exams_for_students_]"
+	set tasks_name "[_ evaluation.Tasks_]"
+	set tasks_desc "[_ evaluation.Tasks_for_students_]"
+	set projects_name "[_ evaluation.Projects_]"
+	set projects_desc "[_ evaluation.lt_Projects_for_students]"
 	db_exec_plsql create_evaluation_folders { *SQL* }
 
 	set creation_user [ad_verify_and_get_user_id]

@@ -97,11 +97,12 @@ if { $admin_p } {
 		set grade "[_ evaluation.Not_evaluated_]"
 	    }
 	    
+	    set task_weight "${over_weight}[format %.2f [lc_numeric $task_weight]]"
 	    set max_grade [expr $task_weight + $max_grade] 
 	} else {
 	    set grade "[_ evaluation.Not_available_]"
+	    set task_weight "[_ evaluation.Not_available_]"
 	}
-	set task_weight "${over_weight}[format %.2f [lc_numeric $task_weight]]"
 	
 	# working with answer stuff (if it has a file/url attached)
 	if { [empty_string_p $answer_data] } {
@@ -129,6 +130,6 @@ if { $admin_p } {
 if { $admin_p } {
     set bottom_line "<small>[_ evaluation.lt_Weight_used_in_grade__2]</small>"
 } else {
-    set bottom_line "<small>[_ evaluation.lt_Total_points_in_this__1]</small>"
+    set bottom_line "[_ evaluation.lt_smallTotal_points_in_]"
 }
 

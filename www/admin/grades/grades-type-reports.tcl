@@ -37,6 +37,7 @@ if { [empty_string_p $community_id] } {
 
 set elements [list student_name \
 		  [list label "[_ evaluation.Name_]" \
+		       link_url_col student_url \
 		       orderby_asc {student_name asc} \
 		       orderby_desc {student_name desc} \
 		      ]\
@@ -74,6 +75,6 @@ if { [string equal $orderby ""] } {
     set task_order " order by student_name asc"
 }
 
-db_multirow grade_tasks $query_name { *SQL* } {
-	
+db_multirow -extend { student_url } grade_tasks $query_name { *SQL* } {
+    set student_url [export_vars -base "student-grades-report" -url { {student_id $user_id} }]
 }

@@ -77,6 +77,6 @@ if { ![empty_string_p $orderby] } {
 
 
 
-db_multirow grades_report $query_name { *SQL* } {
-
+db_multirow -extend { student_url } grades_report $query_name { *SQL* } {
+    set student_url [export_vars -base "student-grades-report" -url { {student_id $user_id} }]
 }

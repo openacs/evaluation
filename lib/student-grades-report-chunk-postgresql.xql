@@ -58,16 +58,45 @@
 <fullquery name="get_group_id">      
       <querytext>
 
-		select evaluation__party_id(:user_id,:task_id)
+		select evaluation__party_id(:student_id,:task_id)
 	
       </querytext>
 </fullquery>
 
-<fullquery name="grade_names">      
+
+<fullquery name="get_student_grades">      
       <querytext>
 
-		select grade_plural_name, grade_name from evaluation_grades where grade_id = :grade_id
-	
+    select et.task_name, 
+    ese.grade,
+    ese.description as comments,
+    (et.weight*eg.weight)/100 as task_weight,
+    (ese.grade*et.weight*eg.weight)/10000 as net_grade,
+    et.number_of_members,
+    to_char(et.due_date, 'YYYY-MM-DD HH24:MI:SS') as due_date_ansi, 
+    et.task_id,
+    et.online_p,
+    ea.answer_id,
+    person__name(ese.creation_user) as grader_name
+    from evaluation_grades eg,
+    evaluation_tasks et2 left outer join evaluation_student_evalsi ese on (ese.task_id = et2.task_id and content_revision__is_live(ese.evaluation_id) = true
+									   and ese.party_id = evaluation__party_id(:student_id,et2.task_id)),
+    evaluation_tasks et left outer join evaluation_answersi ea on (ea.task_id = et.task_id and content_revision__is_live(ea.answer_id) = true
+								   and ea.party_id = evaluation__party_id(:student_id,et.task_id))
+    where eg.grade_id = :grade_id
+    and eg.grade_id = et.grade_id
+    and et.task_id = et2.task_id
+    and content_revision__is_live(et.task_id) = true 
+    and content_revision__is_live(eg.grade_id) = true
+
+      </querytext>
+</fullquery>
+
+<fullquery name="group_name">      
+      <querytext>
+
+	select acs_group__name(:group_id)
+
       </querytext>
 </fullquery>
 

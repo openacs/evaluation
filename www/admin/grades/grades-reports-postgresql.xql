@@ -49,7 +49,8 @@
 <fullquery name="grades_report">      
       <querytext>
 
-	select cu.first_names||', '||cu.last_name as student_name
+	select cu.first_names||', '||cu.last_name as student_name,
+	cu.user_id
 	$sql_query
     from cc_users cu
     $orderby
@@ -60,7 +61,8 @@
 <fullquery name="community_grades_report">      
       <querytext>
 
-	select cu.first_names||', '||cu.last_name as student_name
+	select cu.first_names||', '||cu.last_name as student_name,
+	cu.user_id
 	$sql_query
     from cc_users cu,
 	registered_users ru,

@@ -17,13 +17,24 @@
       </querytext>
 </fullquery>
 
+
+<fullquery name="student_info">      
+      <querytext>
+
+	select person__name(:student_id) as student_name,
+                      p.email
+                      from parties p
+                      where p.party_id = :student_id
+
+      </querytext>
+</fullquery>
+
 <fullquery name="get_total_grade">      
       <querytext>
 
-	select evaluation__class_total_grade(:user_id,:package_id)
-	
+	select evaluation__class_total_grade(:student_id,:package_id)
+
       </querytext>
 </fullquery>
 
 </queryset>
-

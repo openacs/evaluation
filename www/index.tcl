@@ -20,13 +20,11 @@ set user_id [ad_conn user_id]
 
 set admin_p [permission::permission_p -party_id $user_id -object_id $package_id -privilege admin]
 
-set package_id [ad_conn package_id]
-
 db_multirow grades get_grades { *SQL* } {
 	
 }
 
-set total_class_grade [format %.2f [lc_numeric [db_string get_total_grade "select evaluation__class_total_grade(:user_id,:package_id)"]]]
+set total_class_grade [format %.2f [lc_numeric [db_string get_total_grade { *SQL* }]]]
 
 set notification_chunk [notification::display::request_widget \
 							-type one_assignment_notif \

@@ -13,8 +13,9 @@
 </multiple>
 </ul>
 </if><else>
-There is no audit info for this task because there are no students evaluated.
+#evaluation.lt_There_is_no_audit_inf#
 </else>
+
 
 
 

@@ -570,8 +570,8 @@
 					 :creation_user,
 					 :package_id,
 					 :creation_ip,
-					 'Exams',
-					 'Exams for students',
+					 :exams_name,
+					 :exams_desc,
 					 'text/plain',
 					 null,
 					 null,
@@ -597,7 +597,7 @@
 					  :creation_user, 
 					  :creation_ip,	
 					  :exams_revision_name,			
-					  'Exams for students',	
+					  :exams_desc,	
 					  now(),  --publish date
 					  null, --nls_language
 					  'text/plain' --mime_type
@@ -625,8 +625,8 @@
 					 :creation_user,
 					 :package_id,
 					 :creation_ip,
-					 'Projects',
-					 'Projects for students',
+					 :projects_name,
+					 :projects_desc,
 					 'text/plain',
 					 null,
 					 null,
@@ -652,7 +652,7 @@
 					  :creation_user, 
 					  :creation_ip,	
 					  :projects_revision_name,			
-					  'Projects for students',	
+					  :projects_desc,	
 					  now(),  --publish date
 					  null, --nls_language
 					  'text/plain' --mime_type
@@ -681,8 +681,8 @@
 					 :creation_user,
 					 :package_id,
 					 :creation_ip,
-					 'Tasks',
-					 'Tasks for students',
+					 :tasks_name,
+					 :tasks_desc,
 					 'text/plain',
 					 null,
 					 null,
@@ -708,7 +708,7 @@
 					  :creation_user, 
 					  :creation_ip,	
 					  :tasks_revision_name,			
-					  'Tasks for students',	
+					  :tasks_desc,	
 					  now(),  --publish date
 					  null, --nls_language
 					  'text/plain' --mime_type
