@@ -18,8 +18,10 @@ ad_page_contract {
 } 
 
 set user_id [ad_conn user_id]
-set page_title "[_ evaluation.Student_List_]"
-set context [list "[_ evaluation.Student_List_]"]
+db_1row get_task_info { *SQL* }
+
+set page_title "[_ evaluation.lt_Students_List_for_tas]"
+set context [list "[_ evaluation.lt_Students_List_for_tas]"]
 
 if { [string eq $show_portrait_p "t"] } {
     set this_url "student-list?[export_vars -entire_form -url { { show_portrait_p f } }]"
@@ -27,14 +29,15 @@ if { [string eq $show_portrait_p "t"] } {
     set this_url "student-list?[export_vars -entire_form -url { { show_portrait_p t } }]"
 }
 
-db_1row get_task_info { *SQL* }
 set due_date_pretty  [lc_time_fmt $due_date_ansi "%q %r"]
+set return_url "[ad_conn url]?[ad_conn query]"
 
 if { $number_of_members > 1 } {
     set groups_admin "<a href=[export_vars -base ../groups/one-task { task_id }]>[_ evaluation.lt_Groups_administration]</a>"
 } else {
     set groups_admin ""
 }
+set task_admin "<a href=[export_vars -base ../tasks/task-add-edit { task_id grade_id return_url }]>[_ evaluation.lt_task_name_administrat]</a>"
 
 set done_students [list]
 set evaluation_mode "display"
@@ -45,7 +48,11 @@ set evaluation_mode "display"
 
 set actions [list "[_ evaluation.Edit_Evaluations_]" [export_vars -base "evaluations-edit" { task_id }]]
 
-set elements [list party_name \
+set elements [list count \
+		  [list label "" \
+		       display_template { @evaluated_students.rownum@. } \
+		       ] \
+		  party_name \
 		  [list label "[_ evaluation.Name_]" \
 		       orderby_asc {party_name asc} \
 		       orderby_desc {party_name desc} \
@@ -112,18 +119,18 @@ if {[string equal $orderby ""]} {
 } 
 
 set total_evaluated 0
-db_multirow -extend { action action_url submission_date_pretty } evaluated_students evaluated_students { *SQL* } {
+db_multirow -extend { action action_url submission_date_pretty count } evaluated_students evaluated_students { *SQL* } {
     
     incr total_evaluated
     lappend done_students $party_id
-    set grade [format %.2f [lc_numeric $grade]]
+    set grade [lc_numeric $grade]
     
     if { [string eq $online_p "t"] } {
 	if { [db_0or1row get_answer_info { *SQL* }] } {
 	    # working with answer stuff (if it has a file/url attached)
 	    if { [empty_string_p $answer_data] } {
 		set action "[_ evaluation.No_response_]"
-	    } elseif { [regexp "http://" $answer_data] } {
+	    } elseif { [string eq $answer_title "link"] } {
 		set action_url "[export_vars -base "$answer_data" { }]"
 		set action "[_ evaluation.View_answer_]"
 	    } else {
@@ -222,21 +229,18 @@ db_multirow -extend { party_url answer answer_url submission_date_pretty portrai
     }
 
     lappend done_students $party_id
-    if { [string eq $online_p "t"] } {
-	set submission_date_pretty  "[lc_time_fmt $submission_date_ansi "%q %r"]"
-	if { [db_string compare_submission_date { *SQL* } -default 0] } {
-	    set submission_date_pretty "[_ evaluation.lt_submission_date_prett_1]"
-	} else {
-	}
-	set answer "[_ evaluation.View_answer_]"
-	# working with answer stuff (if it has a file/url attached)
-	if { [regexp "http://" $answer_data] } {
-	    set answer_url [export_vars -base "$answer_data" { }]
-	} else {
-	    # we assume it's a file
-	    set answer_url [export_vars -base "../../view/$answer_title" { revision_id }]
-	}
+    set submission_date_pretty  "[lc_time_fmt $submission_date_ansi "%q %r"]"
+    if { [db_string compare_submission_date { *SQL* } -default 0] } {
+	set submission_date_pretty "[_ evaluation.lt_submission_date_prett_1]"
     } 
+    set answer "[_ evaluation.View_answer_]"
+    # working with answer stuff (if it has a file/url attached)
+    if { [string eq $answer_title "link"] } {
+	set answer_url [export_vars -base "$answer_data" { }]
+    } else {
+	# we assume it's a file
+	set answer_url [export_vars -base "../../view/$answer_title" { revision_id }]
+    }
 }
 
 #
@@ -295,9 +299,9 @@ if { $number_of_members > 1 } {
 } else {
     set community_id [dotlrn_community::get_community_id]
     if { [llength $done_students] > 0 } {
-	set not_in_clause [db_map not_yet_in_clause]
+	set not_in_clause [db_map not_yet_in_clause_non_empty]
     } else {
-	set not_in_clause [db_map not_yet_in_clause]
+	set not_in_clause [db_map not_yet_in_clause_empty]
     }
 
     # if this page is called from within a community (dotlrn) we have to show only the students
@@ -325,6 +329,8 @@ db_multirow -extend { party_url portrait } not_evaluated_na get_not_evaluated_na
 	set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
     }
 }
+
+set total_processed [llength $done_students]
 
 set grades_sheet_item_id [db_nextval acs_object_id_seq]
 

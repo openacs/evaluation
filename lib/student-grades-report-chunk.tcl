@@ -66,7 +66,6 @@ if {[string equal $orderby ""]} {
     set assignments_orderby " order by task_name asc"
 }
 
-set max_weight 0.00
 set max_grade 0.00
 set total_grade 0.00
 
@@ -99,13 +98,14 @@ db_multirow -extend { task_status due_date_pretty assignment_group grade net_gra
     db_0or1row get_grade_info { *SQL* }
 
     if { ![empty_string_p $grade] } {
+
 	set grade [format %.2f [lc_numeric $grade]]
 	set over_weight "[format %.2f [lc_numeric $net_grade]]/"
-	set total_grade [expr $total_grade + $net_grade] 
+	set total_grade [expr $total_grade + $net_grade]
 	set net_grade [format %.2f [lc_numeric $net_grade]]
 	set task_status "[_ evaluation.Evaluated_]"
     } else {
-	set neg_grade "[_ evaluation.na_]"
+	set net_grade "[_ evaluation.na_]"
 	set grade "[_ evaluation.na_]"
 	set grader "[_ evaluation.na_]"
 	append task_status " [_ evaluation.Not_evaluated_] "
@@ -133,5 +133,6 @@ db_multirow -extend { task_status due_date_pretty assignment_group grade net_gra
     
 }
 
+set total_grade [format %.2f [lc_numeric [expr $total_grade]]]
 set max_grade [format %.2f [lc_numeric $max_grade]]
 set grade_weight [format %.2f [lc_numeric $grade_weight]]

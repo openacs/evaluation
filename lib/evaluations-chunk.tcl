@@ -35,22 +35,20 @@ if { $admin_p } {
 	#student
 	lappend elements grade \
 		[list label "[_ evaluation-portlet.Grade_over_100_]" \
-			 display_template { <center>@grade_tasks.grade@</center> } \
-			 orderby_asc {grade asc} \
-			 orderby_desc {grade desc}] 
+		     display_template { <center>@grade_tasks.grade@</center> }]
 	lappend elements comments \
 		[list label "[_ evaluation-portlet.Comments_]" \
-			 link_url_col comments_url \
-			 link_html { title "[_ evaluation-portlet.lt_View_evaluation_comme]" }]
+		     link_url_col comments_url \
+		     link_html { title "[_ evaluation-portlet.lt_View_evaluation_comme]" }]
 	lappend elements task_weight \
 		[list label "[_ evaluation-portlet.Net_Value_]" \
-			 display_template { <center>@grade_tasks.task_weight@</center> } \
-			 orderby_asc {task_weight asc} \
-			 orderby_desc {task_weight desc}] 
+		     display_template { <center>@grade_tasks.task_weight@</center> } \
+		     orderby_asc {task_weight asc} \
+		     orderby_desc {task_weight desc}] 
 	lappend elements answer \
 		[list label "" \
-			 link_url_col answer_url \
-			 link_html { title "[_ evaluation-portlet.View_my_answer_]" }]
+		     link_url_col answer_url \
+		     link_html { title "[_ evaluation-portlet.View_my_answer_]" }]
 	set multirow_name grade_tasks
 	set actions ""
 }
@@ -82,7 +80,7 @@ if { $admin_p } {
     db_multirow -extend { task_url audit_info audit_info_url } grade_tasks_admin get_tasks_admin { *SQL* } {
 	set task_url [export_vars -base "${base_url}admin/evaluations/student-list" { task_id grade_id }]
 	set category_weight [expr $category_weight + $task_weight]
-	set task_weight [format %.2f [lc_numeric $task_weight]]
+	set task_weight [lc_numeric $task_weight]
 
 	set audit_info_url "[export_vars -base "${base_url}admin/evaluations/audit-info" { grade_id task_id }]"
 	set audit_info "[_ evaluation-portlet.Audit_Info_]"
@@ -91,26 +89,29 @@ if { $admin_p } {
 
     db_multirow -extend { comments comments_url answer answer_url grade } grade_tasks get_grade_tasks { *SQL* } {
 	
-	if { [db_0or1row get_evaluaiton_info { *SQL* }] } {
+	if { [db_0or1row get_evaluation_info { *SQL* }] } {
 	    
 	    if { ![empty_string_p $comments] } {
 		set comments "[_ evaluation-portlet.View_comments_]"
-		set comments_url evaluation_view
+		set comments_url "[export_vars -base "evaluation-view" { evaluation_id { return_url ${base_url} }}]"
+	    } else {
+		set comments "[_ evaluation.lt_View_evaluation_detai]"
+		set comments_url "[export_vars -base "${base_url}evaluation-view" { evaluation_id return_url }]"	    
 	    }
 	    
 	    set over_weight ""
 	    if { ![empty_string_p $show_student_p] && $show_student_p } {
 	    
 		if { ![empty_string_p $grade] } {
-		    set grade [format %.2f [lc_numeric $grade]]
-		    set over_weight "[format %.2f [lc_numeric $task_grade]]/"
+		    set grade [lc_numeric $grade]
+		    set over_weight "[lc_numeric $task_grade]/"
 		    set total_grade [expr $total_grade + $task_grade] 
 		} else {
 		    set grade "[_ evaluation-portlet.Not_evaluated_]"
 		}
 		
 		set max_grade [expr $task_weight + $max_grade] 
-		set task_weight "${over_weight}[format %.2f [lc_numeric $task_weight]]"
+		set task_weight "${over_weight}[lc_numeric $task_weight]"
 		
 	    } else {
 		set grade "[_ evaluation-portlet.Not_available_]"

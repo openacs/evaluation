@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <queryset>
-   <rdbms><type>postgresql</type><version>7.3</version></rdbms>
 
 <fullquery name="solution_info">      
       <querytext>
@@ -22,6 +21,28 @@
 	where revision_id = :revision_id
 
      </querytext>
+</fullquery>
+
+<fullquery name="content_size">      
+      <querytext>
+
+	update cr_revisions
+ 	set content_length = :content_length
+	where revision_id = :revision_id
+
+     </querytext>
+</fullquery>
+
+<fullquery name="set_file_content">      
+      <querytext>
+
+		update cr_revisions
+		set content = :filename,
+		mime_type = :mime_type,
+		content_length = :content_length
+		where revision_id = :revision_id
+			
+      </querytext>
 </fullquery>
 
 <fullquery name="lob_content">      

@@ -13,16 +13,19 @@
 		et.task_item_id,
 		et.item_id,
 		et.requires_grade_p, et.description, et.grade_item_id,
-		coalesce(cr.content_length,0) as content_length,
+		coalesce(round(cr.content_length/1024,0),0) as content_length,
 		et.data as task_data,
 		cr.title as task_title,
+		crmt.label as pretty_mime_type,
    		et.task_id as revision_id
 	from cr_revisions cr,
 	     evaluation_tasksi et,
-	     cr_items cri	
+	     cr_items cri,
+	     cr_mime_types crmt	
 	where cr.revision_id = et.revision_id
 	  and et.grade_item_id = :grade_item_id	
 	  and cri.live_revision = et.task_id
+	  and et.mime_type = crmt.mime_type
 	$assignments_orderby
 
       </querytext>
@@ -42,14 +45,17 @@
 		cr.title as task_title,
 		et.data as task_data,
 	   	et.task_id as revision_id,
-		coalesce(cr.content_length,0) as content_length,
-		et.late_submit_p
+		coalesce(round(cr.content_length/1024,0),0) as content_length,
+		et.late_submit_p,
+		crmt.label as pretty_mime_type
 	from cr_revisions cr, 
 		 evaluation_tasksi et,
-	         cr_items cri
+	         cr_items cri,
+		 cr_mime_types crmt 
 	where cr.revision_id = et.revision_id
 	  and grade_item_id = :grade_item_id
 	  and cri.live_revision = et.task_id
+	  and et.mime_type = crmt.mime_type
     $assignments_orderby
 	
       </querytext>
@@ -66,7 +72,17 @@
 <fullquery name="get_group_id">      
       <querytext>
 
-		select evaluation__party_id(:user_id,:task_id)
+	select coalesce((select etg2.group_id from evaluation_task_groups etg2, 
+                                                      evaluation_tasks et2, 
+                                                      acs_rels map 
+                                                      where map.object_id_one = etg2.group_id 
+                                                        and map.object_id_two = :user_id 
+                                                        and etg2.task_item_id = et2.task_item_id 
+                                                        and et2.task_id = :task_id),0)
+               from evaluation_tasks et3 
+              where et3.task_id = :task_id 
+
+--		select evaluation__party_id(:user_id,:task_id)
 	
       </querytext>
 </fullquery>
@@ -100,7 +116,24 @@
       from evaluation_answers ea, cr_items cri
       where ea.task_item_id = :task_item_id 
       and cri.live_revision = ea.answer_id
-      and ea.party_id = evaluation__party_id(:user_id,:task_id)
+      and ea.party_id =
+	( select 
+	CASE  
+	  WHEN et3.number_of_members = 1 THEN :user_id 
+	  ELSE  
+	(select etg2.group_id from evaluation_task_groups etg2, 
+                                                      evaluation_tasks et2, 
+                                                      acs_rels map 
+                                                      where map.object_id_one = etg2.group_id 
+                                                        and map.object_id_two = :user_id 
+                                                        and etg2.task_item_id = et2.task_item_id 
+                                                        and et2.task_id = :task_id) 
+	END as nom 
+               from evaluation_tasks et3 
+              where et3.task_id = :task_id 
+	) 
+
+-- evaluation__party_id(:user_id,:task_id)
       
       </querytext>
 </fullquery>

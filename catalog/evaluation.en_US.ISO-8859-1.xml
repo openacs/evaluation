@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<message_catalog package_key="evaluation" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
+<message_catalog package_key="evaluation" package_version="0.2d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="1__Individual_">1 = Individual </msg>
   <msg key="Add_Assignment_">Add Assignment </msg>
@@ -14,7 +14,9 @@
   <msg key="Addedit_solution_">Add/edit solution </msg>
   <msg key="again_">again </msg>
   <msg key="Already_answered_">Already answered </msg>
+  <msg key="Answer">Answer</msg>
   <msg key="Answer_">Answer </msg>
+  <msg key="Answer_Date">Answer Date</msg>
   <msg key="Assignment_Group_">Assignment Group </msg>
   <msg key="Assignment_Groups_">Assignment Groups </msg>
   <msg key="Assignment_Type_">Assignment Type </msg>
@@ -79,6 +81,7 @@
   <msg key="click_on_this_link_">click on this link: </msg>
   <msg key="Comments">Comments:</msg>
   <msg key="Comments_">Comments </msg>
+  <msg key="Comments_1">Comments</msg>
   <msg key="CommentsEdit_reason">Comments/Edit reason:</msg>
   <msg key="CommentsEdit_reason_">Comments/Edit reason </msg>
   <msg key="Confirm">Confirm</msg>
@@ -96,6 +99,7 @@
   <msg key="Due_Date_">Due Date </msg>
   <msg key="Due_date_">Due date </msg>
   <msg key="Due_Date_1">Due Date</msg>
+  <msg key="Due_date_task_name">Due date: %task_name%</msg>
   <msg key="Edit">Edit Grades </msg>
   <msg key="Edit_evaluation_">Edit evaluation </msg>
   <msg key="Edit_Evaluations_">Edit Evaluations </msg>
@@ -106,6 +110,7 @@
   <msg key="Edit_task_">Edit task </msg>
   <msg key="Email">Email:</msg>
   <msg key="Evaluated_">Evaluated </msg>
+  <msg key="Evaluation_Date">Evaluation Date</msg>
   <msg key="Evaluation_Index_">Evaluation Index </msg>
   <msg key="Evaluation_Modified_">Evaluation Modified </msg>
   <msg key="evaluationpagename">Class Material </msg>
@@ -124,10 +129,12 @@
   <msg key="Grade">Grade:</msg>
   <msg key="Grade_">Grade </msg>
   <msg key="Grade_1">Students </msg>
+  <msg key="Grade_2">Grade</msg>
   <msg key="Grade_Distribution_">Grade Distribution </msg>
   <msg key="Grade_in_Net_value_">Grade in Net value </msg>
   <msg key="Grade_over_">Grade over </msg>
   <msg key="Grade_over_100_">Grade over 100 </msg>
+  <msg key="Grader">Grader</msg>
   <msg key="Grader_">Grader </msg>
   <msg key="Grades_">Grades </msg>
   <msg key="Grades_Category">Grades Category</msg>
@@ -154,6 +161,8 @@
 		&lt;/tr&gt;
 		&lt;tr&gt;
         &lt;td&gt;&lt;input type=submit value=&quot;&lt;# Create Group </msg>
+  <msg key="Group_Members">Group Members</msg>
+  <msg key="Group_Name">Group Name</msg>
   <msg key="Group_name">Group name</msg>
   <msg key="Group_Name_">Group Name </msg>
   <msg key="Groups_Admin_">Groups Admin. </msg>
@@ -193,10 +202,12 @@
   <msg key="lt_Associate_to_this_gro">Associate to this group </msg>
   <msg key="lt_Audit_info_for_task_t">Audit info for task &quot;%task_name%&quot;</msg>
   <msg key="lt_Can_the_student_submi">Can the student submit the answer &lt;br&gt; after the due date? </msg>
+  <msg key="lt_Change_Answer_for_tas">Change Answer for \&quot;%task_name%\&quot;</msg>
   <msg key="lt_Check_the_rest_of_com">Check the rest of communities where you want to upload the assignment too</msg>
   <msg key="lt_Check_this_if_you_wan">Check this if you want to unattach the file </msg>
   <msg key="lt_Check_this_if_you_wan_1">Check this if you want to go to the groups admin page after submitting the task </msg>
   <msg key="lt_Check_this_if_you_wan_2">Check this if you want to add the assignment to other class(es) that you administer </msg>
+  <msg key="lt_Click_here_to_go_to_t">Click here to go to the Assignments Page</msg>
   <msg key="lt_Click_on_the_task_tha">Click on the task that you want the groups to be copy from</msg>
   <msg key="lt_Commentedit_reason_on">Comment/edit reason on party_id %party_id% is larger than 4,000 characters long, which is our max lenght. Please make this comment/edit reason shorter. </msg>
   <msg key="lt_Confirm_Your_Evaluati">Confirm Your Evaluation </msg>
@@ -210,6 +221,7 @@
   <msg key="lt_Distribution_for_grad">Distribution for grade &quot;%grade_plural_name%&quot;</msg>
   <msg key="lt_Do_NOT_change_the_par">Do NOT change the &quot;party id&quot; field because with this file we associate the grade with the student or group.</msg>
   <msg key="lt_Due_date_must_be_in_t">Due date must be in the future </msg>
+  <msg key="lt_Due_Date_of_task_name">Due Date of \&quot;%task_name%\&quot;</msg>
   <msg key="lt_Edit_Assignment_Type_">Edit Assignment Type </msg>
   <msg key="lt_Edit_assignment_type_">Edit assignment type </msg>
   <msg key="lt_Edit_grades_distribut">Edit grades distribution of $grade_plural_name </msg>
@@ -234,6 +246,7 @@
   <msg key="lt_Grades_Report_for_stu">Grades Report for $student_name </msg>
   <msg key="lt_Grades_report_of_stud">Grades report of &quot;%student_name%&quot;</msg>
   <msg key="lt_Grades_Sheet_Explanat">Grades Sheet Explanation </msg>
+  <msg key="lt_Grades_sheet_for_assi">Grades sheet for assighment &quot;%task_name%&quot;</msg>
   <msg key="lt_Group_administration_">Group administration </msg>
   <msg key="lt_Groups_administration">Groups administration </msg>
   <msg key="lt_Groups_for_task_task_">Groups for task %task_name% </msg>
@@ -273,10 +286,13 @@
   <msg key="lt_Send_the_file_using_t">Send the file using the &quot;Send file&quot; botton. The system will parse the file and you will be asked for a confirmation (if everything is ok with the file) for the grades.</msg>
   <msg key="lt_smallTotal_points_in_">&lt;small&gt;Total points in this category: ${total_grade}/${max_grade} &lt;br /&gt;
     $grade_plural_name represents the ${grade_weight}% of the 100% of the class&lt;/small&gt; </msg>
+  <msg key="lt_Students_List_for_tas">Students List for \&quot;%task_name%\&quot;</msg>
   <msg key="lt_Students_who_have_not">Students who have not submitted answers and have not been evaluated (%not_evaluated_with_no_answer%)</msg>
   <msg key="lt_Students_with_answers">Students with answers that have not been evaluated (%not_evaluated_with_answer%)</msg>
   <msg key="lt_submission_date_prett">%submission_date_pretty% (late) </msg>
   <msg key="lt_submission_date_prett_1">%submission_date_pretty% &lt;span style=\&quot;color:red;\&quot;&gt;(late answer)&lt;/span&gt; </msg>
+  <msg key="lt_task_name_administrat">%task_name% administration</msg>
+  <msg key="lt_task_name_is_in_group">&quot;%task_name%&quot; is in groups, may be there are no groups, click this link if you want to go to the Groups Admin page: %groups_admin;noquote%</msg>
   <msg key="lt_The_assignment_task_n">The assignment &quot;%task_name%&quot; has been uploaded in this community.</msg>
   <msg key="lt_The_commentsedit_reas">The comments/edit reason is a string with no more than 4,000 characters.</msg>
   <msg key="lt_The_edit_reason_must_">The edit reason must be less than 4000 characteras long </msg>
@@ -324,6 +340,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_The_grade_must_be_a_v">The grade must be a valid number: %wrong_grade% </msg>
   <msg key="lt_The_grade_must_be_a_v_1">The grade must be a valid number </msg>
   <msg key="lt_The_net_value_must_be">The net value must be grather than 0 and less than $grade_weight, and you can not enter Net Value AND Weight. </msg>
+  <msg key="lt_The_number_of_members">The number of members must be grather than 1.</msg>
   <msg key="lt_The_sum_of_the_weight">The sum of the weight of all the assignment types is %total_weight% and it should be 100 by the end of the term(supposedly). </msg>
   <msg key="lt_The_system_assumes_th">The system assumes that the grades start at the 7th line of the file.</msg>
   <msg key="lt_The_weight_must_be_gr">The weight must be grather than 0, and you can not enter Net Value AND Weight. </msg>
@@ -387,12 +404,16 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_Upload_a_file_OR_a_ur_1">Upload a file OR a url, not both </msg>
   <msg key="lt_Upload_a_file_OR_a_va">Upload a file OR a valid url, and not both </msg>
   <msg key="lt_Upload_a_solution_for">Upload a solution for this assignment so the students can see it and learn from it.</msg>
+  <msg key="lt_Upload_Answer_for_tas">Upload Answer for \&quot;%task_name%\&quot;</msg>
   <msg key="lt_user_name_has_modifie">$user_name has modified the grade of %party_name%. \n The edit reason given by %user_name% was: %edit_reason% \n The current grade is: %current_grade% \n\n Click on this link to see the evaluation details: %url_link% \n </msg>
+  <msg key="lt_View_evaluation_detai">View evaluation details \</msg>
   <msg key="lt_ViewEdit_Task_Solutio">View/Edit Task Solution </msg>
   <msg key="lt_We_got_the_following_">We got the following error while trying to remove the evaluation: &lt;pre&gt;%errmsg%&lt;/pre&gt; </msg>
   <msg key="lt_We_got_the_following__1">We got the following error while trying to remove the grade: &lt;pre&gt;%errmsg%&lt;/pre&gt; </msg>
   <msg key="lt_We_got_the_following__2">We got the following error while trying to remove the task: &lt;pre&gt;%errmsg%&lt;/pre&gt; </msg>
   <msg key="lt_Weight_must_be_a_real">Weight must be a real number and between 0 and 100 </msg>
+  <msg key="lt_Weight_of_grade_plura">Weight of %grade_plural_name% over 100% of the class</msg>
+  <msg key="lt_Weight_of_this_grade_">Weight of this %grade_name% over %grade_plural_name%</msg>
   <msg key="lt_Weight_over_100_br__o">Weight over 100% &lt;br /&gt; of the Course </msg>
   <msg key="lt_Weight_over_grade_wei">Weight over %grade_weight%% &lt;br /&gt; of %grade_plural_name% </msg>
   <msg key="lt_Weight_over_grade_wei_1">Weight over %grade_weight%% of %grade_plural_name%&quot;}
@@ -433,6 +454,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="Name">Name:</msg>
   <msg key="Name_">Name </msg>
   <msg key="Name_student_name">Name: %student_name%</msg>
+  <msg key="Net_Grade">Net Grade</msg>
   <msg key="Net_Value_">Net Value </msg>
   <msg key="Net_value_">Net value </msg>
   <msg key="NEW_answer_">(NEW answer) </msg>
@@ -475,6 +497,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="Submission_Date_">Submission Date </msg>
   <msg key="submit_answer_">submit answer </msg>
   <msg key="submit_answer_again_">submit answer again </msg>
+  <msg key="Submitted_by">Submitted by</msg>
   <msg key="Sumission_Date_">Sumission Date </msg>
   <msg key="Task">Task</msg>
   <msg key="Task_Groups_">Task Groups </msg>
@@ -504,6 +527,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="veamos">pues, esto esta interesante </msg>
   <msg key="View_answer_">View answer </msg>
   <msg key="View_comments_">View comments </msg>
+  <msg key="View_Evaluation">View Evaluation</msg>
   <msg key="View_evaluation_">View evaluation </msg>
   <msg key="View_grades_sheet_">View grades sheet </msg>
   <msg key="View_my_answer_">View my answer </msg>
@@ -514,6 +538,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="ViewEdit_Solution_">View/Edit Solution </msg>
   <msg key="Weight">Weight</msg>
   <msg key="Weight_">Weight </msg>
+  <msg key="Weight_change">Weight change</msg>
   <msg key="Will_the_studens_be">Will the studen(s) be</msg>
   <msg key="Y">upi , pero no yupin</msg>
   <msg key="Yes">Yes</msg>

@@ -55,7 +55,7 @@ ad_form -name evaluation -cancel_url $return_url -export { task_id item_id party
 } -edit_request {
 	
 	db_1row evaluation_info { *SQL* }
-	set grade [format %.2f [lc_numeric $grade]]
+	set grade [lc_numeric $grade]
 	
 } -validate {
 	{grade 

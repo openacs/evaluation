@@ -42,7 +42,7 @@ if { ![ad_form_new_p -key solution_id] } {
 
     db_1row get_sol_info { *SQL* }
     
-    if { [string eq $storage_type "lob"] } {
+    if { [string eq $storage_type "lob"] || [string eq $storage_type "file"] } {
 
 	if { [string eq $solution_mode "edit"] } {
 	    set attached_p "t"
@@ -184,7 +184,12 @@ ad_form -extend -name solution -form {
 		
 		set title [template::util::file::get_property filename $upload_file]
 		set mime_type [cr_filename_to_mime_type -create $title]
-		set storage_type lob
+
+		if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
+		    set storage_type file
+		} else {
+		    set storage_type lob
+		}
 		
 	    }  elseif { ![string eq $url "http://"] } {
 		set mime_type "text/plain"
@@ -210,19 +215,28 @@ ad_form -extend -name solution -form {
 	    if { ![empty_string_p $upload_file] }  {
 		
 		set tmp_file [template::util::file::get_property tmp_filename $upload_file]
-		
-		# create the new item
-		db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
-		
 		set content_length [file size $tmp_file]
-		# Unfortunately, we can only calculate the file size after the lob is uploaded 
-		db_dml lob_size { *SQL* }
+		
+		if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
+		    # create the new item
+		    
+		    set filename [cr_create_content_file $item_id $revision_id $tmp_file]
+		    db_dml set_file_content { *SQL* }
+		    
+		} else {
+
+		    # create the new item
+		    db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
+		    
+		    # Unfortunately, we can only calculate the file size after the lob is uploaded 
+		    db_dml lob_size { *SQL* }
+		}
 		
 	    } elseif { ![string eq $url "http://"] } {
 		
 		db_dml link_content { *SQL* }
 		set content_length [string length $url] 
-		db_dml lob_size { *SQL* }
+		db_dml content_size { *SQL* }
 		
 	    } elseif { [string eq $attached_p "t"] && ![string eq $unattach_p "t"] } {
 		# just copy the old content to the new revision

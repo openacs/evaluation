@@ -444,7 +444,11 @@
 <fullquery name="evaluation::notification::get_url.get_grade_id">      
       <querytext>
 
-	select eg.grade_id from evaluation_tasks est, evaluation_grades eg where est.task_id = :task_id and est.grade_item_id = eg.grade_item_id and content_revision__is_live(est.task_id) = true and content_revision__is_live(eg.grade_id) = true
+	select eg.grade_id 
+	from evaluation_tasks est, evaluation_grades eg, cr_items cri
+	where est.task_id = :task_id
+	and est.grade_item_id = eg.grade_item_id 
+	and cri.live_revision = eg.grade_id
 	
       </querytext>
 </fullquery>
@@ -453,7 +457,7 @@
       <querytext>
 
 	select cu.person_id as party_id, cu.last_name||' - '||cu.first_names as party_name,  
-               ese.grade,
+               round(ese.grade,2) as grade,
                ese.description as comments
          from cc_users cu left outer join evaluation_student_evalsi ese on (ese.party_id = cu.person_id
                                                                             and ese.task_item_id = :task_item_id
@@ -522,10 +526,11 @@
 	select eg.grade_name, 
 	et.task_name 
 	from evaluation_grades eg, 
-	evaluation_tasks et 
+	evaluation_tasks et,
+	cr_items cri 
 	where et.task_id = :task_id
 	and et.grade_item_id = eg.grade_item_id
-	and content_revision__is_live(eg.grade_id) = true	
+	and cri.live_revision = eg.grade_id
 
       </querytext>
 </fullquery>
@@ -845,18 +850,23 @@
       <querytext>
 
 	select evaluation__party_name(ea.party_id, et.task_id) as party_name,
-	ea.title as answer_title,
-	ea.revision_id,
-	cri.storage_type
+	crr.title as answer_title,
+	crr.revision_id,
+	crr.content as cr_file_name,
+	cri.storage_type,
+	cri.storage_area_key as cr_path
 	from evaluation_answersi ea, 
+	cr_revisions crr,
 	evaluation_tasks et,
-	cr_items cri
+	cr_items cri,
+	cr_items cri2
 	where ea.task_item_id = et.task_item_id
-	and ea.item_id = cri.item_id
+	and ea.answer_item_id = cri.item_id
+	and crr.revision_id = ea.answer_id
 	and et.task_id = :task_id
 	and ea.data is not null
-	and content_revision__is_live(ea.answer_id) = true
-	and not exists (select 1 from evaluation_student_evals ese where ese.party_id = ea.party_id and ese.task_item_id = et.task_item_id and content_revision__is_live(ese.evaluation_id) = true)
+	and cri2.live_revision = ea.answer_id
+	and not exists (select 1 from evaluation_student_evals ese, cr_items cri3 where ese.party_id = ea.party_id and ese.task_item_id = et.task_item_id and cri3.live_revision = ese.evaluation_id)
 
       </querytext>
 </fullquery>

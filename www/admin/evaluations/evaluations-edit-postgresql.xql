@@ -8,7 +8,7 @@
 
 	select evaluation__party_name(ese.party_id,et.task_id) as party_name,
 	ese.party_id,
-	ese.grade,
+	round(ese.grade,2) as grade,
 	ese.last_modified as evaluation_date,
 	et.online_p,
 	et.due_date,

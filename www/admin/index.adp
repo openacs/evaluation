@@ -17,7 +17,7 @@
 <li>#evaluation.lt_There_are_no_tasks_fo#</li>
 </if><else>
 <multiple name="grades">
-	<li><strong>@grades.grade_plural_name@</strong> <br />
+	<li><strong>@grades.grade_plural_name;noquote@</strong> <br />
 	<include src="../../lib/tasks-chunk" grade_item_id=@grades.grade_item_id@ grade_id=@grades.grade_id@ assignments_orderby=@assignments_orderby@>
 	</li>
 </multiple>
@@ -31,7 +31,7 @@
 <li>#evaluation.lt_There_are_no_tasks_to#</li>
 </if><else>
 <multiple name="grades">
-	<li><strong>@grades.grade_plural_name@</strong> <br />
+	<li><strong>@grades.grade_plural_name;noquote@</strong> <br />
 	<include src="../../lib/evaluations-chunk" grade_item_id=@grades.grade_item_id@ grade_id=@grades.grade_id@ evaluations_orderby=@evaluations_orderby@>
 	</li>
 </multiple>

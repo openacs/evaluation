@@ -15,7 +15,7 @@
 		<td align=right>@reuse_link;noquote@</td>
 		</tr>
 	</table>
-	<form action="group-new"
+	<form action="group-new">
 	<input type=hidden name=task_id value="@task_id@">
 	<blockquote>
 	<table>

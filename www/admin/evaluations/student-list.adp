@@ -24,8 +24,8 @@
 </td>
 </tr>
 <tr>
-	<th>@groups_admin;noquote@</th>
-	<td></td>
+	<td>@groups_admin;noquote@</td>
+	<td>@task_admin;noquote@</a></td>
 </tr>
 </table>
 
@@ -33,6 +33,7 @@
 <p>#evaluation.Theese#</p>
 <blockquote><listtemplate name="evaluated_students"></listtemplate></blockquote>
 <br />
+
 <h2>#evaluation.lt_Students_with_answers#</h2>
 <p>#evaluation.lt_These_are_the_student#</p>
 
@@ -124,6 +125,10 @@
 </blockquote>
 </if><else>
 <p>#evaluation.lt_There_are_no_students_1#</p>
+<if @number_of_members@ gt 0 and @total_processed@ eq 0>
+<p> #evaluation.lt_task_name_is_in_group# </p>
+</if>
 </else>
+
 
 

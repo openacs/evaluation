@@ -14,7 +14,7 @@
 <fullquery name="task_info">      
       <querytext>
 	
-		select task_item_id
+		select task_item_id, task_name
 		from evaluation_tasks
 		where task_id = :task_id
 	
@@ -59,16 +59,6 @@
           and crr.revision_id = ea.answer_id
 	
       </querytext>
-</fullquery>
-
-<fullquery name="lob_size">      
-      <querytext>
-
-	update cr_revisions
- 	set content_length = :content_length
-	where revision_id = :revision_id
-
-     </querytext>
 </fullquery>
 
 <fullquery name="lob_content">      

@@ -20,7 +20,7 @@
 	<include src="../../../lib/student-grades-report-chunk" grade_id=@grades.grade_id@ orderby=@orderby@ student_id=@student_id@>
 	</li>
 </multiple>
-<h2>#evaluation.lt_TOTAL_GRADE_total_cla#</h2>
+<h2>#evaluation.lt_TOTAL_GRADE_total_cla# / @max_possible_grade@ </h2>
 </else>
 </ul>
 

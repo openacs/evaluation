@@ -1,5 +1,6 @@
 -- jopez@galileo.edu
 
+\i evaluation-calendar-drop.sql
 
 -- Unregister the content template
 select content_type__unregister_template (

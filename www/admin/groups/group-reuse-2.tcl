@@ -31,7 +31,9 @@ db_transaction {
 		
 		evaluation::new_evaluation_group -group_id $new_evaluation_group_id -group_name $group_name -task_item_id $task_item_id -context $package_id
 
-		db_exec_plsql evaluation_relationship_new { *SQL* }
+		db_foreach from_rel { *SQL* }  {
+		    db_exec_plsql evaluation_relationship_new { *SQL* }
+		}
 
 	}
 } on_error { 

@@ -148,18 +148,33 @@ if { ![empty_string_p $tmp_filename] } {
 	set title [template::util::file::get_property filename $upload_file]
 	set mime_type [cr_filename_to_mime_type -create $title]
 
+	if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
+	    set storage_type file
+	} else {
+	    set storage_type lob
+	}
+
 	set revision_id [evaluation::new_grades_sheet -new_item_p 1 -item_id $grades_sheet_item_id -content_type evaluation_grades_sheets \
-			     -content_table evaluation_grades_sheets -content_id grades_sheet_id -storage_type lob -task_item_id $task_item_id \
+			     -content_table evaluation_grades_sheets -content_id grades_sheet_id -storage_type $storage_type -task_item_id $task_item_id \
 			     -title $title -mime_type $mime_type]
 	
 	evaluation::set_live -revision_id $revision_id
 
-	# create the new item
-	db_dml lob_content { *SQL* } -blob_files [list $tmp_filename]
-	
-	set content_length [file size $tmp_filename]
-	# Unfortunately, we can only calculate the file size after the lob is uploaded 
-	db_dml lob_size { *SQL* }
+	if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
+	    # create the new item
+	    
+	    set filename [cr_create_content_file $item_id $revision_id $tmp_file]
+	    db_dml set_file_content { *SQL* }
+	    
+	} else {
+
+	    # create the new item
+	    db_dml lob_content { *SQL* } -blob_files [list $tmp_filename]
+	    
+	    set content_length [file size $tmp_filename]
+	    # Unfortunately, we can only calculate the file size after the lob is uploaded 
+	    db_dml lob_size { *SQL* }
+	}
 	
 	foreach party_id [array names grades_gs] {
 	    if { ![info exists comments_gs($party_id)] } {

@@ -6,7 +6,8 @@
 <fullquery name="get_tasks_admin">      
       <querytext>
 
-	select et.task_name, et.weight as task_weight,
+	select et.task_name, 
+	round(et.weight,2) as task_weight,
     et.task_id
 	from evaluation_tasksi et, cr_items cri
 	where grade_item_id = :grade_item_id
@@ -23,7 +24,7 @@
 	et.task_item_id,
 	et.weight as t_weight,
 	eg.weight as g_weight,
-	(et.weight*eg.weight)/100 as task_weight,
+	round((et.weight*eg.weight)/100,2) as task_weight,
 	et.number_of_members,
         et.task_id
 	from evaluation_grades eg,
@@ -40,22 +41,50 @@
 <fullquery name="get_group_id">      
       <querytext>
 
-		select evaluation__party_id(:user_id,:task_id)
+	select coalesce((select etg2.group_id from evaluation_task_groups etg2, 
+                                                      evaluation_tasks et2, 
+                                                      acs_rels map 
+                                                      where map.object_id_one = etg2.group_id 
+                                                        and map.object_id_two = :user_id 
+                                                        and etg2.task_item_id = et2.task_item_id 
+                                                        and et2.task_id = :task_id),0)
+               from evaluation_tasks et3 
+              where et3.task_id = :task_id 
+
+--		select evaluation__party_id(:user_id,:task_id)
 	
       </querytext>
 </fullquery>
 
-<fullquery name="get_evaluaiton_info">      
+<fullquery name="get_evaluation_info">      
       <querytext>
 
-	    select ese.grade,
+	    select round(ese.grade,2) as grade,
+	    ese.evaluation_id,
 	    ese.description as comments,
 	    ese.show_student_p,
-	    (ese.grade*:t_weight*:g_weight)/10000 as task_grade
+	    round((ese.grade*:t_weight*:g_weight)/10000,2) as task_grade
 	    from evaluation_student_evalsi ese, cr_items cri
 	    where ese.task_item_id = :task_item_id
 	    and cri.live_revision = ese.evaluation_id
-	    and ese.party_id = evaluation__party_id(:user_id,:task_id)
+	    and ese.party_id = 
+	( select 
+	CASE  
+	  WHEN et3.number_of_members = 1 THEN :user_id 
+	  ELSE  
+	(select etg2.group_id from evaluation_task_groups etg2, 
+                                                      evaluation_tasks et2, 
+                                                      acs_rels map 
+                                                      where map.object_id_one = etg2.group_id 
+                                                        and map.object_id_two = :user_id 
+                                                        and etg2.task_item_id = et2.task_item_id 
+                                                        and et2.task_id = :task_id) 
+	END as nom 
+               from evaluation_tasks et3 
+              where et3.task_id = :task_id 
+	) 
+
+-- evaluation__party_id(:user_id,:task_id)
 
       </querytext>
 </fullquery>
@@ -69,7 +98,24 @@
 	    from evaluation_answersi ea, cr_items cri
 	    where ea.task_item_id = :task_item_id 
 	    and cri.live_revision = ea.answer_id
-	    and ea.party_id = evaluation__party_id(:user_id,:task_id)
+	    and ea.party_id = 
+	( select 
+	CASE  
+	  WHEN et3.number_of_members = 1 THEN :user_id 
+	  ELSE  
+	(select etg2.group_id from evaluation_task_groups etg2, 
+                                                      evaluation_tasks et2, 
+                                                      acs_rels map 
+                                                      where map.object_id_one = etg2.group_id 
+                                                        and map.object_id_two = :user_id 
+                                                        and etg2.task_item_id = et2.task_item_id 
+                                                        and et2.task_id = :task_id) 
+	END as nom 
+               from evaluation_tasks et3 
+              where et3.task_id = :task_id 
+	) 
+
+-- evaluation__party_id(:user_id,:task_id)
 
       </querytext>
 </fullquery>

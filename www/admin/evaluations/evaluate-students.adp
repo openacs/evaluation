@@ -9,6 +9,7 @@
 	@export_vars;noquote@
       <input type=hidden name=task_id value="@task_id@">
       <input type=hidden name=max_grade value="@max_grade@">
+      <input type=submit value="#evaluation.Grade_1#" > <input type=button value="#evaluation.Go#" onClick="history.go(-1)"> 
 		<blockquote>
         <table>
           <multiple name="evaluations_wa">
@@ -30,6 +31,7 @@
   @export_vars;noquote@ 
   <input type=hidden name=task_id value="@task_id@"> 
   <input type=hidden name=max_grade value="@max_grade@"> 
+  <input type=submit value="#evaluation.Grade_1#" >
   <blockquote> 
     <table> 
 	<multiple name="evaluations_na"> 
@@ -54,6 +56,7 @@
 	@export_vars;noquote@
       <input type=hidden name=task_id value="@task_id@">
       <input type=hidden name=max_grade value="@max_grade@">
+      <input type=submit value="#evaluation.Confirm#">
 		<blockquote>
         <table>
           <multiple name="evaluations">

@@ -109,6 +109,7 @@ ad_proc -public evaluation::notification::do_notification {
 		set notif_text "[_ evaluation.lt_An_assignment_was_mod] \n"
 	    }
 	    append notif_text "[_ evaluation.click_on_this_link_] [evaluation::notification::get_url -task_id $task_id -notif_type one_assignment_notif] \n"
+	    append notif_text $sms_text
 	    set response_id $task_id
 	    
 	}
@@ -134,24 +135,12 @@ ad_proc -public evaluation::notification::do_notification {
 	-response_id $response_id \
 	-notif_subject $notif_subject \
 	-notif_text $notif_text 
+
 } 
 
 ad_proc -public evaluation::package_key {} {
     return "evaluation"
 }
-
-ad_proc -public evaluation::make_url { 
-    -file_name_from_db:required 
-} {
-    if { [regexp "view" $file_name_from_db] } {
-	return $file_name_from_db
-    } elseif { [regexp "http://" $file_name_from_db] } {
-	return $file_name_from_db
-    } else {
-	return $file_name_from_db
-    }
-}
-
 
 ad_proc -public evaluation::new_grade {
     -item_id:required
@@ -360,7 +349,7 @@ ad_proc -public evaluation::new_solution {
 	@param new_item_p If true make a new item using item_id
 	@param task_id Task which "owns" the solution
 	@param title The name of the task solution
-	@param storage_type lob or text, depending on what are we going to store
+	@param storage_type lob, file or text, depending on what are we going to store
 
 } {
 
@@ -417,7 +406,7 @@ ad_proc -public evaluation::new_answer {
 	@param new_item_p If true make a new item using item_id
 	@param task_id Task which "owns" the answer
 	@param title The name of the task solution
-	@param storage_type lob or text, depending on what are we going to store
+	@param storage_type lob, file or text, depending on what are we going to store
 	@param party_id Group or user_id thaw owns the anser
 } {
 
@@ -478,7 +467,7 @@ ad_proc -public evaluation::new_evaluation {
 	@param party_id Party been evaluated
 	@param grade Grade of the evaluation
 	@param show_student_p If the student(s) will be able to see the grade
-	@param storage_type lob or text, depending on what are we going to store
+	@param storage_type lob, file or text, depending on what are we going to store
 	@param description Comments on the evaluation
 	@param mime_type Mime type of the evaluation.
 } {
@@ -578,7 +567,7 @@ ad_proc -public evaluation::new_grades_sheet {
 	@param new_item_p If true make a new item using item_id
 	@param task_id Task which "owns" the grades sheet
 	@param title The name of the grades sheet
-	@param storage_type lob 
+	@param storage_type lob or file 
 	@param mime_type Mime tipe of the grades sheet
 
 } {
@@ -622,7 +611,7 @@ ad_proc -public evaluation::generate_grades_sheet {} {
     } 
 	
     set csv_content [list] 
-    lappend csv_content "Grades sheet for assighment \"$task_name\""  
+    lappend csv_content "[_ evaluation.lt_Grades_sheet_for_assi]"  
 
 	lappend csv_content "\n[_ evaluation.Max_Grade_]"
   	lappend csv_content "100"
@@ -652,7 +641,7 @@ ad_proc -public evaluation::generate_grades_sheet {} {
 	
     db_foreach parties_with_to_grade { *SQL* } {
 	if { ![empty_string_p $grade] } {
-	    set grade [format %.2f [lc_numeric $grade]]
+	    set grade [lc_numeric $grade]
 	}
 	    lappend csv_content "\n$party_id" 
 	    lappend csv_content "$party_name" 
@@ -763,6 +752,11 @@ ad_proc -public evaluation::apm::enable_intervals_and_methods {
     notification::type::delivery_method_enable \
 	-type_id $type_id \
 	-delivery_method_id [notification::delivery::get_id -short_name email]
+
+    # Enable the delivery methods
+    notification::type::delivery_method_enable \
+	-type_id $type_id \
+	-delivery_method_id [notification::delivery::get_id -short_name sms]
 }
 
 ad_proc -public evaluation::apm::create_folders {
@@ -886,13 +880,20 @@ ad_proc -public evaluation::public_answers_to_file_system {
     file mkdir $dir
 
     db_foreach get_answers_for_task { *SQL* } {
-	if { [string eq $storage_type "lob"] } {
+	if { [string eq $storage_type "lob"] || [string eq $storage_type "file"] } {
 	    # it is a file
 	    
 	    regsub -all {[<>:\"|/@\\\#%&+\\ ,]} $party_name {_} file_name
 	    append file_name [file extension $answer_title]
 	    
-	    db_blob_get_file select_object_content { *SQL* } -file [file join ${dir} ${file_name}]
+	    if { [string eq $storage_type "file"] } {
+		# its a file
+		
+		file copy -- "[cr_fs_path $cr_path]${cr_file_name}" [file join ${dir} ${file_name}]
+	    } else {
+		# its a lob
+		db_blob_get_file select_object_content { *SQL* } -file [file join ${dir} ${file_name}]
+	    }
 	    
 	} else {
 	    # it is a url

@@ -12,7 +12,7 @@ db_1row grade_names { *SQL* }
 set base_url [ad_conn package_url]
 
 set mode display
-set return_url "[ad_conn url]?[ns_conn query]&[export_vars { grade_id }]"
+set return_url "[ad_conn url]?[ns_conn query]"
 
 set elements [list task_name \
 		  [list label "[_ evaluation-portlet.Name_]" \
@@ -115,7 +115,7 @@ if { $admin_p } {
 	} else {
 	    # we assume it's a file
 	    set task_url "[export_vars -base "${base_url}view/$task_title" { revision_id }]"
-	    set task_name "$task_name ([format %.0f [lc_numeric [expr ($content_length/1024)]]] Kb)"
+	    set task_name "$task_name ([lc_numeric $content_length] Kb - ${pretty_mime_type})"
 	}
 
 	if { [db_0or1row solution_info { *SQL* }] } { 
@@ -157,7 +157,7 @@ if { $admin_p } {
 	} else {
 	    # we assume it's a file
 	    set task_url "[export_vars -base "${base_url}view/$task_title" { revision_id }]"
-	    set task_name "$task_name ([format %.0f [lc_numeric [expr ($content_length/1024)]]] Kb)"
+	    set task_name "$task_name ([lc_numeric $content_length] Kb - ${pretty_mime_type})"
 	}
 
 	if { [string eq $online_p "t"] } {

@@ -35,7 +35,7 @@ db_1row get_task_info { *SQL* }
 
 if { ![empty_string_p $task_data] } {
 
-    if { [regexp "http://" $task_data] } {
+    if { [string eq $task_title "link"] } {
  	set task_url "<a href=\"$task_data\">$task_data</a>"
     } else {
 	# we assume it's a file

@@ -15,12 +15,14 @@ ad_page_contract {
     upload_file.tmpfile:tmpfile,optional
     return_url:notnull
 } -validate {
-    late_submit {
+    late_submit -requires { task_id:integer } {
 	if { [string eq [db_string late_turn_in { *SQL* }] "f"] && [db_string compare_dates { *SQL* } -default 0] } {
 	    ad_complain "[_ evaluation.lt_This_task_can_not_be_]"
 	}
     }
 }
+
+db_1row task_info { *SQL* }
 
 set user_id [ad_conn user_id]
 set party_id [db_string get_party_id { *SQL* }]
@@ -28,16 +30,14 @@ set party_id [db_string get_party_id { *SQL* }]
 set package_id [ad_conn package_id]
 
 if { [ad_form_new_p -key answer_id] } {
-	set page_title "[_ evaluation.Upload_Answer_]"
+	set page_title "[_ evaluation.lt_Upload_Answer_for_tas]"
 } else {
-	set page_title "[_ evaluation.Change_Answer_]"
+	set page_title "[_ evaluation.lt_Change_Answer_for_tas]"
 	db_1row item_data { *SQL* }
 
 }
 
 set context [list $page_title]
-
-db_1row task_info { *SQL* }
 
 db_0or1row double_click { *SQL* }
 
@@ -92,7 +92,12 @@ ad_form -extend -name answer -form {
 			set title [template::util::file::get_property filename $upload_file]
 			set mime_type [cr_filename_to_mime_type -create $title]
 
-			set storage_type lob
+			if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
+			    set storage_type file
+			} else {
+			    set storage_type lob
+			}
+
 		}  elseif { ![string eq $url "http://"] } {
 			set mime_type "text/plain"
 			set title "link"
@@ -113,19 +118,28 @@ ad_form -extend -name answer -form {
 		if { ![empty_string_p $upload_file] }  {
 
 			set tmp_file [template::util::file::get_property tmp_filename $upload_file]
-			
-			# create the new item
-			db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
-
 			set content_length [file size $tmp_file]
-			# Unfortunately, we can only calculate the file size after the lob is uploaded 
-			db_dml lob_size { *SQL* }
+			
+			if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
+			    # create the new item
+			    
+			    set filename [cr_create_content_file $item_id $revision_id $tmp_file]
+			    db_dml set_file_content { *SQL* }
+
+			} else {
+			    
+			    # create the new item
+			    db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
+
+			    # Unfortunately, we can only calculate the file size after the lob is uploaded 
+			    db_dml lob_size { *SQL* }
+			}
 
 		} elseif { ![string eq $url "http://"] } {
 			
 			db_dml link_content { *SQL* }
 			set content_length 0
-			db_dml lob_size { *SQL* }
+			db_dml content_size { *SQL* }
 			
 		}
 	}

@@ -22,7 +22,7 @@ set content_root [db_string get_folder_id { *SQL* }]
 set template_root ""
 
 # Serve the page
-ns_log Notice "url $the_url the_root $content_root !!\n"
+
 if { [content::init the_url the_root $content_root $template_root public $revision_id $content_type] } {
   set file "$the_root/$the_url"
   rp_internal_redirect -absolute_path $file

@@ -9,12 +9,13 @@
 	select et.task_name, et.number_of_members,
     et.task_id as from_task_id,
     eg.grade_plural_name
-	from evaluation_tasksi et, evaluation_gradesi eg
-	where content_revision__is_live(et.task_id) = true 
-      and et.number_of_members > 1
+	from evaluation_tasks et, evaluation_grades eg, acs_objects ao, cr_items cri1, cr_items cri2
+	where et.number_of_members > 1
       and et.grade_item_id = eg.grade_item_id
-      and content_revision__is_live(eg.grade_id) = true 
-      and content_revision__is_live(et.task_id) = true
+      and cri1.live_revision = eg.grade_id
+      and cri2.live_revision = et.task_id
+      and ao.object_id = eg.grade_item_id
+      and ao.context_id = :package_id
       and et.task_id <> :task_id
       $orderby
 	

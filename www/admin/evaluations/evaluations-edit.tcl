@@ -55,14 +55,14 @@ if {[string equal $orderby ""]} {
 
 db_multirow -extend { answer answer_url radio_yes_checked radio_no_checked submission_date_pretty } evaluated_students get_evaluated_students { *SQL* } {
 
-    set grade [format %.2f [lc_numeric $grade]]
+    set grade [lc_numeric $grade]
     if { [string eq $online_p "t"] } {
 	if { [db_0or1row get_answer_info { *SQL* }] } {
 	    
 	    # working with answer stuff (if it has a file/url attached)
 	    if { [empty_string_p $answer_data] } {
 		set answer "[_ evaluation.No_response_]"
-	    } elseif { [regexp "http://" $answer_data] } {
+	    } elseif { [string eq $answer_title "link"] } {
 		set answer_url "[export_vars -base "$answer_data" { }]"
 		set answer "[_ evaluation.View_answer_]"
 	    } else {

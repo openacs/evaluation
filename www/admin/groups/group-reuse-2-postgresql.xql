@@ -6,9 +6,11 @@
 <fullquery name="get_groups_for_task">      
       <querytext>
 
-	select count(*) 
-	from evaluation_task_groups etg, evaluation_tasks et
-	where etg.task_item_id = et.task_item_id 
+	select count(*)
+	from evaluation_task_groups etg, evaluation_tasks et, acs_rels map
+	where etg.task_item_id = et.task_item_id
+          and map.rel_type = 'evaluation_task_group_rel'
+          and map.object_id_one = etg.group_id
 	  and et.task_id = :task_id
 
       </querytext>
@@ -44,13 +46,22 @@
 									 null,
 									 'evaluation_task_group_rel',
 									 :new_evaluation_group_id,
-									 map.object_id_two,
+									 :new_member_id,
 									 :package_id,
 									 :creation_user_id,
 									 :creation_ip
-									 )
-               from acs_rels map where map.object_id_one = :from_evaluation_group_id;
+									 );
 	
+      </querytext>
+</fullquery>
+
+<fullquery name="from_rel">      
+      <querytext>
+
+	    select map.object_id_two as new_member_id
+	    from acs_rels map 
+	    where map.object_id_one = :from_evaluation_group_id
+
       </querytext>
 </fullquery>
 

@@ -3,16 +3,16 @@
 <property name="context">@context;noquote@</property>
 
 <if @evaluated_students:rowcount@ gt 0>
-  <form action="evaluate-students">
-      <input type=hidden name=task_id value="@task_id@">
+  <form action="evaluate-students" method="POST">
+      <input type=hidden name=task_id value="@task_id@" />
+		@export_vars;noquote@
 	   <blockquote><listtemplate name="evaluated_students"></listtemplate></blockquote>
         <input type=submit value="#evaluation.Edit#">
-		@export_vars;noquote@
   </form>
   <blockquote>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
-    <input type="hidden" name="grades_sheet_item_id" value="@grades_sheet_item_id@"> 
-    <input type="hidden" name="task_id" value=@task_id@> 
+    <input type="hidden" name="grades_sheet_item_id" value="@grades_sheet_item_id@" /> 
+    <input type="hidden" name="task_id" value="@task_id@" /> 
        <table> 
           <tr> 
           <th style="text-align:right;">#evaluation.lt_Grade_students_using_file#</th> 

@@ -56,7 +56,7 @@ if { !$new_p } {
 
     db_1row get_task_info { *SQL* }
     
-    if { [string eq $storage_type "lob"] } {
+    if { [string eq $storage_type "lob"] || [string eq $storage_type "file"] } {
 
 	if { [string eq $mode "edit"] } {
 	    set attached_p "t"
@@ -268,6 +268,10 @@ ad_form -extend -name task -form {
 	{ [string eq [format %.2f $weight] 0.00] || ([empty_string_p $weight] && [string eq $requires_grade_p f]) || (($weight > 0) && ([string eq [format %.2f $net_value] 0.00] || [empty_string_p $net_value])) }
 	{ [_ evaluation.lt_The_weight_must_be_gr] }
     }
+    {number_of_members
+	{ $number_of_members >= 1 }
+	{ [_ evaluation.lt_The_number_of_members]}
+    }
 } -new_data {
     
     evaluation::notification::do_notification -task_id $revision_id -package_id [ad_conn package_id] -edit_p 0 -notif_type one_assignment_notif
@@ -299,7 +303,11 @@ ad_form -extend -name task -form {
 	    set title [template::util::file::get_property filename $upload_file]
 	    set mime_type [cr_filename_to_mime_type -create $title]
 	    
-	    set storage_type lob
+	    if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
+		set storage_type file
+	    } else {
+		set storage_type lob
+	    }
 	} elseif { ![string eq $url "http://"] } {
 	    set mime_type "text/plain"
 	    set title "link"
@@ -328,25 +336,54 @@ ad_form -extend -name task -form {
 	if { ![empty_string_p $upload_file] }  {
 	    
 	    set tmp_file [template::util::file::get_property tmp_filename $upload_file]
-	    
-	    # create the new item
-	    db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
-	    
 	    set content_length [file size $tmp_file]
-	    # Unfortunately, we can only calculate the file size after the lob is uploaded 
-	    db_dml lob_size { *SQL* }
+	    
+	    if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
+		# create the new item
+
+		set filename [cr_create_content_file $item_id $revision_id $tmp_file]
+                db_dml set_file_content { *SQL* }
+
+	    } else {
+		# create the new item
+		db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
+		
+		# Unfortunately, we can only calculate the file size after the lob is uploaded 
+		db_dml lob_size { *SQL* }
+	    }
 	    
 	} elseif { ![string eq $url "http://"] } {
 	    
 	    db_dml link_content { *SQL* }
 	    set content_length [string length $url]
-	    db_dml lob_size { *SQL* }
+	    db_dml content_size { *SQL* }
 	    
 	} elseif { [string eq $attached_p "t"] && ![string eq $unattach_p "t"] } {
 
 	    # just copy the old content to the new revision
 	    db_exec_plsql copy_content { *SQL* }
 	}	
+	
+	# integration with calendar
+	# since there is no service contract defined
+
+	set desc_url "<a href=\"$return_url\">[_ evaluation.lt_Click_here_to_go_to_t]</a>"
+
+	set url [dotlrn_community::get_community_url $community_id]
+	
+	array set community_info [site_node::get -url "${url}calendar"]
+	set community_package_id $community_info(package_id)
+	set calendar_id [db_string get_cal_id { *SQL* }]
+
+	if { ![db_0or1row calendar_mappings { *SQL* }] } {
+	    # create cal_item
+	    set cal_item_id [calendar::item::new -start_date $due_date -end_date $due_date -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id]
+	    db_dml insert_cal_mapping { *SQL* }
+	} else {
+	    # edit previous cal_item
+	    calendar::item::edit -cal_item_id $cal_item_id -start_date $due_date -end_date $due_date -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id
+	}
+
     }
 } -after_submit {
     set redirect_to_groups_p 0

@@ -79,6 +79,16 @@
      </querytext>
 </fullquery>
 
+<fullquery name="content_size">      
+      <querytext>
+
+	update cr_revisions
+ 	set content_length = :content_length
+	where revision_id = :revision_id
+
+     </querytext>
+</fullquery>
+
 <fullquery name="copy_content">      
       <querytext>
 

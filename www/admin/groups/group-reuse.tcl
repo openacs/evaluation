@@ -11,6 +11,7 @@ ad_page_contract {
 	{orderby:optional}
 }
 
+set package_id [ad_conn package_id]
 set page_title "[_ evaluation.Reuse_Groups_]"
 set context [list [list "[export_vars -base one-task { task_id }]" "[_ evaluation.Task_Groups_]"] "[_ evaluation.Reuse_Groups_]"]
 
