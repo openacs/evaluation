@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 
 <queryset>
-   <rdbms><type>postgresql</type><version>7.3</version></rdbms>
-
 <fullquery name="get_number_of_members">      
       <querytext>
 
