@@ -496,7 +496,7 @@ end;' language 'plpgsql';
 -- TEMPLATES
 ---------------------------------------
                                                                                                                                                              
-create function evaluation__create_folder ()
+create function evaluation__create_template ()
 returns integer as'
 declare
     template_id integer;
@@ -571,5 +571,48 @@ begin
                                                                                                                                                              
     return null;
 end;' language 'plpgsql';                                                                                                                                   
+
+create function evaluation__delete_template ()
+returns integer as '
+declare
+    v_template_id         cr_templates.template_id%TYPE;
+    v_item_cursor RECORD;
+                                                                                                                                                             
+begin
+                                                                                                                                                             
+    FOR v_item_cursor IN
+        select template_id
+        from   cr_templates, cr_items
+        where  name=''evaluation-tasks-default''
+    LOOP
+        PERFORM content_template__delete(v_item_cursor.template_id);
+    END LOOP;
+                                                                                                                                                             
+    FOR v_item_cursor IN
+        select template_id
+        from   cr_templates, cr_items
+        where  name=''evaluation-tasks-sols-default''
+    LOOP
+        PERFORM content_template__delete(v_item_cursor.template_id);
+    END LOOP;
+                                                                                                                                                             
+    FOR v_item_cursor IN
+        select template_id
+        from   cr_templates, cr_items
+        where  name=''evaluation-answers-default''
+    LOOP
+        PERFORM content_template__delete(v_item_cursor.template_id);
+    END LOOP;
+
+    FOR v_item_cursor IN
+        select template_id
+        from   cr_templates, cr_items
+        where  name=''evaluation-grades-sheets-default''
+    LOOP
+        PERFORM content_template__delete(v_item_cursor.template_id);
+    END LOOP;
+                                                                                                                                                             
+    return 0;
+end;' language 'plpgsql';
 
 \i evaluation-calendar-create.sql
