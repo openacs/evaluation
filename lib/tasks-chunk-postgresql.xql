@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<queryset>
+   <rdbms><type>postgresql</type><version>7.4</version></rdbms>
+
+<fullquery name="get_tasks_admin">      
+      <querytext>
+
+	select et.task_name, et.number_of_members, et.task_id,
+		to_char(et.due_date,'Month DD YYYY') as pretty_due_date, et.online_p, et.late_submit_p, et.item_id,
+		et.requires_grade_p, et.description, et.grade_id,
+		cr.content_length,
+		et.data as task_data,
+		et.title as task_title,
+   		et.task_id as revision_id,
+		ets.solution_id as solution_id
+	from cr_revisions cr, 
+		 evaluation_tasksi et left outer join evaluation_tasks_solsi ets on (ets.task_id = et.task_id and content_revision__is_live(ets.solution_id) = true)
+	where cr.revision_id = et.revision_id
+	  and grade_id = :grade_id	
+	  and content_revision__is_live(et.task_id) = true 
+	$orderby
+
+      </querytext>
+</fullquery>
+
+<fullquery name="get_tasks">      
+      <querytext>
+
+	select et.task_name, et.number_of_members, et.task_id,
+		to_char(et.due_date,'Month DD YYYY') as pretty_due_date, et.online_p, et.late_submit_p, et.item_id,
+		et.due_date,
+		et.requires_grade_p, et.description, et.grade_id,
+		et.title as task_title,
+		et.data as task_data,
+	   	et.task_id as revision_id,
+		cr.content_length,
+		ea.answer_id as answer_id
+	from cr_revisions cr, 
+		 evaluation_tasksi et left outer join evaluation_answersi ea on (ea.task_id = et.task_id and content_revision__is_live(ea.answer_id) = true
+                                                                    and ea.party_id = evaluation__party_id(:user_id,et.task_id))
+	where cr.revision_id = et.revision_id
+	  and grade_id = :grade_id
+	  and content_revision__is_live(et.task_id) = true 
+    $orderby
+	
+      </querytext>
+</fullquery>
+
+<fullquery name="get_group_id">      
+      <querytext>
+
+		select evaluation__party_id(:user_id,:task_id)
+	
+      </querytext>
+</fullquery>
+
+<fullquery name="grade_name">      
+      <querytext>
+
+		select grade_name from evaluation_grades where grade_id = :grade_id
+	
+      </querytext>
+</fullquery>
+
+</queryset>

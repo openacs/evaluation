@@ -1,0 +1,78 @@
+<master>
+<property name="title">@page_title;noquote@</property>
+<property name="context">@context;noquote@</property>
+
+<h2>Confirm your evaluation(s) on "@task_name@"</h2>
+
+<if @evaluations_wa:rowcount@ gt 0>
+   <form action="evaluate-students-2" method="post">
+	@export_vars;noquote@
+      <input type=hidden name=task_id value="@task_id@">
+      <input type=hidden name=grade_id value="@grade_id@">
+      <input type=hidden name=max_grade value="@max_grade@">
+		<blockquote>
+        <table>
+          <multiple name="evaluations_wa">
+                <if @evaluations_wa.rownum@ odd><table bgcolor="#EAF2FF"></if><else><table bgcolor="white"></else>
+						<tr><th align="right">Name:</th><td>@evaluations_wa.party_name@</td></tr>
+					 	<tr><th align="right">Grade:</th><td>@evaluations_wa.grade@ / @max_grade@</td></tr>
+                     	<tr><th align="right">Comments:</th><td>@evaluations_wa.comment@</td></tr>
+                     	<tr><th align="right">Will the studen(s) be <br /> able to see the grade?</th><td>@evaluations_wa.show_student@</td></tr>
+                    </tr>
+					</table>
+          </multiple>
+        </table>
+		</blockquote>
+        <input type=submit value="Grade Students">
+    </form>
+</if>
+
+<if @evaluations_na:rowcount@ gt 0>
+   <form action="evaluate-students-2" method+"post">
+	@export_vars;noquote@
+      <input type=hidden name=task_id value="@task_id@">
+      <input type=hidden name=grade_id value="@grade_id@">
+      <input type=hidden name=max_grade value="@max_grade@">
+		<blockquote>
+        <table>
+          <multiple name="evaluations_na">
+                <if @evaluations_na.rownum@ odd><table bgcolor="#EAF2FF"></if><else><table bgcolor="white"></else>
+						<tr><th align="right">Name:</th><td>@evaluations_na.party_name@</td></tr>
+					 	<tr><th align="right">Grade:</th><td>@evaluations_na.grade@ / @max_grade@</td></tr>
+                     	<tr><th align="right">Comments:</th><td>@evaluations_na.comment@</td></tr>
+                     	<tr><th align="right">Will the studen(s) be <br /> able to see the grade?</th><td>@evaluations_na.show_student@</td></tr>
+                    </tr>
+					</table>
+          </multiple>
+        </table>
+		</blockquote>
+        <input type=submit value="Grade Students">
+    </form>
+</if>
+
+<if @evaluations:rowcount@ gt 0>
+   <form action="evaluate-students-2" method="post">
+	@export_vars;noquote@
+      <input type=hidden name=task_id value="@task_id@">
+      <input type=hidden name=grade_id value="@grade_id@">
+      <input type=hidden name=max_grade value="@max_grade@">
+		<blockquote>
+        <table>
+          <multiple name="evaluations">
+                <if @evaluations.rownum@ odd><table bgcolor="#EAF2FF"></if><else><table bgcolor="white"></else>
+						<tr><th align="right">Name:</th><td>@evaluations.party_name@</td></tr>
+					 	<tr><th align="right">Grade:</th><td>@evaluations.grade@ / @max_grade@</td></tr>
+                     	<tr><th align="right">Edit Reason:</th><td>@evaluations.reason@</td></tr>
+                     	<tr><th align="right">Will the studen(s) be <br /> able to see the grade?</th><td>@evaluations.show_student@</td></tr>
+                    </tr>
+					</table>
+          </multiple>
+        </table>
+		</blockquote>
+        <input type=submit value="Confirm">
+    </form>
+</if>
+
+</p>
+
+

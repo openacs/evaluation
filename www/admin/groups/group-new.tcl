@@ -1,0 +1,42 @@
+# /packages/evaluation/www/admin/groups/group-new.tcl
+
+ad_page_contract {
+	Creates a evaluation group for a task.
+
+	@author jopez@galileo.edu
+	@createion-date Mar 2004
+	@cvs-id $Id$
+} {
+	student_ids:array,integer,notnull
+	task_id:integer,notnull
+	{return_url "one-task?[export_vars -url { task_id }]"}
+} -validate {
+	students_to_work_with {
+		if { [array size student_ids] == 0  } {
+			ad_complain "There must be some students selected in order to crate the group."
+		}
+	}
+}
+
+set page_title "New Group"
+set context [list [list "[export_vars -base one-task { task_id }]" "Task Groups"] "Create Group"]
+
+set current_groups_plus_one [db_string get_groups "select count(group_id)+1 from evaluation_task_groups where task_id = :task_id"]
+set evaluation_group_id [db_nextval acs_object_id_seq]
+
+# if the structure of the multirow datasource ever changes, this needs to be rewritten    
+set counter 0
+foreach student_id [array names student_ids] {
+	if {[info exists student_ids($student_id)]} { 
+		incr counter 
+		set student_name [db_string get_student_name { *SQL* }]
+		set students:${counter}(rownum) $counter
+		set students:${counter}(student_name) $student_name
+	}
+}
+
+set students:rowcount $counter
+
+set export_vars [export_vars -form { student_ids }]
+
+ad_return_template
