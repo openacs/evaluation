@@ -74,9 +74,7 @@ set elements [list count \
 if { [string eq $online_p "t"] } {
     lappend elements submission_date_pretty \
 	[list label "[_ evaluation.Submission_Date_]" \
-	     display_template { @evaluated_students.submission_date_pretty;noquote@ } \
-	     orderby_asc {submission_date_ansi asc} \
-	     orderby_desc {submission_date_ansi desc}]
+	     display_template { @evaluated_students.submission_date_pretty;noquote@ }]
 }
 
 lappend elements view \
