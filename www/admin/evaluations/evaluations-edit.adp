@@ -6,7 +6,7 @@
   <form action="evaluate-students">
       <input type=hidden name=task_id value="@task_id@">
 	   <blockquote><listtemplate name="evaluated_students"></listtemplate></blockquote>
-        <input type=submit value="Edit Grades">
+        <input type=submit value="#evaluation.Edit#">
 		@export_vars;noquote@
   </form>
   <blockquote>
@@ -17,7 +17,7 @@
           <tr> 
           <th style="text-align:right;">#evaluation.lt_Grade_students_using_file#</th> 
           <td><input type="file" name="upload_file"></td> 
-          <td colspan=2 style="text-align:right;"><input type="submit" value="Send file"></td> 
+          <td colspan=2 style="text-align:right;"><input type="submit" value="#evaluation.Send#"></td> 
           </tr> 
           <tr> 
           <td><a href="grades-sheet-csv-@task_id@.csv">#evaluation.Generate_file#</a></td> 
@@ -31,3 +31,4 @@
 <p>#evaluation.lt_There_are_no_edit#
 </else>
 </p>
+

@@ -96,6 +96,7 @@
   <msg key="Due_Date_">Due Date </msg>
   <msg key="Due_date_">Due date </msg>
   <msg key="Due_Date_1">Due Date</msg>
+  <msg key="Edit">Edit Grades </msg>
   <msg key="Edit_evaluation_">Edit evaluation </msg>
   <msg key="Edit_Evaluations_">Edit Evaluations </msg>
   <msg key="Edit_grade_name_">Edit %grade_name% </msg>
@@ -464,7 +465,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="Rename">Group </msg>
   <msg key="Requires_Grade_">Requires Grade? </msg>
   <msg key="Reuse_Groups_">Reuse Groups </msg>
-  <msg key="Send">file </msg>
+  <msg key="Send">Send file </msg>
   <msg key="Solution_Attachment_">Solution Attachment </msg>
   <msg key="Studen_List_">Studen List </msg>
   <msg key="Student_List_">Student List </msg>
