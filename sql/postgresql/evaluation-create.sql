@@ -747,8 +747,7 @@ begin
   		 	p_show_student_p);
 
 	return v_revision_id;
-end;
-' language 'plpgsql';
+end;' language 'plpgsql';
 
 create function evaluation__delete_student_eval (integer)
 returns integer as '
@@ -1034,6 +1033,221 @@ begin
 	
 	return v_folder_id;
 end;' language 'plpgsql';
+
+create function evaluation__delete_all_folders_and_contents ()
+returns integer as '
+declare 
+    v_folder_id   cr_folders.folder_id%TYPE; 
+    v_item_id     cr_items.item_id%TYPE; 
+    v_item_cursor RECORD; 
+
+begin 
+ 
+    select content_item__get_id(''evaluation_tasks_sols'', null, ''f'') into v_folder_id from dual; 
+ 
+    -- delete all contents of the folder
+    FOR v_item_cursor IN 
+        select item_id 
+        from   cr_items 
+        where  parent_id = v_folder_id 
+    LOOP 
+    -- all attached types/item are deleted 
+        PERFORM evaluation__delete_grade(v_item_cursor.item_id); 
+    END LOOP; 
+ 
+    -- unregister_content_types 
+    PERFORM content_folder__unregister_content_type ( 
+        v_folder_id,        -- folder_id 
+        ''content_revision'', -- content_type 
+        ''t''                 -- include_subtypes 
+    ); 
+    PERFORM content_folder__unregister_content_type ( 
+        v_folder_id, -- folder_id 
+        ''evaluation_tasks_sols'',      -- content_type 
+        ''t''          -- include_subtypes 
+    ); 
+ 
+    -- this table must not hold reference to ''evaluation_tasks_sols'' type 
+    delete from cr_folder_type_map where content_type = ''evaluation_tasks_sols''; 
+ 
+    -- delete news folder 
+    PERFORM content_folder__delete(v_folder_id); 
+ 
+---------------- 
+ 
+    select content_item__get_id(''evaluation_answers'', null, ''f'') into v_folder_id from dual; 
+ 
+    -- delete all contents of the folder 
+    FOR v_item_cursor IN 
+        select item_id 
+        from   cr_items 
+        where  parent_id = v_folder_id 
+    LOOP 
+    -- all attached types/item are deleted 
+        PERFORM evaluation__delete_grade(v_item_cursor.item_id); 
+    END LOOP; 
+ 
+    -- unregister_content_types 
+    PERFORM content_folder__unregister_content_type ( 
+        v_folder_id,        -- folder_id 
+        ''content_revision'', -- content_type 
+        ''t''                 -- include_subtypes 
+    ); 
+    PERFORM content_folder__unregister_content_type ( 
+        v_folder_id, -- folder_id 
+        ''evaluation_answers'',      -- content_type 
+        ''t''          -- include_subtypes 
+    ); 
+ 
+    -- this table must not hold reference to ''evaluation_answers'' type 
+    delete from cr_folder_type_map where content_type = ''evaluation_answers''; 
+ 
+    -- delete news folder 
+    PERFORM content_folder__delete(v_folder_id); 
+  
+---------------- 
+ 
+    select content_item__get_id(''evaluation_student_evals'', null, ''f'') into v_folder_id from dual; 
+ 
+    -- delete all contents of the folder 
+    FOR v_item_cursor IN 
+        select item_id 
+        from   cr_items 
+        where  parent_id = v_folder_id 
+    LOOP 
+    -- all attached types/item are deleted
+        PERFORM evaluation__delete_grade(v_item_cursor.item_id); 
+    END LOOP; 
+ 
+    -- unregister_content_types 
+    PERFORM content_folder__unregister_content_type ( 
+        v_folder_id,        -- folder_id 
+        ''content_revision'', -- content_type 
+        ''t''                 -- include_subtypes 
+    ); 
+    PERFORM content_folder__unregister_content_type ( 
+        v_folder_id, -- folder_id 
+        ''evaluation_student_evals'',      -- content_type 
+        ''t''          -- include_subtypes 
+    ); 
+ 
+    -- this table must not hold reference to ''evaluation_student_evals'' type 
+    delete from cr_folder_type_map where content_type = ''evaluation_student_evals''; 
+ 
+    -- delete news folder 
+    PERFORM content_folder__delete(v_folder_id); 
+
+---------------- 
+ 
+    select content_item__get_id(''evaluation_grades_sheets'', null, ''f'') into v_folder_id from dual; 
+ 
+    -- delete all contents of the folder 
+    FOR v_item_cursor IN 
+        select item_id 
+        from   cr_items 
+        where  parent_id = v_folder_id 
+    LOOP 
+    -- all attached types/item are deleted
+        PERFORM evaluation__delete_grade(v_item_cursor.item_id); 
+    END LOOP; 
+ 
+    -- unregister_content_types 
+    PERFORM content_folder__unregister_content_type ( 
+        v_folder_id,        -- folder_id 
+        ''content_revision'', -- content_type 
+        ''t''                 -- include_subtypes 
+    ); 
+    PERFORM content_folder__unregister_content_type ( 
+        v_folder_id, -- folder_id 
+        ''evaluation_grades_sheets'',      -- content_type 
+        ''t''          -- include_subtypes 
+    ); 
+ 
+    -- this table must not hold reference to ''evaluation_grades_sheets'' type 
+    delete from cr_folder_type_map where content_type = ''evaluation_grades_sheets''; 
+ 
+    -- delete news folder 
+    PERFORM content_folder__delete(v_folder_id); 
+
+----------------
+
+    -- delete all contents
+    FOR v_item_cursor IN
+        select etg.group_id
+        from   evaluation_tasks et, evaluation_task_groups etg
+        where etg.task_id = et.task_id
+    LOOP
+       	PERFORM evaluation__delete_evaluation_task_group(v_item_cursor.group_id);
+    END LOOP;
+
+---------------- 
+ 
+    select content_item__get_id(''evaluation_tasks'', null, ''f'') into v_folder_id from dual; 
+ 
+    -- delete all contents of the folder 
+    FOR v_item_cursor IN 
+        select item_id 
+        from   cr_items 
+        where  parent_id = v_folder_id 
+    LOOP 
+    -- all attached types/item are deleted 
+        PERFORM evaluation__delete_grade(v_item_cursor.item_id); 
+    END LOOP; 
+ 
+    -- unregister_content_types 
+    PERFORM content_folder__unregister_content_type ( 
+        v_folder_id,        -- folder_id 
+        ''content_revision'', -- content_type 
+        ''t''                 -- include_subtypes 
+    ); 
+    PERFORM content_folder__unregister_content_type ( 
+        v_folder_id, -- folder_id 
+        ''evaluation_tasks'',      -- content_type 
+        ''t''          -- include_subtypes 
+    ); 
+ 
+    -- this table must not hold reference to ''evaluation_tasks'' type 
+    delete from cr_folder_type_map where content_type = ''evaluation_tasks''; 
+ 
+    -- delete news folder 
+    PERFORM content_folder__delete(v_folder_id); 
+
+---------------
+
+    select content_item__get_id(''evaluation_grades'', null, ''f'') into v_folder_id from dual; 
+ 
+    -- delete all contents of the folder 
+    FOR v_item_cursor IN 
+        select item_id 
+        from   cr_items 
+        where  parent_id = v_folder_id 
+    LOOP 
+    -- all attached types/item are deleted
+        PERFORM evaluation__delete_grade(v_item_cursor.item_id); 
+    END LOOP; 
+ 
+    -- unregister_content_types 
+    PERFORM content_folder__unregister_content_type ( 
+        v_folder_id,        -- folder_id 
+        ''content_revision'', -- content_type 
+        ''t''                 -- include_subtypes 
+    ); 
+    PERFORM content_folder__unregister_content_type ( 
+        v_folder_id, -- folder_id 
+        ''evaluation_grades'',      -- content_type 
+        ''t''          -- include_subtypes 
+    ); 
+ 
+    -- this table must not hold reference to ''evaluation_grades'' type 
+    delete from cr_folder_type_map where content_type = ''evaluation_grades''; 
+ 
+    -- delete news folder 
+    PERFORM content_folder__delete(v_folder_id); 
+
+ 
+    return 0; 
+end;' language 'plpgsql';
+
 
 create function evaluation__delete_contents (integer)
 returns integer as '

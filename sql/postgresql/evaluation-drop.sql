@@ -66,6 +66,7 @@ end;
 select inline_0 ();
 drop function inline_0 ();
 
+select evaluation__delete_all_folders_and_contents ();
 
 create function inline_0 ()
 returns integer as'
@@ -201,9 +202,9 @@ drop function evaluation__delete_answer (integer);
 -- GRADES SHEETS
 ---------------------------------------
 
-drop function evaluation__new_student_eval (integer, integer, integer, integer, numeric, char, text, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
+drop function evaluation__new_grades_sheet (integer, integer, integer, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
 
-drop function evaluation__delete_student_eval (integer);
+drop function evaluation__delete_grades_sheet (integer);
 
 ---------------------------------------
 -- STUDENT EVALUATIONS
@@ -253,8 +254,6 @@ drop function evaluation__delete_contents (integer);
 
 drop function evaluation__delete_folder (integer,varchar);
 
-drop function evaluation__new_grades_sheet (integer, integer, integer, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
-
-drop function evaluation__delete_grades_sheet (integer);
+drop function evaluation__delete_all_folders_and_contents ();
 
 
