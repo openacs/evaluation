@@ -21,6 +21,19 @@
       </querytext>
 </fullquery>
 
+
+<fullquery name="task_info">      
+      <querytext>
+
+    select answer_id
+    from evaluation_answers
+    where party_id = :party_id
+    and task_item_id = :task_item_id
+    and content_revision__is_live(answer_id) = true
+
+      </querytext>
+</fullquery>
+
 <fullquery name="late_turn_in">      
       <querytext>
 	

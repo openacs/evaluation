@@ -28,7 +28,7 @@ if { [string eq $show_portrait_p "t"] } {
 }
 
 db_1row get_task_info { *SQL* }
-set due_date_pretty  [lc_time_fmt $due_date_ansi "%q"]
+set due_date_pretty  [lc_time_fmt $due_date_ansi "%q %r"]
 
 if { $number_of_members > 1 } {
     set groups_admin "<a href=[export_vars -base ../groups/one-task { task_id }]>[_ evaluation.lt_Groups_administration]</a>"
@@ -134,7 +134,7 @@ db_multirow -extend { action action_url submission_date_pretty } evaluated_stude
 	    if { [string eq $action "[_ evaluation.View_answer_]"] && ([db_string compare_evaluation_date { *SQL* } -default 0] ) } {
 		set action "<span style=\"color:red;\"> [_ evaluation.View_NEW_answer_]</span>"
 	    }
-	    set submission_date_pretty [lc_time_fmt $submission_date_ansi "%c"]
+	    set submission_date_pretty [lc_time_fmt $submission_date_ansi "%q %r"]
 	    if { [db_string compare_submission_date { *SQL* } -default 0] } {
 		set submission_date_pretty "[_ evaluation.lt_submission_date_prett]"
 	    }
@@ -216,14 +216,14 @@ db_multirow -extend { party_url answer answer_url submission_date_pretty portrai
 	ns_set put $tag_attributes alt "[_ evaluation.lt_No_portrait_for_party]"
 	ns_set put $tag_attributes width 98
 	ns_set put $tag_attributes height 104
-	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id -tag_attributes]</a>"
+	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id -tag_attributes $tag_attributes]</a>"
     } else {
 	set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
     }
 
     lappend done_students $party_id
     if { [string eq $online_p "t"] } {
-	set submission_date_pretty  "[lc_time_fmt $submission_date_ansi "%Q"] [lc_time_fmt $submission_date_ansi "%X"]"
+	set submission_date_pretty  "[lc_time_fmt $submission_date_ansi "%q %r"]"
 	if { [db_string compare_submission_date { *SQL* } -default 0] } {
 	    set submission_date_pretty "[_ evaluation.lt_submission_date_prett_1]"
 	} else {
@@ -297,9 +297,7 @@ if { $number_of_members > 1 } {
     if { [llength $done_students] > 0 } {
 	set not_in_clause [db_map not_yet_in_clause]
     } else {
-	set not_in_clause ", cc_users cu 
-                           where p.person_id = cu.person_id 
-                             and cu.member_state = 'approved'"
+	set not_in_clause [db_map not_yet_in_clause]
     }
 
     # if this page is called from within a community (dotlrn) we have to show only the students

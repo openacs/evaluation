@@ -15,7 +15,9 @@ ad_page_contract {
 
 db_1row student_info { *SQL* } 
 
-set portrait [evaluation::get_user_portrait -user_id $student_id { {alt "[_ evaluation.lt_No_portrait_for_stude]"} }]
+set tag_attributes [ns_set create]
+ns_set put $tag_attributes alt [_ evaluation.lt_No_portrait_for_stude]
+set portrait [evaluation::get_user_portrait -user_id $student_id -tag_attributes $tag_attributes]
 
 set page_title "[_ evaluation.lt_Grades_Report_for_stu]"
 set context {}

@@ -45,7 +45,7 @@ template::list::create \
 
 
 db_multirow -extend { last_modified_pretty } grade_tasks get_task_audit_info { *SQL* } {
-    set last_modified_pretty [lc_time_fmt $last_modified_ansi "%q"]
+    set last_modified_pretty [lc_time_fmt $last_modified_ansi "%q %r"]
 
     if { $is_live } {
 	set is_live "[_ evaluation.Yes_]"

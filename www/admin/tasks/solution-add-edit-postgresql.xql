@@ -20,6 +20,17 @@
       </querytext>
 </fullquery>
 
+<fullquery name="double_click">      
+      <querytext>
+
+    select solution_id
+    from evaluation_tasks_sols
+    where task_item_id = :task_item_id
+    and content_revision__is_live(solution_id) = true
+
+      </querytext>
+</fullquery>
+
 <fullquery name="unassociate_task_sol">      
       <querytext>
 

@@ -25,6 +25,10 @@ if { $admin_p } {
 			 display_template { <center>@grade_tasks_admin.task_weight@%</center> } \
 			 orderby_asc {task_weight asc} \
 			 orderby_desc {task_weight desc}] 
+	lappend elements audit_info \
+		[list label "" \
+			 link_url_col audit_info_url \
+			 link_html { title "[_ evaluation-portlet.Audit_info_]" }]
 	set multirow_name grade_tasks_admin
 	set actions [list "[_ evaluation-portlet.lt_Edit_grades_distribut]" [export_vars -base "${base_url}admin/grades/distribution-edit" { grade_id }]]
 } else { 
@@ -75,10 +79,13 @@ if { [string equal $evaluations_orderby ""] } {
 
 if { $admin_p } { 
 	#admin
-    db_multirow -extend { task_url } grade_tasks_admin get_tasks_admin { *SQL* } {
+    db_multirow -extend { task_url audit_info audit_info_url } grade_tasks_admin get_tasks_admin { *SQL* } {
 	set task_url [export_vars -base "${base_url}admin/evaluations/student-list" { task_id grade_id }]
 	set category_weight [expr $category_weight + $task_weight]
 	set task_weight [format %.2f [lc_numeric $task_weight]]
+
+	set audit_info_url "[export_vars -base "${base_url}admin/evaluations/audit-info" { grade_id task_id }]"
+	set audit_info "[_ evaluation-portlet.Audit_Info_]"
     }
 } else {
 

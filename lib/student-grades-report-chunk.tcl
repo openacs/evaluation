@@ -72,7 +72,7 @@ set total_grade 0.00
 
 db_multirow -extend { task_status due_date_pretty assignment_group grade net_grade grader_name comments } student_grades get_student_grades { *SQL* } {
 
-    set due_date_pretty  [lc_time_fmt $due_date_ansi "%q"]
+    set due_date_pretty  [lc_time_fmt $due_date_ansi "%q %r"]
 
     if { $online_p } {
 	set online_p "[_ evaluation.Yes_]"

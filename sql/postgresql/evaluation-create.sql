@@ -18,6 +18,8 @@ create table evaluation_grades (
 				check (weight between 0 and 100)
 );
 
+create index evalutaion_grades_giid_index on evaluation_grades(grade_item_id);
+
 select content_type__create_type (
 	'evaluation_grades',			-- content_type
 	'content_revision',			-- super_type
@@ -66,6 +68,7 @@ create table evaluation_tasks (
 );
 
 create index evalutaion_tasks_gid_index on evaluation_tasks(grade_item_id);
+create index evalutaion_tasks_tiid_index on evaluation_tasks(task_item_id);
 
 select content_type__create_type (
 	'evaluation_tasks',			-- content_type

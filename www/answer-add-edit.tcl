@@ -39,6 +39,8 @@ set context [list $page_title]
 
 db_1row task_info { *SQL* }
 
+db_0or1row double_click { *SQL* }
+
 ad_form -html { enctype multipart/form-data } -name answer -cancel_url $return_url -export { item_id grade_id task_id return_url } -form {
 
 	answer_id:key

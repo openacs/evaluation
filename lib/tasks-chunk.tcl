@@ -31,10 +31,6 @@ if { $admin_p } {
 		[list label "" \
 			 link_url_col solution_url \
 			 link_html { title "[_ evaluation-portlet.Addedit_solution_]" }]
-	lappend elements audit_info \
-		[list label "" \
-			 link_url_col audit_info_url \
-			 link_html { title "[_ evaluation-portlet.Audit_info_]" }]
 	lappend elements groups_admin \
 		[list label "" \
 			 link_url_col groups_admin_url \
@@ -97,9 +93,9 @@ if {[string equal $assignments_orderby ""]} {
 
 if { $admin_p } { 
 
-    db_multirow -extend { solution_url due_date_pretty solution solution_mode task_url audit_info audit_info_url groups_admin groups_admin_url } tasks_admin get_tasks_admin { *SQL* } {
+    db_multirow -extend { solution_url due_date_pretty solution solution_mode task_url groups_admin groups_admin_url } tasks_admin get_tasks_admin { *SQL* } {
 
-	set due_date_pretty [lc_time_fmt $due_date_ansi "%q"]
+	set due_date_pretty [lc_time_fmt $due_date_ansi "%q %r"]
 	# working with task stuff (if it has a file/url attached)
 	if { [empty_string_p $task_data] } {
 	    set task_url "[export_vars -base "${base_url}task-view" { grade_id task_id return_url }]"
@@ -131,9 +127,6 @@ if { $admin_p } {
 	    set solution "[_ evaluation-portlet.Upload_Solution_]"
 	}
 
-	set audit_info_url "[export_vars -base "${base_url}admin/evaluations/audit-info" { grade_id task_id }]"
-	set audit_info "[_ evaluation-portlet.Audit_Info_]"
-
 	if { ![string eq $number_of_members 1] } {
 	    set groups_admin_url "[export_vars -base "${base_url}admin/groups/one-task" { grade_id task_id }]"
 	    set groups_admin "[_ evaluation-portlet.Groups_Admin_]"		
@@ -144,7 +137,7 @@ if { $admin_p } {
     db_multirow -extend { task_url solution_url solution due_date_pretty solution_mode answer answer_url } tasks get_tasks { *SQL* } {
 
 	set answer_mode display
-	set due_date_pretty [lc_time_fmt $due_date_ansi "%q"]
+	set due_date_pretty [lc_time_fmt $due_date_ansi "%q %r"]
 	# working with task stuff (if it has a file/url attached)
 	if { [empty_string_p $task_data] } {
 	    set task_url "[export_vars -base "${base_url}task-view" { grade_id task_id return_url }]"

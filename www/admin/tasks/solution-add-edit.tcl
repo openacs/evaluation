@@ -28,6 +28,8 @@ if { [ad_form_new_p -key solution_id] } {
 
 db_1row task_info { *SQL* }
 
+db_0or1row double_click { *SQL* }
+
 set context [list [list [export_vars -base ../grades/grades { }] "[_ evaluation.Grades_]"] $page_title]
 
 ad_form -html { enctype multipart/form-data } -name solution -cancel_url $return_url -export { return_url grade_id item_id storage_type task_id } -mode $solution_mode -form {

@@ -67,12 +67,13 @@ db_multirow -extend { answer answer_url radio_yes_checked radio_no_checked submi
 		set answer "[_ evaluation.View_answer_]"
 	    } else {
 		# we assume it's a file
-		set answer_url "[export_vars -base "[ad_conn package_url]view/$answer_title" { }]"
+		set answer_url "[export_vars -base "[ad_conn package_url]view/$answer_title" { revision_id }]"
+		set answer "[_ evaluation.View_answer_]"
 	    }
 	    if { ![string eq $answer "[_ evaluation.No_response_]"] && [db_string compare_evaluation_date { *SQL* } -default 0] } {
 		set answer "<span style=\"color:red;\"> [_ evaluation.View_NEW_answer_]</span>"
 	    }
-	    set submission_date_pretty [lc_time_fmt $submission_date_ansi "%q"]
+	    set submission_date_pretty [lc_time_fmt $submission_date_ansi "%q %r"]
 	    if { [db_string compare_submission_date { *SQL* } -default 0] } {
 		set submission_date_pretty "$submission_date_pretty [_ evaluation.late__1]"
 	    }

@@ -276,7 +276,7 @@
   <msg key="lt_Students_who_have_not">Students who have not submitted answers and have not been evaluated (%not_evaluated_with_no_answer%)</msg>
   <msg key="lt_Students_with_answers">Students with answers that have not been evaluated (%not_evaluated_with_answer%)</msg>
   <msg key="lt_submission_date_prett">%submission_date_pretty% (late) </msg>
-  <msg key="lt_submission_date_prett_1">$submission_date_pretty &lt;span style=\&quot;color:red;\&quot;&gt;(late answer)&lt;/span&gt; </msg>
+  <msg key="lt_submission_date_prett_1">%submission_date_pretty% &lt;span style=\&quot;color:red;\&quot;&gt;(late answer)&lt;/span&gt; </msg>
   <msg key="lt_The_assignment_task_n">The assignment &quot;%task_name%&quot; has been uploaded in this community.</msg>
   <msg key="lt_The_commentsedit_reas">The comments/edit reason is a string with no more than 4,000 characters.</msg>
   <msg key="lt_The_edit_reason_must_">The edit reason must be less than 4000 characteras long </msg>

@@ -84,15 +84,13 @@ ad_form -extend -name task -form {
 
     {due_date:date,to_sql(linear_date),from_sql(sql_date)
 	{label "[_ evaluation.Due_Date_]"}
-	{format "MONTH DD YYYY"}
+	{format "MONTH DD YYYY HH24 MI SS"}
 	{today}
 	{help}
-	{value {[evaluation::now_plus_days -ndays 15]}}
     }
 
     {number_of_members:naturalnum
 	{label "[_ evaluation.Number_of_Members_]"}
-	{value "1"}
 	{html {size 5 onChange TaskInGroups()}}
 	{help_text "[_ evaluation.1__Individual_]"}
     }
@@ -106,19 +104,16 @@ ad_form -extend -name task -form {
     {online_p:text(radio)     
 	{label "[_ evaluation.lt_Will_the_task_be_subm]"} 
 	{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
-	{value t}
     }
 
     {late_submit_p:text(radio)     
 	{label "[_ evaluation.lt_Can_the_student_submi]"} 
 	{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
-	{value t}
     }
 
     {requires_grade_p:text(radio)     
 	{label "[_ evaluation.lt_Will_this_task_requir]"} 
 	{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
-	{value t}
     }
 } -edit_request {
     

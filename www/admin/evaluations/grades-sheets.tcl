@@ -66,7 +66,7 @@ if {[string equal $orderby ""]} {
 
 db_multirow -extend { view_url upload_date_pretty } grades_sheets get_grades_sheets { *SQL* } {
     set view_url "[export_vars -base "${base_url}view/$grades_sheet_name" { revision_id }]"
-    set upload_date_pretty [lc_time_fmt $upload_date_ansi "%q"]
+    set upload_date_pretty [lc_time_fmt $upload_date_ansi "%q %r"]
 }
 
 ad_return_template
