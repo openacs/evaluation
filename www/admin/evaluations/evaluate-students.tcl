@@ -72,8 +72,8 @@ ad_page_contract {
 		    set wrong_grade $grades($party_id)
 		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
 		} else {			
-		    set old_grade [lc_numeric %.2f [db_string get_old_grade { *SQL* }]]
-		    if { ![string eq $old_grade  [lc_numeric %.2f [expr $grades($party_id)*100/$max_grade]]] } {
+		    set old_grade [format %.2f [db_string get_old_grade { *SQL* }]]
+		    if { ![string eq $old_grade [format %.2f [expr $grades($party_id)*100/$max_grade]]] } {
 			incr counter
 			if { $max_grade != 100  } {
 			    append reasons($party_id) "[_ evaluation.Weight_change]"

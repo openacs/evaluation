@@ -129,7 +129,7 @@ if { ![db_string file_exists { *SQL* }] } {
 	    } 
 
 	    # editing without reason
-	    if { ![string eq [lc_numeric %.2f [db_string check_evaluated { *SQL* } -default $grade]] [lc_numeric %.2f $grade]] && [empty_string_p $comments] } { 
+	    if { ![string eq [format %.2f [db_string check_evaluated { *SQL* } -default $grade]] [format %.2f $grade]] && [empty_string_p $comments] } { 
 		incr errors
 		append errors_text "<li> [_ evaluation.lt_There_must_be_an_edit]</li>"
 	    } 
