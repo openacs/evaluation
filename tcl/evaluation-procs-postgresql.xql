@@ -607,8 +607,8 @@
 	    select evaluation__new_grade (
 					  :exams_item_id,		
 					  :exams_revision_id,	
-					  'Exam',
-					  'Exams', 	
+					  :exams_singular_name,
+					  :exams_name, 	
 					  40,		
 					  'evaluation_grades',	
 					  now(), --creation date	
@@ -663,8 +663,8 @@
 	    select evaluation__new_grade (
 					  :projects_item_id,		
 					  :projects_revision_id,	
-					  'Project',
-					  'Projects', 	
+					  :projects_singular_name,
+					  :projects_name, 	
 					  20,		
 					  'evaluation_grades',	
 					  now(), --creation date	
@@ -720,8 +720,8 @@
 	    select evaluation__new_grade (
 					  :tasks_item_id,		
 					  :tasks_revision_id,	
-					  'Task', 	
-					  'Tasks',
+					  :tasks_singular_name, 	
+					  :tasks_name,
 					  40,		
 					  'evaluation_grades',	
 					  now(), --creation date	

@@ -15,7 +15,7 @@ namespace eval evaluation {}
 namespace eval evaluation::apm {}
 
 
-ad_proc -private evaluation::apm::package_install {  
+ad_proc -public evaluation::apm::package_install {  
 } { 
     Does the integration whith the notifications package.  
 } { 
@@ -42,7 +42,7 @@ ad_proc -private evaluation::apm::package_install {
     }
 }
 
-ad_proc -private evaluation::apm::package_uninstall { 
+ad_proc -public evaluation::apm::package_uninstall { 
 } {
 
     Cleans the integration whith the notifications package.  
@@ -65,7 +65,7 @@ ad_proc -private evaluation::apm::package_uninstall {
     } 
 }
 
-ad_proc -private evaluation::apm::package_instantiate { 
+ad_proc -public evaluation::apm::package_instantiate { 
     -package_id:required
 } {
 
@@ -80,7 +80,7 @@ ad_proc -private evaluation::apm::package_instantiate {
 }
 
 
-ad_proc -private evaluation::apm::package_uninstantiate { 
+ad_proc -public evaluation::apm::package_uninstantiate { 
     -package_id:required
 } {
 

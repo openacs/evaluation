@@ -608,7 +608,7 @@ ad_proc -public evaluation::generate_grades_sheet {} {
     $csv_formatted_content" 
 }
 
-ad_proc -private evaluation::apm::delete_one_assignment_impl {} {
+ad_proc -public evaluation::apm::delete_one_assignment_impl {} {
     Unregister the NotificationType implementation for one_assignment_notif_type.
 } {
     acs_sc::impl::delete \
@@ -616,7 +616,7 @@ ad_proc -private evaluation::apm::delete_one_assignment_impl {} {
         -impl_name one_assignment_notif_type
 }
 
-ad_proc -private evaluation::apm::delete_one_evaluation_impl {} {
+ad_proc -public evaluation::apm::delete_one_evaluation_impl {} {
     Unregister the NotificationType implementation for one_evaluation_notif_type.
 } {
     acs_sc::impl::delete \
@@ -624,7 +624,7 @@ ad_proc -private evaluation::apm::delete_one_evaluation_impl {} {
         -impl_name one_evaluation_notif_type
 }
 
-ad_proc -private evaluation::apm::create_one_assignment_impl {} {
+ad_proc -public evaluation::apm::create_one_assignment_impl {} {
     Register the service contract implementation and return the impl_id
     @return impl_id of the created implementation 
 } {
@@ -639,7 +639,7 @@ ad_proc -private evaluation::apm::create_one_assignment_impl {} {
     }]
 }
 
-ad_proc -private evaluation::apm::create_one_evaluation_impl {} {
+ad_proc -public evaluation::apm::create_one_evaluation_impl {} {
     Register the service contract implementation and return the impl_id
     @return impl_id of the created implementation 
 } {
@@ -654,7 +654,7 @@ ad_proc -private evaluation::apm::create_one_evaluation_impl {} {
     }]
 }
  
-ad_proc -private evaluation::apm::create_one_assignment_type {
+ad_proc -public evaluation::apm::create_one_assignment_type {
     -impl_id:required
 } {
     Create the notification type for one specific assignment
@@ -667,7 +667,7 @@ ad_proc -private evaluation::apm::create_one_assignment_type {
 		-description "[_ evaluation.lt_Notification_for_assi]"]
 }
 
-ad_proc -private evaluation::apm::create_one_evaluation_type {
+ad_proc -public evaluation::apm::create_one_evaluation_type {
     -impl_id:required
 } {
     Create the notification type for one specific evaluation
@@ -711,10 +711,13 @@ ad_proc -public evaluation::apm::create_folders {
 } {
     db_transaction {
 	set exams_name "[_ evaluation.Exams_]"
+	set exams_singular_name "[_ evaluation.Exam]"
 	set exams_desc "[_ evaluation.Exams_for_students_]"
 	set tasks_name "[_ evaluation.Tasks_]"
+	set tasks_singular_name "[_ evaluation.Task]"
 	set tasks_desc "[_ evaluation.Tasks_for_students_]"
 	set projects_name "[_ evaluation.Projects_]"
+	set projects_singular_name "[_ evaluation.Project]"
 	set projects_desc "[_ evaluation.lt_Projects_for_students]"
 	db_exec_plsql create_evaluation_folders { *SQL* }
 

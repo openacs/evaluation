@@ -5,6 +5,7 @@
   <msg key="Add_Assignment_">Add Assignment </msg>
   <msg key="Add_Assignment_Type_">Add Assignment Type </msg>
   <msg key="Add_assignment_type_">Add assignment type </msg>
+  <msg key="Add_grade_name">Add $grade_name</msg>
   <msg key="Add_grade_name_">Add %grade_name% </msg>
   <msg key="Add_Member_to_group_">Add Member to group </msg>
   <msg key="Add_Task_">Add Task </msg>
@@ -105,10 +106,12 @@
   <msg key="Evaluated_">Evaluated </msg>
   <msg key="Evaluation_Index_">Evaluation Index </msg>
   <msg key="Evaluation_Modified_">Evaluation Modified </msg>
+  <msg key="evaluationpagename">Class Material </msg>
   <msg key="Evaluations">Evaluations</msg>
   <msg key="Evaluations_">Evaluations </msg>
   <msg key="Evaluations_Admin">Evaluations Admin</msg>
   <msg key="Evaluations_List_">Evaluations List </msg>
+  <msg key="Exam">Exam</msg>
   <msg key="Exams_">Exams </msg>
   <msg key="Exams_for_students_">Exams for students </msg>
   <msg key="File_">File </msg>
@@ -206,6 +209,7 @@
   <msg key="lt_Edit_Assignment_Type_">Edit Assignment Type </msg>
   <msg key="lt_Edit_assignment_type_">Edit assignment type </msg>
   <msg key="lt_Edit_grades_distribut">Edit grades distribution of $grade_plural_name </msg>
+  <msg key="lt_Edit_grades_distribut_1">Edit grades distribution of %grade_plural_name%</msg>
   <msg key="lt_Enter_the_grades_for_">Enter the grades for the students/groups and KEEP THE STRUCTURE of the file. If you are editing a grade, you MUST give an edit reason in the &quot;Comments/Edit reason&quot; field.</msg>
   <msg key="lt_Error_deleting_the_ev">Error deleting the evaluation </msg>
   <msg key="lt_Error_deleting_the_gr">Error deleting the grade </msg>
@@ -444,6 +448,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="One_Group_">One Group </msg>
   <msg key="Online_Submit_">Online Submit </msg>
   <msg key="pero">y entonces </msg>
+  <msg key="Project">Project</msg>
   <msg key="Projects_">Projects </msg>
   <msg key="Remove_Grade">Remove Grade</msg>
   <msg key="Rename">Group </msg>
@@ -460,6 +465,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="submit_answer_">submit answer </msg>
   <msg key="submit_answer_again_">submit answer again </msg>
   <msg key="Sumission_Date_">Sumission Date </msg>
+  <msg key="Task">Task</msg>
   <msg key="Task_Groups_">Task Groups </msg>
   <msg key="Task_Name">Task Name:</msg>
   <msg key="Task_Name_">Task Name </msg>
@@ -501,5 +507,4 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="Y">upi , pero no yupin</msg>
   <msg key="Yes">Yes</msg>
   <msg key="Yes_">Yes </msg>
-  <msg key="evaluationpagename">Class Material </msg>
 </message_catalog>

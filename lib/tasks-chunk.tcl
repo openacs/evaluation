@@ -59,7 +59,7 @@ if { $admin_p } {
 	     link_html { title "[_ evaluation.Delete_task_]" }]
     
     set multirow_name tasks_admin
-    set actions [list "Add $grade_name" [export_vars -base "${base_url}admin/tasks/task-add-edit" { return_url grade_id }] ]
+    set actions [list "[_ evaluation.Add_grade_name]" [export_vars -base "${base_url}admin/tasks/task-add-edit" { return_url grade_id }] ]
 } else { 
     #student
     lappend elements answer \

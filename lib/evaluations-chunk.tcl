@@ -26,7 +26,7 @@ if { $admin_p } {
 	     orderby_asc {task_weight asc} \
 	     orderby_desc {task_weight desc}] 
     set multirow_name grade_tasks_admin
-    set actions [list "[_ evaluation.lt_Edit_grades_distribut]" [export_vars -base "${base_url}admin/grades/distribution-edit" { grade_id }]]
+    set actions [list "[_ evaluation.lt_Edit_grades_distribut_1]" [export_vars -base "${base_url}admin/grades/distribution-edit" { grade_id }]]
 } else { 
     #student
     lappend elements grade \
