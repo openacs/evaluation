@@ -19,7 +19,6 @@ ad_proc -public evaluation::package_key {} {
     return "evaluation"
 }
 
-
 ad_proc -public evaluation::make_url { 
 	-file_name_from_db:required 
 } {
@@ -387,4 +386,117 @@ ad_proc -public evaluation::evaluation_group_name {
 
 } 
 
+ad_proc -public evaluation::new_grades_sheet {
+	-item_id:required
+	-content_type:required
+	-content_table:required
+	-content_id:required
+	-new_item_p:required
+	-task_id:required
+	-storage_type:required
+	-title:required
+	-mime_type:required
+} {
 
+	Build a new content revision of a grades sheet.  If new_item_p is
+	set true then a new item is first created, otherwise a new revision is created for
+	the item indicated by item_id.
+
+	@param item_id The item to update or create.
+	@param content_type The type to make
+	@param content_table
+	@param new_item_p If true make a new item using item_id
+	@param task_id Task which "owns" the grades sheet
+	@param title The name of the grades sheet
+	@param storage_type lob 
+	@param mime_type Mime tipe of the grades sheet
+
+} {
+
+	set package_id [ad_conn package_id]
+	set creation_user [ad_verify_and_get_user_id]
+	set creation_ip [ad_conn peeraddr]
+
+	set item_name "${item_id}_${title}"
+
+	set revision_id [db_nextval acs_object_id_seq]
+
+	if { $new_item_p } {
+		db_exec_plsql content_item_new { *SQL* }
+	}
+	
+	db_exec_plsql content_revision_new { *SQL* }
+
+	return $revision_id
+} 
+
+ad_proc -public evaluation::generate_grades_sheet {} {
+
+    # Get file_path from url 
+    set url [ns_conn url] 
+	
+    regexp {/grades-sheet-csv-([^.]+).csv$} $url match task_id  
+	
+    if { ![db_0or1row get_task_info "select et.task_name, et.number_of_members
+                                 from evaluation_tasks et
+                                 where et.task_id = :task_id"] } { 
+		# this should never happen
+        ad_return_error "No information" "There has been an error, there is no infomraiton about the task $task_id"
+        return 
+    } 
+	
+    set csv_content [list] 
+    lappend csv_content "Grades sheet for assighment \"$task_name\""  
+
+	lappend csv_content "\nMax Grade:"
+  	lappend csv_content "100"
+	lappend csv_content "\nWill the student be able to see the grade? (Yes/No):"
+  	lappend csv_content "Yes"
+
+	lappend csv_content "\n\nParty id"  
+	lappend csv_content "Party Name"  
+	lappend csv_content "Grade"  
+	lappend csv_content "Comments/Edit reason"
+	
+	if { $number_of_members == 1 } {
+		# the task is individual
+
+		set sql_query "select cu.person_id as party_id, cu.last_name||' - '||cu.first_names as party_name,  
+                                        ese.grade,
+                                        ese.description as comments
+                  from cc_users cu left outer join evaluation_student_evalsi ese on (ese.party_id = cu.person_id
+                                                                                    and ese.task_id = :task_id
+                                                                                    and content_revision__is_live(ese.evaluation_id) = true)" 
+	} else { 
+		# the task is in groups
+		
+		set sql_query "select etg.group_id as party_id, g.group_name as party_name,  
+                                        ese.grade,
+                                        ese.description as comments
+                  from groups g,
+                       evaluation_task_groups etg left outer join evaluation_student_evalsi ese on (ese.party_id = etg.group_id
+                                                                                    and ese.task_id = :task_id
+                                                                                    and content_revision__is_live(ese.evaluation_id) = true)
+                  where etg.task_id = :task_id
+                    and etg.group_id = g.group_id"
+	}
+	
+	db_foreach parties_with_to_grade $sql_query {
+		lappend csv_content "\n$party_id" 
+		lappend csv_content "$party_name" 
+		lappend csv_content "$grade" 
+		lappend csv_content "$comments" 
+	} if_no_rows { 
+		ad_return_error "No parties to grade" "In order to generate this file there must be some parties assigned to this task"
+		return 
+	} 
+	
+    set csv_formatted_content [join $csv_content ","] 
+	
+    doc_return 200 text/csv " 
+    $csv_formatted_content" 
+}
+
+ 
+ad_register_proc GET /grades-sheet-csv* evaluation::generate_grades_sheet 
+ad_register_proc POST /grades-sheet-csv* evaluation::generate_grades_sheet

@@ -57,6 +57,14 @@ ad_proc -private evaluation::apm_callbacks::package_instantiate {
 										   null,
 										   'evaluation_answers'
 										   );
+
+			select evaluation__new_folder (
+										   'evaluation_grades_sheets_'||:package_id,
+										   'evaluation_grades_sheets_'||:package_id,
+										   'Grades sheets folder',
+										   null,
+										   'evaluation_grades_sheets'
+										   );
 			
 			select evaluation__new_folder (
 										   'evaluation_student_evals_'||:package_id,
@@ -65,7 +73,7 @@ ad_proc -private evaluation::apm_callbacks::package_instantiate {
 										   null,
 										   'evaluation_student_evals'
 										   );
-		}				
+		}			
 		
 		set creation_user [ad_verify_and_get_user_id]
 		set creation_ip [ad_conn peeraddr]
@@ -149,7 +157,7 @@ ad_proc -private evaluation::apm_callbacks::package_instantiate {
 										  :projects_revision_id,	
 										  'Projects', 	
 										  -1,		-- class_id temporal
-										  40,		
+										  20,		
 										  'evaluation_grades',	
 										  now(), --creation date	
 										  :creation_user, 
@@ -235,35 +243,52 @@ ad_proc -private evaluation::apm_callbacks::package_uninstantiate {
 	set ev_student_evals_fid [db_string get_f_id "select content_item__get_id('evaluation_student_evals_'||:package_id,null,'f')"]
 
     db_transaction {
-		db_exec_plsql delte_evaluation_folders { 
+		db_exec_plsql delte_evaluation_contents {
 			select evaluation__delete_contents (
 												:package_id
 												);
-			
+		}
+
+		db_exec_plsql delte_grades_folder {
+			select evaluation__delete_folder (
+											  :ev_grades_fid,
+											  'evaluation_grades_sheets'
+											  );
+		}
+
+		db_exec_plsql delte_grades_folder {
 			select evaluation__delete_folder (
 											  :ev_grades_fid,
 											  'evaluation_grades'
 											  );
+		}
 			
+		db_exec_plsql delte_task_folder {
 			select evaluation__delete_folder (
 											  :ev_tasks_fid,
 											  'evaluation_tasks'
 											  );
-			
+		}
+
+		db_exec_plsql delte_task_sols_folder {
 			select evaluation__delete_folder (
 											  :ev_tasks_sols_fid,
 											  'evaluation_tasks_sols'
 											  );
-			
+		}
+		
+		db_exec_plsql delte_answers_folder {	
 			select evaluation__delete_folder (
 											  :ev_answers_fid,
 											  'evaluation_answers'
 											  );
-			
+		}
+		db_exec_plsql delte_evals_folder {
 			select evaluation__delete_folder (
 											  :ev_student_evals_fid,
 											  'evaluation_student_evals'
 											  );
+		}
 		}
     }
 }

@@ -94,7 +94,6 @@ create table evaluation_tasks_class_map (
 				primary key (class_id, revision_id)
 );
 
-
 create table evaluation_tasks_sols (
 	solution_id	integer
 				primary key,
@@ -103,7 +102,7 @@ create table evaluation_tasks_sols (
 				references evaluation_tasks
 );
 
--- crear indice para cada cosa que sea referenciada por otras tablas
+-- create indexes
 create index evalutaion_tasks_sols_tid_index on evaluation_tasks_sols(task_id);
 
 select content_type__create_type (
@@ -131,7 +130,6 @@ create table evaluation_answers (
 				references evaluation_tasks
 );
 
--- cada vez que se crea una constraint como unique compuestos, se crea un indice para cada cosa que va en el unique y si por ejemplo el indice es (a,b,c) se puede usar ese index para a, ab, abc, pero no para b ni c ni bc.
 create index evaluation_answers_tid_index on evaluation_answers(party_id,task_id);
 
 select content_type__create_type (
@@ -183,6 +181,42 @@ select content_type__create_type (
 	null		-- name_method
 );
 
+-- table to store the csv sheet grades associated with the evaluations
+create table evaluation_grades_sheets (
+	grades_sheet_id	 	integer
+				 		primary key,
+	task_id		  		integer
+				 		constraint evaluation_gsheets_t_id_fk
+				 		references evaluation_tasks
+);
+
+-- create indexes
+create index evalutaion_grades_sheets_tid_index on evaluation_grades_sheets(task_id);
+
+select content_type__create_type (
+	'evaluation_grades_sheets',			-- content_type
+	'content_revision',		 			-- super_type
+	'Evaluation Grades Sheet',			-- pretty_name
+	'Evaluation Grades Sheets',			-- pretty_plural
+	'evaluation_grades_sheets',			-- table_name
+	'grades_sheet_id',					-- id_column
+	null		 	 	  				-- name_method
+);
+
+
+select acs_object_type__create_type (
+    'evaluation_task_groups', 	--object type
+    'Task Group',   			--pretty name
+    'Tasks Groups',  			--pretty prural
+    'acs_object',  				--supertype
+    'evaluation_task_groups',  	--table_name
+    'group_id',  	  			--id_column
+    null,  						--package_name
+    'f',  						--abstract_p
+    null,  						--type_extension_table
+    null  						--name_method
+);
+
 -- creating group_type and the table where we are going to store the information about evaluation groups for tasks in groups
 
 create table evaluation_task_groups (
@@ -199,19 +233,6 @@ create table evaluation_task_groups (
 );
 
 create index evaluation_task_groups_tid_index on evaluation_task_groups(task_id);
-
-select acs_object_type__create_type (
-    'evaluation_task_groups', 	--object type
-    'Task Group',   			--pretty name
-    'Tasks Groups',  			--pretty prural
-    'acs_object',  				--supertype
-    'evaluation_task_groups',  	--table_name
-    'group_id',  	  			--id_column
-    null,  						--package_name
-    'f',  						--abstract_p
-    null,  						--type_extension_table
-    null  						--name_method
-);
 
 insert into group_types (group_type) values ('evaluation_task_groups');
 
@@ -368,6 +389,7 @@ begin
 		delete from evaluation_student_evals where task_id = del_rec.task_id;
 		delete from evaluation_answers where task_id = del_rec.task_id;
 		delete from evaluation_tasks_sols where task_id = del_rec.task_id;
+		delete from evaluation_grades_sheets where task_id = del_rec.task_id;
     END LOOP;
 
 	delete from evaluation_tasks where grade_id = p_grade_id;
@@ -474,6 +496,7 @@ begin
 	delete from evaluation_student_evals where task_id = p_task_id;
 	delete from evaluation_answers where task_id = p_task_id;
 	delete from evaluation_tasks_sols where task_id = p_task_id;
+	delete from evaluation_grades_sheets where task_id = p_task_id;
 	delete from evaluation_tasks where task_id = p_task_id;
 	
 	PERFORM  content_revision__delete(p_task_id);
@@ -623,6 +646,69 @@ begin
 	delete from evaluation_answers where answer_id = p_answer_id;
 	
 	PERFORM  content_revision__delete(p_answer_id);
+
+	return 0;
+
+end;' language 'plpgsql';
+
+---------------------------------------
+-- GRADES SHEETS
+---------------------------------------
+
+create function evaluation__new_grades_sheet (integer, integer, integer, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar)
+returns integer as '
+declare
+	p_item_id			alias for $1;
+	p_revision_id		alias for $2;
+	p_task_id			alias for $3;
+	p_object_type		alias for $4;
+	p_creation_date		alias for $5;
+	p_creation_user 	alias for $6;
+	p_creation_ip		alias for $7;
+	p_title				alias for $8; -- default null
+	p_publish_date		alias for $9;
+	p_nls_language   	alias for $10; -- default null
+	p_mime_type   		alias for $11; -- default null
+
+	v_revision_id		integer;
+
+begin
+
+    v_revision_id := content_revision__new(
+        p_title,               	-- title
+		''grades sheet'',	 	-- description
+		p_publish_date,			-- publish_date
+		p_mime_type,			-- mime_type
+		p_nls_language,			-- nls_language
+		null,					-- data
+		p_item_id,				-- item_id
+		p_revision_id,			-- revision_id
+		current_timestamp,		-- creation_date
+		p_creation_user,		-- creation_user
+		p_creation_ip,			-- creation_ip
+	    null				    -- content length
+    );
+
+	insert into evaluation_grades_sheets
+			(grades_sheet_id,
+	        task_id)
+	values
+			(v_revision_id, 
+	   		p_task_id);
+
+	return v_revision_id;
+end;
+' language 'plpgsql';
+
+create function evaluation__delete_grades_sheet (integer)
+returns integer as '
+declare
+	p_grades_sheet_id 	alias for $1;
+begin
+	
+	delete from evaluation_grades_sheets where grades_sheet_id = p_grades_sheet_id;
+	
+	PERFORM  content_revision__delete(p_grades_sheet_id);
 
 	return 0;
 
@@ -990,16 +1076,6 @@ begin
 
     -- delete all contents
     FOR v_item_cursor IN
-        select eg.grade_id
-        from   evaluation_gradesi eg, acs_objects ao
-        where eg.item_id = ao.object_id
-   		  and ao.context_id = p_package_id
-    LOOP
-       	PERFORM evaluation__delete_grade(v_item_cursor.grade_id);
-    END LOOP;
-
-    -- delete all contents
-    FOR v_item_cursor IN
         select ea.answer_id
         from   evaluation_answersi ea, acs_objects ao
         where ea.item_id = ao.object_id
@@ -1016,6 +1092,16 @@ begin
    		  and ao.context_id = p_package_id
     LOOP
        	PERFORM evaluation__delete_task_sol(v_item_cursor.solution_id);
+    END LOOP;
+
+    -- delete all contents
+    FOR v_item_cursor IN
+        select egs.grades_sheet_id
+        from   evaluation_grades_sheetsi egs, acs_objects ao
+        where egs.item_id = ao.object_id
+   		  and ao.context_id = p_package_id
+    LOOP
+       	PERFORM evaluation__delete_grades_sheet(v_item_cursor.grades_sheet_id);
     END LOOP;
 
     -- delete all contents
@@ -1049,6 +1135,16 @@ begin
        	PERFORM evaluation__delete_task(v_item_cursor.task_id);
     END LOOP;
 
+    -- delete all contents
+    FOR v_item_cursor IN
+        select eg.grade_id
+        from   evaluation_gradesi eg, acs_objects ao
+        where eg.item_id = ao.object_id
+   		  and ao.context_id = p_package_id
+    LOOP
+       	PERFORM evaluation__delete_grade(v_item_cursor.grade_id);
+    END LOOP;
+
 	return 0;
 end;' language 'plpgsql';
 
@@ -1059,7 +1155,6 @@ declare
  	p_content_type 	alias for $2;
 
     v_item_cursor RECORD;
-
 begin
 
     FOR v_item_cursor IN
@@ -1158,6 +1253,26 @@ begin
       template_id,             -- template_id
       ''public'',              -- use_context
       ''t''                    -- is_default
+    );
+
+    -- Create the (default) content type template
+
+    template_id := content_template__new( 
+      ''evaluation-grades-sheets-default'', -- name
+      ''<master>
+<property name="title">@title;noquote@</property>
+<property name="context">@context;noquote@</property>
+@text;noquote@'',               -- text
+      true                      -- is_live
+    );
+
+    -- Register the template for the content type
+
+    perform content_type__register_template(
+      ''evaluation_grades_sheets'', -- content_type
+      template_id,              	-- template_id
+      ''public'',               	-- use_context
+      ''t''                     	-- is_default
     );
 
     return null;

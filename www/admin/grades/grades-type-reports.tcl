@@ -9,6 +9,7 @@ ad_page_contract {
 	@cvs-id $Id$
 
 } {
+	{orderby ""}
 	grade_id:integer,notnull
 } -validate {
 	tasks_for_grade {
@@ -24,18 +25,27 @@ set context [list [list "[export_vars -base grades-reports { }]" "Grades Report"
 set package_id [ad_conn package_id]
 
 set elements [list student_name \
-				  [list label "Name"]\
+				  [list label "Name" \
+					   orderby_asc {student_name asc} \
+					   orderby_desc {student_name desc} \
+					  ]\
 				 ]
 
 db_foreach grade_task { *SQL* } {
 	lappend elements task_$task_id \
-		[list label "$task_name ($weight %)"]
-
+		[list label "$task_name ($weight %)" \
+		 orderby_asc {task_$task_id asc} \
+		 orderby_desc {task_$task_id desc} \
+		]
+	
 	append sql_query [db_map task_grade]
 } 
 
 lappend elements total_grade \
-	[list label "Total"]
+	[list label "Total" \
+		 orderby_asc {total_grade asc} \
+		 orderby_desc {total_grade desc} \
+		]
 
 append sql_query [db_map grade_total_grade]
 
@@ -43,7 +53,15 @@ template::list::create \
 	-name grade_tasks \
 	-multirow grade_tasks \
 	-key task_id \
-	-elements $elements
+	-filters { grade_id {} } \
+	-elements $elements \
+	-orderby { default_value student_name } 
+
+set orderby [template::list::orderby_clause -orderby -name grade_tasks]
+
+if { [string equal $orderby ""] } {
+    set task_order " order by student_name asc"
+}
 
 db_multirow grade_tasks get_grades { *SQL* } {
 	

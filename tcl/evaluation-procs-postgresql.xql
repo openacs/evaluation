@@ -301,5 +301,48 @@
 
       </querytext>
 </fullquery>
+
+<fullquery name="evaluation::new_grades_sheet.content_item_new">      
+      <querytext>
+
+			select evaluation__new_item (
+		    :item_id, --item_id
+			:item_name,
+			null, --locale
+			:creation_user,
+			:package_id,
+			:creation_ip,
+			:title,
+			'grades sheet',
+			:mime_type, --mime_type
+			null, --nls_language
+			null, --text
+			:storage_type, --storage_type
+			'content_item', -- item_subtype
+			'evaluation_grades_sheets' -- content_type
+			);
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::new_grades_sheet.content_revision_new">      
+      <querytext>
+
+	select evaluation__new_grades_sheet (
+			:item_id,		
+			:revision_id,	
+			:task_id,
+			'evaluation_grades_sheets',	
+			now(), --creation date	
+			:creation_user, 
+			:creation_ip,	
+			:item_name,			
+			now(),  --publish date
+			null,  -- nls_language
+			:mime_type --mime_type
+			);
+
+      </querytext>
+</fullquery>
  
 </queryset>

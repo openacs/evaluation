@@ -52,7 +52,7 @@
 	select cu.first_names||', '||cu.last_name as student_name
 	$sql_query
     from cc_users cu
-    order by student_name asc
+    $orderby
 
       </querytext>
 </fullquery>

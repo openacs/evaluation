@@ -7,7 +7,6 @@ ad_page_contract {
 	@creation-date Mar 2004
 } { 
 	task_id:integer,notnull
-	grade_id:integer,notnull
 	max_grade:integer,notnull
 	item_ids:array,integer,optional
 	item_to_edit_ids:array,integer,optional
@@ -123,7 +122,7 @@ set counter 0
 foreach party_id [array names show_student_wa] {
 	if { [info exists grades_wa($party_id)] && ![empty_string_p $grades_wa($party_id)] } { 
 		incr counter 
-		set party_name [db_string get_party_name { *SQL }]
+		set party_name [db_string get_party_name { *SQL* }]
 		set evaluations_wa:${counter}(rownum) $counter
 		set evaluations_wa:${counter}(party_name) $party_name
 		set evaluations_wa:${counter}(grade) $grades_wa($party_id)

@@ -176,8 +176,6 @@ if { [string equal $orderby_wa ""] } {
     set orderby_wa " order by party_name asc"
 }
 
-ns_log Notice "los procesados son $processed_clause"
-
 db_multirow -extend { answer answer_url } not_evaluated_wa get_not_evaluated_wa_students { *SQL* } {
 
 	lappend done_students $party_id
@@ -255,6 +253,7 @@ db_multirow not_evaluated_na get_not_evaluated_na_students { *SQL* } {
 
 }
 
+set grades_sheet_item_id [db_nextval acs_object_id_seq]
 
  
 

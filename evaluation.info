@@ -15,12 +15,12 @@
         <provides url="evaluation" version="0.1a"/>
 
         <callbacks>
-            <callback type="after-mount"  proc="evaluation::apm_callbacks::package_mount"/>
             <callback type="before-uninstantiate"  proc="evaluation::apm_callbacks::package_uninstantiate"/>
             <callback type="after-instantiate"  proc="evaluation::apm_callbacks::package_instantiate"/>
         </callbacks>
         <parameters>
-        <!-- No version parameters -->
+            <parameter datatype="number"  min_n_values="1"  max_n_values="1"  name="MaxNumberOfBytes"  default="5000" description="Maximun number of bytes allowed for the files in this package. (tasks, tasks sols, student answers, grades sheets, ect)"/>
+            <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="TmpDir"  default="/tmp/" description="Temporary dir for storing temporary files"/>
         </parameters>
 
     </version>

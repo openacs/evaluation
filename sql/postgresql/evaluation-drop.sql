@@ -19,6 +19,12 @@ select content_type__unregister_template (
        content_type__get_template('evaluation_answers','public'),
        'public'
 );
+-- Unregister the content template
+select content_type__unregister_template (
+       'evaluation_grades_sheets',
+       content_type__get_template('evaluation_grades_sheets','public'),
+       'public'
+);
 
 -- deleting templates
 create function inline_0 ()
@@ -67,7 +73,7 @@ declare
   del_rec record;
 begin
   for del_rec in select item_id from cr_items 
-	where content_type in (''evaluation_grades'', ''evaluation_tasks'', ''evaluation_tasks_sols'', ''evaluation_answers'', ''evaluation_student_evals'')
+	where content_type in (''evaluation_grades'', ''evaluation_tasks'', ''evaluation_tasks_sols'', ''evaluation_answers'', ''evaluation_student_evals'', ''evaluation_grades_sheets'')
   loop 
     PERFORM content_item__delete(del_rec.item_id);
   end loop;
@@ -82,7 +88,7 @@ declare
   del_rec record;
 begin
   for del_rec in select item_id from cr_items 
-	where content_type in (''evaluation_grades'', ''evaluation_tasks'', ''evaluation_tasks_sols'', ''evaluation_answers'', ''evaluation_student_evals'')
+	where content_type in (''evaluation_grades'', ''evaluation_tasks'', ''evaluation_tasks_sols'', ''evaluation_answers'', ''evaluation_student_evals'', ''evaluation_grades_sheets'')
   loop 
     PERFORM content_item__delete(del_rec.item_id);
   end loop;
@@ -95,6 +101,7 @@ delete from acs_objects where object_type = 'evaluation_grades';
 delete from acs_objects where object_type = 'evaluation_tasks';
 delete from acs_objects where object_type = 'evaluation_tasks_sols';
 delete from acs_objects where object_type = 'evaluation_answers';
+delete from acs_objects where object_type = 'evaluation_grades_sheets';
 delete from acs_objects where object_type = 'evaluation_student_evals';
 delete from acs_objects where object_type = 'evaluation_task_groups';
 delete from acs_objects where object_type = 'evaluation_task_group_rel';
@@ -113,6 +120,7 @@ PERFORM acs_object_type__drop_type(''evaluation_grades'',''f'');
 PERFORM acs_object_type__drop_type(''evaluation_tasks'',''f'');
 PERFORM acs_object_type__drop_type(''evaluation_tasks_sols'',''f'');
 PERFORM acs_object_type__drop_type(''evaluation_answers'',''f'');
+PERFORM acs_object_type__drop_type(''evaluation_grades_sheets'',''f'');
 PERFORM acs_object_type__drop_type(''evaluation_student_evals'',''f'');
 PERFORM acs_object_type__drop_type(''evaluation_task_groups'',''f'');
 
@@ -125,6 +133,11 @@ drop index evalutaion_tasks_sols_tid_index;
 drop view evaluation_tasks_solsi;
 drop view evaluation_tasks_solsx;
 drop table evaluation_tasks_sols;
+
+drop index evalutaion_grades_sheets_tid_index;
+drop view evaluation_grades_sheetsi;
+drop view evaluation_grades_sheetsx;
+drop table evaluation_grades_sheets;
 
 drop index evaluation_student_evals_tid_index;
 drop index evaluation_student_evals_pid_index;

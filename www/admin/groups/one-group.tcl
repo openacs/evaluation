@@ -17,16 +17,13 @@ set number_of_members [db_string get_no_of_members { *SQL* }]
 set page_title "One Group"
 set context [list [list "[export_vars -base one-task { task_id }]" "Task Groups"] "One Group"]
 
-
 if { $number_of_members } {
 	set group_name [evaluation::evaluation_group_name -group_id $evaluation_group_id]
 	append page_title ": $group_name"
 }
 
 
-set actions [list "Delete Group" [export_vars -base "group-delete" { evaluation_group_id task_id }]  {} \
-				 "Rename Group" [export_vars -base "group-rename" { evaluation_group_id task_id }]  {}
-			]
+set actions [list "Delete Group" [export_vars -base "group-delete" { evaluation_group_id task_id }]  {}]
 
 set elements [list student_name \
 				  [list label "Student Name" \
@@ -57,6 +54,8 @@ db_multirow -extend { desassociate_member_url desassociate_member } one_group ge
 	set desassociate_member_url [export_vars -base "group-remove-member" -url { evaluation_group_id task_id rel_id }]
 	set desassociate_member "Desassociate member"
 }
+
+set export_vars [export_vars -form { task_id evaluation_group_id }]
 
 ad_return_template
 

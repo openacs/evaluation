@@ -75,4 +75,6 @@ db_multirow -extend { answer answer_url } evaluated_students get_evaluated_stude
 
 } 
 
+set grades_sheet_item_id [db_nextval acs_object_id_seq]
 
+ad_return_template
