@@ -1,0 +1,63 @@
+# /packages/evaluation/www/admin/evaluaitons/download-archive/index.vuh
+
+ad_page_contract {
+	
+    Taken from the index.vuh of the fs package		
+
+    @creation-date Jun 2004
+    @version $Id$
+
+} -query {
+    {task_id:integer,notnull,optional}
+}
+
+if { [exists_and_not_null task_id] } {
+    set download_name [db_string task_name { *SQL* }]
+    set ext [evaluation::get_archive_extension]
+    if {![empty_string_p $ext]} {
+        append download_name ".${ext}"
+    }
+
+    ad_returnredirect "${task_id}/${download_name}"
+    ad_script_abort
+}
+
+# convenient way to get the values out of a list
+foreach {task_id download_name} [split [ad_conn path_info] /] {break}
+
+if {![db_0or1row task_name { *SQL* }]} {
+    ad_return_complaint 1 "Object \#$object_id is not a task"
+    ad_script_abort
+}
+
+regsub -all {[<>:\"|/@\\\#%&+\\]} $task_name {_} task_name
+
+# publish the object to the file system
+set in_path [ns_tmpnam]
+file mkdir $in_path
+
+set file [evaluation::public_answers_to_file_system -task_id $task_id -path $in_path -folder_name $task_name]
+set file_name [file tail $file]
+
+# create a temp dir to put the archive in
+set out_path [ns_tmpnam]
+file mkdir $out_path
+
+set out_file [file join ${out_path} ${download_name}]
+
+# get the archive command
+set cmd [evaluation::get_archive_command -in_file $file_name -out_file $out_file]
+
+# create the archive
+with_catch errmsg {
+    exec bash -c "cd $in_path; $cmd; cd -"
+} {
+    error $errmsg
+}
+
+# return the archive to the connection.
+ns_returnfile 200 application/octet-stream $out_file
+
+# clean everything up
+file delete -force $in_path
+file delete -force $out_path
