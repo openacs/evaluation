@@ -64,7 +64,9 @@ create table evaluation_tasks (
 					check(late_submit_p in ('t','f')),
 	requires_grade_p char(1)
 					constraint evaluations_tasks_rgp_ck
-					check(late_submit_p in ('t','f'))	
+					check(late_submit_p in ('t','f')),
+	-- estimated time to complete the assigment
+	estimated_time	decimal	
 );
 
 create index evalutaion_tasks_gid_index on evaluation_tasks(grade_item_id);
@@ -423,7 +425,7 @@ end;
 -- TASKS
 ---------------------------------------
 
-create function evaluation__new_task (integer, integer, varchar, integer, integer, varchar, numeric, timestamptz, char, char, char, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar)
+create function evaluation__new_task (integer, integer, varchar, integer, integer, varchar, numeric, timestamptz, char, char, char, decimal, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar)
 returns integer as '
 declare
 	p_item_id			alias for $1;
@@ -437,14 +439,15 @@ declare
  	p_late_submit_p  	alias for $9;
 	p_online_p  		alias for $10;
 	p_requires_grade_p  alias for $11;
-	p_object_type		alias for $12;
-	p_creation_date		alias for $13;
-	p_creation_user 	alias for $14;
-	p_creation_ip		alias for $15;
-	p_title				alias for $16; -- default null
-	p_publish_date		alias for $17;
-	p_nls_language   	alias for $18; -- default null
-	p_mime_type   		alias for $19; -- default null
+	estimated_time		alias for $12;
+	p_object_type		alias for $13;
+	p_creation_date		alias for $14;
+	p_creation_user 	alias for $15;
+	p_creation_ip		alias for $16;
+	p_title				alias for $17; -- default null
+	p_publish_date		alias for $18;
+	p_nls_language   	alias for $19; -- default null
+	p_mime_type   		alias for $20; -- default null
 
 	v_revision_id		integer;
 
