@@ -113,7 +113,7 @@ ad_form -extend -name answer -form {
 							 -content_table evaluation_answers -content_id answer_id -storage_type $storage_type -task_item_id $task_item_id \
 							 -title $title -mime_type $mime_type -party_id $party_id]
 		
-		evaluation::set_live -revision_id $revision_id
+		content::item::set_live_revision -revision_id $revision_id
 
 		if { ![empty_string_p $upload_file] }  {
 

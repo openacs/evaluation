@@ -60,7 +60,7 @@ if { ![ad_form_new_p -key solution_id] } {
 		}
 		{url:text(text),optional
 		    {label "[_ evaluation.URL__1]"} 
-		    {value "http://"}
+		    {value "htp://"}
 		}			
 	    }
 	} else {
@@ -210,7 +210,7 @@ ad_form -extend -name solution -form {
 				 -content_table evaluation_tasks_sols -content_id solution_id -storage_type $storage_type -task_item_id $task_item_id \
 				 -title $title -mime_type $mime_type]
 	    
-	    evaluation::set_live -revision_id $revision_id
+	    content::item::set_live_revision -revision_id $revision_id
 	    
 	    if { ![empty_string_p $upload_file] }  {
 		

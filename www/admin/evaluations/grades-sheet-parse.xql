@@ -33,7 +33,7 @@
 <fullquery name="valid_user">      
       <querytext>
 
-	select coun(*) from cc_users where person_id = :party_id
+	select count(*) from cc_users where person_id = :party_id
 
       </querytext>
 </fullquery>

@@ -63,10 +63,8 @@ ad_form -name grade -cancel_url [export_vars -base grades { }] -export { } -form
 	db_transaction {
 		
 	    set revision_id [evaluation::new_grade -new_item_p [ad_form_new_p -key grade_id] -item_id $grade_id -content_type evaluation_grades \
-				 -content_table evaluation_grades -content_id grade_id -name $grade_name -plural_name $grade_plural_name -description $comments -weight $weight]
-	    
-	    evaluation::set_live -revision_id $revision_id
-	    
+ -content_table evaluation_grades -content_id grade_id -name $grade_name -plural_name $grade_plural_name -description $comments -weight $weight]
+            content::item::set_live_revision -revision_id $revision_id	    
 	}
 	
 	ad_returnredirect "grades"

@@ -157,14 +157,12 @@ if { ![empty_string_p $tmp_filename] } {
 	} else {
 	    set storage_type lob
 	}
-
 	set revision_id [evaluation::new_grades_sheet -new_item_p 1 -item_id $grades_sheet_item_id -content_type evaluation_grades_sheets \
 			     -content_table evaluation_grades_sheets -content_id grades_sheet_id -storage_type $storage_type -task_item_id $task_item_id \
 			     -title $title -mime_type $mime_type]
 	
-	evaluation::set_live -revision_id $revision_id
-	set content_length [file size $tmp_filename]
-
+	content::item::set_live_revision -revision_id $revision_id
+        set content_length [file size $tmp_filename]
 	if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
 	    # create the new item
 	    
@@ -176,6 +174,7 @@ if { ![empty_string_p $tmp_filename] } {
 	    # create the new item
 	    db_dml lob_content { *SQL* } -blob_files [list $tmp_filename]
 	    
+	
 	    # Unfortunately, we can only calculate the file size after the lob is uploaded 
 	    db_dml lob_size { *SQL* }
 	}
@@ -225,7 +224,7 @@ db_transaction {
 				 -content_table evaluation_student_evals -content_id evaluation_id -description $comments_wa($party_id) \
 				 -show_student_p $show_student_wa($party_id) -grade $grades_wa($party_id) -task_item_id $task_item_id -party_id $party_id]
 	    
-	    evaluation::set_live -revision_id $revision_id
+	    content::item::set_live_revision -revision_id $revision_id
 	}
     }
 }
@@ -249,7 +248,7 @@ db_transaction {
 				 -content_table evaluation_student_evals -content_id evaluation_id -description $comments_na($party_id) \
 				 -show_student_p $show_student_na($party_id) -grade $grades_na($party_id) -task_item_id $task_item_id -party_id $party_id]
 	    
-	    evaluation::set_live -revision_id $revision_id
+	    content::item::set_live_revision -revision_id $revision_id
 	}
     }
 }
@@ -262,7 +261,7 @@ db_transaction {
 				 -content_table evaluation_student_evals -content_id evaluation_id -description $reasons_to_edit($party_id) \
 				 -show_student_p $show_student_to_edit($party_id) -grade $grades_to_edit($party_id) -task_item_id $task_item_id -party_id $party_id]
 	    
-	    evaluation::set_live -revision_id $revision_id
+	    content::item::set_live_revision -revision_id $revision_id
 
 	    # send the notification to everyone suscribed
 	    evaluation::notification::do_notification -task_id $task_id -evaluation_id $revision_id -package_id [ad_conn package_id] -notif_type one_evaluation_notif

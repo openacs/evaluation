@@ -83,6 +83,63 @@ ad_proc -public evaluation::safe_url_name {
 
 } 
 
+
+ad_proc -public evaluation::delete_grade {
+    -grade_id:required
+} {
+    delete all grades
+} {
+   db_1row get_grade_id { select grade_item_id from evaluation_grades where grade_id = :grade_id}
+   db_foreach del_rec { select task_item_id from evaluation_tasks where grade_item_id = :grade_item_id } {
+     db_foreach evaluation_delete_student_eval { select evaluation_id from evaluation_student_evals where task_item_id = :task_item_id } {
+     content::revision::delete -revision_id $evaluation_id
+     }
+     db_foreach evaluation_delete_answer { select answer_id from evaluation_answers where task_item_id = :task_item_id } {
+     content::revision::delete -revision_id $answer_id
+     }
+     db_foreach evaluation_delete_task_sol { select solution_id from evaluation_tasks_sols where task_item_id = :task_item_id } {
+     content::revision::delete -revision_id $solution_id
+     }
+     db_foreach evaluation_delete_grades_sheet { select grades_sheet_id from evaluation_grades_sheets where task_item_id = :task_item_id } {
+     content::revision::delete -revision_id $grades_sheet_id
+     }
+     db_foreach evaluation_delete_task { select task_id from evaluation_tasks where task_item_id = :task_item_id } {
+     content::revision::delete -revision_id $task_id                                                                                                              }
+     }
+#    db_1row get_grade_id { select grade_id as grade_task_id from evaluation_grades where grade_item_id = :grade_item_id}
+     content::revision::delete -revision_id $grade_id
+}
+
+ad_proc -public evaluation::delete_task {
+    -task_id:required
+} {
+    delete all tasks
+} {
+     db_1row get_grade_id { select task_item_id from evaluation_tasks where task_id = :task_id}
+     db_foreach evaluation_delete_student_eval { select evaluation_id from evaluation_student_evals where task_item_id = :task_item_id } {
+     content::revision::delete -revision_id $evaluation_id
+     }
+     db_foreach evaluation_delete_answer { select answer_id from evaluation_answers where task_item_id = :task_item_id } {
+     content::revision::delete -revision_id $answer_id
+     }
+     db_foreach evaluation_delete_task_sol { select solution_id from evaluation_tasks_sols where task_item_id = :task_item_id } {
+     content::revision::delete -revision_id $solution_id
+     }
+     db_foreach evaluation_delete_grades_sheet { select grades_sheet_id from evaluation_grades_sheets where task_item_id = :task_item_id } {
+     content::revision::delete -revision_id $grades_sheet_id
+     }
+#    db_1row get_task_id { select task_id as tasks_task_id from evaluation_tasks where task_item_id = :task_item_id }
+     content::revision::delete -revision_id $task_id
+}
+
+ad_proc -public evaluation::delete_student_eval1 {
+    -evaluation_id:required
+} {
+    delete all tasks
+} {
+     content::revision::delete -revision_id $evaluation_id
+}
+
 ad_proc -public evaluation::notification::do_notification { 
     -task_id:required
     -package_id:required
@@ -151,8 +208,7 @@ ad_proc -public evaluation::new_grade {
     -weight:required
     -name:required
     -plural_name:required
-} {
-    
+} {   
     Build a new content revision of a evaluation subtype.  If new_item_p is
     set true then a new item is first created, otherwise a new revision is created for
     the item indicated by item_id.
@@ -160,8 +216,7 @@ ad_proc -public evaluation::new_grade {
     @param item_id The item to update or create.
     @param content_type The type to make
     @param content_table
-    @param new_item_p If true make a new item using item_id
-    
+    @param new_item_p If true make a new item using item_id 
 } {
     
     set package_id [ad_conn package_id]
@@ -172,14 +227,19 @@ ad_proc -public evaluation::new_grade {
     
     set revision_id [db_nextval acs_object_id_seq]
     set revision_name "${content_type}_${revision_id}"
-    
+#    set folder_id [content::folder::new -name "$content_type_$package_id" -label "$content_type_$package_id" -package_id $package_id ]
+    set folder_id [db_exec_plsql get_folder_id {select content_item__get_id(:content_type||'_'||:package_id,null,'f')}]
     if { $new_item_p } {
-	db_exec_plsql content_item_new { *SQL* }
-	
+         set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id]
     }
-    
-    db_exec_plsql content_revision_new { *SQL* }
-    
+        set revision_id [content::revision::new \
+                                  -item_id $item_id \
+                                  -content_type $content_type \
+                                  -description $description \
+                                  -attributes [list [list weight $weight] \
+                                                    [list grade_name $name] \
+                                                    [list comments  $description] \                                                                                                                              [list grade_item_id  $item_id] \
+                                                    [list grade_plural_name $plural_name]] ]  
     return $revision_id
 } 
 
@@ -211,25 +271,19 @@ ad_proc -private evaluation::now_plus_days { -ndays } {
     
     set day [lindex $now 2]
     set month [lindex $now 1]
-    set year [lindex $now 0]
     set interval_def [template::util::date::defaultInterval day]
-    for { set i [lindex $interval_def 0] }  { $i <= $ndays }  { incr i 1 } {
+    for { set i [lindex $interval_def 0] }  { $i <= 15 }  { incr i 1 } {
 	incr day
-	if { [expr $day + 1] >= [lindex $interval_def 1] } {
+	if { [expr $day + $i] >= [lindex $interval_def 1] } {
 	    incr month 1
 	    set day 1
-	    if { $month > 12 } {
-		incr year 1
-		set month 1
-	    }
 	}
     }
     
     # replace the hour and minute values in the now list with new values
     set now [lreplace $now 2 2 $day]
     set now [lreplace $now 1 1 $month]
-    set now [lreplace $now 0 0 $year]
- 
+    
     # set default time
     set now [lreplace $now 3 3 23]    
     set now [lreplace $now 4 4 59]    
@@ -289,11 +343,9 @@ ad_proc -public evaluation::new_task {
     {-mime_type "text/plain"}
     {-item_name ""}
 } {
-
     Build a new content revision of a task.  If new_item_p is
     set true then a new item is first created, otherwise a new revision is created for
     the item indicated by item_id.
-
     @param item_id The item to update or create.
     @param content_type The type to make
     @param content_table
@@ -307,25 +359,29 @@ ad_proc -public evaluation::new_task {
     @late_submit_p If the students will be able to submit the task after due date
     @description Description of the task
     @storage_type File or text, depending on what are we going to store
-
 } {
-
     set package_id [ad_conn package_id]
     set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
-
+#    set folder_id [content::folder::new -name "$content_type_$package_id" -label "$content_type_$package_id" -package_id $package_id ]
+    set folder_id [db_exec_plsql get_folder_id {select content_item__get_id(:content_type||'_'||:package_id,null,'f')}]
     if { [empty_string_p $item_name] } {
 	set item_name "${item_id}_${title}"
     }
-
     set revision_id [db_nextval acs_object_id_seq]
-
     if { $new_item_p } {
-	db_exec_plsql content_item_new { *SQL* }
+#	db_exec_plsql content_item_new { *SQL* }
+    set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type {evaluation_tasks} -name $item_name -context_id $package_id -mime_type $mime_type -title $title -storage_type $storage_type] 
     }
-    
-    db_exec_plsql content_revision_new { *SQL* }
+    set revision_id [content::revision::new \
+                             -item_id $item_id \
+                             -content_type {evaluation_tasks} \
+                             -mime_type $mime_type \
+			     -title $title \
+                             -description $description \
+                             -attributes [list [list weight $weight] \                                                                                                                                      [list task_name $name] \                                                                                                                                     [list task_item_id $item_id] \                                                                                                                               [list online_p $online_p] \                                                                                                                                  [list grade_item_id $grade_item_id] \                                                                                                                        [list due_date $due_date] \                                                                                                                                  [list late_submit_p $late_submit_p] \                                                                                                                        [list requires_grade_p $requires_grade_p] \                                                                                                                  [list number_of_members $number_of_members]] ]   
 
+ #   db_exec_plsql content_revision_new { *SQL* }
     # in order to find the file we have to set the name in cr_items the same that in cr_revisions
     db_dml update_item_name { *SQL* }
     return $revision_id
@@ -362,7 +418,8 @@ ad_proc -public evaluation::new_solution {
     set package_id [ad_conn package_id]
     set creation_user [ad_verify_and_get_user_id]
     set creation_ip [ad_conn peeraddr]
-
+    #set folder_id [content::folder::new -name "$content_type_$package_id" -label "$content_type_$package_id" -package_id $package_id ]
+    set folder_id [db_exec_plsql get_folder_id {select content_item__get_id(:content_type||'_'||:package_id,null,'f')}]
     set item_name "${item_id}_${title}"
 
     set revision_id [db_nextval acs_object_id_seq]
@@ -376,10 +433,18 @@ ad_proc -public evaluation::new_solution {
     }
 
     if { $new_item_p } {
-	db_exec_plsql content_item_new { *SQL* }
+#	db_exec_plsql content_item_new { *SQL* }
+        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -storage_type $storage_type -title $title]
     }
-    
-    db_exec_plsql content_revision_new { *SQL* }
+        set revision_id [content::revision::new \
+                                  -item_id $item_id \
+                                  -content_type $content_type \
+                                  -mime_type $mime_type \
+				  -title $title \
+                                  -attributes [list [list task_item_id  $task_item_id] \
+                                                    [list solution_item_id $item_id]] ]
+
+#    db_exec_plsql content_revision_new { *SQL* }
 
     # in order to find the file we have to set the name in cr_items the same that in cr_revisions
     db_dml update_item_name { *SQL* }
@@ -419,7 +484,8 @@ ad_proc -public evaluation::new_answer {
     set package_id [ad_conn package_id]
     set creation_user [ad_verify_and_get_user_id]
     set creation_ip [ad_conn peeraddr]
-
+    #set folder_id [content::folder::new -name "$content_type_$package_id" -label "$content_type_$package_id" -package_id $package_id ]
+    set folder_id [db_exec_plsql get_folder_id {select content_item__get_id(:content_type||'_'||:package_id,null,'f')}]
     set item_name "${item_id}_${title}"
 
     set revision_id [db_nextval acs_object_id_seq]
@@ -433,11 +499,19 @@ ad_proc -public evaluation::new_answer {
     }
 
     if { $new_item_p } {
-	db_exec_plsql content_item_new { *SQL* }
-    }
-    
-    db_exec_plsql content_revision_new { *SQL* }
+#	db_exec_plsql content_item_new { *SQL* }
+        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -title $title -storage_type $storage_type]
 
+    }  
+#    db_exec_plsql content_revision_new { *SQL* }
+        set revision_id [content::revision::new \
+                                  -item_id $item_id \
+                                  -content_type $content_type \
+                                  -mime_type $mime_type \
+				  -title $title\
+                                  -attributes [list [list answer_item_id  $item_id] \
+						    [list party_id $party_id] \
+                                                    [list task_item_id $task_item_id]] ]
     # in order to find the file we have to set the name in cr_items the same that in cr_revisions
     db_dml update_item_name { *SQL* }
     return $revision_id
@@ -481,7 +555,8 @@ ad_proc -public evaluation::new_evaluation {
     set package_id [ad_conn package_id]
     set creation_user [ad_verify_and_get_user_id]
     set creation_ip [ad_conn peeraddr]
-
+    #set folder_id [content::folder::new -name "$content_type_$package_id" -label "$content_type_$package_id" -package_id $package_id ]
+    set folder_id [db_exec_plsql get_folder_id {select content_item__get_id(:content_type||'_'||:package_id,null,'f')}]
     set item_name "${item_id}_${title}"
 
     set revision_id [db_nextval acs_object_id_seq]
@@ -495,13 +570,22 @@ ad_proc -public evaluation::new_evaluation {
     }
 
     if { $new_item_p } {
-	db_exec_plsql content_item_new { *SQL* }
-    }
-    
-    db_exec_plsql content_revision_new { *SQL* }
+#	db_exec_plsql content_item_new { *SQL* }
+        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -title $title -storage_type $storage_type]
+    }   
+#       db_exec_plsql content_revision_new { *SQL* }
+        set revision_id [content::revision::new \
+                                  -item_id $item_id \
+                                  -content_type $content_type \
+                                  -mime_type $mime_type \
+                                  -title $title\
+                                  -attributes [list [list evaluation_item_id  $item_id] \
+                                                    [list party_id $party_id] \
+						    [list grade $grade] \
+						    [list show_student_p $show_student_p] \
+                                                    [list task_item_id $task_item_id]] ]
 
 } 
-
 ad_proc -public evaluation::new_evaluation_group {
     -group_id:required
     -group_name:required
@@ -581,7 +665,8 @@ ad_proc -public evaluation::new_grades_sheet {
     set package_id [ad_conn package_id]
     set creation_user [ad_verify_and_get_user_id]
     set creation_ip [ad_conn peeraddr]
-
+    #set folder_id [content::folder::new -name "$content_type_$package_id" -label "$content_type_$package_id" -package_id $package_id ]
+    set folder_id [db_exec_plsql get_folder_id {select content_item__get_id(:content_type||'_'||:package_id,null,'f')}]
     set item_name "${item_id}_${title}"
 
     set revision_id [db_nextval acs_object_id_seq]
@@ -595,11 +680,18 @@ ad_proc -public evaluation::new_grades_sheet {
     }
 
     if { $new_item_p } {
-	db_exec_plsql content_item_new { *SQL* }
-    }
-    
-    db_exec_plsql content_revision_new { *SQL* }
+#db_exec_plsql content_item_new { *SQL* }
+        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -title $title -storage_type $storage_type]
 
+    }   
+#db_exec_plsql content_revision_new { *SQL* }
+        set revision_id [content::revision::new \
+                                  -item_id $item_id \
+                                  -content_type $content_type \
+				  -title $title \
+                                  -mime_type $mime_type \
+                                  -attributes [list [list grades_sheet_item_id  $item_id] \
+                                                    [list task_item_id $task_item_id]] ]
     return $revision_id
 } 
 
@@ -776,44 +868,23 @@ ad_proc -public evaluation::apm::create_folders {
 	set projects_name "[_ evaluation.Projects_]"
 	set projects_singular_name "[_ evaluation.Project]"
 	set projects_desc "[_ evaluation.lt_Projects_for_students]"
-	db_exec_plsql create_evaluation_folders { *SQL* }
+        set folder_id [content::folder::new -name "evaluation_grades_$package_id" -label "evaluation_grades_$package_id" -package_id $package_id ]
+	content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_grades} -include_subtypes t
 
-	set creation_user [ad_verify_and_get_user_id]
-	set creation_ip [ad_conn peeraddr]
-	
-	set exams_item_id [db_nextval acs_object_id_seq]
-	set exams_item_name "evaluation_grades_${exams_item_id}"		
-	set exams_revision_id [db_nextval acs_object_id_seq]
-	set exams_revision_name "evaluation_grades_${exams_revision_id}"
-	
-	db_exec_plsql exams_item_new { *SQL* }
-	
-	db_exec_plsql exams_revision_new { *SQL* }
-	
-	db_exec_plsql exams_live_revision { *SQL* }
-	
-	set projects_item_id [db_nextval acs_object_id_seq]
-	set projects_item_name "evaluation_grades_${projects_item_id}"		
-	set projects_revision_id [db_nextval acs_object_id_seq]
-	set projects_revision_name "evaluation_grades_${projects_revision_id}"
-	
-	db_exec_plsql projects_item_new { *SQL* }
-	
-	db_exec_plsql projects_revision_new { *SQL* }
+        set folder_id [content::folder::new -name "evaluation_tasks_$package_id" -label "evaluation_tasks_$package_id" -package_id $package_id ]
+        content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_tasks} -include_subtypes t
 
-	db_exec_plsql projects_live_revision { *SQL* }
-	
-	set tasks_item_id [db_nextval acs_object_id_seq]
-	set tasks_item_name "evaluation_grades_${tasks_item_id}"		
-	set tasks_revision_id [db_nextval acs_object_id_seq]
-	set tasks_revision_name "evaluation_grades_${tasks_revision_id}"
-	
-	db_exec_plsql tasks_item_new { *SQL* }
-	
-	db_exec_plsql tasks_revision_new { *SQL* }
-	
-	db_exec_plsql tasks_live_revision { *SQL* }
+        set folder_id [content::folder::new -name "evaluation_tasks_sols_$package_id" -label "evaluation_tasks_sols_$package_id" -package_id $package_id ]
+        content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_tasks_sols} -include_subtypes t
 
+        set folder_id [content::folder::new -name "evaluation_answers_$package_id" -label "evaluation_answers_$package_id" -package_id $package_id ]
+        content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_answers} -include_subtypes t
+
+        set folder_id [content::folder::new -name "evaluation_grades_sheets_$package_id" -label "evaluation_grades_sheets_$package_id" -package_id $package_id ]
+        content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_grades_sheets} -include_subtypes t
+
+        set folder_id [content::folder::new -name "evaluation_student_evals_$package_id" -label "evaluation_student_evals_$package_id" -package_id $package_id ]
+        content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_student_evals} -include_subtypes t
     }
 }
 
@@ -822,28 +893,110 @@ ad_proc -public evaluation::apm::delete_contents {
 } {
     Helper for the apm_proc
 } {
+#Delete all content templates
+ns_log notice "Por Aqui paso esto"
+db_foreach v1 { select ea.answer_id from evaluation_answersi ea, acs_objects ao where ea.item_id = ao.object_id and ao.context_id = p_package_id } {
+content::revision::delete -revision_id $answer_id
+}
+db_foreach v2 { select ets.solution_id from evaluation_tasks_solsi ets, acs_objects ao where ets.item_id = ao.object_id and ao.context_id = p_package_id  } { content::revision::delete -revision_id $solution_id }
+db_foreach v3 { select egs.grades_sheet_id from evaluation_grades_sheetsi egs, acs_objects ao where egs.item_id = ao.object_id and ao.context_id = p_package_id  } {
+content::revision::delete -revision_id $grades_sheet_id }
+db_foreach v4 { select ese.evaluation_id from evaluation_student_evalsi ese, acs_objects ao where ese.item_id = ao.object_id and ao.context_id = p_package_id  } {
+content::revision::delete -revision_id $evaluation_id }
+db_foreach v5 { select et.task_id from evaluation_tasksi et, acs_objects ao where et.item_id = ao.object_id and ao.context_id = p_package_id  } {
+content::revision::delete -revision_id $task_id }
+db_foreach v6 { select eg.grade_id from evaluation_gradesi eg, acs_objects ao where eg.item_id = ao.object_id and ao.context_id = p_package_id  } {
+content::revision::delete -revision_id $grade_id}
 
-    set ev_grades_fid [db_string get_f_id "select content_item__get_id('evaluation_grades_'||:package_id,null,'f')"]
-    set ev_grades_sheets_fid [db_string get_f_id "select content_item__get_id('evaluation_grades_sheets_'||:package_id,null,'f')"]
-    set ev_tasks_fid [db_string get_f_id "select content_item__get_id('evaluation_tasks_'||:package_id,null,'f')"]
-    set ev_tasks_sols_fid [db_string get_f_id "select content_item__get_id('evaluation_tasks_sols_'||:package_id,null,'f')"]
-    set ev_answers_fid [db_string get_f_id "select content_item__get_id('evaluation_answers_'||:package_id,null,'f')"]
-    set ev_student_evals_fid [db_string get_f_id "select content_item__get_id('evaluation_student_evals_'||:package_id,null,'f')"]
+#Evaluation_Task_Sols
+ns_log notice "Eliminado folder de Evaluation_Task_Sols"
+set v_folder_id [content::item::get_id -item_path "evaluation_tasks_sols_$package_id" -resolve_index {f}]
+ns_log notice "Numero de Folder $v_folder_id este es el numero"
+db_foreach v11 { select item_id from cr_items where  parent_id = :v_folder_id } {
+        evaluation::delete_grade -grade_item_id $item_id
+}
+content::folder::unregister_content_type -folder_id $v_folder_id  -content_type {content_revision} -include_subtypes {t}
+content::folder::unregister_content_type -folder_id $v_folder_id  -content_type {evaluation_tasks_sols} -include_subtypes {t}
+db_dml delete_v11 "delete from cr_folder_type_map where content_type = 'evaluation_tasks_sols'"
+content::folder::delete -folder_id $v_folder_id
+                                                                                                                                                             
+#evaluation_answers
+ns_log notice "Eliminando folder de evaluation_answer"
+set v_folder_id [content::item::get_id -item_path "evaluation_answers_$package_id" -resolve_index {f}]
+ns_log notice "Numero de Folder $v_folder_id este es el numero"
+db_foreach v12 {select item_id from cr_items where  parent_id = :v_folder_id } {
+        evaluation::delete_grade -grade_item_id $item_id }
+content::folder::unregister_content_type -folder_id $v_folder_id -content_type {content_revision} -include_subtypes {t}
+content::folder::unregister_content_type -folder_id $v_folder_id -content_type {evaluation_answers} -include_subtypes {t}
+db_dml delete_v12 "delete from cr_folder_type_map where content_type = 'evaluation_answers'"
+content::folder::delete -folder_id $v_folder_id
+                                                                                                                                                             
+#evaluation_students_eval
+ns_log notice "Eliminando folder de evaluation_students_eval"
+set v_folder_id [content::item::get_id -item_path "evaluation_student_evals_$package_id" -resolve_index {f}]
+ns_log notice "Numero de Folder $v_folder_id este es el numero"
+db_foreach v13 { select item_id from cr_items where  parent_id = :v_folder_id } {
+       evaluation::delete_grade -grade_item_id $item_id }
+content::folder::unregister_content_type -folder_id $v_folder_id -content_type {content_revision} -include_subtypes {t}
+content::folder::unregister_content_type -folder_id $v_folder_id -content_type {evaluation_student_evals} -include_subtypes {t}
+db_dml delete_v13 "delete from cr_folder_type_map where content_type = 'evaluation_student_evals'"
+content::folder::delete -folder_id $v_folder_id
+                                                                                                                                                             
+#evaluation_grades_sheets
+ns_log notice "Elimiando folder de evaluation_grades_sheets"
+set v_folder_id [content::item::get_id -item_path "evaluation_grades_sheets_$package_id" -resolve_index {f}]
+ns_log notice "Numero de Folder $v_folder_id este es el numero"
+db_foreach v14 { select item_id  from cr_items where  parent_id = :v_folder_id } {
+       evaluation::delete_grade -grade_item_id $item_id }
+content::folder::unregister_content_type -folder_id $v_folder_id -content_type {content_revision} -include_subtypes {t}
+content::folder::unregister_content_type -folder_id $v_folder_id -content_type {evaluation_grades_sheets} -include_subtypes {t}
+db_dml delete_v14 "delete from cr_folder_type_map where content_type = 'evaluation_grades_sheets'"
+content::folder::delete -folder_id $v_folder_id
 
-    db_transaction {
-	db_exec_plsql delte_evaluation_contents { *SQL* }
-	
-	db_exec_plsql delte_grades_sheets_folder { *SQL* }
-	
-	db_exec_plsql delte_grades_folder { *SQL* }
-	
-	db_exec_plsql delte_task_folder { *SQL* }
-	
-	db_exec_plsql delte_task_sols_folder { *SQL* }
-	
-	db_exec_plsql delte_answers_folder { *SQL* }
+#evaluation_tasks
+ns_log notice "Elimando folder de evaluation_tasks"
+set v_folder_id [content::item::get_id -item_path "evaluation_tasks_$package_id" -resolve_index {f}]
+ns_log notice "Numero de Folder $v_folder_id este es el numero"
+db_foreach v15 { select etg.group_id from evaluation_tasks et, evaluation_task_groups etg where etg.task_item_id = et.task_item_id } {
+       evaluation::delete_grade -grade_item_id $item_id }
+content::folder::unregister_content_type -folder_id $v_folder_id -content_type {content_revision} -include_subtypes {t}
+content::folder::unregister_content_type -folder_id $v_folder_id -content_type {evaluation_tasks} -include_subtypes {t}
+db_dml delete_v15 "delete from cr_folder_type_map where content_type = 'evaluation_tasks'"
+content::folder::delete -folder_id $v_folder_id
+                                                                                                                                                             
+#evaluation_grades
+ns_log notice "Elimando folder de evaluation_grades"
+set v_folder_id [content::item::get_id -item_path "evaluation_grades_$package_id" -resolve_index {f}]
+ns_log notice "Numero de Folder $v_folder_id este es el numero"
+db_foreach v16 { select item_id from cr_items where  parent_id = :v_folder_id } {
+       evaluation::delete_grade -grade_item_id $item_id }
+content::folder::unregister_content_type -folder_id $v_folder_id -content_type {content_revision} -include_subtypes {t}
+content::folder::unregister_content_type -folder_id $v_folder_id -content_type {evaluation_grades} -include_subtypes {t}
+db_dml delete_v16 "delete from cr_folder_type_map where content_type = 'evaluation_grades'"
+content::folder::delete -folder_id $v_folder_id
 
-	db_exec_plsql delte_evals_folder { *SQL* }
+
+#    set ev_grades_fid [db_string get_f_id "select content_item__get_id('evaluation_grades_'||:package_id,null,'f')"]
+#    set ev_grades_sheets_fid [db_string get_f_id "select content_item__get_id('evaluation_grades_sheets_'||:package_id,null,'f')"]
+#    set ev_tasks_fid [db_string get_f_id "select content_item__get_id('evaluation_tasks_'||:package_id,null,'f')"]
+#    set ev_tasks_sols_fid [db_string get_f_id "select content_item__get_id('evaluation_tasks_sols_'||:package_id,null,'f')"]
+#    set ev_answers_fid [db_string get_f_id "select content_item__get_id('evaluation_answers_'||:package_id,null,'f')"]
+#    set ev_student_evals_fid [db_string get_f_id "select content_item__get_id('evaluation_student_evals_'||:package_id,null,'f')"]
+
+#    db_transaction {
+#	db_exec_plsql delte_evaluation_contents { *SQL* }
+	
+#	db_exec_plsql delte_grades_sheets_folder { *SQL* }
+	
+#	db_exec_plsql delte_grades_folder { *SQL* }
+	
+#	db_exec_plsql delte_task_folder { *SQL* }
+	
+#	db_exec_plsql delte_task_sols_folder { *SQL* }
+	
+#	db_exec_plsql delte_answers_folder { *SQL* }
+
+#	db_exec_plsql delte_evals_folder { *SQL* }
     }
 }
 
@@ -914,7 +1067,7 @@ ad_proc -public evaluation::public_answers_to_file_system {
     }
 
     return $dir
-}
+db_foreach get_answers_for_task}
 
 ad_proc -public evaluation::get_archive_extension {} {
     return the archive extension that should be added to the output file of

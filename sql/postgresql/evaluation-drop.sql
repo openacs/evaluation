@@ -1,74 +1,5 @@
 -- jopez@galileo.edu
-
 \i evaluation-calendar-drop.sql
-
--- Unregister the content template
-select content_type__unregister_template (
-       'evaluation_tasks',
-       content_type__get_template('evaluation_tasks','public'),
-       'public'
-);
--- Unregister the content template
-select content_type__unregister_template (
-       'evaluation_tasks_sols',
-       content_type__get_template('evaluation_tasks_sols','public'),
-       'public'
-);
--- Unregister the content template
-select content_type__unregister_template (
-       'evaluation_answers',
-       content_type__get_template('evaluation_answers','public'),
-       'public'
-);
--- Unregister the content template
-select content_type__unregister_template (
-       'evaluation_grades_sheets',
-       content_type__get_template('evaluation_grades_sheets','public'),
-       'public'
-);
-
--- deleting templates
-create function inline_0 ()
-returns integer as '
-declare
-    v_template_id	  cr_templates.template_id%TYPE;
-    v_item_cursor RECORD;
-        
-begin
-
-    FOR v_item_cursor IN
-        select template_id
-        from   cr_templates, cr_items
-        where  name=''evaluation-tasks-default''
-    LOOP
-       	PERFORM content_template__delete(v_item_cursor.template_id);
-    END LOOP;
-
-    FOR v_item_cursor IN
-        select template_id
-        from   cr_templates, cr_items
-        where  name=''evaluation-tasks-sols-default''
-    LOOP
-       	PERFORM content_template__delete(v_item_cursor.template_id);
-    END LOOP;
-
-    FOR v_item_cursor IN
-        select template_id
-        from   cr_templates, cr_items
-        where  name=''evaluation-answers-default''
-    LOOP
-       	PERFORM content_template__delete(v_item_cursor.template_id);
-    END LOOP;
-
-    return 0;
-end;
-' language 'plpgsql';
-
-select inline_0 ();
-drop function inline_0 ();
-
-select evaluation__delete_all_folders_and_contents ();
-
 create function inline_0 ()
 returns integer as'
 declare
@@ -98,6 +29,7 @@ return 0;
 end;' language 'plpgsql';
 select inline_0 ();
 drop function inline_0 ();
+
 
 delete from acs_objects where object_type = 'evaluation_grades';
 delete from acs_objects where object_type = 'evaluation_tasks';
@@ -107,7 +39,6 @@ delete from acs_objects where object_type = 'evaluation_grades_sheets';
 delete from acs_objects where object_type = 'evaluation_student_evals';
 delete from acs_objects where object_type = 'evaluation_task_groups';
 delete from acs_objects where object_type = 'evaluation_task_group_rel';
-
 delete from acs_attributes where object_type = 'evaluation_task_groups';
 delete from acs_object_type_tables where object_type = 'evaluation_task_groups';
 delete from group_types where group_type = 'evaluation_task_groups';
@@ -161,15 +92,9 @@ drop view evaluation_gradesi;
 drop view evaluation_gradesx;
 drop table evaluation_grades;
 
-drop function evaluation__new_item (integer,varchar,varchar,integer,integer,timestamptz,varchar,varchar,text,varchar,varchar,text,varchar,varchar,varchar);
-
 ---------------------------------------
 -- GRADES
 ---------------------------------------
-
-drop function evaluation__new_grade (integer, integer, varchar, varchar, numeric, varchar, timestamptz, integer, varchar, varchar, varchar, timestamptz, varchar, varchar);
-
-drop function evaluation__delete_grade (integer);
 
 drop function grade__name(integer);
 
@@ -177,47 +102,7 @@ drop function grade__name(integer);
 -- TASKS
 ---------------------------------------
 
-drop function evaluation__new_task (integer, integer, varchar, integer, integer, varchar, numeric, timestamptz, char, char, char, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
-
-drop function evaluation__delete_task (integer);
-
 drop function task__name(integer);
-
----------------------------------------
--- TASKS SOLUTIONS
----------------------------------------
-
-drop function evaluation__new_task_sol (integer, integer, integer, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
-
-drop function evaluation__delete_task_sol (integer);
-
----------------------------------------
--- STUDENT ANSWERS
----------------------------------------
-
-drop function evaluation__new_answer (integer, integer, integer, integer, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
-
-drop function evaluation__delete_answer (integer);
-
----------------------------------------
--- GRADES SHEETS
----------------------------------------
-
-drop function evaluation__new_grades_sheet (integer, integer, integer, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
-
-drop function evaluation__delete_grades_sheet (integer);
-
----------------------------------------
--- STUDENT EVALUATIONS
----------------------------------------
-
-drop function evaluation__new_student_eval (integer, integer, integer, integer, numeric, char, text, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
-
-drop function evaluation__delete_student_eval (integer);
-
----------------------------------------
--- EVALUATION TASK GROUPS
----------------------------------------
 
 drop function evaluation__new_evaluation_task_group(integer,varchar,varchar,timestamptz,integer,varchar,integer,integer);
 
@@ -249,12 +134,5 @@ drop function evaluation__party_name (integer,integer);
 
 drop function evaluation__party_id (integer,integer);
 
-drop function evaluation__new_folder (varchar,varchar,text,integer,varchar);
-
 drop function evaluation__delete_contents (integer);
-
-drop function evaluation__delete_folder (integer,varchar);
-
-drop function evaluation__delete_all_folders_and_contents ();
-
 

@@ -22,12 +22,11 @@
 	     evaluation_tasksi et,
 	     cr_items cri,
 	     cr_mime_types crmt	
-	where cr.revision_id = et.revision_id
-	  and et.grade_item_id = :grade_item_id	
+	where cr.revision_id = et.revision_id                                                                                            
+          and et.grade_item_id = :grade_item_id	
 	  and cri.live_revision = et.task_id
 	  and et.mime_type = crmt.mime_type
 	$assignments_orderby
-
       </querytext>
 </fullquery>
 

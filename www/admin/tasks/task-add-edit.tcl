@@ -341,7 +341,7 @@ ad_form -extend -name task -form {
 			     -due_date  $due_date -late_submit_p $late_submit_p -requires_grade_p $requires_grade_p -title $title \
 			     -mime_type $mime_type -estimated_time $estimated_time]
 	
-	evaluation::set_live -revision_id $revision_id
+	content::item::set_live_revision -revision_id $revision_id
 
 	if { ![empty_string_p $upload_file] }  {
 	    

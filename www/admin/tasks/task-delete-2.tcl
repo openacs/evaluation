@@ -24,8 +24,9 @@ if { [string eq $operation [_ evaluation.lt_Yes_I_really_want_to__3]] } {
 	    calendar::item::delete -cal_item_id $cal_item_id
 	}
 	# calendar integration (end)
-
-	db_exec_plsql delete_task { *SQL* }		
+        # db_1row get_grade_id { select task_item_id from evaluation_tasks where task_id = :task_id}
+        evaluation::delete_task -task_id $task_id 
+	#db_exec_plsql delete_task { *SQL* }		
 	
     } on_error {
 	ad_return_error "[_ evaluation.lt_Error_deleting_the_ta]" "[_ evaluation.lt_We_got_the_following__2]"
