@@ -22,7 +22,7 @@
 </fullquery>
 
 
-<fullquery name="task_info">      
+<fullquery name="double_click">      
       <querytext>
 
     select answer_id

@@ -89,7 +89,7 @@
 <fullquery name="evaluation::clone_task.content_item_new">      
       <querytext>
 	
-	select coalesce((select evaluation__new_item (
+	select evaluation__new_item (
 				     :item_id, --item_id
 				     :item_name,
 				     null, --locale
@@ -105,8 +105,7 @@
 				     :storage_type, --storage_type
 				     'content_item', -- item_subtype
 				     'evaluation_tasks' -- content_type
-				     )
-	where not exists (select 1 from cr_items where item_id = :item_id)),0)
+				     );
 
       </querytext>
 </fullquery>
@@ -344,7 +343,7 @@
 			:storage_type, --storage_type
 			'content_item', -- item_subtype
 			'evaluation_student_evals' -- content_type
-			) where not exists (select 1 from cr_items where item_id = :item_id);
+			);
 
       </querytext>
 </fullquery>

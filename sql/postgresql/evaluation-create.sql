@@ -291,7 +291,7 @@ begin
         v_id := p_item_id;
     end if; 
 
-    v_item_id := content_item__new(
+    select coalesce((select content_item__new(
         p_name,               -- name
         v_parent_id,          -- parent_id
         v_id,                 -- item_id
@@ -308,7 +308,7 @@ begin
         p_nls_language,       -- nls_language
 	    p_text,				  -- text
 		p_storage_type  			  -- storage_type
-    );
+    ) where not exists (select 1 from cr_items where item_id = v_id)),0) into v_item_id;
 
 	return v_item_id;
 end;
