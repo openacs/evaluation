@@ -13,7 +13,7 @@ ad_page_contract {
 	return_url
 } 
 
-if { [string eq $operation "[_ evaluation.lt_Yes_I_really_want_to__3]"] } {
+if { [string eq $operation [_ evaluation.lt_Yes_I_really_want_to__3]] } {
     db_transaction {
 
 		db_exec_plsql delete_task { *SQL* }		

@@ -11,7 +11,7 @@
 		requires_grade_p,
 		task_id
 		from evaluation_tasksi
-		where grade_id = :grade_id
+		where grade_item_id = :grade_item_id
 		and content_revision__is_live(task_id) = true
    		order by task_name 
 	

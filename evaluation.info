@@ -19,7 +19,6 @@
             <callback type="after-install"  proc="evaluation::apm::package_install"/>
             <callback type="after-instantiate"  proc="evaluation::apm::package_instantiate"/>
             <callback type="before-uninstantiate"  proc="evaluation::apm::package_uninstantiate"/>
-            <callback type="before-uninstall"  proc="evaluation::apm::package_uninstall"/>
         </callbacks>
         <parameters>
             <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="ArchiveCommand"  default="tar -czf {out_file} {in_file}" description="Program (and program options) to use for archiving file storage objects. Use the special tags {in_file} and {out_file} (including the curly braces) to denote the locations of the input and output files on the command line."/>

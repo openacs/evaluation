@@ -37,6 +37,8 @@ if { [ad_form_new_p -key answer_id] } {
 
 set context [list $page_title]
 
+db_1row task_info { *SQL* }
+
 ad_form -html { enctype multipart/form-data } -name answer -cancel_url $return_url -export { item_id grade_id task_id attached_p return_url } -form {
 
 	answer_id:key
@@ -101,7 +103,7 @@ ad_form -extend -name answer -form {
 		} 
 
 		set revision_id [evaluation::new_answer -new_item_p [ad_form_new_p -key answer_id] -item_id $item_id -content_type evaluation_answers \
-							 -content_table evaluation_answers -content_id answer_id -storage_type $storage_type -task_id $task_id \
+							 -content_table evaluation_answers -content_id answer_id -storage_type $storage_type -task_item_id $task_item_id \
 							 -title $title -mime_type $mime_type -party_id $party_id]
 		
 		evaluation::set_live -revision_id $revision_id
@@ -113,9 +115,15 @@ ad_form -extend -name answer -form {
 			# create the new item
 			db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
 
+			set content_length [file size $tmp_file]
+			# Unfortunately, we can only calculate the file size after the lob is uploaded 
+			db_dml lob_size { *SQL* }
+
 		} elseif { ![string eq $url "http://"] } {
 			
 			db_dml link_content { *SQL* }
+			set content_length 0
+			db_dml lob_size { *SQL* }
 			
 		}
 	}

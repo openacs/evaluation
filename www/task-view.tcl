@@ -53,7 +53,13 @@ if { ![empty_string_p $task_data] } {
 
 if { ![empty_string_p $solution_data] } {
 
-    if { [regexp "http://" $solution_data] } {
+    if { [string eq $solution_title "link"] } {
+	# there is a bug in the template::list, if the url does not has a http://, ftp://, the url is not absolute,
+	# so we have to deal with this case
+	array set community_info [site_node::get -url "[dotlrn_community::get_community_url [dotlrn_community::get_community_id]][evaluation::package_key]"]
+	if { ![regexp ([join [split [parameter::get -parameter urlProtocols -package_id $community_info(package_id)] ","] "|"]) "$solution_data"] } {
+	    set solution_data "http://$solution_data"
+	} 
  	set solution_url "<a href=\"$solution_data\">$solution_data</a>"
     } else {
 	# we assume it's a file

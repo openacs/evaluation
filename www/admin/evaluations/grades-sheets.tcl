@@ -39,8 +39,8 @@ template::list::create \
         }
         upload_date_pretty {
             label "[_ evaluation.Upload_Date_]"
-			orderby_asc {upload_date asc}
-			orderby_desc {upload_date desc}
+			orderby_asc {upload_date_ansi asc}
+			orderby_desc {upload_date_ansi desc}
         }
         upload_user {
             label "[_ evaluation.Uploaded_by_]"

@@ -11,7 +11,7 @@ ad_page_contract {
 	from_task_id:integer,notnull
 } -validate {
 	no_groups {
-		if { [db_string get_groups_for_task "select count(*) from evaluation_task_groups where task_id = :task_id"] > 0 } {
+	    if { [db_string get_groups_for_task { *SQL* }] > 0 } {
 			ad_complain "[_ evaluation.lt_There_must_be_no_grou]"
 		}
 	}
@@ -21,6 +21,7 @@ set package_id [ad_conn package_id]
 set creation_user_id [ad_conn user_id]
 set creation_ip [ad_conn peeraddr]
 
+db_1row task_info { *SQL* }
 
 db_transaction {
 
@@ -28,7 +29,7 @@ db_transaction {
 	
 		set new_evaluation_group_id [db_nextval acs_object_id_seq]
 		
-		evaluation::new_evaluation_group -group_id $new_evaluation_group_id -group_name $group_name -task_id $task_id -context $package_id
+		evaluation::new_evaluation_group -group_id $new_evaluation_group_id -group_name $group_name -task_item_id $task_item_id -context $package_id
 
 		db_exec_plsql evaluation_relationship_new { *SQL* }
 

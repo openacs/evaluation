@@ -6,9 +6,7 @@
 <fullquery name="delete_grade">      
       <querytext>
 
-		select evaluation__delete_grade (
-									  :grade_id
-								  );
+		select evaluation__delete_grade(grade_item_id) from evaluation_grades where grade_id = :grade_id;
 	
       </querytext>
 </fullquery>

@@ -6,7 +6,10 @@
 <fullquery name="count_grades_sheets">      
       <querytext>
 
-		select count(*) from evaluation_grades_sheets where task_id = :task_id and content_revision__is_live(grades_sheet_id) = true
+		select count(*) from evaluation_grades_sheets egs, evaluation_tasks et
+		where egs.task_item_id = et.task_item_id 
+		and et.task_id = :task_id
+		and content_revision__is_live(egs.grades_sheet_id) = true
 
       </querytext>
 </fullquery>
@@ -19,8 +22,10 @@
 	person__name(egs.creation_user) as upload_user,
 	egs.data as sheet_data,
 	egs.revision_id
-	from evaluation_grades_sheetsi egs
-	where egs.task_id = :task_id 
+	from evaluation_grades_sheetsi egs,
+	evaluation_tasks et
+	where egs.task_item_id = et.task_item_id
+	  and et.task_id = :task_id 
 	  and content_revision__is_live(egs.grades_sheet_id) = true
 	$orderby
 

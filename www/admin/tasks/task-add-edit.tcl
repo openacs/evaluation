@@ -90,7 +90,7 @@ if { !$new_p } {
 		}			
 	    }
 	}
-    } elseif { [regexp "http://" $content] } {
+    } elseif { [string eq $title "link"] } {
 
 	if { [string eq $mode "edit"] } {
 
@@ -308,7 +308,11 @@ ad_form -extend -name task -form {
 	    set mime_type [cr_filename_to_mime_type -create $title]
 	    
 	    set storage_type lob
-	} 
+	} elseif { ![string eq $url "http://"] } {
+	    set mime_type "text/plain"
+	    set title "link"
+	    set storage_type text
+	}
 	
 	set title [evaluation::safe_url_name -name $title]
 	set due_date [db_string set_date { *SQL* }]
@@ -319,17 +323,12 @@ ad_form -extend -name task -form {
 
 	set revision_id [evaluation::new_task -new_item_p [ad_form_new_p -key grade_id] -item_id $item_id -content_type evaluation_tasks \
 			     -content_table evaluation_tasks -content_id task_id -name $task_name -description $description -weight $weight \
-			     -grade_id $grade_id -number_of_members $number_of_members -online_p $online_p -storage_type $storage_type \
+			     -grade_item_id $grade_item_id -number_of_members $number_of_members -online_p $online_p -storage_type $storage_type \
 			     -due_date  $due_date -late_submit_p $late_submit_p -requires_grade_p $requires_grade_p -title $title \
 			     -mime_type $mime_type]
 	
 	evaluation::set_live -revision_id $revision_id
 
-	
-	if { ![ad_form_new_p -key task_id] } {
-	    evaluation::clone_task_references -from_task_id $task_id -to_task_id $revision_id
-	} 
-	
 	if { ![empty_string_p $upload_file] }  {
 	    
 	    set tmp_file [template::util::file::get_property tmp_filename $upload_file]
@@ -344,6 +343,8 @@ ad_form -extend -name task -form {
 	} elseif { ![string eq $url "http://"] } {
 	    
 	    db_dml link_content { *SQL* }
+	    set content_length 0
+	    db_dml lob_size { *SQL* }
 	    
 	} elseif { [string eq $attached_p "t"] && ![string eq $unattach_p "t"] } {
 	    # just copy the old content to the new revision

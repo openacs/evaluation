@@ -39,5 +39,4 @@ set evaluations_notification_chunk [notification::display::request_widget \
 							-url [ad_conn url] \
 						   ]
 
-set uno $dos
 ad_return_template

@@ -11,6 +11,16 @@
       </querytext>
 </fullquery>
 
+<fullquery name="task_info">      
+      <querytext>
+	
+		select task_item_id
+		from evaluation_tasks
+		where task_id = :task_id
+	
+      </querytext>
+</fullquery>
+
 <fullquery name="late_turn_in">      
       <querytext>
 	

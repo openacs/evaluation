@@ -3,14 +3,36 @@
 <queryset>
    <rdbms><type>postgresql</type><version>7.3</version></rdbms>
 
+<fullquery name="get_groups_for_task">      
+      <querytext>
+
+	select count(*) 
+	from evaluation_task_groups etg, evaluation_tasks et
+	where etg.task_item_id = et.task_item_id 
+	  and et.task_id = :task_id
+
+      </querytext>
+</fullquery>
+
 <fullquery name="evaluation_group">      
       <querytext>
 
 		select etg.group_id as from_evaluation_group_id,
 		g.group_name
-		from evaluation_task_groups etg, groups g
-		where etg.task_id = :from_task_id
-          and etg.group_id = g.group_id
+		from evaluation_task_groups etg, groups g, evaluation_tasks et
+		where etg.task_item_id = et.task_item_id 
+		  and et.task_id = :from_task_id
+          	  and etg.group_id = g.group_id
+	
+      </querytext>
+</fullquery>
+
+<fullquery name="task_info">      
+      <querytext>
+	
+		select task_item_id
+		from evaluation_tasks
+		where task_id = :task_id
 	
       </querytext>
 </fullquery>

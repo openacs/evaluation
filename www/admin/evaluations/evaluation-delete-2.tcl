@@ -12,9 +12,10 @@ ad_page_contract {
 	operation
 } 
 
-if { [string eq $operation "[_ evaluation.lt_Yes_I_really_want_to_]"] } {
-    db_transaction {
+ns_log notice "por comprarar ($operation) con ([_ evaluation.lt_Yes_I_really_want_to_]) \n"
 
+if { [string eq $operation [_ evaluation.lt_Yes_I_really_want_to_]] } {
+    db_transaction {
 		db_exec_plsql delete_evaluation { *SQL* }		
 		
     } on_error {

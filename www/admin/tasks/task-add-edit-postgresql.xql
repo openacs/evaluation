@@ -6,7 +6,11 @@
 <fullquery name="get_grade_info">      
       <querytext>
 
-		select grade_plural_name, grade_name, weight as grade_weight from evaluation_grades where grade_id = :grade_id
+		select grade_plural_name, 
+		grade_name, 
+		weight as grade_weight,
+		grade_item_id
+		 from evaluation_grades where grade_id = :grade_id
 	
       </querytext>
 </fullquery>
@@ -16,7 +20,7 @@
 
 		select content_revision__get_content(et.revision_id) as content, 
 		et.title,
-        et.item_id,
+        	et.item_id,
 		cri.storage_type
 		from evaluation_tasksi et, cr_items cri
 		where et.task_id = :task_id

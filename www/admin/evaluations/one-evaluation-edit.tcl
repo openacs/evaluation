@@ -73,7 +73,7 @@ ad_form -name evaluation -cancel_url $return_url -export { task_id item_id party
 	
 	set revision_id [evaluation::new_evaluation -new_item_p 0 -item_id $item_id -content_type evaluation_student_evals \
 			     -content_table evaluation_student_evals -content_id evaluation_id -description $comments \
-			     -show_student_p $show_student_p -grade $grade -task_id $task_id -party_id $party_id]
+			     -show_student_p $show_student_p -grade $grade -task_item_id $task_item_id -party_id $party_id]
 	
 	evaluation::set_live -revision_id $revision_id
 	

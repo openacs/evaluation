@@ -16,7 +16,7 @@
 	from evaluation_tasks et,
 	     evaluation_student_evalsi ese 
 	where et.task_id = :task_id
-	  and et.task_id = ese.task_id
+	  and et.task_item_id = ese.task_item_id
 	  and content_revision__is_live(ese.evaluation_id) = true
         $orderby       
 	
@@ -26,7 +26,7 @@
 <fullquery name="get_not_eval_wa">      
       <querytext>
 
-		select count(party_id) from evaluation_answers ea where ea.task_id = :task_id $processed_clause and content_revision__is_live(ea.answer_id) = true
+		select count(party_id) from evaluation_answers ea where ea.task_item_id = :task_item_id $processed_clause and content_revision__is_live(ea.answer_id) = true
 	
       </querytext>
 </fullquery>
@@ -41,7 +41,7 @@
 	    ea.last_modified as submission_date
 	    from evaluation_answersi ea 
             where ea.party_id = :party_id 
-	    and ea.task_id = :task_id
+	    and ea.task_item_id = :task_item_id
 	    and content_revision__is_live(ea.answer_id) = true
 	
       </querytext>
@@ -51,9 +51,10 @@
       <querytext>
 
 		select count(*) 
-		from evaluation_student_evals 
-		where task_id = :task_id 
-		and content_revision__is_live(evaluation_id) = true
+		from evaluation_student_evals ese, evaluation_tasks et 
+		where ese.task_item_id = et.task_item_id
+		and et.task_id = :task_id 
+		and content_revision__is_live(ese.evaluation_id) = true
 	
       </querytext>
 </fullquery>
@@ -69,7 +70,7 @@
 <fullquery name="get_not_evaluated_wa_students">      
       <querytext>
 
-	select evaluation__party_name(ea.party_id, ea.task_id) as party_name,
+	select evaluation__party_name(ea.party_id, :task_id) as party_name,
         ea.party_id,
 	ea.data as answer_data,
 	ea.title as answer_title,
@@ -80,7 +81,7 @@
 	from evaluation_answersi ea, 
 	     evaluation_tasks et,
 	     cr_items cri
-	where ea.task_id = et.task_id
+	where ea.task_item_id = et.task_item_id
           and et.task_id = :task_id
           and ea.data is not null
           and cri.live_revision = ea.answer_id

@@ -6,7 +6,7 @@
 <fullquery name="get_evaluation_info">      
       <querytext>
 
-	    select evaluation__party_name(party_id,task_id) as party_name
+	    select evaluation__party_name(party_id,:task_id) as party_name
     	from evaluation_student_evals
 		where evaluation_id = :evaluation_id
 	

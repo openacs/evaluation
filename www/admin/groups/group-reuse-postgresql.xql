@@ -12,8 +12,9 @@
 	from evaluation_tasksi et, evaluation_gradesi eg
 	where content_revision__is_live(et.task_id) = true 
       and et.number_of_members > 1
-      and et.grade_id = eg.grade_id
+      and et.grade_item_id = eg.grade_item_id
       and content_revision__is_live(eg.grade_id) = true 
+      and content_revision__is_live(et.task_id) = true
       and et.task_id <> :task_id
       $orderby
 	

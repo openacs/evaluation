@@ -8,7 +8,7 @@
 <ul>
 <multiple name="parties">
  		<li><strong>@parties.party_name@</strong>
-		<include src="../../../lib/audit-chunk" task_id=@task_id@ party_id=@parties.party_id@ orderby=@orderby@>
+		<include src="../../../lib/audit-chunk" task_item_id=@task_item_id@ task_id=@task_id@ party_id=@parties.party_id@ orderby=@orderby@>
 		</li>
 </multiple>
 </ul>

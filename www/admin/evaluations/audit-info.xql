@@ -6,7 +6,8 @@
 <fullquery name="get_task_info">      
       <querytext>
 
-		select task_name from evaluation_tasks where task_id = :task_id
+	select task_name, task_item_id 
+	from evaluation_tasks where task_id = :task_id
 	
       </querytext>
 </fullquery>

@@ -21,7 +21,7 @@ ad_page_contract {
 set page_title "[_ evaluation.New_Group_]"
 set context [list [list "[export_vars -base one-task { task_id }]" "[_ evaluation.Task_Groups_]"] "[_ evaluation.Create_Group_]"]
 
-set current_groups_plus_one [db_string get_groups "select count(group_id)+1 from evaluation_task_groups where task_id = :task_id"]
+set current_groups_plus_one [db_string get_groups {* SQL* *}]
 set evaluation_group_id [db_nextval acs_object_id_seq]
 
 # if the structure of the multirow datasource ever changes, this needs to be rewritten    

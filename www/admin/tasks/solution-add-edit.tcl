@@ -25,6 +25,8 @@ if { [ad_form_new_p -key solution_id] } {
 	set page_title "[_ evaluation.lt_ViewEdit_Task_Solutio]"
 }
 
+db_1row task_info { *SQL* }
+
 set context [list [list [export_vars -base ../grades/grades { }] "[_ evaluation.Grades_]"] $page_title]
 
 set attached_p "f"
@@ -73,7 +75,7 @@ if { ![ad_form_new_p -key solution_id] } {
 				}			
 			}
 		}
-	} elseif { [regexp "http://" $content] } {
+	} elseif { [string eq $title "link"] } {
 
 		if { [string eq $solution_mode "edit"] } {
 
@@ -194,7 +196,7 @@ ad_form -extend -name solution -form {
 		} 
 
 		set revision_id [evaluation::new_solution -new_item_p [ad_form_new_p -key solution_id] -item_id $item_id -content_type evaluation_tasks_sols \
-							 -content_table evaluation_tasks_sols -content_id solution_id -storage_type $storage_type -task_id $task_id \
+							 -content_table evaluation_tasks_sols -content_id solution_id -storage_type $storage_type -task_item_id $task_item_id \
 							 -title $title -mime_type $mime_type]
 		
 		evaluation::set_live -revision_id $revision_id
@@ -206,9 +208,15 @@ ad_form -extend -name solution -form {
 			# create the new item
 			db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
 
+			set content_length [file size $tmp_file]
+			# Unfortunately, we can only calculate the file size after the lob is uploaded 
+			db_dml lob_size { *SQL* }
+			
 		} elseif { ![string eq $url "http://"] } {
 			
 			db_dml link_content { *SQL* }
+			set content_length 0
+			db_dml lob_size { *SQL* }
 			
 		} elseif { [string eq $attached_p "t"] && ![string eq $unattach_p "t"] } {
 			# just copy the old content to the new revision

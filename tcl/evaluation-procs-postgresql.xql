@@ -12,7 +12,7 @@
 			null,
 			:creation_user,
 			:package_id,
-			current_timestamp,
+			now(),
 			:creation_ip,
 			:name,
 			:description,
@@ -119,7 +119,7 @@
 				     :revision_id,	
 				     :task_name,
 				     :number_of_members,
-				     :to_grade_id,
+				     :to_grade_item_id,
 				     :description,  	
 				     :weight,	
 				     :due_date,
@@ -183,7 +183,7 @@
 			:revision_id,	
 			:name,
 			:number_of_members,
-			:grade_id,
+			:grade_item_id,
 			:description,  	
 			:weight,	
 			:due_date,
@@ -244,7 +244,7 @@
 	select evaluation__new_task_sol (
 			:item_id,		
 			:revision_id,	
-			:task_id,
+			:task_item_id,
 			'evaluation_tasks_sols',	
 			:creation_date, --creation date	
 			:creation_user, 
@@ -299,7 +299,7 @@
 	select evaluation__new_answer (
 			:item_id,		
 			:revision_id,	
-			:task_id,
+			:task_item_id,
 		    :party_id,
 			'evaluation_answers',	
 			:creation_date, --creation date	
@@ -355,7 +355,7 @@
 		select evaluation__new_student_eval (
 			:item_id,		
 			:revision_id,	
-			:task_id,
+			:task_item_id,
 		    :party_id,
 			:grade,
 			:show_student_p,
@@ -384,7 +384,7 @@
 													  :creation_user,
 													  :creation_ip,
 													  :context,
-													  :task_id
+													  :task_item_id
 													  );
 
       </querytext>
@@ -428,7 +428,7 @@
 	select evaluation__new_grades_sheet (
 			:item_id,		
 			:revision_id,	
-			:task_id,
+			:task_item_id,
 			'evaluation_grades_sheets',	
 			:creation_date, --creation date	
 			:creation_user, 
@@ -445,7 +445,7 @@
 <fullquery name="evaluation::notification::get_url.get_grade_id">      
       <querytext>
 
-	select grade_id from evaluation_tasks where task_id = :task_id and content_revision__is_live(task_id) = true
+	select eg.grade_id from evaluation_tasks est, evaluation_grades eg where est.task_id = :task_id and est.grade_item_id = eg.grade_item_id and content_revision__is_live(est.task_id) = true and content_revision__is_live(eg.grade_id) = true
 	
       </querytext>
 </fullquery>
@@ -457,16 +457,35 @@
                ese.grade,
                ese.description as comments
          from cc_users cu left outer join evaluation_student_evalsi ese on (ese.party_id = cu.person_id
-                                                                            and ese.task_id = :task_id
+                                                                            and ese.task_item_id = :task_item_id
                                                                             and content_revision__is_live(ese.evaluation_id) = true)
 	
+      </querytext>
+</partialquery>
+
+<partialquery name="evaluation::generate_grades_sheet.sql_qyery_comm_ind">      
+      <querytext>
+
+	select p.person_id as party_id, p.last_name||' - '||p.first_names as party_name,  
+               ese.grade,
+               ese.description as comments
+         from registered_users ru, 
+	      dotlrn_member_rels_approved app,
+	      persons p left outer join evaluation_student_evalsi ese on (ese.party_id = p.person_id
+                                                                            and ese.task_item_id = :task_item_id
+                                                                            and content_revision__is_live(ese.evaluation_id) = true)
+	 where app.community_id = :community_id 
+                and app.user_id = ru.user_id 
+                and app.user_id = p.person_id 
+                and app.role = 'student'
+		
       </querytext>
 </partialquery>
 
 <fullquery name="evaluation::generate_grades_sheet.get_task_info">      
       <querytext>
 
-	select et.task_name, et.number_of_members
+	select et.task_name, et.number_of_members, et.task_item_id
                from evaluation_tasks et
                where et.task_id = :task_id
 
@@ -482,9 +501,9 @@
                 ese.description as comments
          from groups g,
               evaluation_task_groups etg left outer join evaluation_student_evalsi ese on (ese.party_id = etg.group_id
-                                                                                           and ese.task_id = :task_id
+                                                                                           and ese.task_item_id = :task_item_id
                                                                                           and content_revision__is_live(ese.evaluation_id) = true)
-         where etg.task_id = :task_id
+         where etg.task_item_id = :task_item_id
                and etg.group_id = g.group_id
 	
       </querytext>
@@ -506,8 +525,9 @@
 	from evaluation_grades eg, 
 	evaluation_tasks et 
 	where et.task_id = :task_id
-	and et.grade_id = eg.grade_id
-	
+	and et.grade_item_id = eg.grade_item_id
+	and content_revision__is_live(eg.grade_id) = true	
+
       </querytext>
 </fullquery>
 
@@ -516,7 +536,7 @@
 
 	select description as edit_reason, 
 	grade as current_grade,
-	evaluation__party_name(party_id,task_id) as party_name
+	evaluation__party_name(party_id,:task_id) as party_name
 	from evaluation_student_evalsi
 	where evaluation_id = :evaluation_id
 	

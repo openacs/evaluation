@@ -9,7 +9,7 @@
 	select et.task_name, et.weight as task_weight,
     et.task_id
 	from evaluation_tasksi et
-	where grade_id = :grade_id
+	where grade_item_id = :grade_item_id
 	  and content_revision__is_live(et.task_id) = true 
       $evaluations_orderby
 	
@@ -31,12 +31,12 @@
 	ea.title as answer_title,
 	ea.answer_id
 	from evaluation_grades eg,
-	evaluation_tasks et2 left outer join evaluation_student_evalsi ese on (ese.task_id = et2.task_id and content_revision__is_live(ese.evaluation_id) = true
+	evaluation_tasks et2 left outer join evaluation_student_evalsi ese on (ese.task_item_id = et2.task_item_id and content_revision__is_live(ese.evaluation_id) = true
                                                                     and ese.party_id = evaluation__party_id(:user_id,et2.task_id)),
-	evaluation_tasks et left outer join evaluation_answersi ea on (ea.task_id = et.task_id and content_revision__is_live(ea.answer_id) = true
+	evaluation_tasks et left outer join evaluation_answersi ea on (ea.task_item_id = et.task_item_id and content_revision__is_live(ea.answer_id) = true
                                                                     and ea.party_id = evaluation__party_id(:user_id,et.task_id))
-	where eg.grade_id = :grade_id
-	and eg.grade_id = et.grade_id
+	where eg.grade_item_id = :grade_item_id
+	and eg.grade_item_id = et.grade_item_id
         and et.task_id = et2.task_id
 	and content_revision__is_live(et.task_id) = true 
 	and content_revision__is_live(eg.grade_id) = true

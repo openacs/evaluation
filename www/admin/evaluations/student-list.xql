@@ -7,6 +7,7 @@
       <querytext>
 
 	select et.task_name,
+		et.task_item_id,
 		eg.grade_id,
 		eg.grade_plural_name,
 		eg.weight as grade_weight,
@@ -16,7 +17,8 @@
 		et.online_p
 		from evaluation_grades eg, evaluation_tasks et
 		where et.task_id = :task_id
-		  and et.grade_id = eg.grade_id
+		  and et.grade_item_id = eg.grade_item_id
+		  and content_revision__is_live(eg.grade_id) = true
 	
       </querytext>
 </fullquery>
@@ -38,7 +40,9 @@
 <fullquery name="count_not_eval_na">      
       <querytext>
 
-		select count(*) from evaluation_task_groups etg where etg.task_id = :task_id 
+		select count(*) from evaluation_task_groups etg, evaluation_tasks et
+		 where etg.task_item_id = et.task_item_id
+		and et.task_id = :task_id 
 		$not_in_clause
 	
       </querytext>
@@ -79,8 +83,9 @@
 	  <querytext>         
 		select acs_group__name(etg.group_id) as party_name,
 		etg.group_id as party_id
-		from evaluation_task_groups etg
-        where etg.task_id = :task_id
+		from evaluation_task_groups etg, evaluation_tasks et
+        where etg.task_item_id = et.task_item_id
+		and et.task_id = :task_id
 		$not_in_clause
 		$orderby_na
 	  </querytext>

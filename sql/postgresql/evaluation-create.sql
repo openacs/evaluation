@@ -6,6 +6,9 @@ create table evaluation_grades (
 				primary key
 				constraint evaluation_grades_id_fk
 				references cr_revisions(revision_id),
+	grade_item_id	integer
+				constraint evaluation_grades_gid_fk
+				references cr_items(item_id),
 	grade_name	varchar(100),
 	grade_plural_name varchar(100),
 	comments	text,
@@ -31,6 +34,9 @@ create table evaluation_tasks (
 				primary key
 				constraint evaluation_tasks_fk
 				references cr_revisions(revision_id),
+	task_item_id	integer
+				constraint evaluation_tasks_tid_fk
+				references cr_items(item_id),
 	task_name   varchar
 		   		constraint evaluation_tasks_tn_nn
 		   		not null,
@@ -41,11 +47,11 @@ create table evaluation_tasks (
 						constraint evaluation_tasks_nom_df
 						default 1,
 	due_date	timestamp,
-	grade_id	integer
+	grade_item_id	integer
 				constraint evaluation_tasks_gid_fk
-				references evaluation_grades,
+				references cr_items(item_id),
 	-- percentage of the grade of the course
-	weight		integer,
+	weight		numeric,
 	-- the task will be submitted on line
 	online_p    char(1)
 				constraint	evaluation_tasks_onp_ck
@@ -74,9 +80,12 @@ select content_type__create_type (
 create table evaluation_tasks_sols (
 	solution_id	integer
 				primary key,
-	task_id		integer
+	solution_item_id	integer
+				constraint evaluation_tsols_siid_fk
+				references cr_items(item_id),
+	task_item_id    integer
 				constraint evaluation_tsols_tid_fk
-				references evaluation_tasks
+				references cr_items(item_id)
 );
 
 -- create indexes
@@ -96,15 +105,18 @@ create table evaluation_answers (
 	answer_id	integer
 				primary key
 				references cr_revisions,
+	answer_item_id	integer
+				constraint evaluation_sans_aiid_fk
+				references cr_items(item_id),
 	-- person/group to wich the answer belongs
 	party_id    integer
 				constraint evaluation_sans_pid_nn
 				not null
 				constraint evaluation_sans_pid_fk
 				references parties(party_id),
-	task_id     integer
+	task_item_id     integer
 				constraint evaluation_sans_tid_fk
-				references evaluation_tasks
+				references cr_items(tem_id)
 );
 
 create index evaluation_answers_tid_index on evaluation_answers(party_id,task_id);
@@ -126,11 +138,13 @@ create table evaluation_student_evals (
 					primary key
 					constraint evaluation_stu_evals_fk
 					references acs_objects(object_id),
-	task_id			integer
+	evaluation_item_id integer	constraint evaluation_stu_evals_eiid
+					references cr_items(item_id),
+	task_item_id	integer
 					constraint evaluation_stu_evals_tid_nn
 					not null
 					constraint evaluation_stu_evals_tid_fk
-					references evaluation_tasks,
+					references evaluation_tasks(task_item_id),
 	-- must have student_id or team_id
 	party_id		integer
 					constraint evaluation_stu_evals_pid_nn
@@ -162,9 +176,12 @@ select content_type__create_type (
 create table evaluation_grades_sheets (
 	grades_sheet_id	 	integer
 				 		primary key,
-	task_id		  		integer
+	grades_sheet_item_id 	integer
+						constraint evaluation_gsheets_giid_fk
+						references cr_items(item_id),
+	task_item_id		integer
 				 		constraint evaluation_gsheets_t_id_fk
-				 		references evaluation_tasks
+				 		references evaluation_tasks(task_item_id)
 );
 
 -- create indexes
@@ -202,11 +219,11 @@ create table evaluation_task_groups (
 					primary key
   					constraint evaluation_task_groups_fk
   					references groups(group_id),
-	task_id	  		integer
+	task_item_id	  		integer
 			  		constraint evaluation_task_groups_tid_nn
 		  			not null
 	  				constraint evaluation_task_groups_tid_fk
-		   			references evaluation_tasks(task_id)
+		   			references evaluation_tasks(task_item_id)
 );
 
 create index evaluation_task_groups_tid_index on evaluation_task_groups(task_id);
@@ -336,13 +353,15 @@ begin
     );
 
 	insert into evaluation_grades
-			(grade_id, 
+			(grade_id,
+			grade_item_id, 
 			grade_name,
 			grade_plural_name, 
 			comments, 
 			weight)
 	values
-			(v_revision_id, 
+			(v_revision_id,
+			p_item_id, 
 			p_grade_name, 
 			p_grade_plural_name,
 			p_description,
@@ -355,25 +374,29 @@ end;
 create function evaluation__delete_grade (integer)
 returns integer as '
 declare
-	p_grade_id	alias for $1;
+	p_grade_item_id	alias for $1;
 	del_rec		record;
+
 begin
 	
     FOR del_rec IN
-        select task_id
-        from   evaluation_tasks
-        where  grade_id = p_grade_id
+        select task_item_id
+        from  evaluation_tasks
+        where grade_item_id = p_grade_item_id
+
     LOOP
-		delete from evaluation_student_evals where task_id = del_rec.task_id;
-		delete from evaluation_answers where task_id = del_rec.task_id;
-		delete from evaluation_tasks_sols where task_id = del_rec.task_id;
-		delete from evaluation_grades_sheets where task_id = del_rec.task_id;
+
+	PERFORM evaluation__delete_student_eval(evaluation_id) from evaluation_student_evals where task_item_id = del_rec.task_item_id;
+	PERFORM evaluation__delete_answer(answer_id) from evaluation_answers where task_item_id = del_rec.task_item_id;
+	PERFORM evaluation__delete_task_sol(solution_id) from evaluation_tasks_sols where task_item_id = del_rec.task_item_id;
+	PERFORM evaluation__delete_grades_sheet(grades_sheet_id) from evaluation_grades_sheets where task_item_id = del_rec.task_item_id;
+
     END LOOP;
 
-	delete from evaluation_tasks where grade_id = p_grade_id;
-	delete from evaluation_grades where grade_id = p_grade_id;
-	
-	PERFORM  content_revision__delete(p_grade_id);
+	PERFORM evaluation__delete_task(task_id) from evaluation_tasks where grade_item_id = p_grade_item_id;
+	delete from evaluation_grades where grade_item_id = p_grade_item_id;
+
+	PERFORM  content_revision__delete(grade_id) from evaluation_grades where grade_item_id = p_grade_item_id;
 
 	return 0;
 
@@ -404,7 +427,7 @@ declare
 	p_revision_id		alias for $2;
 	p_task_name 		alias for $3;
 	p_number_of_members alias for $4;
-	p_grade_id			alias for $5;
+	p_grade_item_id		alias for $5;
 	p_description  		alias for $6;
 	p_weight			alias for $7;
 	p_due_date     	 	alias for $8;
@@ -441,20 +464,22 @@ begin
 
 	insert into evaluation_tasks 
 			(task_id,
+			task_item_id,
 	        task_name,
 			number_of_members, 
 			due_date, 	
-			grade_id, 
+			grade_item_id, 
 			weight, 	
 			online_p, 
 			late_submit_p,
 		    requires_grade_p)
 	values
-			(v_revision_id, 
+			(v_revision_id,
+			p_item_id, 
 	   		p_task_name,
 			p_number_of_members, 
 			p_due_date, 	
-			p_grade_id, 
+			p_grade_item_id, 
 			p_weight, 	
 			p_online_p, 
 			p_late_submit_p,
@@ -467,17 +492,19 @@ end;
 create function evaluation__delete_task (integer)
 returns integer as '
 declare
-	p_task_id 	alias for $1;
+	p_task_item_id 	alias for $1;
 	del_rec	 	record;
 begin
 	
-	delete from evaluation_student_evals where task_id = p_task_id;
-	delete from evaluation_answers where task_id = p_task_id;
-	delete from evaluation_tasks_sols where task_id = p_task_id;
-	delete from evaluation_grades_sheets where task_id = p_task_id;
-	delete from evaluation_tasks where task_id = p_task_id;
+
+	PERFORM evaluation__delete_student_eval(evaluation_id) from evaluation_student_evals where task_item_id = p_task_item_id;
+	PERFORM evaluation__delete_answer(answer_id) from evaluation_answers where task_item_id = p_task_item_id;
+	PERFORM evaluation__delete_task_sol(solution_id) from evaluation_tasks_sols where task_item_id = p_task_item_id;
+	PERFORM evaluation__delete_grades_sheet(grades_sheet_id) from evaluation_grades_sheets where task_item_id = p_task_item_id;
+
+	delete from evaluation_tasks where task_id = p_task_item_id;
 	
-	PERFORM  content_revision__delete(p_task_id);
+	PERFORM content_revision__delete(task_id) from evaluation_tasks where task_item_id = p_task_item_id;
 
 	return 0;
 
@@ -506,7 +533,7 @@ returns integer as '
 declare
 	p_item_id			alias for $1;
 	p_revision_id		alias for $2;
-	p_task_id			alias for $3;
+	p_task_item_id			alias for $3;
 	p_object_type		alias for $4;
 	p_creation_date		alias for $5;
 	p_creation_user 	alias for $6;
@@ -537,10 +564,12 @@ begin
 
 	insert into evaluation_tasks_sols
 			(solution_id,
-	        task_id)
+			solution_item_id,
+	        task_item_id)
 	values
 			(v_revision_id, 
-	   		p_task_id);
+			p_item_id,
+	   		p_task_item_id);
 
 	return v_revision_id;
 end;
@@ -571,7 +600,7 @@ returns integer as '
 declare
 	p_item_id			alias for $1;
 	p_revision_id		alias for $2;
-	p_task_id			alias for $3;
+	p_task_item_id		alias for $3;
     p_party_id  	   	alias for $4;	
 	p_object_type		alias for $5;
 	p_creation_date		alias for $6;
@@ -603,11 +632,13 @@ begin
 
 	insert into evaluation_answers
 			(answer_id,
-	        task_id,
+			answer_item_id,
+	        task_item_id,
 	        party_id)
 	values
-			(v_revision_id, 
-	   		p_task_id,
+			(v_revision_id,
+			p_item_id, 
+	   		p_task_item_id,
     		p_party_id);
 
 	return v_revision_id;
@@ -638,7 +669,7 @@ returns integer as '
 declare
 	p_item_id			alias for $1;
 	p_revision_id		alias for $2;
-	p_task_id			alias for $3;
+	p_task_item_id			alias for $3;
 	p_object_type		alias for $4;
 	p_creation_date		alias for $5;
 	p_creation_user 	alias for $6;
@@ -669,10 +700,12 @@ begin
 
 	insert into evaluation_grades_sheets
 			(grades_sheet_id,
-	        task_id)
+			grades_sheet_item_id,
+	        task_item_id)
 	values
 			(v_revision_id, 
-	   		p_task_id);
+			p_item_id,
+	   		p_task_item_id);
 
 	return v_revision_id;
 end;
@@ -701,7 +734,7 @@ returns integer as '
 declare
 	p_item_id			alias for $1;
 	p_revision_id		alias for $2;
-	p_task_id			alias for $3;
+	p_task_item_id			alias for $3;
     p_party_id  	   	alias for $4;
 	p_grade  		  	alias for $5;
   	p_show_student_p  	alias for $6;
@@ -736,13 +769,15 @@ begin
 
 	insert into evaluation_student_evals
 			(evaluation_id,
-	        task_id,
+			evaluation_item_id,
+	        task_item_id,
 	        party_id,
   			grade,
   			show_student_p)
 	values
 			(v_revision_id, 
-	   		p_task_id,
+			p_item_id,
+	   		p_task_item_id,
     		p_party_id,
   			p_grade,
   		 	p_show_student_p);
@@ -778,7 +813,7 @@ declare
         p_creation_user                 alias for $5;
         p_creation_ip                   alias for $6;
         p_context_id                    alias for $7;
-  		p_task_id    		  	 	  	alias for $8;
+  	p_task_item_id     		alias for $8;
 
         v_group_id                      integer;
 
@@ -799,10 +834,10 @@ begin
 
         insert into evaluation_task_groups
           	(group_id, 
-	  		task_id)
+	  		task_item_id)
         values
           	(v_group_id, 
-		  	p_task_id);
+		  	p_task_item_id);
 
         return v_group_id;        
 end;
@@ -942,11 +977,11 @@ begin
     FOR v_grades_cursor IN
         select (ese.grade*et.weight*eg.weight)/10000 as grade
         from evaluation_gradesx eg, evaluation_tasks et, evaluation_student_evalsi ese, acs_objects ao
-        where et.task_id = ese.task_id
-		  and et.grade_id = eg.grade_id
+        where et.task_item_id = ese.task_item_id
+		  and et.grade_item_id = eg.grade_item_id
           and eg.item_id = ao.object_id
    		  and ao.context_id = p_package_id
-   		  and ese.party_id = evaluation__party_id(p_user_id,ese.task_id)
+   		  and ese.party_id = evaluation__party_id(p_user_id,et.task_id)
 		  and content_revision__is_live(ese.evaluation_id) = true	
 		  and content_revision__is_live(eg.grade_id) = true	
 		  and content_revision__is_live(et.task_id) = true	
@@ -998,10 +1033,13 @@ begin
 	if v_number_of_members = 1 then
 	  	return p_user_id;
 	else
-		return coalesce((select etg.group_id from evaluation_task_groups etg, acs_rels map
+		return coalesce((select etg.group_id from evaluation_task_groups etg, 
+						evaluation_tasks et,
+						acs_rels map
 						where map.object_id_one = etg.group_id
 						  and map.object_id_two = p_user_id
- 						  and etg.task_id = p_task_id),0);
+ 						  and etg.task_item_id = et.task_item_id
+						  and et.task_id = p_task_id),0);
 	end if;
 
 end;' language 'plpgsql';

@@ -13,11 +13,13 @@ ad_page_contract {
     task_id:integer,notnull
     grades_sheet_item_id:integer,notnull
 } -validate { 
-    csv_type_p {
-	set file_extension [file extension $upload_file]
-	if { [string compare [string tolower $file_extension] ".csv"] } { 
-	    ad_complain "[_ evaluation.lt_The_file_extension_of_1]"
-        } 
+    csv_type_p -requires { upload_file } {
+	if { [info exists upload_file] } {
+	    set file_extension [file extension $upload_file]
+	    if { [string compare [string tolower $file_extension] ".csv"] } { 
+		ad_complain "[_ evaluation.lt_The_file_extension_of_1]"
+	    } 
+	}
     } 
 }  
 
@@ -131,6 +133,27 @@ if { ![db_string file_exists { *SQL* }] } {
 		incr errors
 		append errors_text "<li> [_ evaluation.lt_There_must_be_an_edit]</li>"
 	    } 
+
+	    if { $number_of_members > 1 } {
+		
+		if { ![db_string task_group { *SQL* }] } {
+		    incr errors
+		    append errors_text "<li> [_ evaluation.lt_There_is_at_least_one] </li>"
+		}
+
+	    } else {
+		set community_id [dotlrn_community::get_community_id]
+		ns_log notice "vamos bien... part $party_id comm $community_id\n"
+		if { [empty_string_p $community_id] } {
+		    if { ![db_string valid_user { *SQL* }] } {
+			incr errors
+			append errors_text "<li> [_ evaluation.lt_There_is_at_least_one_1] </li>"
+		    }
+		} elseif { ![db_string valid_student { *SQL* }] } {
+		    incr errors
+		    append errors_text "<li> [_ evaluation.lt_There_is_at_least_one_2] </li>"
+		}
+	    }
 	    
 	    if { $errors } { 
 		ad_return_complaint $errors $errors_text 

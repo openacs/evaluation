@@ -36,7 +36,7 @@ db_foreach get_user_comunities { *SQL* } {
 
  	lappend form_elements [list communities_packages_ids.$community_package_id:integer(checkbox),optional \
  				   [list label "$pretty_name"] \
- 				   [list options [list [list "" "$to_grade_id"]]] \
+ 				   [list options [list [list "" "$to_grade_item_id"]]] \
 				  ]
 	incr communities_count
 	if { [ad_form_new_p -key foo] } {
@@ -45,7 +45,9 @@ db_foreach get_user_comunities { *SQL* } {
 				       ]
 	}
     }
-} if_no_rows {
+} 
+
+if { !$communities_count } {
     ad_returnredirect $return_url
     ad_script_abort    
 }
@@ -54,7 +56,7 @@ ad_form -extend -name communities -form $form_elements
 ad_form -extend -name communities -on_submit {
     
     foreach id [array names communities_packages_ids] {
-	set revision_id [evaluation::clone_task -item_id $item_ids($id) -from_task_id $task_id -to_grade_id $communities_packages_ids($id) -to_package_id $id]
+	set revision_id [evaluation::clone_task -item_id $item_ids($id) -from_task_id $task_id -to_grade_item_id $communities_packages_ids($id) -to_package_id $id]
 	evaluation::set_live -revision_id $revision_id
     }
 

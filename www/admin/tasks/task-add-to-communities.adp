@@ -5,5 +5,4 @@
 <if @communities_count@ gt 0>
 <p>#evaluation.lt_The_assignment_task_n# <br />#evaluation.lt_Check_the_rest_of_com#</p>
 <blockquote><formtemplate id="communities"></formtemplate></blockquote>
-</if>
-
+</if><else> no rregreso nada?!?!??! @communities_count@ :p</else>

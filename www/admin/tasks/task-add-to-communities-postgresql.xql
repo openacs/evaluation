@@ -25,7 +25,7 @@
 <fullquery name="community_has_assignment_type">      
       <querytext>
 
-	select eg.grade_id as to_grade_id from evaluation_gradesx eg, acs_objects ao
+	select eg.grade_item_id as to_grade_item_id from evaluation_gradesx eg, acs_objects ao
 	where content_revision__is_live(eg.grade_id) = true
 	and eg.item_id = ao.object_id
 	and ao.context_id = :community_package_id

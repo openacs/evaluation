@@ -20,7 +20,7 @@
 	<blockquote>
 	<table>
 		<tr>
-		<td><input type=submit value="#evaluation.Create#"></td>
+		<td><input type=submit value="#evaluation.Create_Group_#"></td>
 		<td><listtemplate name="students_without_group"></listtemplate></td>
 		<td>
 		<h2>#evaluation.lt_Number_of_members_for# <br /> 

@@ -22,7 +22,7 @@ ad_page_contract {
 db_1row get_info { *SQL* }
 
 set page_title "[_ evaluation.lt_Groups_for_task_task_]"
-set context [list "[_ evaluation.Assignment_Groups_]"]
+set context [list "[_ evaluation.lt_Assignment_Groups_for]"]
 
 # we have to decide if we are going to show all the users in the system
 # or only the students of a given class (community in dotrln)

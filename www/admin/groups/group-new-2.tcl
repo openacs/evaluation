@@ -23,8 +23,10 @@ set creation_user_id [ad_conn user_id]
 set creation_ip [ad_conn peeraddr]
 set package_id [ad_conn package_id]
 
+db_1row task_info { *SQL* }
+
 db_transaction {
-	evaluation::new_evaluation_group -group_id $evaluation_group_id -group_name $group_name -task_id $task_id -context $package_id
+	evaluation::new_evaluation_group -group_id $evaluation_group_id -group_name $group_name -task_item_id $task_item_id -context $package_id
 	foreach student_id [array names student_ids] {
 		if {[info exists student_ids($student_id)]} { 
 			db_exec_plsql evaluation_relationship_new { *SQL* }

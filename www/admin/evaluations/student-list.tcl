@@ -59,6 +59,7 @@ set elements [list party_name \
 		      ] \
 		  action \
 		  [list label "" \
+		       display_template { @evaluated_students.action;noquote@ } \
 		       link_url_col action_url \
 		      ] \
 		  ]
@@ -66,6 +67,7 @@ set elements [list party_name \
 if { [string eq $online_p "t"] } {
     lappend elements submission_date_pretty \
 	[list label "[_ evaluation.Submission_Date_]" \
+	     display_template { @evaluated_students.submission_date_pretty;noquote@ } \
 	     orderby_asc {submission_date_ansi asc} \
 	     orderby_desc {submission_date_ansi desc}]
 }
@@ -171,6 +173,7 @@ if { [string eq $show_portrait_p "t"] && [string eq $number_of_members "1"] } {
 
 lappend elements submission_date_pretty \
     [list label "[_ evaluation.Submission_Date_]" \
+	 display_template { @not_evaluated_wa.submission_date_pretty;noquote@ } \
 	 orderby_asc {submission_date_ansi asc} \
 	 orderby_desc {submission_date_ansi desc}]
 lappend elements answer \
@@ -260,7 +263,7 @@ lappend elements comments \
 	]
 lappend elements show_answer \
     [list label "[_ evaluation.lt_Allow_the_students_br]" \
-	 display_template { <pre>[_ evaluation.Yes_]<input checked type=radio name="show_student_na.@not_evaluated_na.party_id@" value=t> @not_evaluated_na.party_id@ [_ evaluation.No_]<input type=radio name="show_student_na.@not_evaluated_na.party_id@" value=f></pre> } \
+	 display_template { <pre>[_ evaluation.Yes_]<input checked type=radio name="show_student_na.@not_evaluated_na.party_id@" value=t> [_ evaluation.No_]<input type=radio name="show_student_na.@not_evaluated_na.party_id@" value=f></pre> } \
 	]
 
 template::list::create \

@@ -88,13 +88,19 @@ ad_proc -public evaluation::notification::do_notification {
 
     db_1row select_names { *SQL* } 
     
+    set community_name ""
+    set community_id [dotlrn_community::get_community_id]
+    if { ![empty_string_p $community_id] } {
+	set community_name [db_string get_community_name "select pretty_name from dotlrn_communities_all where community_id = :community_id"]
+    } 
+
     switch $notif_type {
 	"one_assignment_notif" { 	    
 	    if { [string eq $edit_p 0] } {
-		set notif_subject "[_ evaluation.New_Assignment_] ($grade_name)"
+		set notif_subject "[_ evaluation.lt_New_Assignment_grade_]"
 		set notif_text "[_ evaluation.lt_A_new_assignment_was_] \n"
 	    } else {
-		set notif_subject "Assignment Edited ($grade_name)"
+		set notif_subject "[_ evaluation.lt_Assignment_Edited_gra]"
 		set notif_text "[_ evaluation.lt_An_assignment_was_mod] \n"
 	    }
 	    append notif_text "[_ evaluation.click_on_this_link_] [evaluation::notification::get_url -task_id $task_id -notif_type one_assignment_notif] \n"
@@ -104,7 +110,7 @@ ad_proc -public evaluation::notification::do_notification {
 	"one_evaluation_notif" {
 	    db_1row get_eval_info { *SQL* }
 	    set user_name [person::name -person_id [ad_conn user_id]]
-	    set notif_subject "[_ evaluation.Evaluation_Modified_]"
+	    set notif_subject "[_ evaluation.lt_Evaluation_Modified_c]"
 	    set url_link [evaluation::notification::get_url -task_id $task_id -evaluation_id $evaluation_id -notif_type one_evaluation_notif]
 	    set notif_text "[_ evaluation.lt_user_name_has_modifie]"
 	    set response_id $evaluation_id
@@ -236,7 +242,7 @@ ad_proc -private evaluation::now_plus_days { -ndays } {
 ad_proc -public evaluation::clone_task {
     -item_id:required
     -from_task_id:required
-    -to_grade_id:required
+    -to_grade_item_id:required
     -to_package_id:required
 } {
     Cone a task
@@ -270,7 +276,7 @@ ad_proc -public evaluation::new_task {
 	-content_id:required
 	-new_item_p:required
 	-name:required
-	-grade_id:required
+	-grade_item_id:required
 	-number_of_members:required
 	-requires_grade_p:required
 	-storage_type:required
@@ -292,7 +298,7 @@ ad_proc -public evaluation::new_task {
 	@param content_type The type to make
 	@param content_table
 	@param new_item_p If true make a new item using item_id
-	@param grade_id Grade type where the task belongs
+	@param grade_item_id Grade type where the task belongs
 	@param name The name of the task
 	@number_of_members If the task is in groups this parameter must be > 1
 	@param online_p If the task will be submited online
@@ -325,30 +331,13 @@ ad_proc -public evaluation::new_task {
 	return $revision_id
 } 
 
-ad_proc -public evaluation::clone_task_references {
-    -item_id:required
-    -from_task_id:required
-    -to_task_id:required
-} {
-    Cone a task
-
-    @param item_id The item to create.
-    @param from_task_id Task to clone.
-    @param to_task_id Target.
-} {
-    
-    db_transaction {
-	
-    }
-}
-
 ad_proc -public evaluation::new_solution {
     -item_id:required
     -content_type:required
     -content_table:required
     -content_id:required
     -new_item_p:required
-    -task_id:required
+    -task_item_id:required
     -storage_type:required
     -title:required
     {-mime_type "text/plain"}
@@ -404,7 +393,7 @@ ad_proc -public evaluation::new_answer {
     -content_table:required
     -content_id:required
     -new_item_p:required
-    -task_id:required
+    -task_item_id:required
     -storage_type:required
     -title:required
     -party_id:required
@@ -461,7 +450,7 @@ ad_proc -public evaluation::new_evaluation {
     -content_id:required
     -new_item_p:required
     -party_id:required
-    -task_id:required
+    -task_item_id:required
     -grade:required
     {-title "evaluation"}
     {-show_student_p "t"}
@@ -516,7 +505,7 @@ ad_proc -public evaluation::new_evaluation {
 ad_proc -public evaluation::new_evaluation_group {
     -group_id:required
     -group_name:required
-    -task_id:required
+    -task_item_id:required
     {-context ""}
     {-creation_date ""}
 } {
@@ -566,7 +555,7 @@ ad_proc -public evaluation::new_grades_sheet {
     -content_table:required
     -content_id:required
     -new_item_p:required
-    -task_id:required
+    -task_item_id:required
     -storage_type:required
     -title:required
     -mime_type:required
@@ -643,7 +632,13 @@ ad_proc -public evaluation::generate_grades_sheet {} {
 	if { $number_of_members == 1 } {
 		# the task is individual
 
-		set sql_query [db_map sql_query_individual] 
+		set community_id [dotlrn_community::get_community_id]
+		if { [empty_string_p $community_id] } {
+		    set sql_query [db_map sql_query_individual] 
+		} else {
+		    set sql_query [db_map sql_qyery_comm_ind]
+		}
+
 	} else { 
 		# the task is in groups
 		
