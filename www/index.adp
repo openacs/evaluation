@@ -6,7 +6,8 @@
 	<a href=admin/index>Evaluations Admin</a>
 </if>
 
-<h2>Tasks</h2>
+<h2>Assignments</h2><br />
+<p>@notification_chunk;noquote@</p>
 <ul>
 <if @grades:rowcount@ eq 0>
 <li>There are no tasks for this package.</li>

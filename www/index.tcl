@@ -23,4 +23,11 @@ db_multirow grades get_grades { *SQL* } {
 	
 }
 
+set notification_chunk [notification::display::request_widget \
+							-type one_assignment_notif \
+							-object_id $package_id \
+							-pretty_name "Assignments" \
+							-url [ad_conn url] \
+						   ]
+
 ad_return_template

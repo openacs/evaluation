@@ -200,6 +200,14 @@ drop function evaluation__new_answer (integer, integer, integer, integer, varcha
 drop function evaluation__delete_answer (integer);
 
 ---------------------------------------
+-- GRADES SHEETS
+---------------------------------------
+
+drop function evaluation__new_student_eval (integer, integer, integer, integer, numeric, char, text, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
+
+drop function evaluation__delete_student_eval (integer)
+
+---------------------------------------
 -- STUDENT EVALUATIONS
 ---------------------------------------
 

@@ -13,6 +13,77 @@ ad_library {
 
 namespace eval evaluation::apm_callbacks {}
 
+
+ad_proc -private evaluation::apm_callbacks::package_install {  
+} { 
+	Does the integration whith the notifications package.  
+} { 
+    db_transaction { 
+		
+		# Define notifications for new assignment  
+ 
+		# The notification type impl 
+		set impl_id \
+			[acs_sc::impl::new_from_spec -spec {
+				name one_assignment_notif_type
+				contract_name NotificationType
+				owner evaluation 
+				aliases { 
+					GetURL evaluation::notification::get_url 
+					ProcessReply evaluation::notification::process_reply 
+				} 
+			}] 
+		
+ 		set type_id [notification::type::new \
+						 -sc_impl_id $impl_id \
+						 -short_name one_assignment_notif \
+						 -pretty_name "One Assignment" \
+						 -description "Notification of a new Assignmnent"] 
+		
+        # Enable the various intervals and delivery method 
+		notification::type::interval_enable \
+			-type_id $type_id \
+			-interval_id [notification::interval::get_id_from_name -name instant] 
+		
+		notification::type::interval_enable \
+			-type_id $type_id \
+			-interval_id [notification::interval::get_id_from_name -name hourly] 
+		
+		notification::type::interval_enable \
+			-type_id $type_id \
+			-interval_id [notification::interval::get_id_from_name -name daily] 
+ 
+		notification::type::delivery_method_enable \
+			-type_id $type_id \
+			-delivery_method_id [notification::delivery::get_id -short_name email] 
+		
+	} 
+}
+
+ad_proc -private evaluation::apm_callbacks::package_uninstall { 
+} {
+
+	Cleans the integration whith the notifications package.  
+
+} {
+
+	db_transaction {
+
+        # Delete the notification type service contract
+        delete_notification_type_contract
+
+        # Delete the service contract implementation from the notifications service
+        unregister_email_delivery_method
+		
+        # Unregister email delivery method service contract implementation
+        delete_email_delivery_method_impl
+        
+        # Delete the delivery method service contract
+        delete_delivery_method_contract
+		
+    }
+}
+
 ad_proc -private evaluation::apm_callbacks::package_instantiate { 
 	-package_id:required
 } {
@@ -74,7 +145,7 @@ ad_proc -private evaluation::apm_callbacks::package_instantiate {
 										   'evaluation_student_evals'
 										   );
 		}			
-		
+			
 		set creation_user [ad_verify_and_get_user_id]
 		set creation_ip [ad_conn peeraddr]
 		

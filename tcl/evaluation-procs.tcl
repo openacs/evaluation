@@ -7,6 +7,7 @@ ad_library {
 }
 
 namespace eval evaluation {}
+namespace eval evaluation::notification {}
 
 #####
 #
@@ -14,6 +15,44 @@ namespace eval evaluation {}
 #
 #####
 
+ad_proc -public evaluation::notification::get_url { 
+	-task_id:required
+} { 
+	returns a full url to the object_id. 
+	handles messages and forums. 
+} {  
+ 
+	db_1row get_grade_id "select grade_id from evaluation_tasks where task_id = :task_id and content_revision__is_live(task_id) = true" 
+	set assignment_url  "[ad_url][ad_conn package_url]" 
+	return [export_vars -base "${assignment_url}task-view" { task_id grade_id }]
+	
+} 
+
+ad_proc -public evaluation::notification::do_notification { 
+	-task_id:required
+	-package_id:required
+} {  
+	
+	db_1row  select_names {
+		select eg.grade_name, 
+		et.task_name 
+		from evaluation_grades eg, 
+		evaluation_tasks et 
+		where et.task_id = :task_id
+		and et.grade_id = eg.grade_id
+	} 
+	
+	set new_content "If you wan to see more.... ok see [evaluation::notification::get_url -task_id $task_id]"
+	
+    # Notifies the users that requested notification for the specific assignment
+ 
+    notification::new \
+		-type_id [notification::type::get_type_id -short_name one_assignment_notif] \
+		-object_id $package_id \
+		-response_id $task_id \
+		-notif_subject "New Assignment" \
+		-notif_text $new_content 
+} 
 
 ad_proc -public evaluation::package_key {} {
     return "evaluation"

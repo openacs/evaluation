@@ -7,7 +7,8 @@
 <li><a href="grades/grades">Admin my Assignment Types</a></li>
 </ul>
 
-<h2>Tasks</h2>
+<h2>Assignments</h2>
+<p>@notification_chunk;noquote@</p>
 <ul>
 <if @grades:rowcount@ eq 0>
 <li>There are no tasks for this package.</li>

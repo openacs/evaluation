@@ -290,7 +290,8 @@ ad_form -extend -name task -form {
 			db_exec_plsql copy_content { *SQL* }
 		}	
 	}
- 
+
+	evaluation::notification::do_notification -task_id $revision_id -package_id [ad_conn package_id]
  	ad_returnredirect "$return_url"
  	ad_script_abort
 }
