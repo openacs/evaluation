@@ -16,7 +16,7 @@ ad_page_contract {
     return_url
     admin_groups_p:optional
     {add_to_more_classes_p ""}
-    {attached_pd "f"}
+    {attached_p "f"}
 }
 
 set package_id [ad_conn package_id]
