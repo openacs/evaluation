@@ -7,7 +7,7 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
     
-    <version name="0.4d" url="http://openacs.org/repository/download/apm/evaluation-0.4.apm">
+    <version name="0.4.1d" url="http://openacs.org/repository/download/apm/evaluation-0.4.apm">
         <owner url="mailto:jopez@galileo.edu">Jose Pablo Escobedo Del Cid</owner>
         <summary>This package allows the users (professors and students) to use  the system to submit and grade the tasks.</summary>
         <release-date>2004-10-26</release-date>
