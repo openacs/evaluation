@@ -22,8 +22,9 @@ if { $number_of_members } {
 	append page_title ": $group_name"
 }
 
+set return_url "[ad_conn url]?[export_vars -url { evaluation_group_id task_id }]"
 
-set actions [list "[_ evaluation.Delete_Group_]" [export_vars -base "group-delete" { evaluation_group_id task_id }]  {}]
+set actions [list "[_ evaluation.Delete_Group_]" [export_vars -base "group-delete" { evaluation_group_id task_id return_url }]  {}]
 
 set elements [list student_name \
 		  [list label "[_ evaluation.Student_Name_]" \
@@ -39,7 +40,7 @@ template::list::create \
     -name one_group \
     -multirow one_group \
     -key group_id \
-    -pass_properties { return_url evaluation_group_id } \
+    -pass_properties { evaluation_group_id } \
     -filters { task_id {} evaluation_group_id {} } \
     -actions $actions \
     -elements $elements 

@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 
 <queryset>
-   <rdbms><type>postgresql</type><version>7.3</version></rdbms>
+   <rdbms><type>oracle</type><version>8.1.6</version></rdbms>
 
 <fullquery name="evaluation_relationship_new">      
       <querytext>
 
-				select acs_rel__new (
+		begin
+			:1 := acs_rel.new (
 									 null,
 									 'evaluation_task_group_rel',
 									 :new_evaluation_group_id,
@@ -15,7 +16,8 @@
 									 :creation_user_id,
 									 :creation_ip
 									 );
-	
+		end;
+
       </querytext>
 </fullquery>
 

@@ -9,6 +9,7 @@ ad_page_contract {
 } {
 	evaluation_group_id:integer
 	task_id:integer
+	return_url:optional
 }
 
 set page_title "[_ evaluation.Delete_Evaluation_]"
@@ -16,6 +17,7 @@ set context [list [list "[export_vars -base one-task { task_id }]" "[_ evaluatio
 
 db_1row get_group_info { *SQL* }
 
-set export_vars [export_vars -form { evaluation_group_id task_id }]
+ns_log notice "si.. es $return_url \n"
+set export_vars [export_vars -form { evaluation_group_id task_id return_url }]
 
 

@@ -10,6 +10,7 @@ ad_page_contract {
 	evaluation_group_id:integer
 	task_id:integer
 	operation
+	return_url
 }
 
 if { [string eq $operation "[_ evaluation.lt_Yes_I_really_want_to__2]"] } {
@@ -22,10 +23,11 @@ if { [string eq $operation "[_ evaluation.lt_Yes_I_really_want_to__2]"] } {
 		ad_return_error "[_ evaluation.lt_Error_deleting_the_ev]" "[_ evaluation.lt_We_got_the_following_]"
 		ad_script_abort
     }
+} else {
+	# it is a "don't do anything" request
+	ad_returnredirect $return_url
 }
 
 db_release_unused_handles
-
-# redirect to the index page by default
 
 ad_returnredirect "one-task?[export_vars -url { task_id }]"
