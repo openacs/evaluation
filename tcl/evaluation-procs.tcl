@@ -109,7 +109,6 @@ ad_proc -public evaluation::notification::do_notification {
 		set notif_text "[_ evaluation.lt_An_assignment_was_mod] \n"
 	    }
 	    append notif_text "[_ evaluation.click_on_this_link_] [evaluation::notification::get_url -task_id $task_id -notif_type one_assignment_notif] \n"
-	    append notif_text $sms_text
 	    set response_id $task_id
 	    
 	}
@@ -753,10 +752,6 @@ ad_proc -public evaluation::apm::enable_intervals_and_methods {
 	-type_id $type_id \
 	-delivery_method_id [notification::delivery::get_id -short_name email]
 
-    # Enable the delivery methods
-    notification::type::delivery_method_enable \
-	-type_id $type_id \
-	-delivery_method_id [notification::delivery::get_id -short_name sms]
 }
 
 ad_proc -public evaluation::apm::create_folders {
