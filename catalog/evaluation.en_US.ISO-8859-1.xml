@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<message_catalog package_key="evaluation" package_version="0.3d" locale="en_US" charset="ISO-8859-1">
+<message_catalog package_key="evaluation" package_version="1.0d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="1__Individual_">1 = Individual </msg>
   <msg key="Add_Assignment_">Add Assignment </msg>
@@ -31,51 +31,6 @@
   <msg key="Audit_info_">Audit info </msg>
   <msg key="Audit_Info__1">Audit Info </msg>
   <msg key="Audit_info_for_task_">Audit info for task </msg>
-  <msg key="Back">#&gt;&quot; onClick=&quot;history.go(-1)&quot;&gt;
-    &lt;/form&gt;
-&lt;/if&gt;
-
-&lt;if %evaluations_na:rowcount% gt 0&gt;
-   &lt;form action=&quot;evaluate-students-2&quot; method+&quot;post&quot;&gt;
-	@export_vars;noquote@
-      &lt;input type=hidden name=task_id value=&quot;%task_id%&quot;&gt;
-      &lt;input type=hidden name=max_grade value=&quot;%max_grade%&quot;&gt;
-		&lt;blockquote&gt;
-        &lt;table&gt;
-          &lt;multiple name=&quot;evaluations_na&quot;&gt;
-                &lt;if %evaluations_na.rownum% odd&gt;&lt;table bgcolor=&quot;#EAF2FF&quot;&gt;&lt;/if&gt;&lt;else&gt;&lt;table bgcolor=&quot;white&quot;&gt;&lt;/else&gt;
-						&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Name#&lt;/th&gt;&lt;td&gt;%evaluations_na.party_name%&lt;/td&gt;&lt;/tr&gt;
-					 	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.grade% / %max_grade%&lt;/td&gt;&lt;/tr&gt;
-                     	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Comments#&lt;/th&gt;&lt;td&gt;%evaluations_na.comment%&lt;/td&gt;&lt;/tr&gt;
-                     	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Will_the_studens_be# &lt;br /&gt; #evaluation.lt_able_to_see_the_grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.show_student%&lt;/td&gt;&lt;/tr&gt;
-                    &lt;/tr&gt;
-					&lt;/table&gt;
-          &lt;/multiple&gt;
-        &lt;/table&gt;
-		&lt;/blockquote&gt;
-        &lt;input type=submit value=&quot;&lt;# Grade Students </msg>
-  <msg key="Back_1">#&gt;&quot; onClick=&quot;history.go(-1)&quot;&gt; 
-    &lt;/form&gt; 
-&lt;/if&gt; 
-&lt;if %evaluations_na:rowcount% gt 0&gt; 
-  &lt;form action=&quot;evaluate-students-2&quot; method+&quot;post&quot;&gt; 
-  @export_vars;noquote@ 
-  &lt;input type=hidden name=task_id value=&quot;%task_id%&quot;&gt; 
-  &lt;input type=hidden name=max_grade value=&quot;%max_grade%&quot;&gt; 
-  &lt;blockquote&gt; 
-  &lt;table&gt; 
-    &lt;multiple name=&quot;evaluations_na&quot;&gt; 
-    &lt;if %evaluations_na.rownum% odd&gt; &lt;table bgcolor=&quot;#EAF2FF&quot;&gt; &lt;/if&gt;
-    &lt;else&gt;&lt;table bgcolor=&quot;white&quot;&gt;&lt;/else&gt; 
-      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Name#&lt;/th&gt;&lt;td&gt;%evaluations_na.party_name%&lt;/td&gt;&lt;/tr&gt; 
-      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.grade% / %max_grade%&lt;/td&gt;&lt;/tr&gt; 
-      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Comments#&lt;/th&gt;&lt;td&gt;%evaluations_na.comment%&lt;/td&gt;&lt;/tr&gt; 
-      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Will_the_studens_be# &lt;br /&gt; #evaluation.lt_able_to_see_the_grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.show_student%&lt;/td&gt;&lt;/tr&gt; &lt;/tr&gt; 
-    &lt;/table&gt; 
-    &lt;/multiple&gt; 
-  &lt;/table&gt; 
-  &lt;/blockquote&gt; 
-  &lt;input type=submit value=&quot;&lt;# Grade Students </msg>
   <msg key="Bad_input_">Bad input </msg>
   <msg key="Change_Answer_">Change Answer </msg>
   <msg key="Click">Click</msg>
@@ -87,6 +42,7 @@
   <msg key="CommentsEdit_reason_">Comments/Edit reason </msg>
   <msg key="Confirm">Confirm</msg>
   <msg key="Confirm_Evaluation_">Confirm Evaluation </msg>
+  <msg key="Continue">Continue</msg>
   <msg key="Create">Group </msg>
   <msg key="Create_Group_">Create Group </msg>
   <msg key="Delete_Evaluation_">Delete Evaluation </msg>
@@ -125,11 +81,11 @@
   <msg key="File_">File </msg>
   <msg key="Fileurl_associated">File/url associated</msg>
   <msg key="Generate_file">Generate file</msg>
-  <msg key="Go">Back </msg>
+  <msg key="Go">Go Back</msg>
   <msg key="Go_Back">Go Back</msg>
   <msg key="Grade">Grade:</msg>
   <msg key="Grade_">Grade </msg>
-  <msg key="Grade_1">Students </msg>
+  <msg key="Grade_1">Grade Students</msg>
   <msg key="Grade_2">Grade</msg>
   <msg key="Grade_Distribution_">Grade Distribution </msg>
   <msg key="Grade_in_Net_value_">Grade in Net value </msg>
@@ -143,25 +99,6 @@
   <msg key="Grades_Reports">Grades Reports</msg>
   <msg key="Grades_Sheet_Name_">Grades Sheet Name </msg>
   <msg key="Grades_Sheets_">Grades Sheets </msg>
-  <msg key="Group">#&gt; %current_groups_plus_one%&quot; size=20&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-      &lt;input type=hidden name=task_id value=&quot;%task_id%&quot;&gt;
-      &lt;input type=hidden name=evaluation_group_id value=&quot;%evaluation_group_id%&quot;&gt;
-		&lt;blockquote&gt;
-	 	&lt;td&gt;&lt;/td&gt;
-		&lt;td&gt;
-        &lt;table&gt;
-          &lt;multiple name=&quot;students&quot;&gt;
-                &lt;if %students.rownum% odd&gt;&lt;tr class=&quot;list-odd&quot;&gt;&lt;/if&gt;&lt;else&gt;&lt;tr class=&quot;list-even&quot;&gt;&lt;/else&gt;
-						&lt;td&gt;%students.rownum%.&lt;/td&gt;&lt;td&gt;%students.student_name%&lt;/td&gt;&lt;/tr&gt;
-                    &lt;/tr&gt;
-          &lt;/multiple&gt;
-        &lt;/table&gt;
-		&lt;/td&gt;
-		&lt;/tr&gt;
-		&lt;tr&gt;
-        &lt;td&gt;&lt;input type=submit value=&quot;&lt;# Create Group </msg>
   <msg key="Group_Members">Group Members</msg>
   <msg key="Group_Name">Group Name</msg>
   <msg key="Group_name">Group name</msg>
@@ -203,7 +140,7 @@
   <msg key="lt_Associate_to_this_gro">Associate to this group </msg>
   <msg key="lt_Audit_info_for_task_t">Audit info for task &quot;%task_name%&quot;</msg>
   <msg key="lt_Can_the_student_submi">Can the student submit the answer &lt;br&gt; after the due date? </msg>
-  <msg key="lt_Change_Answer_for_tas">Change Answer for \&quot;%task_name%\&quot;</msg>
+  <msg key="lt_Change_Answer_for_tas">Change Answer for &quot;%task_name%&quot;</msg>
   <msg key="lt_Check_the_rest_of_com">Check the rest of communities where you want to upload the assignment too</msg>
   <msg key="lt_Check_this_if_you_wan">Check this if you want to unattach the file </msg>
   <msg key="lt_Check_this_if_you_wan_1">Check this if you want to go to the groups admin page after submitting the task </msg>
@@ -213,16 +150,16 @@
   <msg key="lt_Commentedit_reason_on">Comment/edit reason on party_id %party_id% is larger than 4,000 characters long, which is our max lenght. Please make this comment/edit reason shorter. </msg>
   <msg key="lt_Confirm_Your_Evaluati">Confirm Your Evaluation </msg>
   <msg key="lt_Confirm_your_evaluati">Confirm your evaluation(s) on &quot;%task_name%&quot;</msg>
-  <msg key="lt_Currently_content_is_">Currently $content is associated to this task solution, but you can associate a different url/file just by adding it here </msg>
-  <msg key="lt_Currently_content_is__1">Currently $content is associated to this task, but you can associate a different url/file just by adding it here </msg>
-  <msg key="lt_Currently_title_is_at">Currently $title is attached to this task solution, but you can attach a different file/url just by adding it here </msg>
-  <msg key="lt_Currently_title_is_at_1">Currently $title is attached to this task, but you can attach a different file/url just by adding it here </msg>
+  <msg key="lt_Currently_content_is_">Currently %content% is associated to this task solution, but you can associate a different url/file just by adding it here </msg>
+  <msg key="lt_Currently_content_is__1">Currently %content% is associated to this task, but you can associate a different url/file just by adding it here </msg>
+  <msg key="lt_Currently_title_is_at">Currently %title% is attached to this task solution, but you can attach a different file/url just by adding it here </msg>
+  <msg key="lt_Currently_title_is_at_1">Currently %title% is attached to this task, but you can attach a different file/url just by adding it here </msg>
   <msg key="lt_Delete_Assignment_Typ">Delete Assignment Type </msg>
   <msg key="lt_Delete_assignment_typ">Delete assignment type </msg>
   <msg key="lt_Distribution_for_grad">Distribution for grade &quot;%grade_plural_name%&quot;</msg>
   <msg key="lt_Do_NOT_change_the_par">Do NOT change the &quot;party id&quot; field because with this file we associate the grade with the student or group.</msg>
   <msg key="lt_Due_date_must_be_in_t">Due date must be in the future </msg>
-  <msg key="lt_Due_Date_of_task_name">Due Date of \&quot;%task_name%\&quot;</msg>
+  <msg key="lt_Due_Date_of_task_name">Due Date of &quot;%task_name%&quot;</msg>
   <msg key="lt_Edit_Assignment_Type_">Edit Assignment Type </msg>
   <msg key="lt_Edit_assignment_type_">Edit assignment type </msg>
   <msg key="lt_Edit_grades_distribut">Edit grades distribution of $grade_plural_name </msg>
@@ -260,7 +197,7 @@
   <msg key="lt_if_you_want_to_see_th">if you want to see the portraits of the students</msg>
   <msg key="lt_In_order_to_generate_">In order to generate this file there must be some parties assigned to this task. </msg>
   <msg key="lt_In_this_page_you_can_">In this page you can administer the groups for the assignment.</msg>
-  <msg key="lt_Input_Will_the_studen">Input \&quot;Will the student be able to see the grade\&quot; must be 1 (one) for YES or 0 (zero) for NO, please don't leave it blank. </msg>
+  <msg key="lt_Input_Will_the_studen">Input &quot;Will the student be able to see the grade&quot; must be 1 (one) for YES or 0 (zero) for NO, please don't leave it blank. </msg>
   <msg key="lt_Is_the_task_submitted">Is the task submitted online?</msg>
   <msg key="lt_Max_Grade_does_not_se">Max Grade does not seem to be a real number. Please don't leave it in blank. </msg>
   <msg key="lt_New_Assignment_grade_">New Assignment (%grade_name% %community_name%) </msg>
@@ -285,9 +222,9 @@
   <msg key="lt_Save_the_csv_file_and">Save the csv file and KEEP THE CSV FORMAT. The CSV file can be edited with any text editor (and MS Excell) but you have to save it keeping the CSV format. If you do not keep the format, the system will not be able to parse the file.</msg>
   <msg key="lt_See_grades_sheets_ass">See grades sheets associated with this task</msg>
   <msg key="lt_Send_the_file_using_t">Send the file using the &quot;Send file&quot; botton. The system will parse the file and you will be asked for a confirmation (if everything is ok with the file) for the grades.</msg>
-  <msg key="lt_smallTotal_points_in_">&lt;small&gt;Total points in this category: ${total_grade}/${max_grade} &lt;br /&gt;
-    $grade_plural_name represents the ${grade_weight}% of the 100% of the class&lt;/small&gt; </msg>
-  <msg key="lt_Students_List_for_tas">Students List for \&quot;%task_name%\&quot;</msg>
+  <msg key="lt_smallTotal_points_in_">&lt;small&gt;Total points in this category: %total_grade%/%max_grade% &lt;br /&gt;
+    %grade_plural_name% represents the %grade_weight%% of the 100% of the class&lt;/small&gt; </msg>
+  <msg key="lt_Students_List_for_tas">Students List for &quot;%task_name%&quot;</msg>
   <msg key="lt_Students_who_have_not">Students who have not submitted answers and have not been evaluated (%not_evaluated_with_no_answer%)</msg>
   <msg key="lt_Students_with_answers">Students with answers that have not been evaluated (%not_evaluated_with_answer%)</msg>
   <msg key="lt_submission_date_prett">%submission_date_pretty% (late) </msg>
@@ -298,50 +235,14 @@
   <msg key="lt_The_commentsedit_reas">The comments/edit reason is a string with no more than 4,000 characters.</msg>
   <msg key="lt_The_edit_reason_must_">The edit reason must be less than 4000 characteras long </msg>
   <msg key="lt_The_estimated_time_mu">The estimated time must be grather than 0</msg>
-  <msg key="lt_The_file_extension_of">The file extension of the file is &quot;%file_extension&quot; and it should be .CSV. Sorry, we can't process it&quot;
-	} 
-    } 
-}  
-
-set page_title &quot;&lt;#_ Confirm Evaluation </msg>
-  <msg key="lt_The_file_extension_of_1">The file extension of the file is \&quot;$file_extension\&quot; and it should be .CSV, we can't process it </msg>
-  <msg key="lt_The_file_is_too_large">The file is too large. (The maximun file size is %pretty_maxnbytes% bytes)&quot; 
-        return 0 
-    }
-    
-    set errors 0 
-    set errors_text &quot;&quot; 
-    set counter 0
-    set line_number 0 
-    
-    set file_handler [open $tmp_filename {RDWR}] 
-	
-	while { ![eof $file_handler] } { 
-		incr line_number 
-		set one_line [gets $file_handler] 
-		
-		# jump first two lines 
-		if { $line_number &lt;= 2 } { 
-			continue 
-		} 
-		
-		# replace enters (&lt;-|) with semicolons (;)
-		regsub -all {(,[\r\n])} $one_line &quot;&quot; clean_line 
-		regsub -all {[\r\n]} $clean_line &quot;&quot; clean_line 
-		
-		set evaluation [split $clean_line &quot;,&quot;] 
-
-		if { $line_number == 3 } {
-			set max_grade [string trim [lindex $evaluation 1]] 
-			if { ![ad_var_type_check_number_p $max_grade] } {
-				ad_return_error &quot;&lt;#_ Invalid Max Grade </msg>
+  <msg key="lt_The_file_extension_of_1">The file extension of the file is &quot;%file_extension%&quot; and it should be .CSV, we can't process it </msg>
   <msg key="lt_The_file_is_too_large_1">The file is too large. (The maximun file size is %pretty_maxnbytes% bytes) </msg>
   <msg key="lt_The_file_should_have_">The file should have a pre-defined format so the system can parse it and obtain the information. If you want to use this functionallity you must follow the following steps:</msg>
   <msg key="lt_The_grade_most_be_a_v">The grade most be a valid number: %wrong_grade% </msg>
   <msg key="lt_The_grade_must_be_a_R">The grade must be a REAL NUMBER.</msg>
   <msg key="lt_The_grade_must_be_a_v">The grade must be a valid number: %wrong_grade% </msg>
   <msg key="lt_The_grade_must_be_a_v_1">The grade must be a valid number </msg>
-  <msg key="lt_The_net_value_must_be">The net value must be grather than 0 and less than $grade_weight, and you can not enter Net Value AND Weight. </msg>
+  <msg key="lt_The_net_value_must_be">The net value must be grather than 0 and less than %grade_weight%, and you can not enter Net Value AND Weight. </msg>
   <msg key="lt_The_number_of_members">The number of members must be grather than 1.</msg>
   <msg key="lt_The_sum_of_the_weight">The sum of the weight of all the assignment types is %total_weight% and it should be 100 by the end of the term(supposedly). </msg>
   <msg key="lt_The_system_assumes_th">The system assumes that the grades start at the 7th line of the file.</msg>
@@ -396,8 +297,8 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_to_submit_their_answe">to submit their answers after due date?</msg>
   <msg key="lt_To_unassociate_a_memb">To unassociate a member of the group, click on the &quot;Unassociate member&quot; link.</msg>
   <msg key="lt_TOTAL_GRADE_total_cla">TOTAL GRADE: %total_class_grade%</msg>
-  <msg key="lt_Total_points_in_this_">Total points in this category: %total_grade% / $max_grade&lt;br /&gt;
-                     This grade category represents the ${grade_weight}% of the 100% of the class </msg>
+  <msg key="lt_Total_points_in_this_">Total points in this category: %total_grade% / %max_grade%&lt;br /&gt;
+                     This grade category represents the %grade_weight%% of the 100% of the class </msg>
   <msg key="lt_Total_points_in_this__1">Total points in this category: %total_grade% / %max_grade%&lt;br /&gt;
                      This grade category represents the %grade_weight%% of the 100% of the class </msg>
   <msg key="lt_Total_points_in_this__2">Total points in this category: %total_grade%/%max_grade%</msg>
@@ -407,8 +308,8 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_Upload_a_file_OR_a_ur_1">Upload a file OR a url, not both </msg>
   <msg key="lt_Upload_a_file_OR_a_va">Upload a file OR a valid url, and not both </msg>
   <msg key="lt_Upload_a_solution_for">Upload a solution for this assignment so the students can see it and learn from it.</msg>
-  <msg key="lt_Upload_Answer_for_tas">Upload Answer for \&quot;%task_name%\&quot;</msg>
-  <msg key="lt_user_name_has_modifie">$user_name has modified the grade of %party_name%. \n The edit reason given by %user_name% was: %edit_reason% \n The current grade is: %current_grade% \n\n Click on this link to see the evaluation details: %url_link% \n </msg>
+  <msg key="lt_Upload_Answer_for_tas">Upload Answer for &quot;%task_name%&quot;</msg>
+  <msg key="lt_user_name_has_modifie">%user_name% has modified the grade of %party_name%. \n The edit reason given by %user_name% was: %edit_reason% \n The current grade is: %current_grade% \n\n Click on this link to see the evaluation details: %url_link% \n </msg>
   <msg key="lt_View_evaluation_detai">View evaluation details \</msg>
   <msg key="lt_ViewEdit_Task_Solutio">View/Edit Task Solution </msg>
   <msg key="lt_We_got_the_following_">We got the following error while trying to remove the evaluation: &lt;pre&gt;%errmsg%&lt;/pre&gt; </msg>
@@ -419,12 +320,9 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_Weight_of_this_grade_">Weight of this %grade_name% over %grade_plural_name%</msg>
   <msg key="lt_Weight_over_100_br__o">Weight over 100% &lt;br /&gt; of the Course </msg>
   <msg key="lt_Weight_over_grade_wei">Weight over %grade_weight%% &lt;br /&gt; of %grade_plural_name% </msg>
-  <msg key="lt_Weight_over_grade_wei_1">Weight over %grade_weight%% of %grade_plural_name%&quot;}
-	{html {size 5}}
-	{help_text &quot;&lt;#_ You can enter the weight over %grade_weight%% of %grade_plural_name% or you can enter the net value of it in the field below. </msg>
   <msg key="lt_Weight_over_grade_wei_2">Weight over %grade_weight%% of %grade_plural_name% </msg>
-  <msg key="lt_Weight_used_in_grade_">Weight used in $grade_plural_name: ${category_weight}% (of 100% of $grade_plural_name) &lt;br /&gt;
-                    $grade_plural_name represents ${grade_weight}% of the 100% of the class </msg>
+  <msg key="lt_Weight_used_in_grade_">Weight used in %grade_plural_name%: %category_weight%% (of 100% of $grade_plural_name) &lt;br /&gt;
+                    %grade_plural_name% represents %grade_weight%% of the 100% of the class </msg>
   <msg key="lt_Weight_used_in_grade__1">Weight used in %grade_plural_name%: ${category_weight}% (of 100% of $grade_plural_name) &lt;br /&gt;
                     $grade_plural_name represents ${grade_weight}% of the 100% of the class </msg>
   <msg key="lt_Weight_used_in_grade__2">Weight used in %grade_plural_name%: %category_weight%% (of 100% of %grade_plural_name%) &lt;br /&gt;
@@ -448,6 +346,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_You_can_upload_a_file">You can upload a file associated to this task by using the browse button (optional) </msg>
   <msg key="lt_You_can_upload_a_file_1">You can upload a file associated to this task by using the browse button and select the file from your computer (optional) </msg>
   <msg key="lt_You_must_give_an_edit">You must give an edit reason (%old_grade% --&gt; %grade_wo_reason% </msg>
+  <msg key="lt_Your_answer_has_been_">Your answer has been submited successfully.</msg>
   <msg key="lt_Your_total_grade_in_t">Your total grade in this class is:</msg>
   <msg key="Max_Grade_">Max Grade: </msg>
   <msg key="Maximun_Grade_">Maximun Grade: </msg>
@@ -487,7 +386,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="Project">Project</msg>
   <msg key="Projects_">Projects </msg>
   <msg key="Remove_Grade">Remove Grade</msg>
-  <msg key="Rename">Group </msg>
+  <msg key="Rename">Rename Group </msg>
   <msg key="Requires_Grade_">Requires Grade? </msg>
   <msg key="Reuse_Groups_">Reuse Groups </msg>
   <msg key="Send">Send file </msg>

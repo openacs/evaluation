@@ -14,8 +14,7 @@ ad_page_contract {
 
 if { [string eq $operation [_ evaluation.lt_Yes_I_really_want_to_]] } {
     db_transaction {
-#		db_exec_plsql delete_evaluation { *SQL* }		
-        evaluation::delete_student_eval1 -evaluation_id $evaluation_id
+        evaluation::delete_student_eval -evaluation_id $evaluation_id
     } on_error {
 		ad_return_error "[_ evaluation.lt_Error_deleting_the_ev]" "[_ evaluation.lt_We_got_the_following_]"
 		ad_script_abort

@@ -89,25 +89,25 @@ ad_proc -public evaluation::delete_grade {
 } {
     delete all grades
 } {
-   db_1row get_grade_id { select grade_item_id from evaluation_grades where grade_id = :grade_id}
-   db_foreach del_rec { select task_item_id from evaluation_tasks where grade_item_id = :grade_item_id } {
-     db_foreach evaluation_delete_student_eval { select evaluation_id from evaluation_student_evals where task_item_id = :task_item_id } {
-     content::revision::delete -revision_id $evaluation_id
-     }
-     db_foreach evaluation_delete_answer { select answer_id from evaluation_answers where task_item_id = :task_item_id } {
-     content::revision::delete -revision_id $answer_id
-     }
-     db_foreach evaluation_delete_task_sol { select solution_id from evaluation_tasks_sols where task_item_id = :task_item_id } {
-     content::revision::delete -revision_id $solution_id
-     }
-     db_foreach evaluation_delete_grades_sheet { select grades_sheet_id from evaluation_grades_sheets where task_item_id = :task_item_id } {
-     content::revision::delete -revision_id $grades_sheet_id
-     }
-     db_foreach evaluation_delete_task { select task_id from evaluation_tasks where task_item_id = :task_item_id } {
-     content::revision::delete -revision_id $task_id                                                                                                              }
-     }
-#    db_1row get_grade_id { select grade_id as grade_task_id from evaluation_grades where grade_item_id = :grade_item_id}
-     content::revision::delete -revision_id $grade_id
+    db_1row get_grade_id { select grade_item_id from evaluation_grades where grade_id = :grade_id }
+    db_foreach del_rec { select task_item_id from evaluation_tasks where grade_item_id = :grade_item_id } {
+	db_foreach evaluation_delete_student_eval { select evaluation_id from evaluation_student_evals where task_item_id = :task_item_id } {
+	    content::revision::delete -revision_id $evaluation_id
+	}
+	db_foreach evaluation_delete_answer { select answer_id from evaluation_answers where task_item_id = :task_item_id } {
+	    content::revision::delete -revision_id $answer_id
+	}
+	db_foreach evaluation_delete_task_sol { select solution_id from evaluation_tasks_sols where task_item_id = :task_item_id } {
+	    content::revision::delete -revision_id $solution_id
+	}
+	db_foreach evaluation_delete_grades_sheet { select grades_sheet_id from evaluation_grades_sheets where task_item_id = :task_item_id } {
+	    content::revision::delete -revision_id $grades_sheet_id
+	}
+	db_foreach evaluation_delete_task { select task_id from evaluation_tasks where task_item_id = :task_item_id } {
+	    content::revision::delete -revision_id $task_id                                                                                                              }
+    }
+    #    db_1row get_grade_id { select grade_id as grade_task_id from evaluation_grades where grade_item_id = :grade_item_id}
+    content::revision::delete -revision_id $grade_id
 }
 
 ad_proc -public evaluation::delete_task {
@@ -115,29 +115,29 @@ ad_proc -public evaluation::delete_task {
 } {
     delete all tasks
 } {
-     db_1row get_grade_id { select task_item_id from evaluation_tasks where task_id = :task_id}
-     db_foreach evaluation_delete_student_eval { select evaluation_id from evaluation_student_evals where task_item_id = :task_item_id } {
-     content::revision::delete -revision_id $evaluation_id
-     }
-     db_foreach evaluation_delete_answer { select answer_id from evaluation_answers where task_item_id = :task_item_id } {
-     content::revision::delete -revision_id $answer_id
-     }
-     db_foreach evaluation_delete_task_sol { select solution_id from evaluation_tasks_sols where task_item_id = :task_item_id } {
-     content::revision::delete -revision_id $solution_id
-     }
-     db_foreach evaluation_delete_grades_sheet { select grades_sheet_id from evaluation_grades_sheets where task_item_id = :task_item_id } {
-     content::revision::delete -revision_id $grades_sheet_id
-     }
-#    db_1row get_task_id { select task_id as tasks_task_id from evaluation_tasks where task_item_id = :task_item_id }
-     content::revision::delete -revision_id $task_id
+    db_1row get_task_id { select task_item_id from evaluation_tasks where task_id = :task_id }
+    db_foreach evaluation_delete_student_eval { select evaluation_id from evaluation_student_evals where task_item_id = :task_item_id } {
+	content::revision::delete -revision_id $evaluation_id
+    }
+    db_foreach evaluation_delete_answer { select answer_id from evaluation_answers where task_item_id = :task_item_id } {
+	content::revision::delete -revision_id $answer_id
+    }
+    db_foreach evaluation_delete_task_sol { select solution_id from evaluation_tasks_sols where task_item_id = :task_item_id } {
+	content::revision::delete -revision_id $solution_id
+    }
+    db_foreach evaluation_delete_grades_sheet { select grades_sheet_id from evaluation_grades_sheets where task_item_id = :task_item_id } {
+	content::revision::delete -revision_id $grades_sheet_id
+    }
+    #    db_1row get_task_id { select task_id as tasks_task_id from evaluation_tasks where task_item_id = :task_item_id }
+    content::revision::delete -revision_id $task_id
 }
 
-ad_proc -public evaluation::delete_student_eval1 {
+ad_proc -public evaluation::delete_student_eval {
     -evaluation_id:required
 } {
     delete all tasks
 } {
-     content::revision::delete -revision_id $evaluation_id
+    content::revision::delete -revision_id $evaluation_id
 }
 
 ad_proc -public evaluation::notification::do_notification { 
@@ -219,9 +219,11 @@ ad_proc -public evaluation::new_grade {
     @param content_table
     @param new_item_p If true make a new item using item_id 
 } {
+
     if { [empty_string_p $package_id] } {
-    set package_id [ad_conn package_id]
+	set package_id [ad_conn package_id]
     }
+
     set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
     set creation_date [db_string get_date { *SQL* }]
@@ -229,19 +231,19 @@ ad_proc -public evaluation::new_grade {
     
     set revision_id [db_nextval acs_object_id_seq]
     set revision_name "${content_type}_${revision_id}"
-    set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
+    set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index f]
     if { $new_item_p } {
-         set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -creation_date $creation_date]
+	set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -creation_date $creation_date]
     }
-        set revision_id [content::revision::new \
-                                  -item_id $item_id \
-                                  -content_type $content_type \
-                                  -description $description \
-                                  -creation_date $creation_date \
-                                  -attributes [list [list weight $weight] \
-                                                    [list grade_name $name] \
-                                                    [list comments  $description] \                                                                                                                              [list grade_item_id  $item_id] \
-                                                    [list grade_plural_name $plural_name]] ]  
+    set revision_id [content::revision::new \
+			 -item_id $item_id \
+			 -content_type $content_type \
+			 -description $description \
+			 -creation_date $creation_date \
+			 -attributes [list [list weight $weight] \
+					  [list grade_name $name] \
+					  [list grade_item_id  $item_id] \
+					  [list grade_plural_name $plural_name]] ]  
     return $revision_id
 } 
 
@@ -370,33 +372,35 @@ ad_proc -public evaluation::new_task {
     if { [empty_string_p $item_name] } {
 	set item_name "${item_id}_${title}"
     }
-#Falta agregarle el title
+    #Falta agregarle el title
     if { $new_item_p } {
-     set item_id [content::item::new -item_id $item_id \
-                                     -parent_id $folder_id \
-                                     -content_type $content_type \
-                                     -name $item_name \
-                                     -context_id $package_id \
-                                     -mime_type $mime_type \
-                                     -title $title \
-                                     -creation_date $creation_date \
-                                     -storage_type $storage_type]
+
+	set item_id [content::item::new -item_id $item_id \
+			 -parent_id $folder_id \
+			 -content_type $content_type \
+			 -name $item_name \
+			 -context_id $package_id \
+			 -mime_type $mime_type \
+			 -creation_date $creation_date \
+			 -storage_type $storage_type]
     }
+
     set revision_id [content::revision::new \
-                                  -item_id $item_id \
-                                  -content_type $content_type \
-                                  -mime_type $mime_type \
-			          -title $title \
-                                  -description $description \
-                                  -creation_date $creation_date \
-			          -attributes [list [list weight $weight] \
-					            [list task_name $name] \
-					            [list task_item_id  $item_id] \                                                                         \                                                   [list online_p  $online_p] \
-						    [list grade_item_id $grade_item_id] \
-						    [list due_date $due_date] \
-						    [list late_submit_p $late_submit_p] \
-						    [list requires_grade_p $requires_grade_p] \
-					            [list number_of_members $number_of_members]] ]
+			 -item_id $item_id \
+			 -content_type $content_type \
+			 -mime_type $mime_type \
+			 -title $title \
+			 -description $description \
+			 -creation_date $creation_date \
+			 -attributes [list [list weight $weight] \
+					  [list task_name $name] \
+					  [list task_item_id  $item_id] \
+					  [list online_p $online_p] \
+					  [list grade_item_id $grade_item_id] \
+					  [list due_date $due_date] \
+					  [list late_submit_p $late_submit_p] \
+					  [list requires_grade_p $requires_grade_p] \
+					  [list number_of_members $number_of_members]]]
 
 
     # in order to find the file we have to set the name in cr_items the same that in cr_revisions
@@ -450,14 +454,14 @@ ad_proc -public evaluation::new_solution {
     if { $new_item_p } {
         set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -storage_type $storage_type -title $title -creation_date $creation_date]
     }
-        set revision_id [content::revision::new \
-                                  -item_id $item_id \
-                                  -content_type $content_type \
-                                  -mime_type $mime_type \
-				  -title $title \
-                                  -creation_date $creation_date \
-                                  -attributes [list [list task_item_id  $task_item_id] \
-                                                    [list solution_item_id $item_id]] ]
+    set revision_id [content::revision::new \
+			 -item_id $item_id \
+			 -content_type $content_type \
+			 -mime_type $mime_type \
+			 -title $title \
+			 -creation_date $creation_date \
+			 -attributes [list [list task_item_id  $task_item_id] \
+					  [list solution_item_id $item_id]] ]
 
     # in order to find the file we have to set the name in cr_items the same that in cr_revisions
     db_dml update_item_name { *SQL* }
@@ -522,17 +526,17 @@ ad_proc -public evaluation::new_answer {
 			 -creation_date $creation_date]
     }
     set revision_id [content::revision::new \
-                                  -item_id $item_id \
-                                  -content_type $content_type \
-                                  -mime_type $mime_type \
-                                  -title $title\
-                                  -creation_date $creation_date \
+			 -item_id $item_id \
+			 -content_type $content_type \
+			 -mime_type $mime_type \
+			 -title $title\
+			 -creation_date $creation_date \
 			 -attributes [list [list answer_item_id  $item_id] \
 					  [list party_id $party_id] \
 					  [list task_item_id $task_item_id]] ]
 
 
-                                                                                                                                                            
+    
     # in order to find the file we have to set the name in cr_items the same that in cr_revisions
     db_dml update_item_name { *SQL* }
     return $revision_id
@@ -591,19 +595,19 @@ ad_proc -public evaluation::new_evaluation {
     }
 
     if { $new_item_p } {
-        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -title $title -storage_type $storage_type -creation_date $creation_date]
+        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -storage_type $storage_type -creation_date $creation_date]
     }   
-        set revision_id [content::revision::new \
-                                  -item_id $item_id \
-                                  -content_type $content_type \
-                                  -mime_type $mime_type \
-                                  -title $title\
-                                  -creation_date $creation_date \
-                                  -attributes [list [list evaluation_item_id  $item_id] \
-                                                    [list party_id $party_id] \
-						    [list grade $grade] \
-						    [list show_student_p $show_student_p] \
-                                                    [list task_item_id $task_item_id]] ]
+    set revision_id [content::revision::new \
+			 -item_id $item_id \
+			 -content_type $content_type \
+			 -mime_type $mime_type \
+			 -title $title\
+			 -creation_date $creation_date \
+			 -attributes [list [list evaluation_item_id  $item_id] \
+					  [list party_id $party_id] \
+					  [list grade $grade] \
+					  [list show_student_p $show_student_p] \
+					  [list task_item_id $task_item_id]]]
 
 } 
 ad_proc -public evaluation::new_evaluation_group {
@@ -702,13 +706,13 @@ ad_proc -public evaluation::new_grades_sheet {
         set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -title $title -storage_type $storage_type]
 
     }   
-        set revision_id [content::revision::new \
-                                  -item_id $item_id \
-                                  -content_type $content_type \
-				  -title $title \
-                                  -mime_type $mime_type \
-                                  -attributes [list [list grades_sheet_item_id  $item_id] \
-                                                    [list task_item_id $task_item_id]] ]
+    set revision_id [content::revision::new \
+			 -item_id $item_id \
+			 -content_type $content_type \
+			 -title $title \
+			 -mime_type $mime_type \
+			 -attributes [list [list grades_sheet_item_id  $item_id] \
+					  [list task_item_id $task_item_id]] ]
     return $revision_id
 } 
 
@@ -937,7 +941,7 @@ ad_proc -public evaluation::public_answers_to_file_system {
     }
 
     return $dir
-db_foreach get_answers_for_task}
+    db_foreach get_answers_for_task}
 
 ad_proc -public evaluation::get_archive_extension {} {
     return the archive extension that should be added to the output file of
