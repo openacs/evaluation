@@ -48,14 +48,18 @@ content::type::new -content_type {evaluation_student_evals} -supertype {content_
 content::type::new -content_type {evaluation_grades_sheets} -supertype {content_revision} -pretty_name {Evaluation Grades Sheet} -pretty_plural {Evaluation Grades Sheets} -table_name {evaluation_grades_sheets} -id_column {grades_sheet_id}
 
 #Create the new and register template
-set template_id [content::template::new -name {evaluation-tasks-default}]
-content::type::register_template -content_type {evaluation_tasks} -template_id $template_id -use_context {public} -is_default {t}
-set template_id [content::template::new -name {evaluation-tasks-sols-default}]
-content::type::register_template -content_type {evaluation_tasks_sols} -template_id $template_id -use_context {public} -is_default {t}
-set template_id [content::template::new -name {evaluation-answers-default}]
-content::type::register_template -content_type {evaluation_answers} -template_id $template_id -use_context {public} -is_default {t}
-set template_id [content::template::new -name {evaluation-grades-sheets-default}]
-content::type::register_template -content_type {evaluation_grades_sheets} -template_id $template_id -use_context {public} -is_default {t}
+db_exec_plsql create_folders { select evaluation__create_folder() }
+#set template_id [content::template::new -name {evaluation-tasks-default} -text {@text;noquote@} -is_live {true}]
+#content::type::register_template -content_type {evaluation_tasks} -template_id $template_id -use_context {public} -is_default {t}
+
+#set template_id [content::template::new -name {evaluation-tasks-sols-default} -text {@text;noquote@} -is_live {true}]
+#content::type::register_template -content_type {evaluation_tasks_sols} -template_id $template_id -use_context {public} -is_default {t}
+
+#set template_id [content::template::new -name {evaluation-answers-default} -text {@text;noquote@} -is_live {true}]
+#content::type::register_template -content_type {evaluation_answers} -template_id $template_id -use_context {public} -is_default {t}
+
+#set template_id [content::template::new -name {evaluation-grades-sheets-default} -text {@text;noquote@} -is_live {true}]
+#content::type::register_template -content_type {evaluation_grades_sheets} -template_id $template_id -use_context {public} -is_default {t}
 
 #evaluation_grades
 content::type::attribute::new -content_type {evaluation_grades} -attribute_name {grade_item_id} -datatype {number}  -pretty_name {grade_item_id} -column_spec {integer}
