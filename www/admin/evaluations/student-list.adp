@@ -15,7 +15,7 @@
 	<th>#evaluation.lt_Is_the_task_submitted#</th>
 	<td>
 
-<if @online_p@ gt 0 >
+<if @online_p@ eq t >
 	<h2> #evaluation.Yes# </h2>
 </if><else>
 	<h2> #evaluation.No# </h2>

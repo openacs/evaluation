@@ -67,6 +67,17 @@ ad_proc -public evaluation::get_user_portrait {
     return $output
 } 
 
+ad_proc -public evaluation::safe_url_name { 
+    -name:required
+} { 
+    returns the filename replacing some characters
+} {  
+
+    regsub -all {[<>:\"|/@\\\#%&+\\ ,\?]} $name {_} name
+    return $name
+
+} 
+
 ad_proc -public evaluation::notification::do_notification { 
     -task_id:required
     -package_id:required

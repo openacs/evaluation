@@ -14,7 +14,7 @@
 		et.requires_grade_p, et.description, et.grade_id,
 		cr.content_length,
 		et.data as task_data,
-		et.title as task_title,
+		cr.title as task_title,
    		et.task_id as revision_id,
 		ets.solution_id as solution_id
 	from cr_revisions cr, 
@@ -39,7 +39,7 @@
 		et.requires_grade_p, 
 		et.description, 
 		et.grade_id,
-		et.title as task_title,
+		cr.title as task_title,
 		et.data as task_data,
 	   	et.task_id as revision_id,
 		cr.content_length,

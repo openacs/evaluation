@@ -310,6 +310,7 @@ ad_form -extend -name task -form {
 	    set storage_type lob
 	} 
 	
+	set title [evaluation::safe_url_name -name $title]
 	set due_date [db_string set_date { *SQL* }]
 	
 	if { [ad_form_new_p -key task_id] } {

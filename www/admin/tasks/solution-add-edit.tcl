@@ -188,6 +188,7 @@ ad_form -extend -name solution -form {
 			set storage_type text
 		}
 		
+		set title [evaluation::safe_url_name -name $title]
 		if { [ad_form_new_p -key solution_id] } {
 			set item_id $solution_id
 		} 

@@ -53,7 +53,7 @@
 <fullquery name="get_not_evaluated_left">      
       <querytext>
 
-		select count(*) from cc_users p 
+		select count(*) from persons p 
 		$not_in_clause
 	
       </querytext>
@@ -63,7 +63,7 @@
       <querytext>
 
 		select count(*) 
-		from cc_users p,
+		from persons p,
 		registered_users ru,
                 dotlrn_member_rels_approved app
 		$not_in_clause
@@ -90,7 +90,7 @@
 	  <querytext>         
 		select p.person_id as party_id,
 		p.last_name||', '||p.first_names as party_name
-		from cc_users p 
+		from persons p 
 		$not_in_clause
 		$orderby_na
 	  </querytext>
@@ -102,7 +102,7 @@
   		   p.last_name||', '||p.first_names as party_name
             from registered_users ru,
                  dotlrn_member_rels_approved app,
-		 cc_users p
+		 persons p
             $not_in_clause
 	      and app.community_id = :community_id
               and app.user_id = ru.user_id

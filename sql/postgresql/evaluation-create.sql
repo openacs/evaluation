@@ -234,7 +234,7 @@ select acs_attribute__create_attribute (
 	'f' 						--static_p
 );
 
-create function evaluation__new_item (integer,varchar,varchar,integer,integer,varchar,varchar,text,varchar,varchar,text,varchar,varchar,varchar)
+create function evaluation__new_item (integer,varchar,varchar,integer,integer,timestamptz,varchar,varchar,text,varchar,varchar,text,varchar,varchar,varchar)
 returns integer as '
 declare
 	p_item_id    		alias for $1;
@@ -242,15 +242,16 @@ declare
 	p_locale			alias for $3;
 	p_creation_user		alias for $4;
 	p_package_id		alias for $5;
-	p_creation_ip		alias for $6;
-	p_title				alias for $7;
-	p_description		alias for $8;
-	p_mime_type			alias for $9;
-	p_nls_language		alias for $10;
-	p_text		    	alias for $11;
-	p_storage_type	    alias for $12;
-	p_item_subtype  	alias for $13;
-	p_content_type	    alias for $14;
+	p_creation_date	   	alias for $6;
+	p_creation_ip		alias for $7;
+	p_title				alias for $8;
+	p_description		alias for $9;
+	p_mime_type			alias for $10;
+	p_nls_language		alias for $11;
+	p_text		    	alias for $12;
+	p_storage_type	    alias for $13;
+	p_item_subtype  	alias for $14;
+	p_content_type	    alias for $15;
 
 	v_item_id		integer;
 	v_parent_id		integer;
@@ -275,7 +276,7 @@ begin
         v_parent_id,          -- parent_id
         v_id,                 -- item_id
         p_locale,             -- locale
-        current_timestamp,    -- creation_date
+        p_creation_date,    -- creation_date
         p_creation_user,      -- creation_user
 		p_package_id,         -- context_id
         p_creation_ip,        -- creation_ip
@@ -328,7 +329,7 @@ begin
 		null,					-- data
 		p_item_id,				-- item_id
 		p_revision_id,			-- revision_id
-		current_timestamp,		-- creation_date
+		p_creation_date,		-- creation_date
 		p_creation_user,		-- creation_user
 		p_creation_ip,			-- creation_ip
 	    null				    -- content length
@@ -432,7 +433,7 @@ begin
 		null,					-- data
 		p_item_id,				-- item_id
 		p_revision_id,			-- revision_id
-		current_timestamp,		-- creation_date
+		p_creation_date,		-- creation_date
 		p_creation_user,		-- creation_user
 		p_creation_ip,			-- creation_ip
 	    null				    -- content length
@@ -528,7 +529,7 @@ begin
 		null,					-- data
 		p_item_id,				-- item_id
 		p_revision_id,			-- revision_id
-		current_timestamp,		-- creation_date
+		p_creation_date,		-- creation_date
 		p_creation_user,		-- creation_user
 		p_creation_ip,			-- creation_ip
 	    null				    -- content length
@@ -594,7 +595,7 @@ begin
 		null,					-- data
 		p_item_id,				-- item_id
 		p_revision_id,			-- revision_id
-		current_timestamp,		-- creation_date
+		p_creation_date,		-- creation_date
 		p_creation_user,		-- creation_user
 		p_creation_ip,			-- creation_ip
 	    null				    -- content length

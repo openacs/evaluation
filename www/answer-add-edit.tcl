@@ -95,6 +95,7 @@ ad_form -extend -name answer -form {
 			set storage_type text
 		}
 		
+		set title [evaluation::safe_url_name -name $title]
 		if { [ad_form_new_p -key answer_id] } {
 			set item_id $answer_id
 		} 

@@ -12,6 +12,7 @@
 			null,
 			:creation_user,
 			:package_id,
+			current_timestamp,
 			:creation_ip,
 			:name,
 			:description,
@@ -94,6 +95,7 @@
 				     null, --locale
 				     :creation_user,
 				     :to_package_id,
+				     current_timestamp,
 				     :creation_ip,
 				     :task_name,
 				     :description,
@@ -158,6 +160,7 @@
 			null, --locale
 			:creation_user,
 			:package_id,
+   		        current_timestamp,
 			:creation_ip,
 			:name,
 			:description,
@@ -191,7 +194,7 @@
 			now(), --creation date	
 			:creation_user, 
 			:creation_ip,	
-			:item_name,			
+			:title,			
 			now(),  --publish date
 			null,  -- nls_language
 			:mime_type --mime_type
@@ -220,6 +223,7 @@
 			null, --locale
 			:creation_user,
 			:package_id,
+		        current_timestamp,
 			:creation_ip,
 			:title,
 			'task solution',
@@ -245,7 +249,7 @@
 			now(), --creation date	
 			:creation_user, 
 			:creation_ip,	
-			:item_name,			
+			:title,			
 			now(),  --publish date
 			null,  -- nls_language
 			:mime_type --mime_type
@@ -274,6 +278,7 @@
 			null, --locale
 			:creation_user,
 			:package_id,
+		        current_timestamp,
 			:creation_ip,
 			:title,
 			'evaluation answer',
@@ -329,6 +334,7 @@
 			null, --locale
 			:creation_user,
 			:package_id,
+ 		        current_timestamp,
 			:creation_ip,
 			:title,
 			'student evaluation',
@@ -401,6 +407,7 @@
 			null, --locale
 			:creation_user,
 			:package_id,
+		        current_timestamp,
 			:creation_ip,
 			:title,
 			'grades sheet',
@@ -579,6 +586,7 @@
 					 null,
 					 :creation_user,
 					 :package_id,
+  	  			         current_timestamp,
 					 :creation_ip,
 					 :exams_name,
 					 :exams_desc,
@@ -634,6 +642,7 @@
 					 null,
 					 :creation_user,
 					 :package_id,
+				         current_timestamp,
 					 :creation_ip,
 					 :projects_name,
 					 :projects_desc,
@@ -690,6 +699,7 @@
 					 null,
 					 :creation_user,
 					 :package_id,
+				         current_timestamp,
 					 :creation_ip,
 					 :tasks_name,
 					 :tasks_desc,

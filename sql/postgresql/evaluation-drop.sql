@@ -160,7 +160,7 @@ drop view evaluation_gradesi;
 drop view evaluation_gradesx;
 drop table evaluation_grades;
 
-drop function evaluation__new_item (integer,varchar,varchar,integer,integer,varchar,varchar,text,varchar,varchar,text,varchar,varchar,varchar);
+drop function evaluation__new_item (integer,varchar,varchar,integer,integer,timestamptz,varchar,varchar,text,varchar,varchar,text,varchar,varchar,varchar);
 
 ---------------------------------------
 -- GRADES
