@@ -180,7 +180,8 @@ ad_proc -public evaluation::apm_callback::package_instantiate {
     set projects_name "[_ evaluation.Projects_]"
     set projects_singular_name "[_ evaluation.Project]"
     set projects_desc "[_ evaluation.lt_Projects_for_students]"
-    ns_log notice "Error 1"
+
+    db_transaction {
     set folder_id [content::folder::new -name "evaluation_grades_$package_id" -label "evaluation_grades_$package_id" -package_id $package_id ]
     content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_grades} -include_subtypes t
 
@@ -198,6 +199,18 @@ ad_proc -public evaluation::apm_callback::package_instantiate {
  
     set folder_id [content::folder::new -name "evaluation_student_evals_$package_id" -label "evaluation_student_evals_$package_id" -package_id $package_id ]
     content::folder::register_content_type -folder_id $folder_id -content_type {evaluation_student_evals} -include_subtypes t  
+    }
+    set exams_item_id [db_nextval acs_object_id_seq]
+    set revision_id [evaluation::new_grade -new_item_p 1 -item_id $exams_item_id -content_type evaluation_grades -content_table evaluation_grades -content_id grade_id -name $exams_singular_name -plural_name $exams_name -description $exams_desc -weight 40 -package_id $package_id]
+    content::item::set_live_revision -revision_id $revision_id
+
+    set tasks_item_id [db_nextval acs_object_id_seq]
+    set revision_id [evaluation::new_grade -new_item_p 1 -item_id $tasks_item_id -content_type evaluation_grades -content_table evaluation_grades -content_id grade_id -name $tasks_singular_name -plural_name $tasks_name -description $tasks_desc -weight 40 -package_id $package_id]
+    content::item::set_live_revision -revision_id $revision_id
+
+    set projects_item_id [db_nextval acs_object_id_seq]
+    set revision_id [evaluation::new_grade -new_item_p 1 -item_id $projects_item_id -content_type evaluation_grades -content_table evaluation_grades -content_id grade_id -name $projects_singular_name -plural_name $projects_name -description $projects_desc -weight 20 -package_id $package_id]
+    content::item::set_live_revision -revision_id $revision_id   
 }
 
 
