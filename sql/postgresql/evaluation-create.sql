@@ -920,10 +920,12 @@ begin
 
 	select (ese.grade*et.weight*eg.weight)/10000 into v_grade
 	from evaluation_student_evals ese, evaluation_tasks et, evaluation_grades eg
-	where party_id = evaluation__party_id(p_user_id, ese.task_id)
-	  and ese.task_id = p_task_id
-	  and ese.task_id = et.task_id
-	  and et.grade_id = eg.grade_id;
+	where party_id = evaluation__party_id(p_user_id, et.task_id)
+	  and et.task_id = p_task_id
+	  and ese.task_item_id = et.task_item_id
+	  and et.grade_item_id = eg.grade_item_id
+	  and content_revision__is_live(eg.grade_id) = true
+	  and content_revision__is_live(et.task_id) = true;
 
 	if v_grade is null then
 		return 0.00;
@@ -948,10 +950,10 @@ begin
     FOR v_grades_cursor IN
         select (ese.grade*et.weight*eg.weight)/10000 as grade
         from   evaluation_grades eg, evaluation_tasks et, evaluation_student_evalsi ese
-        where et.task_id = ese.task_id
-		  and et.grade_id = eg.grade_id
-          and et.grade_id = p_grade_id
-   		  and ese.party_id = evaluation__party_id(p_user_id,ese.task_id)
+        where et.task_item_id = ese.task_item_id
+		  and et.grade_item_id = eg.grade_item_id
+          and eg.grade_id = p_grade_id
+   		  and ese.party_id = evaluation__party_id(p_user_id,et.task_id)
 		  and content_revision__is_live(ese.evaluation_id) = true	
 		  and content_revision__is_live(et.task_id) = true	
     LOOP
@@ -1214,7 +1216,7 @@ begin
     FOR v_item_cursor IN
         select etg.group_id
         from   evaluation_tasks et, evaluation_task_groups etg
-        where etg.task_id = et.task_id
+        where etg.task_item_id = et.task_item_id
     LOOP
        	PERFORM evaluation__delete_evaluation_task_group(v_item_cursor.group_id);
     END LOOP;
@@ -1334,7 +1336,7 @@ begin
         select etg.group_id
         from   evaluation_tasksi et, acs_objects ao, evaluation_task_groups etg
         where et.item_id = ao.object_id
-	   	  and etg.task_id = et.task_id
+	   	  and etg.task_item_id = et.task_item_id
    		  and ao.context_id = p_package_id
     LOOP
        	PERFORM evaluation__delete_evaluation_task_group(v_item_cursor.group_id);

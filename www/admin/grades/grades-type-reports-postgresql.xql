@@ -7,9 +7,10 @@
 	    select et.task_id, 
 		et.task_name,
 		et.weight
-   	    from evaluation_tasksi et
+   	    from evaluation_tasksi et, evaluation_grades eg
 		where content_revision__is_live(et.task_id) = true
-   		  and et.grade_id = :grade_id
+   		  and eg.grade_id = :grade_id
+	          and eg.grade_item_id = et.grade_item_id
 	    order by task_name
 
       </querytext>

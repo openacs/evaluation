@@ -845,19 +845,19 @@
 <fullquery name="evaluation::public_answers_to_file_system.get_answers_for_task">      
       <querytext>
 
-	select evaluation__party_name(ea.party_id, ea.task_id) as party_name,
+	select evaluation__party_name(ea.party_id, et.task_id) as party_name,
 	ea.title as answer_title,
 	ea.revision_id,
 	cri.storage_type
 	from evaluation_answersi ea, 
 	evaluation_tasks et,
 	cr_items cri
-	where ea.task_id = et.task_id
+	where ea.task_item_id = et.task_item_id
 	and ea.item_id = cri.item_id
 	and et.task_id = :task_id
 	and ea.data is not null
 	and content_revision__is_live(ea.answer_id) = true
-	and not exists (select 1 from evaluation_student_evals ese where ese.party_id = ea.party_id and ese.task_id = :task_id and content_revision__is_live(ese.evaluation_id) = true)
+	and not exists (select 1 from evaluation_student_evals ese where ese.party_id = ea.party_id and ese.task_item_id = et.task_item_id and content_revision__is_live(ese.evaluation_id) = true)
 
       </querytext>
 </fullquery>

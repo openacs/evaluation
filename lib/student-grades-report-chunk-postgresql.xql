@@ -23,7 +23,6 @@
     (et.weight*eg.weight)/100 as task_weight,
     et.number_of_members,
     to_char(et.due_date, 'YYYY-MM-DD HH24:MI:SS') as due_date_ansi, 
-    et.task_id,
     et.online_p
     from evaluation_grades eg,
     evaluation_tasks et

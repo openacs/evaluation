@@ -196,7 +196,7 @@ db_transaction {
 	
 	if { [info exists grades_wa($party_id)] && ![empty_string_p $grades_wa($party_id)] } {
 	    # new file?
-	    if { [db_string grades_wa_new "select count(*) from evaluation_student_evals ese, evaluation_tasks est where ese.party_id = :party_id and ese.task_item_id = :task_item_id and content_revision__is_live(ese.evaluation_id) = true and est.task_id = :task_id and est.task_item_id = ese.task_item_id"] } {
+	    if { [db_string grades_wa_new { *SQL* }] } {
 		set new_item_p 0
 	    } else {
 		set new_item_p 1
@@ -220,7 +220,7 @@ db_transaction {
 	}
 	if { [info exists grades_na($party_id)] && ![empty_string_p $grades_na($party_id)] } {
 	    # new file?
-	    if { [db_string grades_na_new "select count(*) from evaluation_student_evals ese, evaluation_tasks est where ese.party_id = :party_id and ese.task_item_id = :task_item_id and content_revision__is_live(ese.evaluation_id) = true and ese.task_item_id = est.task_item_id and est.task_id = :task_id"] } {
+	    if { [db_string grades_na_new { *SQL* }] } {
 		set new_item_p 0
 	    } else {
 		set new_item_p 1
