@@ -208,6 +208,7 @@ ad_proc -public evaluation::new_grade {
     -weight:required
     -name:required
     -plural_name:required
+    {-package_id ""}
 } {   
     Build a new content revision of a evaluation subtype.  If new_item_p is
     set true then a new item is first created, otherwise a new revision is created for
@@ -218,8 +219,9 @@ ad_proc -public evaluation::new_grade {
     @param content_table
     @param new_item_p If true make a new item using item_id 
 } {
-    
+    if { [empty_string_p $package_id] } {
     set package_id [ad_conn package_id]
+    }
     set creation_user [ad_verify_and_get_user_id]
     set creation_ip [ad_conn peeraddr]
     
