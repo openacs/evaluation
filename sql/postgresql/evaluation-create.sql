@@ -144,7 +144,7 @@ create table evaluation_student_evals (
 					constraint evaluation_stu_evals_tid_nn
 					not null
 					constraint evaluation_stu_evals_tid_fk
-					references cr_items(task_item_id),
+					references cr_items(item_id),
 	-- must have student_id or team_id
 	party_id		integer
 					constraint evaluation_stu_evals_pid_nn
@@ -181,7 +181,7 @@ create table evaluation_grades_sheets (
 						references cr_items(item_id),
 	task_item_id		integer
 				 		constraint evaluation_gsheets_t_id_fk
-				 		references cr_items(task_item_id)
+				 		references cr_items(item_id)
 );
 
 -- create indexes
@@ -223,7 +223,7 @@ create table evaluation_task_groups (
 			  		constraint evaluation_task_groups_tid_nn
 		  			not null
 	  				constraint evaluation_task_groups_tid_fk
-		   			references cr_items(task_item_id)
+		   			references cr_items(item_id)
 );
 
 create index evaluation_task_groups_tid_index on evaluation_task_groups(task_item_id);
