@@ -12,7 +12,7 @@ ad_page_contract {
     {orderby:optional}
 }
 
-set context [list Grades]
+set context [list "[_ evaluation.Grades_]"]
 set package_id [ad_conn package_id]
 
 set page_title "[_ evaluation.lt_Admin_Assignment_Type]"
