@@ -491,4 +491,85 @@ begin
     END LOOP;
 return 0;
 end;' language 'plpgsql';
+
+---------------------------------------
+-- TEMPLATES
+---------------------------------------
+                                                                                                                                                             
+create function evaluation__create_folder ()
+returns integer as'
+declare
+    template_id integer;
+begin
+                                                                                                                                                             
+    -- Create the (default) content type template
+                                                                                                                                                             
+    template_id := content_template__new(
+      ''evaluation-tasks-default'', -- name
+      ''@text;noquote@'',               -- text
+      true                      -- is_live
+    );
+                                                                                                                                                             
+    -- Register the template for the content type
+                                                                                                                                                             
+    perform content_type__register_template(
+      ''evaluation_tasks'', -- content_type
+      template_id,             -- template_id
+      ''public'',              -- use_context
+      ''t''                    -- is_default
+    );
+                                                                                                                                                             
+    -- Create the (default) content type template
+                                                                                                                                                             
+    template_id := content_template__new(
+      ''evaluation-tasks-sols-default'', -- name
+      ''@text;noquote@'',               -- text
+      true                      -- is_live
+    );
+                                                                                                                                                             
+    -- Register the template for the content type
+                                                                                                                                                             
+    perform content_type__register_template(
+      ''evaluation_tasks_sols'', -- content_type
+      template_id,             -- template_id
+      ''public'',              -- use_context
+      ''t''                    -- is_default
+    );
+   -- Create the (default) content type template
+                                                                                                                                                             
+    template_id := content_template__new(
+      ''evaluation-answers-default'', -- name
+      ''@text;noquote@'',               -- text
+      true                      -- is_live
+    );
+                                                                                                                                                             
+    -- Register the template for the content type
+                                                                                                                                                             
+    perform content_type__register_template(
+      ''evaluation_answers'', -- content_type
+      template_id,             -- template_id
+      ''public'',              -- use_context
+      ''t''                    -- is_default
+    );
+                                                                                                                                                             
+    -- Create the (default) content type template
+                                                                                                                                                             
+    template_id := content_template__new(
+      ''evaluation-grades-sheets-default'', -- name
+      ''@text;noquote@'',               -- text
+      true                      -- is_live
+    );
+                                                                                                                                                             
+    -- Register the template for the content type
+                                                                                                                                                             
+    perform content_type__register_template(
+      ''evaluation_grades_sheets'', -- content_type
+      template_id,                      -- template_id
+      ''public'',                       -- use_context
+      ''t''                             -- is_default
+    );
+                                                                                                                                                             
+    return null;
+end;' language 'plpgsql';                                                                                                                                   
+
 \i evaluation-calendar-create.sql
