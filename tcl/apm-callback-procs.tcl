@@ -48,7 +48,7 @@ content::type::new -content_type {evaluation_student_evals} -supertype {content_
 content::type::new -content_type {evaluation_grades_sheets} -supertype {content_revision} -pretty_name {Evaluation Grades Sheet} -pretty_plural {Evaluation Grades Sheets} -table_name {evaluation_grades_sheets} -id_column {grades_sheet_id}
 
 #Create the new and register template
-db_exec_plsql create_folders { select evaluation__create_folder() }
+db_exec_plsql create_template { select evaluation__create_template() }
 #set template_id [content::template::new -name {evaluation-tasks-default} -text {@text;noquote@} -is_live {true}]
 #content::type::register_template -content_type {evaluation_tasks} -template_id $template_id -use_context {public} -is_default {t}
 
@@ -118,16 +118,17 @@ ad_proc -public evaluation::apm_callback::package_uninstall {
 #Delete content type template
 set template_id [content::type::get_template -content_type {evaluation_tasks} -use_context {public}]
 content::type::unregister_template -content_type {evaluation_tasks} -template_id $template_id -use_context {public}
-content::template::delete -template_id $template_id
+#content::template::delete -template_id $template_id
 set template_id [content::type::get_template -content_type {evaluation_tasks_sols} -use_context {public}]
 content::type::unregister_template -content_type {evaluation_tasks_sols} -template_id $template_id -use_context {public}
-content::template::delete -template_id $template_id
+#content::template::delete -template_id $template_id
 set template_id [content::type::get_template -content_type {evaluation_answers} -use_context {public}]
 content::type::unregister_template -content_type {evaluation_answers} -template_id $template_id -use_context {public}
-content::template::delete -template_id $template_id
+#content::template::delete -template_id $template_id
 set template_id [content::type::get_template -content_type {evaluation_grades_sheets} -use_context {public}]
 content::type::unregister_template -content_type {evaluation_grades_sheets} -template_id $template_id -use_context {public}
-content::template::delete -template_id $template_id
+#content::template::delete -template_id $template_id
+db_exec_plsql delete_templates { select evaluation__delete_template() }
 #Delete content type attribute
 content::type::attribute::delete -content_type {evaluation_grades} -attribute_name {grade_item_id}
 content::type::attribute::delete -content_type {evaluation_grades} -attribute_name {grade_name} 
