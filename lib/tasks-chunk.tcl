@@ -182,7 +182,7 @@ if { $admin_p } {
 		}
 	    }
 	    if { $number_of_members > 1 && [string eq [db_string get_group_id { *SQL* }] 0] } {
-		set answer ""
+		set answer "[_ evaluation-portlet.No_group_for_task_]"
 		set answer_url ""
 	    }
 	}
