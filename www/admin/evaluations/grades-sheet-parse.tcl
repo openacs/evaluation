@@ -73,7 +73,7 @@ if { ![db_string file_exists { *SQL* }] } {
 	set evaluation [split $clean_line ","] 
 	
 	if { $line_number == 3 } {
-	    set max_grade [string trim [lindex $evaluation 1]] 
+	    set max_grade [string trim [template::util::leadingTrim [lindex $evaluation 1]]] 
 	    if { ![ad_var_type_check_number_p $max_grade] } {
 		ad_return_error "Invalid Max Grade" "Max Grade does not seem to be a real number. Please don't leave it blank."
 		return 
@@ -99,7 +99,7 @@ if { ![db_string file_exists { *SQL* }] } {
 	
 	set party_id [string trim [lindex $evaluation 0]] 
 	set party_name [db_string get_party_name { *SQL* }]
-	set grade [string trim [lindex $evaluation 2]] 
+	set grade [string trim [template::util::leadingTrim [lindex $evaluation 2]]] 
 	set comments [string trim [lindex $evaluation 3]]
 	
 	# removing the first and last " that comes from the csv format

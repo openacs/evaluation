@@ -38,6 +38,7 @@ ad_page_contract {
 	foreach party_id [array names grades_gs] {
 	    if { [info exists grades_gs($party_id)] && ![empty_string_p $grades_gs($party_id)] } {
 		incr counter
+		set grades_gs($party_id) [template::util::leadingTrim $grades_gs($party_id)]
 		if { ![ad_var_type_check_number_p $grades_gs($party_id)] } {
 		    set wrong_grade $grades_gs($party_id)
 		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
@@ -53,6 +54,7 @@ ad_page_contract {
 	foreach party_id [array names grades_wa] {
 	    if { [info exists grades_wa($party_id)] && ![empty_string_p $grades_wa($party_id)] } {
 		incr counter
+		set grades_wa($party_id) [template::util::leadingTrim $grades_wa($party_id)]
 		if { ![ad_var_type_check_number_p $grades_wa($party_id)] } {
 		    set wrong_grade $grades_wa($party_id)
 		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
@@ -68,6 +70,7 @@ ad_page_contract {
 	foreach party_id [array names grades_na] {
 	    if { [info exists grades_na($party_id)] && ![empty_string_p $grades_na($party_id)]} {
 		incr counter
+		set grades_na($party_id) [template::util::leadingTrim $grades_na($party_id)]
 		if { ![ad_var_type_check_number_p $grades_na($party_id)] } {
 		    set wrong_grade $grades_na($party_id)
 		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
@@ -83,6 +86,7 @@ ad_page_contract {
 	foreach party_id [array names grades_to_edit] {
 	    if { [info exists grades_to_edit($party_id)] && ![empty_string_p $grades_to_edit($party_id)] } {
 		incr counter
+		set grades_to_edit($party_id) [template::util::leadingTrim $grades_to_edit($party_id)]
 		if { ![ad_var_type_check_number_p $grades_to_edit($party_id)] } {
 		    set wrong_grade $grades_to_edit($party_id)
 		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
