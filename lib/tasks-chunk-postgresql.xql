@@ -12,7 +12,7 @@
 		et.late_submit_p, 
 		et.item_id,
 		et.requires_grade_p, et.description, et.grade_item_id,
-		cr.content_length,
+		coalesce(cr.content_length,0) as content_length,
 		et.data as task_data,
 		cr.title as task_title,
    		et.task_id as revision_id,
