@@ -65,7 +65,7 @@ create table evaluation_tasks (
 					check(late_submit_p in ('t','f'))	
 );
 
-create index evalutaion_tasks_gid_index on evaluation_tasks(grade_id);
+create index evalutaion_tasks_gid_index on evaluation_tasks(grade_item_id);
 
 select content_type__create_type (
 	'evaluation_tasks',			-- content_type
@@ -89,7 +89,7 @@ create table evaluation_tasks_sols (
 );
 
 -- create indexes
-create index evalutaion_tasks_sols_tid_index on evaluation_tasks_sols(task_id);
+create index evalutaion_tasks_sols_tid_index on evaluation_tasks_sols(task_item_id);
 
 select content_type__create_type (
 	'evaluation_tasks_sols',			-- content_type
@@ -116,10 +116,10 @@ create table evaluation_answers (
 				references parties(party_id),
 	task_item_id     integer
 				constraint evaluation_sans_tid_fk
-				references cr_items(tem_id)
+				references cr_items(item_id)
 );
 
-create index evaluation_answers_tid_index on evaluation_answers(party_id,task_id);
+create index evaluation_answers_tid_index on evaluation_answers(party_id,task_item_id);
 
 select content_type__create_type (
 	'evaluation_answers',			-- content_type
@@ -144,7 +144,7 @@ create table evaluation_student_evals (
 					constraint evaluation_stu_evals_tid_nn
 					not null
 					constraint evaluation_stu_evals_tid_fk
-					references evaluation_tasks(task_item_id),
+					references cr_items(task_item_id),
 	-- must have student_id or team_id
 	party_id		integer
 					constraint evaluation_stu_evals_pid_nn
@@ -159,7 +159,7 @@ create table evaluation_student_evals (
 					check (show_student_p in ('t','f'))
 );
 
-create index evaluation_student_evals_tid_index on evaluation_student_evals(task_id);
+create index evaluation_student_evals_tid_index on evaluation_student_evals(task_item_id);
 create index evaluation_student_evals_pid_index on evaluation_student_evals(party_id);
 
 select content_type__create_type (
@@ -181,11 +181,11 @@ create table evaluation_grades_sheets (
 						references cr_items(item_id),
 	task_item_id		integer
 				 		constraint evaluation_gsheets_t_id_fk
-				 		references evaluation_tasks(task_item_id)
+				 		references cr_items(task_item_id)
 );
 
 -- create indexes
-create index evalutaion_grades_sheets_tid_index on evaluation_grades_sheets(task_id);
+create index evalutaion_grades_sheets_tid_index on evaluation_grades_sheets(task_item_id);
 
 select content_type__create_type (
 	'evaluation_grades_sheets',			-- content_type
@@ -223,10 +223,10 @@ create table evaluation_task_groups (
 			  		constraint evaluation_task_groups_tid_nn
 		  			not null
 	  				constraint evaluation_task_groups_tid_fk
-		   			references evaluation_tasks(task_item_id)
+		   			references cr_items(task_item_id)
 );
 
-create index evaluation_task_groups_tid_index on evaluation_task_groups(task_id);
+create index evaluation_task_groups_tid_index on evaluation_task_groups(task_item_id);
 
 insert into group_types (group_type) values ('evaluation_task_groups');
 
