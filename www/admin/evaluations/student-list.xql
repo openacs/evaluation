@@ -2,30 +2,29 @@
 
 <queryset>
 
-<fullquery name="get_not_evaluated_na">      
-      <querytext>
-
- 		select count(*) from evaluation_task_groups where group_id not in ([join $done_students ","])
-	
-      </querytext>
-</fullquery>
-
 <partialquery name="not_in_clause">
 	  <querytext>         
 		and etg.group_id not in  ([join $done_students ","])
 	  </querytext>
 </partialquery>
 
-<fullquery name="count_not_eval_na">      
-      <querytext>
+<partialquery name="roles_table_query">
+	  <querytext>         
 
-		select count(*) from evaluation_task_groups etg, evaluation_tasks et
-		 where etg.task_item_id = et.task_item_id
-		and et.task_id = :task_id 
-		$not_in_clause
-	
-      </querytext>
-</fullquery>
+      dotlrn_member_rels_approved app,
+
+	  </querytext>
+</partialquery>
+
+<partialquery name="roles_clause_query">
+	  <querytext>         
+
+      and app.community_id = :community_id
+      and app.user_id = ev.party_id
+      and app.role='student'
+
+	  </querytext>
+</partialquery>
 
 <partialquery name="not_yet_in_clause_non_empty">
 	  <querytext>         
@@ -42,29 +41,6 @@
       
           </querytext>
 </partialquery>
-
-<fullquery name="get_not_evaluated_left">      
-      <querytext>
-
-		select count(*) from persons p 
-		$not_in_clause
-	
-      </querytext>
-</fullquery>
-
-<fullquery name="get_community_not_evaluated_left">      
-      <querytext>
-
-		select count(*) 
-		from persons p,
-                dotlrn_member_rels_approved app
-		$not_in_clause
-	        and app.community_id = :community_id
-	        and app.user_id = p.person_id
-	        and app.role = 'student'
-	
-      </querytext>
-</fullquery>
 
 <partialquery name="sql_query_individual">
 	  <querytext>         

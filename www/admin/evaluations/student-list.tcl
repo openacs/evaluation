@@ -42,6 +42,13 @@ set task_admin "<a href=[export_vars -base ../tasks/task-add-edit { task_id grad
 set done_students [list]
 set evaluation_mode "display"
 
+set roles_table ""
+set roles_clause ""
+if { ![empty_string_p $community_id] && $number_of_members == 1 } {
+    set roles_table [db_map roles_table_query]
+    set roles_clause [db_map roles_clause_query]
+}
+
 #
 # working with already evaluated parties
 #

@@ -6,36 +6,26 @@
 <fullquery name="evaluated_students">      
       <querytext>
 
-	select ese.party_id,
+	select ev.party_id,
 	case when et.number_of_members = 1 then 
-	(select last_name||', '||first_names from persons where person_id = ese.party_id)
+	(select last_name||', '||first_names from persons where person_id = ev.party_id)
 	else  
- 	(select group_name from groups where group_id = ese.party_id)
+ 	(select group_name from groups where group_id = ev.party_id)
 	end as party_name,
-	round(ese.grade,2) as grade,
-	ese.last_modified as evaluation_date,
+	round(ev.grade,2) as grade,
+	ev.last_modified as evaluation_date,
 	et.online_p,
 	et.due_date,
-	ese.evaluation_id
+	ev.evaluation_id
 	from evaluation_tasks et,
-	     evaluation_student_evalsi ese,
+	     evaluation_student_evalsi ev,
+	     $roles_table	
 	     cr_items cri
 	where et.task_id = :task_id
-	  and et.task_item_id = ese.task_item_id
-	  and cri.live_revision = ese.evaluation_id
+	  and et.task_item_id = ev.task_item_id
+	  $roles_clause
+	  and cri.live_revision = ev.evaluation_id
         $orderby       
-	
-      </querytext>
-</fullquery>
-
-<fullquery name="get_not_eval_wa">      
-      <querytext>
-
-	select count(party_id) 
-	from evaluation_answers ea, cri_items cri
-	where ea.task_item_id = :task_item_id 
-	$processed_clause 
-	and cri.live_revision = ea.answer_id
 	
       </querytext>
 </fullquery>
@@ -72,18 +62,6 @@
       </querytext>
 </fullquery>
 
-<fullquery name="count_evaluated_students">      
-      <querytext>
-
-		select count(*) 
-		from evaluation_student_evals ese, evaluation_tasks et, cr_items cri
-		where ese.task_item_id = et.task_item_id
-		and et.task_id = :task_id 
-		and cri.live_revision = ese.evaluation_id
-	
-      </querytext>
-</fullquery>
-
 <partialquery name="processed_clause">
 	  <querytext>         
 
@@ -95,26 +73,28 @@
 <fullquery name="get_not_evaluated_wa_students">      
       <querytext>
 
-	select ea.party_id,
+	select ev.party_id,
 	case when et.number_of_members = 1 then 
-	(select last_name||', '||first_names from persons where person_id = ea.party_id)
+	(select last_name||', '||first_names from persons where person_id = ev.party_id)
 	else  
- 	(select group_name from groups where group_id = ea.party_id)
+ 	(select group_name from groups where group_id = ev.party_id)
 	end as party_name,
-        ea.party_id,
-	ea.data as answer_data,
-	ea.title as answer_title,
-	ea.revision_id,
-	to_char(ea.last_modified, 'YYYY-MM-DD HH24:MI:SS') as submission_date_ansi,
+        ev.party_id,
+	ev.data as answer_data,
+	ev.title as answer_title,
+	ev.revision_id,
+	to_char(ev.last_modified, 'YYYY-MM-DD HH24:MI:SS') as submission_date_ansi,
 	et.due_date,
-	ea.last_modified as submission_date
-	from evaluation_answersi ea, 
+	ev.last_modified as submission_date
+	from evaluation_answersi ev, 
 	     evaluation_tasks et,
+	     $roles_table	
 	     cr_items cri
-	where ea.task_item_id = et.task_item_id
+	where ev.task_item_id = et.task_item_id
           and et.task_id = :task_id
-          and ea.data is not null
-          and cri.live_revision = ea.answer_id
+          and ev.data is not null
+	  $roles_clause
+          and cri.live_revision = ev.answer_id
         $processed_clause
 	$orderby_wa
 
