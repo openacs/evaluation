@@ -44,7 +44,7 @@
 <fullquery name="set_date">      
       <querytext>
 
-		select [template::util::date::get_property sql_date $due_date] from dual
+		select to_timestamp('[template::util::date::get_property linear_date $due_date]','YYYY MM DD HH24 MI SS') from dual
 	
       </querytext>
 </fullquery>
