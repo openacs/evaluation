@@ -329,8 +329,8 @@ ad_form -extend -name task -form {
 	}
 	
 	set title [evaluation::safe_url_name -name $title]
+	set cal_due_date [calendar::to_sql_datetime -date $due_date -time $due_date -time_p 1]
 	set due_date [db_string set_date { *SQL* }]
-	
 	if { [ad_form_new_p -key task_id] } {
 	    set item_id $task_id
 	} 
@@ -387,7 +387,7 @@ ad_form -extend -name task -form {
 
 	if { ![db_0or1row calendar_mappings { *SQL* }] } {
 	    # create cal_item
-	    set cal_item_id [calendar::item::new -start_date $due_date -end_date $due_date -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id]
+	    set cal_item_id [calendar::item::new -start_date $cal_due_date -end_date $cal_due_date -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id]
 	    db_dml insert_cal_mapping { *SQL* }
 	} else {
 	    # edit previous cal_item
