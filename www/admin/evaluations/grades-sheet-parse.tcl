@@ -100,6 +100,9 @@ if { ![db_string file_exists { *SQL* }] } {
 	set party_id [string trim [lindex $evaluation 0]] 
 	set party_name [db_string get_party_name { *SQL* }]
 	set grade [string trim [template::util::leadingTrim [lindex $evaluation 2]]] 
+	# removing any " at the end or at the beginning of the grade that might come from the cvs file
+	regsub  ^\" $grade "" grade
+	regsub  \"\$ $grade "" grade
 	set comments [string trim [lindex $evaluation 3]]
 	
 	# removing the first and last " that comes from the csv format
