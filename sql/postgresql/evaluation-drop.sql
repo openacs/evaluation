@@ -1,5 +1,7 @@
 -- jopez@galileo.edu
+
 \i evaluation-calendar-drop.sql
+
 create function inline_0 ()
 returns integer as'
 declare
@@ -92,22 +94,6 @@ drop view evaluation_gradesi;
 drop view evaluation_gradesx;
 drop table evaluation_grades;
 
----------------------------------------
--- GRADES
----------------------------------------
-
-drop function grade__name(integer);
-
----------------------------------------
--- TASKS
----------------------------------------
-
-drop function task__name(integer);
-
-drop function evaluation__new_evaluation_task_group(integer,varchar,varchar,timestamptz,integer,varchar,integer,integer);
-
-drop function evaluation__delete_evaluation_task_group(integer);
-
 delete from acs_rels where rel_type = 'evaluation_task_group_rel';
 
 drop table evaluation_user_profile_rels;
@@ -116,24 +102,4 @@ select acs_rel_type__drop_type('evaluation_task_group_rel','t');
 
 select acs_object_type__drop_type('evaluation_task_group_rel','f');
 
----------------------------------------
--- GRADE FUNCIONS
----------------------------------------
-
-drop function evaluation__task_grade (integer, integer);
-
-drop function evaluation__grade_total_grade (integer, integer);
-
-drop function evaluation__class_total_grade (integer, integer);
-
----------------------------------------
--- OTHER FUNCIONS
----------------------------------------
-
-drop function evaluation__party_name (integer,integer);
-
-drop function evaluation__party_id (integer,integer);
-
-drop function evaluation__delete_contents (integer);
-
-
+\i evaluation-package-drop.sql

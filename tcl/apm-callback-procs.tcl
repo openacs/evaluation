@@ -48,7 +48,7 @@ ad_proc -public evaluation::apm_callback::package_install {
 	content::type::new -content_type evaluation_student_evals -supertype content_revision -pretty_name "Student Evaluation" -pretty_plural "Student Evaluations" -table_name evaluation_student_evals -id_column evaluation_id
 	content::type::new -content_type evaluation_grades_sheets -supertype content_revision -pretty_name "Evaluation Grades Sheet" -pretty_plural "Evaluation Grades Sheets" -table_name evaluation_grades_sheets -id_column grades_sheet_id
 
-	#Create and register the templates
+	#Create and register templates
 	set template_id [content::template::new -name evaluation-tasks-default -text "@text;noquote@" -is_live t]
 	content::type::register_template -content_type evaluation_tasks -template_id $template_id -use_context public -is_default t
 	set template_id [content::template::new -name evaluation-tasks-sols-default -text "@text;noquote@" -is_live t]

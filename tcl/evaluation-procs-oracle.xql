@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 
 <queryset>
-   <rdbms><type>postgresql</type><version>7.3</version></rdbms>
+  <rdbms><type>oracle</type><version>8.1.6</version></rdbms>
 
 <fullquery name="evaluation::set_live.content_set_live_revision">      
       <querytext>
-
-		select content_item__set_live_revision (
-		:revision_id			
-		);
-	
+	begin
+	     select content_item.set_live_revision (
+	     revision_id => :revision_id			
+	     );
+	end;	
       </querytext>
 </fullquery>
 
 <fullquery name="evaluation::new_evaluation_group.evaluation_group_new">      
       <querytext>
-
+	 begin
 		select evaluation__new_evaluation_task_group (
 													  :group_id,
 													  :group_name,
@@ -26,34 +26,31 @@
 													  :context,
 													  :task_item_id
 													  );
-
+	 end;
       </querytext>
 </fullquery>
 
 <fullquery name="evaluation::evaluation_group_name.evaluation_group_name">      
       <querytext>
-
-		select acs_group__name(:group_id) as group_name
-
+	 begin
+		select acs_group.name(:group_id) as group_name;
+	 end;
       </querytext>
 </fullquery>
 
 <partialquery name="evaluation::generate_grades_sheet.sql_query_individual">      
       <querytext>
-
 	select cu.person_id as party_id, cu.last_name||' - '||cu.first_names as party_name,  
                round(ese.grade,2) as grade,
                ese.description as comments
          from cc_users cu left outer join evaluation_student_evalsi ese on (ese.party_id = cu.person_id
                                                                             and ese.task_item_id = :task_item_id
-                                                                            and content_revision__is_live(ese.evaluation_id) = true)
-	
+                                                                            and content_revision.is_live(ese.evaluation_id) = 't')
       </querytext>
 </partialquery>
 
 <partialquery name="evaluation::generate_grades_sheet.sql_qyery_comm_ind">      
       <querytext>
-
 	select p.person_id as party_id, p.last_name||' - '||p.first_names as party_name,  
                ese.grade,
                ese.description as comments
@@ -61,18 +58,16 @@
 	      dotlrn_member_rels_approved app,
 	      persons p left outer join evaluation_student_evalsi ese on (ese.party_id = p.person_id
                                                                             and ese.task_item_id = :task_item_id
-                                                                            and content_revision__is_live(ese.evaluation_id) = true)
+                                                                            and content_revision.is_live(ese.evaluation_id) = 't')
 	 where app.community_id = :community_id 
                 and app.user_id = ru.user_id 
                 and app.user_id = p.person_id 
                 and app.role = 'student'
-		
       </querytext>
 </partialquery>
 
 <partialquery name="evaluation::generate_grades_sheet.sql_query_groups">      
       <querytext>
-
 	select etg.group_id as party_id, 
 		g.group_name as party_name,  
                 grade,
@@ -80,29 +75,25 @@
          from groups g,
               evaluation_task_groups etg left outer join evaluation_student_evalsi ese on (ese.party_id = etg.group_id
                                                                                            and ese.task_item_id = :task_item_id
-                                                                                          and content_revision__is_live(ese.evaluation_id) = true)
+                                                                                          and content_revision.is_live(ese.evaluation_id) = 't')
          where etg.task_item_id = :task_item_id
                and etg.group_id = g.group_id
-	
       </querytext>
 </partialquery>
 
 <fullquery name="evaluation::notification::do_notification.get_eval_info">      
       <querytext>
-
 	select description as edit_reason, 
 	grade as current_grade,
-	evaluation__party_name(party_id,:task_id) as party_name
+	evaluation.party_name(party_id,:task_id) as party_name
 	from evaluation_student_evalsi
 	where evaluation_id = :evaluation_id
-	
       </querytext>
 </fullquery>
 
 <fullquery name="evaluation::public_answers_to_file_system.get_answers_for_task">      
       <querytext>
-
-	select evaluation__party_name(ea.party_id, et.task_id) as party_name,
+	select evaluation.party_name(ea.party_id, et.task_id) as party_name,
 	crr.title as answer_title,
 	crr.revision_id,
 	crr.content as cr_file_name,
@@ -120,63 +111,48 @@
 	and ea.data is not null
 	and cri2.live_revision = ea.answer_id
 	and not exists (select 1 from evaluation_student_evals ese, cr_items cri3 where ese.party_id = ea.party_id and ese.task_item_id = et.task_item_id and cri3.live_revision = ese.evaluation_id)
-
       </querytext>
 </fullquery>
 
 <fullquery name="evaluation::public_answers_to_file_system.url">      
       <querytext>
-
-	select content_revision__get_content(:revision_id) 
-
+	select content_revision.get_content(:revision_id) 
       </querytext>
 </fullquery>
 
 <fullquery name="evaluation::new_grade.get_date">
       <querytext>
-  
-        select now()
-
+        select sysdate from dual
       </querytext>
 </fullquery>
 
 <fullquery name="evaluation::new_evaluation.get_date">
       <querytext>
-
-        select now()
-
+        select sysdate from dual
       </querytext>
 </fullquery>
 
 <fullquery name="evaluation::new_evaluation_group.get_date">
       <querytext>
-
-        select now()
-
+        select sysdate from dual
       </querytext>
 </fullquery>
 
 <fullquery name="evaluation::new_answer.get_date">
       <querytext>
-
-        select now()
-
+        select sysdate from dual
       </querytext>
 </fullquery>
 
 <fullquery name="evaluation::new_grades_sheet.get_date">
       <querytext>
-
-        select now()
-
+        select sysdate from dual
       </querytext>
 </fullquery>
 
 <fullquery name="evaluation::new_solution.get_date">
       <querytext>
-
-        select now()
-
+        select sysdate from dual
       </querytext>
 </fullquery>
  

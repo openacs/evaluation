@@ -301,6 +301,8 @@ ad_proc -public evaluation::clone_task {
     -from_task_id:required
     -to_grade_item_id:required
     -to_package_id:required
+    {-creation_user ""}
+    {-creation_ip ""}
 } {
     Cone a task
 
@@ -311,16 +313,44 @@ ad_proc -public evaluation::clone_task {
 
     db_1row from_task_info { *SQL* }
 
-    set creation_user [ad_conn user_id]
-    set creation_ip [ad_conn peeraddr]
+    if { [empty_string_p $creation_user] } {
+	set creation_user [ad_conn user_id]
+    }
+    if { [empty_string_p $creation_ip] } {
+	set creation_ip [ad_conn peeraddr]
+    }
 
     set item_name "${item_id}_${title}"
 
     set revision_id [db_nextval acs_object_id_seq]
 
-    db_exec_plsql content_item_new { *SQL* }
-
-    db_exec_plsql content_revision_new { *SQL* }
+    set item_id [content::item::new -item_id $item_id \
+		     -parent_id $folder_id \
+		     -content_type evaluation_tasks \
+		     -creation_user $creation_user \
+		     -name $item_name \
+		     -context_id $to_package_id \
+		     -creation_ip $creation_ip \
+		     -mime_type $mime_type \
+		     -storage_type $storage_type]
+    
+    set revision_id [content::revision::new \
+			 -item_id $item_id \
+			 -content_type evaluation_tasks \
+			 -mime_type $mime_type \
+			 -title $title \
+			 -description $description \
+			 -creation_user $creation_user  \
+			 -creation_ip $creation_ip \
+			 -attributes [list [list weight $weight] \
+					  [list task_name $task_name] \
+					  [list task_item_id  $item_id] \
+					  [list online_p $online_p] \
+					  [list grade_item_id $to_grade_item_id] \
+					  [list due_date $due_date] \
+					  [list late_submit_p $late_submit_p] \
+					  [list requires_grade_p $requires_grade_p] \
+					  [list number_of_members $number_of_members]]]
 
     db_dml clone_content { *SQL* }
     return $revision_id
@@ -337,6 +367,8 @@ ad_proc -public evaluation::new_task {
     -number_of_members:required
     -requires_grade_p:required
     -storage_type:required
+    {-creation_user ""}
+    {-creation_ip ""}
     {-estimated_time 0}
     {-online_p ""}
     {-due_date ""}
@@ -364,15 +396,19 @@ ad_proc -public evaluation::new_task {
     @description Description of the task
     @storage_type File or text, depending on what are we going to store
 } {
+    if { [empty_string_p $creation_user] } {
+	set creation_user [ad_conn user_id]
+    }
+    if { [empty_string_p $creation_ip] } {
+	set creation_ip [ad_conn peeraddr]
+    }
+
     set package_id [ad_conn package_id]
-    set creation_user [ad_conn user_id]
-    set creation_ip [ad_conn peeraddr]
-    set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
-    set creation_date [db_string get_date { *SQL* }]
+    set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index f]
     if { [empty_string_p $item_name] } {
 	set item_name "${item_id}_${title}"
     }
-    #Falta agregarle el title
+
     if { $new_item_p } {
 
 	set item_id [content::item::new -item_id $item_id \
@@ -381,7 +417,6 @@ ad_proc -public evaluation::new_task {
 			 -name $item_name \
 			 -context_id $package_id \
 			 -mime_type $mime_type \
-			 -creation_date $creation_date \
 			 -storage_type $storage_type]
     }
 
@@ -391,7 +426,6 @@ ad_proc -public evaluation::new_task {
 			 -mime_type $mime_type \
 			 -title $title \
 			 -description $description \
-			 -creation_date $creation_date \
 			 -attributes [list [list weight $weight] \
 					  [list task_name $name] \
 					  [list task_item_id  $item_id] \
@@ -417,6 +451,8 @@ ad_proc -public evaluation::new_solution {
     -task_item_id:required
     -storage_type:required
     -title:required
+    {-creation_user ""}
+    {-creation_ip ""}
     {-mime_type "text/plain"}
     {-publish_date ""}
     {-creation_date ""}
@@ -436,10 +472,15 @@ ad_proc -public evaluation::new_solution {
 
 } {
 
+    if { [empty_string_p $creation_user] } {
+	set creation_user [ad_conn user_id]
+    }
+    if { [empty_string_p $creation_ip] } {
+	set creation_ip [ad_conn peeraddr]
+    }
+
     set package_id [ad_conn package_id]
-    set creation_user [ad_conn user_id]
-    set creation_ip [ad_conn peeraddr]
-    set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
+    set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index f]
     set item_name "${item_id}_${title}"
 
     set revision_id [db_nextval acs_object_id_seq]
@@ -451,14 +492,27 @@ ad_proc -public evaluation::new_solution {
     if { [empty_string_p $creation_date] } {
 	set creation_date [db_string get_date { *SQL* }]
     }
+
     if { $new_item_p } {
-        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -storage_type $storage_type -title $title -creation_date $creation_date]
+        set item_id [content::item::new -item_id $item_id \
+			 -parent_id $folder_id \
+			 -content_type $content_type \
+			 -name $item_name \
+			 -context_id $package_id \
+			 -mime_type $mime_type \
+			 -storage_type $storage_type \
+			 -creation_user $creation_user \
+			 -creation_ip $creation_ip \
+			 -creation_date $creation_date]
     }
+
     set revision_id [content::revision::new \
 			 -item_id $item_id \
 			 -content_type $content_type \
 			 -mime_type $mime_type \
 			 -title $title \
+			 -creation_user $creation_user \
+			 -creation_ip $creation_ip \
 			 -creation_date $creation_date \
 			 -attributes [list [list task_item_id  $task_item_id] \
 					  [list solution_item_id $item_id]] ]
@@ -479,6 +533,8 @@ ad_proc -public evaluation::new_answer {
     -storage_type:required
     -title:required
     -party_id:required
+    {-creation_user ""}
+    {-creation_ip ""}
     {-mime_type "text/plain"}
     {-publish_date ""}
     {-creation_date ""}
@@ -498,11 +554,15 @@ ad_proc -public evaluation::new_answer {
     @param party_id Group or user_id thaw owns the anser
 } {
 
+    if { [empty_string_p $creation_user] } {
+	set creation_user [ad_conn user_id]
+    }
+    if { [empty_string_p $creation_ip] } {
+	set creation_ip [ad_conn peeraddr]
+    }
+
     set package_id [ad_conn package_id]
-    set creation_user [ad_conn user_id]
-    set creation_ip [ad_conn peeraddr]
-    set creation_date [db_string get_date { *SQL* }]
-    set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
+    set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index f]
     set item_name "${item_id}_${title}"
 
     set revision_id [db_nextval acs_object_id_seq]
@@ -522,6 +582,8 @@ ad_proc -public evaluation::new_answer {
 			 -name $item_name \
 			 -context_id $package_id \
 			 -mime_type $mime_type \
+			 -creation_user $creation_user \
+			 -creation_ip $creation_ip \
 			 -storage_type $storage_type \
 			 -creation_date $creation_date]
     }
@@ -530,13 +592,13 @@ ad_proc -public evaluation::new_answer {
 			 -content_type $content_type \
 			 -mime_type $mime_type \
 			 -title $title\
+			 -creation_user $creation_user \
+			 -creation_ip $creation_ip \
 			 -creation_date $creation_date \
 			 -attributes [list [list answer_item_id  $item_id] \
 					  [list party_id $party_id] \
 					  [list task_item_id $task_item_id]] ]
 
-
-    
     # in order to find the file we have to set the name in cr_items the same that in cr_revisions
     db_dml update_item_name { *SQL* }
     return $revision_id
@@ -551,6 +613,8 @@ ad_proc -public evaluation::new_evaluation {
     -party_id:required
     -task_item_id:required
     -grade:required
+    {-creation_user ""}
+    {-creation_ip ""}
     {-title "evaluation"}
     {-show_student_p "t"}
     {-storage_type "text"}
@@ -577,10 +641,14 @@ ad_proc -public evaluation::new_evaluation {
     @param mime_type Mime type of the evaluation.
 } {
 
+    if { [empty_string_p $creation_user] } {
+	set creation_user [ad_conn user_id]
+    }
+    if { [empty_string_p $creation_ip] } {
+	set creation_ip [ad_conn peeraddr]
+    }
+
     set package_id [ad_conn package_id]
-    set creation_user [ad_conn user_id]
-    set creation_date [db_string get_date { *SQL* }]
-    set creation_ip [ad_conn peeraddr]
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
     set item_name "${item_id}_${title}"
 
@@ -595,13 +663,24 @@ ad_proc -public evaluation::new_evaluation {
     }
 
     if { $new_item_p } {
-        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -storage_type $storage_type -creation_date $creation_date]
+        set item_id [content::item::new -item_id $item_id \
+			 -parent_id $folder_id \
+			 -content_type $content_type \
+			 -name $item_name \
+			 -context_id $package_id \
+			 -mime_type $mime_type \
+			 -storage_type $storage_type \
+			 -creation_user $creation_user \
+			 -creation_ip $creation_ip \
+			 -creation_date $creation_date]
     }   
     set revision_id [content::revision::new \
 			 -item_id $item_id \
 			 -content_type $content_type \
 			 -mime_type $mime_type \
 			 -title $title\
+			 -creation_user $creation_user \
+			 -creation_ip $creation_ip \
 			 -creation_date $creation_date \
 			 -attributes [list [list evaluation_item_id  $item_id] \
 					  [list party_id $party_id] \
@@ -610,10 +689,13 @@ ad_proc -public evaluation::new_evaluation {
 					  [list task_item_id $task_item_id]]]
 
 } 
+
 ad_proc -public evaluation::new_evaluation_group {
     -group_id:required
     -group_name:required
     -task_item_id:required
+    {-creation_user ""}
+    {-creation_ip ""}
     {-context ""}
     {-creation_date ""}
 } {
@@ -630,11 +712,15 @@ ad_proc -public evaluation::new_evaluation_group {
 
 } {
 
+    if { [empty_string_p $creation_user] } {
+	set creation_user [ad_conn user_id]
+    }
+    if { [empty_string_p $creation_ip] } {
+	set creation_ip [ad_conn peeraddr]
+    }
     if { [empty_string_p $context] } {
 	set context [ad_conn package_id]
     }
-    set creation_user [ad_conn user_id]
-    set creation_ip [ad_conn peeraddr]
 
     if { [empty_string_p $creation_date] } {
 	set creation_date [db_string get_date { *SQL* }]
@@ -667,6 +753,8 @@ ad_proc -public evaluation::new_grades_sheet {
     -storage_type:required
     -title:required
     -mime_type:required
+    {-creation_user ""}
+    {-creation_ip ""}
     {-creation_date ""}
     {-publish_date ""}
 } {
@@ -686,10 +774,14 @@ ad_proc -public evaluation::new_grades_sheet {
 
 } {
 
+    if { [empty_string_p $creation_user] } {
+	set creation_user [ad_conn user_id]
+    }
+    if { [empty_string_p $creation_ip] } {
+	set creation_ip [ad_conn peeraddr]
+    }
     set package_id [ad_conn package_id]
-    set creation_user [ad_conn user_id]
-    set creation_ip [ad_conn peeraddr]
-    set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
+    set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index f]
     set item_name "${item_id}_${title}"
 
     set revision_id [db_nextval acs_object_id_seq]
@@ -703,7 +795,15 @@ ad_proc -public evaluation::new_grades_sheet {
     }
 
     if { $new_item_p } {
-        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -title $title -storage_type $storage_type]
+        set item_id [content::item::new -item_id $item_id \
+			 -parent_id $folder_id \
+			 -content_type $content_type \
+			 -name $item_name \
+			 -context_id $package_id \
+			 -mime_type $mime_type \
+			 -creation_user $creation_user \
+			 -creation_ip $creation_ip \
+			 -storage_type $storage_type]
 
     }   
     set revision_id [content::revision::new \
@@ -711,6 +811,8 @@ ad_proc -public evaluation::new_grades_sheet {
 			 -content_type $content_type \
 			 -title $title \
 			 -mime_type $mime_type \
+			 -creation_user $creation_user \
+			 -creation_ip $creation_ip \
 			 -attributes [list [list grades_sheet_item_id  $item_id] \
 					  [list task_item_id $task_item_id]] ]
     return $revision_id

@@ -1,7 +1,7 @@
 -- jopez@galileo.edu
 -- cesarhj@galileo.edu
 
-@evaluation-calendar-drop.sql
+@ evaluation-calendar-drop.sql
 
 --create function inline_0 ()
 --returns integer as'
@@ -46,17 +46,7 @@ delete from group_types where group_type = 'evaluation_task_groups';
 
 begin
 acs_object_type.drop_type('evaluation_task_group');
-end;
-/
-show errors
-
-begin
 acs_rel_type.drop_type('evaluation_task_group_rel');
-end;
-/
-show errors
-
-begin
 acs_object_type.drop_type('evaluation_grades');
 acs_object_type.drop_type('evaluation_tasks');
 acs_object_type.drop_type('evaluation_tasks_sols');
@@ -66,8 +56,7 @@ acs_object_type.drop_type('evaluation_student_evals');
 acs_object_type.drop_type('evaluation_task_groups');
 end;
 /
-show errors                                                                                                                        
-
+show errors;                                                                                                                       
 drop index ev_tasks_sols_tid_index;
 drop view evaluation_tasks_solsi;
 drop view evaluation_tasks_solsx;
@@ -113,9 +102,6 @@ drop table evaluation_grades;
 
 
 -- Originalmente drop function grade__name(integer);
-drop package body evaluation;
-drop package evaluation;
-
 
 ---------------------------------------
 -- TASKS
@@ -184,14 +170,16 @@ begin
 delete from acs_rels where rel_type = 'evaluation_task_group_rel';
 end;
 /
-show error
+show errors;
+
 drop table evaluation_user_profile_rels;
+
 begin
 acs_rel_type.drop_type('evaluation_task_group_rel');
 acs_object_type.drop_type('evaluation_task_group_rel');
 end;
 /
-show error
+show errors;
 
 ---------------------------------------
 -- GRADE FUNCIONS
@@ -228,4 +216,5 @@ show error
 -- Usa Funciones CR
 --drop function evaluation__delete_all_folders_and_contents ();
 
+@ evaluation-package-drop.sql
 
