@@ -37,7 +37,7 @@
 	    select ea.data as answer_data,
 	    ea.title as answer_title,
 	    ea.revision_id,
-	    to_char(ea.last_modified, 'YYYY-MM-DD HH24:MI:SS') as submission_date_ansi,
+	    to_char(ea.creation_date, 'YYYY-MM-DD HH24:MI:SS') as submission_date_ansi,
 	    ea.last_modified as submission_date
 	    from evaluation_answersi ea 
             where ea.party_id = :party_id 
