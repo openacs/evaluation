@@ -10,14 +10,4 @@
  	and crr.revision_id = :revision_id
       </querytext>
 </fullquery>
-
-<fullquery name="get_folder_id">      
-      <querytext>
-	select crf.folder_id 
-	from cr_folders crf
-	where crf.label = :content_type||'_'||:package_id
-      </querytext>
-</fullquery>
-
- 
 </queryset>
