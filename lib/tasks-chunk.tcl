@@ -96,6 +96,7 @@ if { $admin_p } {
     db_multirow -extend { solution_url due_date_pretty solution solution_mode task_url groups_admin groups_admin_url } tasks_admin get_tasks_admin { *SQL* } {
 
 	set due_date_pretty [lc_time_fmt $due_date_ansi "%q %r"]
+
 	# working with task stuff (if it has a file/url attached)
 	if { [empty_string_p $task_data] } {
 	    set task_url "[export_vars -base "${base_url}task-view" { grade_id task_id return_url }]"
@@ -117,7 +118,7 @@ if { $admin_p } {
 	    set task_name "$task_name ([format %.0f [lc_numeric [expr ($content_length/1024)]]] Kb)"
 	}
 
-	if { ![empty_string_p $solution_id] } { 
+	if { [db_0or1row solution_info { *SQL* }] } { 
 	    set solution_mode display
 	    set solution_url "[export_vars -base "${base_url}admin/tasks/solution-add-edit" { grade_id task_id solution_id return_url solution_mode }]"
 	    set solution "[_ evaluation-portlet.ViewEdit_Solution_]"
@@ -161,7 +162,7 @@ if { $admin_p } {
 
 	if { [string eq $online_p "t"] } {
 	    if { [db_string compare_due_date { *SQL* } -default 0] } {
-		if { [empty_string_p $answer_id] } {
+		if { ![db_0or1row answer_info { *SQL* }] } {
 		    set answer "[_ evaluation-portlet.submit_answer_]"
 		    set answer_mode edit
 		    set answer_url "[export_vars -base "${base_url}answer-add-edit" { grade_id task_id return_url answer_mode }]"
@@ -171,7 +172,7 @@ if { $admin_p } {
 		    set answer_url "[export_vars -base "${base_url}answer-add-edit" { grade_id task_id answer_id return_url answer_mode }]"
 		}
 	    } elseif { [string eq $late_submit_p "t"] } {
-		if { [empty_string_p $answer_id] } {
+		if { ![db_0or1row answer_info { *SQL* }] } {
 		    set answer "[_ evaluation-portlet.lt_submit_answer_style_f]"
 		    set answer_mode edit
 		    set answer_url "[export_vars -base "${base_url}answer-add-edit" { grade_id task_id return_url answer_mode }]"
@@ -189,3 +190,4 @@ if { $admin_p } {
 	
     } 
 }
+

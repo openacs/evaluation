@@ -89,55 +89,65 @@ if { $admin_p } {
     }
 } else {
 
-    db_multirow -extend { comments comments_url answer answer_url } grade_tasks get_grade_tasks { *SQL* } {
+    db_multirow -extend { comments comments_url answer answer_url grade } grade_tasks get_grade_tasks { *SQL* } {
 	
-	if { ![empty_string_p $comments] } {
-	    set comments "[_ evaluation-portlet.View_comments_]"
-	    set comments_url evaluation_view
-	}
-	
-	set over_weight ""
-	if { ![empty_string_p $show_student_p] && $show_student_p } {
+	if { [db_0or1row get_evaluaiton_info { *SQL* }] } {
 	    
-	    if { ![empty_string_p $grade] } {
-		set grade [format %.2f [lc_numeric $grade]]
-		set over_weight "[format %.2f [lc_numeric $task_grade]]/"
-		set total_grade [expr $total_grade + $task_grade] 
-	    } else {
-		set grade "[_ evaluation-portlet.Not_evaluated_]"
+	    if { ![empty_string_p $comments] } {
+		set comments "[_ evaluation-portlet.View_comments_]"
+		set comments_url evaluation_view
 	    }
 	    
-	    set max_grade [expr $task_weight + $max_grade] 
-	    set task_weight "${over_weight}[format %.2f [lc_numeric $task_weight]]"
+	    set over_weight ""
+	    if { ![empty_string_p $show_student_p] && $show_student_p } {
 	    
+		if { ![empty_string_p $grade] } {
+		    set grade [format %.2f [lc_numeric $grade]]
+		    set over_weight "[format %.2f [lc_numeric $task_grade]]/"
+		    set total_grade [expr $total_grade + $task_grade] 
+		} else {
+		    set grade "[_ evaluation-portlet.Not_evaluated_]"
+		}
+		
+		set max_grade [expr $task_weight + $max_grade] 
+		set task_weight "${over_weight}[format %.2f [lc_numeric $task_weight]]"
+		
+	    } else {
+		set grade "[_ evaluation-portlet.Not_available_]"
+		set task_weight "[_ evaluation-portlet.Not_available_]"
+	    }
 	} else {
+	    set grade "[_ evaluation-portlet.Not_evaluated_]"
 	    set grade "[_ evaluation-portlet.Not_available_]"
 	    set task_weight "[_ evaluation-portlet.Not_available_]"
 	}
 	
-	# working with answer stuff (if it has a file/url attached)
-	if { [empty_string_p $answer_data] } {
-	    set answer_url ""
-	    set answer ""
-	} elseif { [string eq $answer_title "link"] } {
-	    # there is a bug in the template::list, if the url does not has a http://, ftp://, the url is not absolute,
-	    # so we have to deal with this case
-	    array set community_info [site_node::get -url "[dotlrn_community::get_community_url [dotlrn_community::get_community_id]][evaluation::package_key]"]
-	    if { ![regexp ([join [split [parameter::get -parameter urlProtocols -package_id $community_info(package_id)] ","] "|"]) "$answer_data"] } {
-		set answer_data "http://$answer_data"
-	    } 
-	    set answer_url "[export_vars -base "$answer_data" { }]"
-	    set answer "[_ evaluation-portlet.View_my_answer_]"
+
+	if { [db_0or1row get_answer_info { *SQL* }] } {
+	    # working with answer stuff (if it has a file/url attached)
+	    if { [string eq $answer_title "link"] } {
+		# there is a bug in the template::list, if the url does not has a http://, ftp://, the url is not absolute,
+		# so we have to deal with this case
+		array set community_info [site_node::get -url "[dotlrn_community::get_community_url [dotlrn_community::get_community_id]][evaluation::package_key]"]
+		if { ![regexp ([join [split [parameter::get -parameter urlProtocols -package_id $community_info(package_id)] ","] "|"]) "$answer_data"] } {
+		    set answer_data "http://$answer_data"
+		} 
+		set answer_url "[export_vars -base "$answer_data" { }]"
+		set answer "[_ evaluation-portlet.View_my_answer_]"
+	    } else {
+		# we assume it's a file
+		set answer_url "[export_vars -base "${base_url}view/$answer_title" { {revision_id $answer_id} }]"
+		set answer "[_ evaluation-portlet.View_my_answer_]"
+	    }
+	    
+	    if { $number_of_members > 1 && [string eq [db_string get_group_id { *SQL* }] 0] } {
+		set answer ""
+		set answer_url ""
+		set grade "[_ evaluation-portlet.No_group_for_task_]"
+	    }
 	} else {
-	    # we assume it's a file
-	    set answer_url "[export_vars -base "${base_url}view/$answer_title" { {revision_id $answer_id} }]"
-	    set answer "[_ evaluation-portlet.View_my_answer_]"
-	}
-	
-	if { $number_of_members > 1 && [string eq [db_string get_group_id { *SQL* }] 0] } {
-	    set answer ""
 	    set answer_url ""
-	    set grade "[_ evaluation-portlet.No_group_for_task_]"
+	    set answer ""
 	}
 	
     } 
