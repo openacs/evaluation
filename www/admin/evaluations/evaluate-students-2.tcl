@@ -163,11 +163,12 @@ if { ![empty_string_p $tmp_filename] } {
 			     -title $title -mime_type $mime_type]
 	
 	evaluation::set_live -revision_id $revision_id
+	set content_length [file size $tmp_filename]
 
 	if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
 	    # create the new item
 	    
-	    set filename [cr_create_content_file $item_id $revision_id $tmp_file]
+	    set filename [cr_create_content_file $grades_sheet_item_id $revision_id $tmp_filename]
 	    db_dml set_file_content { *SQL* }
 	    
 	} else {
@@ -175,7 +176,6 @@ if { ![empty_string_p $tmp_filename] } {
 	    # create the new item
 	    db_dml lob_content { *SQL* } -blob_files [list $tmp_filename]
 	    
-	    set content_length [file size $tmp_filename]
 	    # Unfortunately, we can only calculate the file size after the lob is uploaded 
 	    db_dml lob_size { *SQL* }
 	}
