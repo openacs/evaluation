@@ -520,7 +520,7 @@ ad_proc -public evaluation::new_answer {
 			 -mime_type $mime_type \
 			 -storage_type $storage_type \
 			 -creation_date $creation_date]
-
+    }
     set revision_id [content::revision::new \
                                   -item_id $item_id \
                                   -content_type $content_type \
