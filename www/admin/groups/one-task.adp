@@ -2,11 +2,11 @@
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 
-<p>In this page you can administer the groups for the assignment.</p>
+<p>#evaluation.lt_In_this_page_you_can_#</p>
 <ul>
-<li>First, you will see the list of students without group (if there are students without group) and you can create a group by selecting the members of the group and then clicking on the "Create Group" botton.</li>
-<li>You can also add a student to an existing group by clicking on the "Associate to group..." link. Here you will be asked to select the group to wich you want to add the user.</li>
-<li>Also, you will see the list of already created groups (if there are any created groups). Click on the "Group administration" link in order to administer the group. In this administration pages you will be able to unassociate members of a given group, rename the group and/or delete the group.</li>
+<li>#evaluation.lt_First_you_will_see_th#</li>
+<li>#evaluation.lt_You_can_also_add_a_st#</li>
+<li>#evaluation.lt_Also_you_will_see_the#</li>
 </ul>
 
 <if @students_without_group:rowcount@ gt 0>
@@ -20,10 +20,10 @@
 	<blockquote>
 	<table>
 		<tr>
-		<td><input type=submit value="Create Group"></td>
+		<td><input type=submit value="#evaluation.Create#"></td>
 		<td><listtemplate name="students_without_group"></listtemplate></td>
 		<td>
-		<h2>Number of members for this task: <br /> 
+		<h2>#evaluation.lt_Number_of_members_for# <br /> 
 		@n_of_members@</h2>
 		</td>
 		</tr>
@@ -33,10 +33,11 @@
 </if>
 
 <if @task_groups:rowcount@ gt 0>
-	<h2>Already created groups</h2>
+	<h2>#evaluation.lt_Already_created_group#</h2>
 	<blockquote>
 	<listtemplate name="task_groups"></listtemplate>
 	</blockquote>
 </if>
+
 
 

@@ -12,7 +12,7 @@
 	ea.revision_id,
 	ese.party_id,
 	ese.grade,
-	to_char(ea.last_modified, 'MM-DD-YYYY HH24:MI:SS') as pretty_submission_date,
+	to_char(ea.last_modified, 'YYYY-MM-DD HH24:MI:SS') as submission_date_ansi,
 	ea.last_modified as submission_date,
 	ese.last_modified as evaluation_date,
 	et.online_p,
@@ -20,8 +20,8 @@
 	ese.evaluation_id
 	from evaluation_tasks et,
 	     evaluation_student_evalsi ese left outer join evaluation_answersi ea on (ea.party_id = ese.party_id 
-																				  and ea.task_id = ese.task_id
-																				  and content_revision__is_live(ea.answer_id) = true)
+ 											  and ea.task_id = ese.task_id
+											  and content_revision__is_live(ea.answer_id) = true)
 	where et.task_id = :task_id
 	  and et.task_id = ese.task_id
 	  and content_revision__is_live(ese.evaluation_id) = true
@@ -64,7 +64,7 @@
 	ea.data as answer_data,
 	ea.title as answer_title,
 	ea.revision_id,
-	to_char(ea.last_modified, 'MM-DD-YYYY HH24:MI:SS') as pretty_submission_date,
+	to_char(ea.last_modified, 'YYYY-MM-DD HH24:MI:SS') as submission_date_ansi,
 	et.due_date,
 	ea.last_modified as submission_date
 	from evaluation_answersi ea, 

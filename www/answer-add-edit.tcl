@@ -16,8 +16,8 @@ ad_page_contract {
     return_url:notnull
 } -validate {
     late_submit {
-	if { ([template::util::date::compare [db_string due_date "select due_date from evaluation_tasks where task_id = :task_id"] [template::util::date::now]] < 0) } {
-	    ad_complain "tarde manin"
+	if { ![db_string late_turn_in { *SQL* }] && ([template::util::date::compare [db_string due_date "select due_date from evaluation_tasks where task_id = :task_id"] [template::util::date::now]] < 0) } {
+	    ad_complain "[_ evaluation.lt_This_task_can_not_be_]"
 	}
     }
 }
@@ -28,9 +28,9 @@ set party_id [db_string get_party_id { *SQL* }]
 set package_id [ad_conn package_id]
 
 if { [ad_form_new_p -key answer_id] } {
-	set page_title "Upload Answer"
+	set page_title "[_ evaluation.Upload_Answer_]"
 } else {
-	set page_title "Change Answer"
+	set page_title "[_ evaluation.Change_Answer_]"
 	db_1row item_data { *SQL* }
 
 }
@@ -46,11 +46,11 @@ ad_form -html { enctype multipart/form-data } -name answer -cancel_url $return_u
 ad_form -extend -name answer -form {
 	
 	{upload_file:file,optional
-		{label "File"} 
+		{label "[_ evaluation.File_]"} 
 		{html "size 30"}
 	}
 	{url:text(text),optional
-		{label "URL"} 
+		{label "[_ evaluation.URL__1]"} 
 		{value "http://"}
 	}
 }
@@ -64,11 +64,11 @@ ad_form -extend -name answer -form {
 } -validate {
     {url
 	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || (![string eq $url "http://"] && [util_url_valid_p $url]) }
-	{Upload a file OR a valid url, and not both }
+	{ [_ evaluation.lt_Upload_a_file_OR_a_va] }
     }
     {upload_file
 	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) }
-	{Upload a file OR a url, and not both}
+	{ [_ evaluation.lt_Upload_a_file_OR_a_ur] }
     }
 } -on_submit {
 	

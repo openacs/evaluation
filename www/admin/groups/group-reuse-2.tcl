@@ -12,7 +12,7 @@ ad_page_contract {
 } -validate {
 	no_groups {
 		if { [db_string get_groups_for_task "select count(*) from evaluation_task_groups where task_id = :task_id"] > 0 } {
-			ad_complain "There must be no groups for this task in order to copy the groups form another task. You can go back and delete the groups for this task."
+			ad_complain "[_ evaluation.lt_There_must_be_no_grou]"
 		}
 	}
 }
@@ -34,18 +34,15 @@ db_transaction {
 
 	}
 } on_error { 
-    ad_complain "There was an error creating the groups"
+    ad_complain "[_ evaluation.lt_There_was_an_error_cr]"
  
     ns_log Error "/evaluation/www/admin/groups/new-group-2.tcl choked:  $errmsg" 
          
-	ad_return_error "Insert Failed" "This was the error:
-               <blockquote> 
-                <pre>$errmsg</pre> 
-                </blockquote>" 
+	ad_return_error "[_ evaluation.Insert_Failed_]" "[_ evaluation.lt_This_was_the_error___]" 
         ad_script_abort 
 } 
 
 
-ad_returnredirect one-task.tcl?[export_vars task_id] 
+ad_returnredirect "one-task.tcl?[export_vars task_id]" 
 
 

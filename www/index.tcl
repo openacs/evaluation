@@ -13,7 +13,7 @@ ad_page_contract {
     {evaluations_orderby ""}
 }
 
-set page_title "Evaluation Index"
+set page_title "[_ evaluation.Evaluation_Index_]"
 set context {}
 set package_id [ad_conn package_id]
 set user_id [ad_conn user_id]
@@ -26,12 +26,12 @@ db_multirow grades get_grades { *SQL* } {
 	
 }
 
-set total_class_grade [format %.2f [db_string get_total_grade "select evaluation__class_total_grade(:user_id,:package_id)"]]
+set total_class_grade [format %.2f [lc_numeric [db_string get_total_grade "select evaluation__class_total_grade(:user_id,:package_id)"]]]
 
 set notification_chunk [notification::display::request_widget \
 							-type one_assignment_notif \
 							-object_id $package_id \
-							-pretty_name "Assignments" \
+							-pretty_name "[_ evaluation.Assignments_]" \
 							-url [ad_conn url] \
 						   ]
 

@@ -1,10 +1,11 @@
 # /packages/evaluation/www/admin/evaluations/evaluate-students.tcl
 
 ad_page_contract { 
-	This page asks for an evaluation confirmation 
-
-	@author jopez@galileo.edu 
-	@creation-date Mar 2004
+    This page asks for an evaluation confirmation 
+    
+    @author jopez@galileo.edu 
+    @creation-date Mar 2004
+    @cvs-id $Id$
 } { 
 	task_id:integer,notnull
 	max_grade:integer,notnull
@@ -32,12 +33,13 @@ ad_page_contract {
 			if { [info exists grades_wa($party_id)] && ![empty_string_p $grades_wa($party_id)] } {
 				incr counter
 				if { ![ad_var_type_check_number_p $grades_wa($party_id)] } {
-					ad_complain "The grade must be a valid number ($grades_wa($party_id))"
+				    set wrong_grade $grades_wa($party_id)
+				    ad_complain "[_ evaluation.lt_The_grade_must_be_a_v]"
 				}
 			}
 		}
 		if { !$counter && ([array size show_student_wa] > 0)} {
-			ad_complain "There must be at least one grade to work with"
+			ad_complain "[_ evaluation.lt_There_must_be_at_leas]"
 		}
 	}
 	valid_grades_na {
@@ -47,7 +49,8 @@ ad_page_contract {
 				if { [info exists grades_na($party_id)] && ![empty_string_p $grades_na($party_id)] } {
 					incr counter
 					if { ![ad_var_type_check_number_p $grades_na($party_id)] } {
-						ad_complain "The grade must be a valid number ($grades_na($party_id))"
+					    set wrong_grade $grades_na($party_id)
+					    ad_complain "[_ evaluation.lt_The_grade_must_be_a_v]"
 					}
 				}
 			} else {
@@ -55,7 +58,7 @@ ad_page_contract {
 			}
 		}
 		if { !$counter && ([array size show_student_na] > 0) && [empty_string_p $grade_all] } {
-			ad_complain "There must be at least one grade to work with"
+			ad_complain "[_ evaluation.lt_There_must_be_at_leas]"
 		}
 	}
 	valid_grades {
@@ -63,13 +66,15 @@ ad_page_contract {
 		foreach party_id [array names grades] {
 			if { [info exists grades($party_id)] && ![empty_string_p $grades($party_id)] } {
 				if { ![ad_var_type_check_number_p $grades($party_id)] } {
-					ad_complain "The grade most be a valid number ($grades($party_id))"
+				    set wrong_grade $grades($party_id)
+				    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
 				} else {			
-					set old_grade  [format %.2f [db_string get_old_grade { *SQL* }]]
-					if { ![string eq $old_grade  [format %.2f $grades($party_id)]] } {
+				    set old_grade  [format %.2f [lc_numeric [db_string get_old_grade { *SQL* }]]]
+				    if { ![string eq $old_grade  [format %.2f [lc_numeric $grades($party_id)]]] } {
 						incr counter
 						if { ![info exists reasons($party_id)] || [empty_string_p $reasons($party_id)] } {
-							ad_complain "You must give an edit reason ($old_grade --> $grades($party_id))"
+						    set grade_wo_reason $grades$party_id)
+						    ad_complain "[_ evaluation.lt_You_must_give_an_edit]"
 						}
 						set grades_to_edit($party_id) $grades($party_id)
 						set reasons_to_edit($party_id) $reasons($party_id)
@@ -79,39 +84,45 @@ ad_page_contract {
 			}
 		}
 		if { !$counter && ([array size show_student] > 0) } {
-			ad_complain "There must be at least one grade to work with"
+			ad_complain "[_ evaluation.lt_There_must_be_at_leas]"
 		}
 	}
 	valid_data {
 		foreach party_id [array names comments_wa] {
 			if { [info exists comments_wa($party_id)] && ![info exists grades_wa($party_id)] } {
-				ad_complain "There is a comment for a grade not realized ($comments_wa($party_id))"
+			    set wrong_comments $comments_wa($party_id)
+			    ad_complain "[_ evaluation.lt_There_is_a_comment_fo]"
 			}
 			if { [info exists comments_wa($party_id)] && ([string length $comments_wa($party_id)] > 400) } {
-				ad_complain "There is a comment larger than we can handle. ($comments_wa($party_id))"
+			    set wrong_comments $comments_wa($party_id)
+			    ad_complain "[_ evaluation.lt_There_is_a_comment_la_1]"
 			}
 		}
 		foreach party_id [array names comments_na] {
 			if { [info exists comments_na($party_id)] && ![info exists grades_na($party_id)] } {
-				ad_complain "There is a comment for a grade not realized ($comments_na($party_id))"
+			    set wrong_comments $comments_na($party_id)
+			    ad_complain "[_ evaluation.lt_There_is_a_comment_fo]"
 			}
 			if { [info exists comments_na($party_id)] && ([string length $comments_na($party_id)] > 400) } {
-				ad_complain "There is a comment larger than we can handle. ($comments_na($party_id))"
+			    set wrong_comments $comments_na($party_id)
+			    ad_complain "[_ evaluation.lt_There_is_a_comment_la]"
 			}
 		}
 		foreach party_id [array names reasons] {
 			if { [info exists reasons($party_id)] && ![info exists grades($party_id)] } {
-				ad_complain "There is an edit reason for a grade not realized ($reasons($party_id))"
+			    set wrong_comments $reasons($party_id)
+			    ad_complain "[_ evaluation.lt_There_is_an_edit_reas]"
 			}
 			if { [info exists reasons($party_id)] && ([string length $reasons($party_id)] > 400) } {
-				ad_complain "There is an edit reason larger than we can handle. ($reasons($party_id))"
+			    set wrong_comments $reasons($party_id)
+			    ad_complain "[_ evaluation.lt_There_is_an_edit_reas_1]"
 			}
 		}
 	}
 }
 
-set page_title "Confirm Your Evaluation"
-set context [list [list "[export_vars -base student-list { task_id }]" "Studen List"] "Confirm Evaluation"]
+set page_title "[_ evaluation.lt_Confirm_Your_Evaluati]"
+set context [list [list "[export_vars -base student-list { task_id }]" "[_ evaluation.Studen_List_]"] "[_ evaluation.Confirm_Evaluation_]"]
 
 db_1row get_task_info { *SQL* } 
 
@@ -128,9 +139,9 @@ foreach party_id [array names show_student_wa] {
 		set evaluations_wa:${counter}(grade) $grades_wa($party_id)
 		set evaluations_wa:${counter}(comment) $comments_wa($party_id)
 		if { [string eq $show_student_wa($party_id) "t"] } {
-			set evaluations_wa:${counter}(show_student) Yes
+			set evaluations_wa:${counter}(show_student) "[_ evaluation.Yes_]"
 		} else {
-			set evaluations_wa:${counter}(show_student) No
+			set evaluations_wa:${counter}(show_student) "[_ evaluation.No_]"
 		}
 		set item_ids($party_id) [db_nextval acs_object_id_seq]
 	}
@@ -151,9 +162,9 @@ foreach party_id [array names show_student_na] {
 		set evaluations_na:${counter}(grade) $grades_na($party_id)
 		set evaluations_na:${counter}(comment) $comments_na($party_id)
 		if { [string eq $show_student_na($party_id) "t"] } {
-			set evaluations_na:${counter}(show_student) Yes
+			set evaluations_na:${counter}(show_student) "[_ evaluation.Yes_]"
 		} else {
-			set evaluations_na:${counter}(show_student) No
+			set evaluations_na:${counter}(show_student) "[_ evaluation.No_]"
 		}
 		set item_ids($party_id) [db_nextval acs_object_id_seq]
 	}
@@ -174,9 +185,9 @@ foreach party_id [array names show_student] {
 		set evaluations:${counter}(grade) $grades_to_edit($party_id)
 		set evaluations:${counter}(reason) $reasons_to_edit($party_id)
 		if { [string eq  $show_student_to_edit($party_id) "t"] } {
-			set evaluations:${counter}(show_student) Yes
+			set evaluations:${counter}(show_student) "[_ evaluation.Yes_]"
 		} else {
-			set evaluations:${counter}(show_student) No
+			set evaluations:${counter}(show_student) "[_ evaluation.No_]"
 		}
 	}
 }

@@ -14,7 +14,7 @@ ad_page_contract {
 }
 
 
-set page_title "Evaluation Index"
+set page_title "[_ evaluation.Evaluation_Index_]"
 set context {}
 
 set package_id [ad_conn package_id]
@@ -28,14 +28,14 @@ db_multirow grades get_grades { *SQL* } {
 set assignments_notification_chunk [notification::display::request_widget \
 							-type one_assignment_notif \
 							-object_id $package_id \
-							-pretty_name "Assignments" \
+							-pretty_name "[_ evaluation.Assignments_]" \
 							-url [ad_conn url] \
 						   ]
 
 set evaluations_notification_chunk [notification::display::request_widget \
 							-type one_evaluation_notif \
 							-object_id $package_id \
-							-pretty_name "Evaluations" \
+							-pretty_name "[_ evaluation.Evaluations_]" \
 							-url [ad_conn url] \
 						   ]
 

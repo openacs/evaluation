@@ -11,7 +11,7 @@
 		eg.grade_plural_name,
 		eg.weight as grade_weight,
 		et.weight as task_weight,
-		to_char(et.due_date,'Month DD YYYY') as due_date,
+		to_char(et.due_date, 'YYYY-MM-DD HH24:MI:SS') as due_date_ansi,
 		et.number_of_members,
 		et.online_p
 		from evaluation_grades eg, evaluation_tasks et

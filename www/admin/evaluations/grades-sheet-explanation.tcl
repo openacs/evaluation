@@ -10,7 +10,7 @@ ad_page_contract {
 	task_id:integer,notnull
 }
 
-set page_title "Grades Sheet Explanation"
-set context [list [list "[export_vars -base student-list { task_id }]" "Studen List"] "Grades Sheet Explanation"]
+set page_title "[_ evaluation.lt_Grades_Sheet_Explanat]"
+set context [list [list "[export_vars -base student-list { task_id }]" "[_ evaluation.Studen_List_]"] "[_ evaluation.lt_Grades_Sheet_Explanat]"]
 
 ad_return_template

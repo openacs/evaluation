@@ -46,7 +46,7 @@
 <partialquery name="task_grade">
 	  <querytext>         
 
-	, trunc(evaluation__task_grade(cu.user_id,$task_id),2) as task_$task_id 
+	, [lc_numeric trunc(evaluation__task_grade(cu.user_id,$task_id),2)] as task_$task_id 
 
 	  </querytext>
 </partialquery>
@@ -54,7 +54,7 @@
 <partialquery name="grade_total_grade">
 	  <querytext>         
 
-	, trunc(evaluation__grade_total_grade(cu.user_id,:grade_id),2) as total_grade 
+	, [lc_numeric trunc(evaluation__grade_total_grade(cu.user_id,:grade_id),2)] as total_grade 
 
 	  </querytext>
 </partialquery>

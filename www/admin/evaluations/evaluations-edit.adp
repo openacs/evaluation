@@ -15,19 +15,19 @@
     <input type="hidden" name="task_id" value=@task_id@> 
        <table> 
           <tr> 
-          <th style="text-align:right;">Grade students using generated file:</th> 
+          <th style="text-align:right;">#evaluation.lt_Grade_students_using_file#</th> 
           <td><input type="file" name="upload_file"></td> 
           <td colspan=2 style="text-align:right;"><input type="submit" value="Send file"></td> 
           </tr> 
           <tr> 
-          <td><a href="grades-sheet-csv-@task_id@.csv">Generate file</a></td> 
-          <td><a href="grades-sheets?task_id=@task_id@">See grades sheets associated with this task</a></td> 
-          <td colspan=2><a href="grades-sheet-explanation?task_id=@task_id@">How does this work?</a></td> 
+          <td><a href="grades-sheet-csv-@task_id@.csv">#evaluation.Generate_file#</a></td> 
+          <td><a href="grades-sheets?task_id=@task_id@">#evaluation.lt_See_grades_sheets_ass#</a></td> 
+          <td colspan=2><a href="grades-sheet-explanation?task_id=@task_id@">#evaluation.How_does_this_work#</a></td> 
           </tr> 
        </table> 
   </form> 
   </blockquote>
 </if><else>
-<p>There are no grades to edit
+<p>#evaluation.lt_There_are_no_edit#
 </else>
 </p>

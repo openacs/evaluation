@@ -4,43 +4,43 @@
 
 <table>
 <tr>
-  <th align=right>Task Name<th>
+  <th align=right>#evaluation.Task_Name_1#<th>
   <td>@task_name@</td>
 </tr>
 <tr>
-  <th align=right>Description<th>
+  <th align=right>#evaluation.Description#<th>
   <td>@description;noquote@</td>
 </tr>
 <tr>
-  <th align=right>Due Date<th>
+  <th align=right>#evaluation.Due_Date_1#<th>
   <td>@due_date@</td>
 </tr>
 <tr>
-  <th align=right>File/url associated<th>
+  <th align=right>#evaluation.Fileurl_associated#<th>
   <td>@task_url@</td>
 </tr>
 <tr>
-  <th align=right>Number of Integrants<th>
+  <th align=right>#evaluation.Number_of_Integrants#<th>
   <td>@number_of_members@</td>
 </tr>
 <tr>
-  <th align=right>Weight<th>
+  <th align=right>#evaluation.Weight#<th>
   <td>@weight@%</td>
 </tr>
 <tr>
-  <th align=right>Grades Category<th>
+  <th align=right>#evaluation.Grades_Category#<th>
   <td>@grade_plural_name@ - @grade_weight@%</td>
 </tr>
 <tr>
-  <th align=right>Will this task be submitted on line?<th>
+  <th align=right>#evaluation.lt_Will_this_task_be_sub#<th>
   <td>@online_p@</td>
 </tr>
 <tr>
-  <th align=right>Will the students be able <br> to submit their answers after due date?<th>
+  <th align=right>#evaluation.lt_Will_the_students_be_# <br> #evaluation.lt_to_submit_their_answe#<th>
   <td>@late_submit_p@</td>
 </tr>
 <tr>
-  <th align=right>Task Solution<th>
+  <th align=right>#evaluation.Task_Solution#<th>
   <td>@solution_url;noquote@</td>
 </tr>
 
@@ -48,6 +48,7 @@
 </table>
 
 <if @return_url@ ne "">
-  <p><a href=@return_url@>Go Back</a></p>
+  <p><a href=@return_url@>#evaluation.Go_Back#</a></p>
 </if>
+
 

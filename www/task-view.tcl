@@ -14,7 +14,7 @@ ad_page_contract {
 }
 
 set package_id [ad_conn package_id]
-set page_title "View Task"
+set page_title "[_ evaluation.View_Task_]"
 
 db_1row get_grade_info { *SQL* }
 
@@ -22,22 +22,24 @@ set context [list $page_title]
 
 db_1row get_task_info { *SQL* }
 
+set weight [format %.2f [lc_numeric $weight]]
+
 if { [string eq $online_p "1"] || [string eq $online_p "t"] } {
-	set online_p "Yes"
+	set online_p "[_ evaluation.Yes_]"
 } else {
-	set online_p "No"
+	set online_p "[_ evaluation.No_]"
 }
 
 if { [string eq $late_submit_p "1"] || [string eq $late_submit_p "t"]} {
-	set late_submit_p "Yes"
+	set late_submit_p "[_ evaluation.Yes_]"
 } else {
-	set late_submit_p "No"
+	set late_submit_p "[_ evaluation.No_]"
 }
 
 #set description [template::util::richtext::get_property contents $description]
 # working with task stuff (if it has a file/url attached)
 if { [empty_string_p $task_data] } {
-	set task_url "No file/url associated with this task"
+	set task_url "[_ evaluation.lt_No_fileurl_associated]"
 } elseif { [regexp "http://" $task_data] } {
 	set task_url "<a href=\"$task_data\">$task_data</a>"
 } else {
@@ -47,7 +49,7 @@ if { [empty_string_p $task_data] } {
 
 # working with task soluiton stuff (if it has a file/url attached)
 if { [empty_string_p $solution_data] } {
-	set solution_url "No file/url associated with this task solution"
+	set solution_url "[_ evaluation.lt_No_fileurl_associated_1]"
 } elseif { [regexp "http://" $solution_data] } {
 	set solution_url "<a href=\"$solution_data\">$solution_data</a>"
 } else {

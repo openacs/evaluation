@@ -13,13 +13,13 @@ ad_page_contract {
 } -validate {
     grades_for_package {
 	if { [string eq [db_string package_grades { *SQL* }] 0] } {
-	    ad_complain "There are no grades for this group."
+	    ad_complain "[_ evaluation.lt_There_are_no_grades_f]"
 	}
     }
 }
 
-set page_title "Grades Report"
-set context "Grades Report"
+set page_title "[_ evaluation.Grades_Report_]"
+set context "[_ evaluation.Grades_Report_]"
 set package_id [ad_conn package_id]
 
 # we have to decide if we are going to show all the users in the system
@@ -34,14 +34,15 @@ if { [empty_string_p $community_id] } {
 }
 
 set elements [list student_name \
-		  [list label "Name" \
+		  [list label "[_ evaluation.Name_]" \
 		       link_url_col student_url \
 		       orderby_asc {student_name asc} \
 		       orderby_desc {student_name desc}] \
 		 ]
 
 db_foreach grade_type { *SQL* } {
-    set grade_label_${grade_id} "$grade_plural_name ($weight %) <a href=[export_vars -base "grades-type-reports" { grade_id }]><img src=\"/resources/acs-subsite/Zoom16.gif\" width=\"16\" height=\"16\" border=\"0\"></a>"
+    set weight [format %.0f [lc_numeric $weight]]
+    set grade_label_${grade_id} "${grade_plural_name} ($weight%) <a href=[export_vars -base "grades-type-reports" { grade_id }]><img src=\"/resources/acs-subsite/Zoom16.gif\" width=\"16\" height=\"16\" border=\"0\"></a>"
     append pass_grades " grade_label_${grade_id} "
     lappend elements grade_$grade_id \
 	[list label "@grade_label_${grade_id};noquote@" \
@@ -53,7 +54,7 @@ db_foreach grade_type { *SQL* } {
 }
 
 lappend elements total_grade \
-    [list label "Total Grade" \
+    [list label "[_ evaluation.Total_Grade_]" \
 	 orderby_asc {total_grade asc} \
 	 orderby_desc {total_grade desc} \
 	]
@@ -77,5 +78,5 @@ if { ![empty_string_p $orderby] } {
 
 
 db_multirow grades_report $query_name { *SQL* } {
-    
+
 }

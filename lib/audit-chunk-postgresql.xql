@@ -6,7 +6,7 @@
 <fullquery name="get_task_audit_info">      
       <querytext>
 
-	select to_char(ese.last_modified, 'MM-DD-YYYY HH24:MI:SS') as last_modified,
+	select to_char(ese.last_modified, 'YYYY-MM-DD HH24:MI:SS') as last_modified_ansi,
 	ese.modifying_user,
 	ese.modifying_ip,
 	ese.description as comments,

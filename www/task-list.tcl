@@ -19,8 +19,8 @@ db_multirow grades get_grades { *SQL* } {
 	
 }
 
-set page_title "Tasks List"
-set context "Tasks List"
+set page_title "[_ evaluation.Tasks_List_]"
+set context "[_ evaluation.Tasks_List_]"
 
 
 ad_return_template

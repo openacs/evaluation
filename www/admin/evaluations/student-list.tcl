@@ -9,21 +9,23 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 } {
-	task_id:integer,notnull
-	{return_url "student-list?[export_vars -url { task_id }]"}
-	{orderby_wa:optional}
-	{orderby_na:optional}
+    task_id:integer,notnull
+    {return_url "student-list?[export_vars -url { task_id }]"}
+    {orderby_wa:optional}
+    {orderby_na:optional}
+    {orderby:optional}
 } 
 
 set user_id [ad_conn user_id]
 
-set page_title "Student List"
-set context { "Student List" }
+set page_title "[_ evaluation.Student_List_]"
+set context { "[_ evaluation.Student_List_]" }
 
 db_1row get_task_info { *SQL* }
+set due_date_pretty  [lc_time_fmt $due_date_ansi "%q"]
 
 if { $number_of_members > 1 } {
-	set groups_admin "<a href=[export_vars -base ../groups/one-task { task_id }]>Groups administration</a>"
+	set groups_admin "<a href=[export_vars -base ../groups/one-task { task_id }]>[_ evaluation.lt_Groups_administration]</a>"
 } else {
 	set groups_admin ""
 }
@@ -35,7 +37,7 @@ set evaluation_mode "display"
 # working with already evaluated parties
 #
 
-set actions [list "Edit Evaluations" [export_vars -base "evaluations-edit" { task_id }]]
+set actions [list "[_ evaluation.Edit_Evaluations_]" [export_vars -base "evaluations-edit" { task_id }]]
 
 template::list::create \
     -name evaluated_students \
@@ -44,27 +46,28 @@ template::list::create \
     -key task_id \
     -pass_properties { return_url task_id evaluation_mode } \
     -filters { task_id {} } \
+    -orderby { default_value party_name } \
     -elements {
         party_name {
-            label "Name"
+            label "[_ evaluation.Name_]"
 	    orderby_asc {party_name asc}
 	    orderby_desc {party_name desc}
             link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id evaluation_mode }]}
-            link_html { title "View evaluation" }
+            link_html { title "[_ evaluation.View_evaluation_]" }
         }
         grade {
-            label "Maximun Grade: 100"
+            label "[_ evaluation.Grade_over_100_]"
 	    orderby_asc {grade asc}
 	    orderby_desc {grade desc}
         }
-        actions {
+        action {
             label ""
-	    link_url_col actions_url
+	    link_url_col action_url
         }
-        pretty_submission_date {
-            label "Sumission Date"
-	    orderby_asc {pretty_submission_date asc}
-	    orderby_desc {pretty_submission_date desc}
+        submission_date_pretty {
+            label "[_ evaluation.Sumission_Date_]"
+	    orderby_asc {submission_date_ansi asc}
+	    orderby_desc {submission_date_ansi desc}
         }
         view {
             label {}
@@ -73,7 +76,7 @@ template::list::create \
                 <img src="/resources/acs-subsite/Zoom16.gif" width="16" height="16" border="0">
             } 
             link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id evaluation_mode }]}
-            link_html { title "View evaluation" }
+            link_html { title "[_ evaluation.View_evaluation_]" }
         }
         edit {
             label {}
@@ -82,7 +85,7 @@ template::list::create \
                 <img src="/resources/acs-subsite/Edit16.gif" width="16" height="16" border="0">
             } 
             link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id }]}
-            link_html { title "Edit evaluation" }
+            link_html { title "[_ evaluation.Edit_evaluation_]" }
         }
         delete {
             label {}
@@ -91,7 +94,7 @@ template::list::create \
                 <img src="/resources/acs-subsite/Delete16.gif" width="16" height="16" border="0">
             } 
             link_url_eval {[export_vars -base "evaluation-delete" { evaluation_id return_url task_id }]}
-            link_html { title "Delete evaluation" }
+            link_html { title "[_ evaluation.Delete_evaluation_]" }
         }
     }
 
@@ -101,27 +104,29 @@ if {[string equal $orderby ""]} {
     set orderby " order by party_name asc"
 } 
 
-db_multirow -extend { actions action_url } evaluated_students evaluated_students { *SQL* } {
+db_multirow -extend { action action_url submission_date_pretty } evaluated_students evaluated_students { *SQL* } {
     
     lappend done_students $party_id
-    set grade [format %.2f $grade]
+    set submission_date_pretty [lc_time_fmt $submission_date_ansi "%c"]
+    set grade [format %.2f [lc_numeric $grade]]
+    if { [template::util::date::compare $submission_date $due_date] > 0 } {
+	set action "[_ evaluation.lt_submission_date_prett]"
+    }
+
     if { [string eq $online_p "t"] } {
 	# working with answer stuff (if it has a file/url attached)
 	if { [empty_string_p $answer_data] } {
-	    set action "No response"
+	    set action "[_ evaluation.No_response_]"
 	} elseif { [regexp "http://" $answer_data] } {
 	    set action_url "[export_vars -base "$answer_data" { }]"
-	    set action "View answer"
+	    set action "[_ evaluation.View_answer_]"
 	} else {
 	    # we assume it's a file
 	    set action_url "[export_vars -base "../../view/$answer_title" { revision_id }]"
-	    set action "View answer"
+	    set action "[_ evaluation.View_answer_]"
 	}
-	if { [string eq $action "View answer"] && ([template::util::date::compare $submission_date $evaluation_date] > 0) } {
-	    set action "<span style=\"color:red;\">View NEW answer</span>"
-	}
-	if { [template::util::date::compare $submission_date $due_date] > 0 } {
-	    set pretty_submission_date "$pretty_submission_date (late)"
+	if { [string eq $action "[_ evaluation.View_answer_]"] && ([template::util::date::compare $submission_date $evaluation_date] > 0) } {
+	    set action "<span style=\"color:red;\"> [_ evaluation.View_NEW_answer_]</span>"
 	}
     }
 } 
@@ -141,23 +146,27 @@ set not_evaluated_with_answer [db_string get_not_eval_wa { *SQL* }]
 #
 
 set elements [list party_name \
-		  [list label "Name" \
+		  [list label "[_ evaluation.Name_]" \
 		       orderby_asc {party_name asc} \
 		       orderby_desc {party_name desc}] \
+		  submission_date_pretty \
+		  [list label "[_ evaluation.Submission_Date_]" \
+		       orderby_asc {submission_date_ansi asc} \
+		       orderby_desc {submission_date_ansi desc}] \
 		  answer \
-		  [list label "Answer" \
+		  [list label "[_ evaluation.Answer_]" \
 		       link_url_col answer_url \
-		       link_html { title "View answer" }] \
+		       link_html { title "[_ evaluation.View_answer_]" }] \
 		  grade \
-		  [list label "Maximun Grade: <input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"100\">" \
+		  [list label "[_ evaluation.Maximun_Grade_] <input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"100\">" \
 		       display_template { <input type=text name=grades_wa.@not_evaluated_wa.party_id@ maxlength=\"6\" size=\"3\"> } ] \
 		  comments \
-		  [list label "Comments" \
+		  [list label "[_ evaluation.Comments_]" \
 		       display_template { <textarea rows="3" cols="15" wrap name=comments_wa.@not_evaluated_wa.party_id@></textarea> } \
 		      ] \
 		  show_answer \
-		  [list label "Allow the students <br> to see the grade?" \
-		       display_template { Yes <input checked type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=t> No <input type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=f> } \
+		  [list label "[_ evaluation.lt_Allow_the_students_br]" \
+		       display_template { [_ evaluation.Yes_] <input checked type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=t> [_ evaluation.No_] <input type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=f> } \
 		      ] \
 		 ]
 
@@ -177,20 +186,22 @@ if { [string equal $orderby_wa ""] } {
     set orderby_wa " order by party_name asc"
 }
 
-db_multirow -extend { answer answer_url } not_evaluated_wa get_not_evaluated_wa_students { *SQL* } {
+db_multirow -extend { answer answer_url submission_date_pretty } not_evaluated_wa get_not_evaluated_wa_students { *SQL* } {
     
     lappend done_students $party_id
     if { [string eq $online_p "t"] } {
-	set answer "View answer"
+	set submission_date_pretty  "[lc_time_fmt $submission_date_ansi "%Q"] [lc_time_fmt $submission_date_ansi "%X"]"
+	if { [template::util::date::compare $submission_date $due_date] > 0 } {
+	    set submission_date_pretty "[_ evaluation.lt_submission_date_prett_1]"
+	} else {
+	}
+	set answer "[_ evaluation.View_answer_]"
 	# working with answer stuff (if it has a file/url attached)
 	if { [regexp "http://" $answer_data] } {
 	    set answer_url [export_vars -base "$answer_data" { }]
 	} else {
 	    # we assume it's a file
 	    set answer_url [export_vars -base "../../view/$answer_title" { revision_id }]
-	}
-	if { [template::util::date::compare $submission_date $due_date] > 0 } {
-	    set pretty_submission_date "$pretty_submission_date <span style=\"color:red;\">(late answer)</span>"
 	}
     } 
 }
@@ -200,19 +211,19 @@ db_multirow -extend { answer answer_url } not_evaluated_wa get_not_evaluated_wa_
 #
 
 set elements [list party_name \
-		  [list label "Name" \
+		  [list label "[_ evaluation.Name_]" \
 		       orderby_asc {party_name asc} \
 		       orderby_desc {party_name desc}] \
 		  grade \
-		  [list label "Grade over <input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"100\">" \
+		  [list label "[_ evaluation.Grade_over_] <input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"100\">" \
 		       display_template { <input type=text name=grades_na.@not_evaluated_na.party_id@ maxlength=\"6\" size=\"3\"> } ] \
 		  comments \
-		  [list label "Comments" \
+		  [list label "[_ evaluation.Comments_]" \
 		       display_template { <textarea rows="3" cols="15" wrap name=comments_na.@not_evaluated_na.party_id@></textarea> } \
 		      ] \
 		  show_answer \
-		  [list label "Allow the students <br> to see the grade?" \
-		       display_template { Yes <input checked type=radio name="show_student_na.@not_evaluated_na.party_id@" value=t> No <input type=radio name="show_student_na.@not_evaluated_na.party_id@" value=f> } \
+		  [list label "[_ evaluation.lt_Allow_the_students_br]" \
+		       display_template { [_ evaluation.Yes_] <input checked type=radio name="show_student_na.@not_evaluated_na.party_id@" value=t> [_ evaluation.No_] <input type=radio name="show_student_na.@not_evaluated_na.party_id@" value=f> } \
 		      ] \
 		 ]
 

@@ -13,12 +13,11 @@ ad_page_contract {
 }
 
 db_1row get_task_info { *SQL* }
-set page_title "Audit info for task"
-set context [list "Audit Info"]
+set page_title "[_ evaluation.Audit_info_for_task_]"
+set context [list "[_ evaluation.Audit_Info__1]"]
 
 db_multirow parties get_parties { *SQL* } {
-	
-	
+		
 }
 
 ad_return_template

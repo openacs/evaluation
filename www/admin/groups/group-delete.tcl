@@ -11,8 +11,8 @@ ad_page_contract {
 	task_id:integer
 }
 
-set page_title "Delete Evaluation"
-set context [list [list "[export_vars -base one-task { task_id }]" "Task Groups"] [list "[export_vars -base one-group { task_id evaluation_group_id }]" "One Group"] "Delete Group"]
+set page_title "[_ evaluation.Delete_Evaluation_]"
+set context [list [list "[export_vars -base one-task { task_id }]" "[_ evaluation.Task_Groups_]"] [list "[export_vars -base one-group { task_id evaluation_group_id }]" "[_ evaluation.One_Group_]"] "[_ evaluation.Delete_Group_]"]
 
 db_1row get_group_info { *SQL* }
 

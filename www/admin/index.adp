@@ -2,19 +2,19 @@
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 
-<h2>Assignment Types</h2>
+<h2>#evaluation.Assignment_Types#</h2>
 <ul>
-<li><a href="grades/grades">Admin my Assignment Types</a></li>
+<li><a href="grades/grades">#evaluation.lt_Admin_my_Assignment_T#</a></li>
 </ul>
-<h2>Grades Reports</h2>
+<h2>#evaluation.Grades_Reports#</h2>
 <ul>
-<li><a href="grades/grades-reports">Grades Reports</a></li>
+<li><a href="grades/grades-reports">#evaluation.Grades_Reports#</a></li>
 </ul>
-<h2>Assignments</h2>
+<h2>#evaluation.Assignments#</h2>
 <p>@assignments_notification_chunk;noquote@</p>
 <ul>
 <if @grades:rowcount@ eq 0>
-<li>There are no tasks for this package.</li>
+<li>#evaluation.lt_There_are_no_tasks_fo#</li>
 </if><else>
 <multiple name="grades">
 	<li><strong>@grades.grade_plural_name@</strong> <br />
@@ -24,11 +24,11 @@
 </else>
 </ul>
 <br />
-<h2>Evaluations</h2>
+<h2>#evaluation.Evaluations#</h2>
 <p>@evaluations_notification_chunk;noquote@</p>
 <ul>
 <if @grades:rowcount@ eq 0>
-<li>There are no tasks to evaluate for this package.</li>
+<li>#evaluation.lt_There_are_no_tasks_to#</li>
 </if><else>
 <multiple name="grades">
 	<li><strong>@grades.grade_plural_name@</strong> <br />
@@ -37,4 +37,5 @@
 </multiple>
 </else>
 </ul>
+
 

@@ -17,11 +17,11 @@ ad_page_contract {
 
 set user_id [ad_conn user_id]
 set this_package_id [ad_conn package_id]
-set page_title "Add Assignment to Communities"
+set page_title "[_ evaluation.lt_Add_Assignment_to_Com]"
 
 db_1row task_grade_info { *SQL* }
 
-set context [list [list [export_vars -base grades { communities_packages_ids }] "Add Assignment"] $page_title]
+set context [list [list [export_vars -base grades { communities_packages_ids }] "[_ evaluation.Add_Assignment_]"] $page_title]
 
 ad_form -name communities -cancel_url $return_url -export { return_url task_id } -form { foo:key }
 

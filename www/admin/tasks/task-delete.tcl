@@ -12,9 +12,9 @@ ad_page_contract {
 	return_url
 }
 
-set page_title "Delete Task"
+set page_title "[_ evaluation.Delete_Task_]"
 
-set context [list [list [export_vars -base ../grades/grades { }] "Grades"] $page_title]
+set context [list [list [export_vars -base ../grades/grades { }] "[_ evaluation.Grades_]"] $page_title]
 
 
 db_1row get_task_info { *SQL* }

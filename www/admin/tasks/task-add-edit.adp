@@ -37,7 +37,8 @@
 
 <if @new_p@ eq 1 and @community_id@ not nil>
   <p align="right">
-    To add this assignment to other classes (where you are administrator)  <br /> please check the last check box at the bottom of the form.
+    #evaluation.lt_To_add_this_assignmen#  <br /> #evaluation.lt_please_check_the_last#
   </p>
 </if>
 <p><formtemplate id="task"></formtemplate></p>
+

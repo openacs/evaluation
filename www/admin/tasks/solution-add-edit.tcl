@@ -20,12 +20,12 @@ ad_page_contract {
 set package_id [ad_conn package_id]
 
 if { [ad_form_new_p -key solution_id] } {
-	set page_title "Add Task Solution"
+	set page_title "[_ evaluation.Add_Task_Solution_]"
 } else {
-	set page_title "View/Edit Task Solution"
+	set page_title "[_ evaluation.lt_ViewEdit_Task_Solutio]"
 }
 
-set context [list [list [export_vars -base ../grades/grades { }] "Grades"] $page_title]
+set context [list [list [export_vars -base ../grades/grades { }] "[_ evaluation.Grades_]"] $page_title]
 
 set attached_p "f"
 ad_form -html { enctype multipart/form-data } -name solution -cancel_url $return_url -export { grade_id item_id storage_type task_id attached_p } -mode $solution_mode -form {
@@ -45,24 +45,24 @@ if { ![ad_form_new_p -key solution_id] } {
 			
 			ad_form -extend -name solution -form {			
 				{upload_file:file,optional
-					{label "File"} 
+					{label "[_ evaluation.File_]"} 
 					{html "size 30"}
-					{help_text "Currently $title is attached to this task solution, but you can attach a different file/url just by adding it here"}
+					{help_text "[_ evaluation.lt_Currently_title_is_at]"}
 				}
 				{unattach_p:text(checkbox),optional 
-					{label "Unattach file?"} 
+					{label "[_ evaluation.Unattach_file_]"} 
 					{options {{"" "t"}}}
-					{help_text "Check this if you want to unattach the file"}
+					{help_text "[_ evaluation.lt_Check_this_if_you_wan]"}
 				}
 				{url:text(text),optional
-					{label "URL"} 
+					{label "[_ evaluation.URL__1]"} 
 					{value "http://"}
 				}			
 			}
 		} else {
 			ad_form -extend -name solution -form {			
 				{upload_file:text,optional
-					{label "File"} 
+					{label "[_ evaluation.File_]"} 
 					{html "size 30"}
 					{value "[return $title]"}
 				    {after_html "<a href=\"[export_vars -base \"../../view/$title\" { revision_id }]\">$title</a>"}
@@ -82,18 +82,18 @@ if { ![ad_form_new_p -key solution_id] } {
 			ad_form -extend -name solution -form {			
 				
 				{upload_file:file,optional
-					{label "File"} 
+					{label "[_ evaluation.File_]"} 
 					{html "size 30"}
 				}
 				{url:text(text),optional
-					{label "URL"} 
+					{label "[_ evaluation.URL__1]"} 
 					{value "http://"}
-					{help_text "Currently $content is associated to this task solution, but you can associate a different url/file just by adding it here"}
+					{help_text "[_ evaluation.lt_Currently_content_is_]"}
 				}			
 				{unattach_p:text(checkbox),optional 
-					{label "Unassociate url?"}
+					{label "[_ evaluation.Unassociate_url_]"}
 					{options {{"" "t"}}} 
-					{help_text "Check this if you want to unattach the file"}
+					{help_text "[_ evaluation.lt_Check_this_if_you_wan]"}
 				}
 			}
 		} else {
@@ -102,7 +102,7 @@ if { ![ad_form_new_p -key solution_id] } {
 				{upload_file:text(hidden)
 				}
 				{url:text(text),optional
-					{label "URL"} 
+					{label "[_ evaluation.URL__1]"} 
 					{value "$content"}
 					{after_html "<a href=$content>$content</a>"}
 				}			
@@ -114,11 +114,11 @@ if { ![ad_form_new_p -key solution_id] } {
 		ad_form -extend -name solution -form {
 			
 			{upload_file:file,optional
-				{label "File"} 
+				{label "[_ evaluation.File_]"} 
 				{html "size 30"}
 			}
 			{url:text(text),optional
-				{label "URL"} 
+				{label "[_ evaluation.URL__1]"} 
 				{value "http://"}
 			}
 			{unattach_p:text(hidden),optional
@@ -131,11 +131,11 @@ if { ![ad_form_new_p -key solution_id] } {
 	ad_form -extend -name solution -form {
 		
 		{upload_file:file,optional
-			{label "File"} 
+			{label "[_ evaluation.File_]"} 
 			{html "size 30"}
 		}
 		{url:text(text),optional
-			{label "URL"} 
+			{label "[_ evaluation.URL__1]"} 
 			{value "http://"}
 		}
 		{unattach_p:text(hidden),optional
@@ -153,15 +153,15 @@ ad_form -extend -name solution -form {
 } -validate {
 	{url
 		{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || (![string eq $url "http://"] && [util_url_valid_p $url]) || ([string eq $url "http://"] && [empty_string_p $upload_file] && [string eq $unattach_p "t"]) }
-		{Upload a file OR a valid url, and not both }
+		{ [_ evaluation.lt_Upload_a_file_OR_a_va] }
 	}
 	{upload_file
 		{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || ([string eq $url "http://"] && [empty_string_p $upload_file] && [string eq $unattach_p "t"]) }
-		{Upload a file OR a url, and not both}
+		{ [_ evaluation.lt_Upload_a_file_OR_a_ur] }
 	}
 	{unattach_p 
 		{ ([string eq $unattach_p "t"] && [empty_string_p $upload_file] && [string eq $url "http://"]) || [empty_string_p $unattach_p] }
-		{First unattach the file/url, then submit another one or just upload a new file/url and leave this in blank}
+		{ [_ evaluation.lt_First_unattach_the_fi] }
 	}
 } -on_submit {
 	

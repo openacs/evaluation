@@ -13,34 +13,34 @@ ad_page_contract {
 } -validate {
 	target_exists {
 		if { [string eq "select count(group_id) from evaluation_task_groups where task_id = :task_id" 0] } {
-			ad_complain "There are no groups for this task yet."
+			ad_complain "[_ evaluation.lt_There_are_no_groups_f]"
 		}
 	}
 }
 
-set page_title "Add a member to a group"
-set context [list [list "[export_vars -base one-task { task_id }]" "Task Groups"] "Add Member to group"]
+set page_title "[_ evaluation.lt_Add_a_member_to_a_gro]"
+set context [list [list "[export_vars -base one-task { task_id }]" "[_ evaluation.Task_Groups_]"] "[_ evaluation.Add_Member_to_group_]"]
 
 set elements [list group_name \
-				  [list label "Group Name" \
+				  [list label "[_ evaluation.Group_Name_]" \
 					   orderby_asc {group_name asc} \
 					   orderby_desc {group_name desc}] \
 				  number_of_members \
-				  [list label "No. of members" \
+				  [list label "[_ evaluation.No_of_members_]" \
 					   orderby_asc {number_of_members asc} \
 					   orderby_desc {number_of_members desc}] \
 				  associate_to_group \
 				  [list label "" \
 					   link_url_col associate_to_group_url \
-					   link_html { title "Associate" }] \
+					   link_html { title "[_ evaluation.Associate_]" }] \
 				  ]
 
 
 template::list::create \
     -name evaluation_groups \
     -multirow evaluation_groups \
-	-key evaluation_group_id \
-	-filters { student_id {} task_id {} } \
+    -key evaluation_group_id \
+    -filters { student_id {} task_id {} } \
     -elements $elements 
 
 set orderby [template::list::orderby_clause -orderby -name evaluation_groups]
@@ -51,7 +51,7 @@ if { [string equal $orderby ""] } {
 
 db_multirow -extend { associate_to_group_url associate_to_group } evaluation_groups get_evaluation_groups { *SQL* } {
 	set associate_to_group_url [export_vars -base "group-member-add-2" -url { task_id student_id evaluation_group_id }]
-	set associate_to_group "Associate to this group"
+	set associate_to_group "[_ evaluation.lt_Associate_to_this_gro]"
 }
 
 

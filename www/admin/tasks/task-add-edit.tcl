@@ -23,9 +23,9 @@ set package_id [ad_conn package_id]
 set community_id [dotlrn_community::get_community_id]
 set new_p [ad_form_new_p -key task_id] 
 if { $new_p } {
-    set page_title "Add Task"
+    set page_title "[_ evaluation.Add_Task_]"
 } else {
-    set page_title "Edit Task"
+    set page_title "[_ evaluation.Edit_Task_]"
 }
 
 if { [info exists admin_groups_p] } {
@@ -46,7 +46,7 @@ ad_form -html { enctype multipart/form-data } -name task -cancel_url $return_url
     task_id:key
 
     {task_name:text  
-	{label "Task Name"}
+	{label "[_ evaluation.Task_Name_]"}
 	{html {size 30}}
     }
     
@@ -63,24 +63,24 @@ if { !$new_p } {
 	    
 	    ad_form -extend -name task -form {			
 		{upload_file:file,optional
-		    {label "File"} 
+		    {label "[_ evaluation.File_]"} 
 		    {html "size 30"}
-		    {help_text "Currently $title is attached to this task, but you can attach a different file/url just by adding it here"}
+		    {help_text "[_ evaluation.lt_Currently_title_is_at_1]"}
 		}
 		{unattach_p:text(checkbox),optional 
-		    {label "Unattach file?"} 
+		    {label "[_ evaluation.Unattach_file_]"} 
 		    {options {{"" "t"}}}
-		    {help_text "Check this if you want to unattach the file"}
+		    {help_text "[_ evaluation.lt_Check_this_if_you_wan]"}
 		}
 		{url:text(text),optional
-		    {label "URL"} 
+		    {label "[_ evaluation.URL__1]"} 
 		    {value "http://"}
 		}			
 	    }
 	} else {
 	    ad_form -extend -name task -form {			
 		{upload_file:text,optional
-		    {label "File"} 
+		    {label "[_ evaluation.File_]"} 
 		    {html "size 30"}
 		    {value "$title"}
 		}
@@ -99,27 +99,27 @@ if { !$new_p } {
 	    ad_form -extend -name task -form {			
 		
 		{upload_file:file,optional
-		    {label "File"} 
+		    {label "[_ evaluation.File_]"} 
 		    {html "size 30"}
 		}
 		{url:text(text),optional
-		    {label "URL"} 
+		    {label "[_ evaluation.URL__1]"} 
 		    {value "http://"}
-		    {help_text "Currently $content is associated to this task, but you can associate a different url/file just by adding it here"}
+		    {help_text "[_ evaluation.lt_Currently_content_is__1]"}
 		}			
 		{unattach_p:text(checkbox),optional 
-		    {label "Unassociate url?"}
+		    {label "[_ evaluation.Unassociate_url_]"}
 		    {options {{"" "t"}}} 
-		    {help_text "Check this if you want to unattach the file"}
+		    {help_text "[_ evaluation.lt_Check_this_if_you_wan]"}
 		}
 	    }
 	} else {
 	    ad_form -extend -name task -form {			
 		
-		{upload_file:hidden
+		{upload_file:text(hidden)
 		}
 		{url:text(text),optional
-		    {label "URL"} 
+		    {label "[_ evaluation.URL__1]"} 
 		    {value "$content"}
 		}			
 		{unattach_p:text(hidden)
@@ -130,13 +130,13 @@ if { !$new_p } {
 	ad_form -extend -name task -form {
 	    
 	    {upload_file:file,optional
-		{label "File"} 
+		{label "[_ evaluation.File_]"} 
 		{html "size 30"}
-		{help_text "You can upload a file associated to this task by using the browse button (optional)"}
+		{help_text "[_ evaluation.lt_You_can_upload_a_file]"}
 	    }
 	    
 	    {url:text(text),optional
-		{label "URL"} 
+		{label "[_ evaluation.URL__1]"} 
 		{value "http://"}
 		{help_text "You can associate a link to this task by entering the absolute url here (also optional)"}
 	    }
@@ -152,18 +152,18 @@ if { !$new_p } {
     ad_form -extend -name task -form {
 	
 	{upload_file:file,optional
-	    {label "File"} 
+	    {label "[_ evaluation.File_]"} 
 	    {html "size 30"}
-	    {help_text "You can upload a file associated to this task by using the browse button and select the file from your computer (optional)"}
+	    {help_text "[_ evaluation.lt_You_can_upload_a_file_1]"}
 	}
     }
 
     ad_form -extend -name task -form {
 	
 	{url:text(text),optional
-	    {label "URL"} 
+	    {label "[_ evaluation.URL__1]"} 
 	    {value "http://"}
-	    {help_text "You can associate a link to this task by entering the absolute url here (also optional)"}
+	    {help_text "[_ evaluation.lt_You_can_associate_a_l]"}
 	}
 	
 	{unattach_p:text(hidden),optional
@@ -175,12 +175,12 @@ if { !$new_p } {
 ad_form -extend -name task -form {
 
     {description:richtext,optional  
-	{label "Task's Description"}
+	{label "[_ evaluation.lt_Assignments_Descripti]"}
 	{html {rows 4 cols 40 wrap soft}}
     }
 
     {due_date:date,to_sql(linear_date),from_sql(sql_date)
-	{label "Due Date"}
+	{label "[_ evaluation.Due_Date_]"}
 	{format "MONTH DD YYYY"}
 	{today}
 	{help}
@@ -188,34 +188,34 @@ ad_form -extend -name task -form {
     }
 
     {number_of_members:naturalnum
-	{label "Number of Members"}
+	{label "[_ evaluation.Number_of_Members_]"}
 	{value "1"}
 	{html {size 5 onChange TaskInGroups()}}
-	{help_text "1 = Individual"}
-	{after_html {<div id="silentDiv" style="visibility:$div_visibility;"><div class="form-help-text"><input type="checkbox" name="admin_groups_p" $checked_p> Check this if you want to go to the groups admin page after submitting the task </div></div>}}
+	{help_text "[_ evaluation.1__Individual_]"}
+	{after_html {<div id="silentDiv" style="visibility:$div_visibility;"><div class="form-help-text"><input type="checkbox" name="admin_groups_p" $checked_p> [_ evaluation.lt_Check_this_if_you_wan_1] </div></div>}}
     }
 
     {weight:float  
-	{label "Weight"}
+	{label "[_ evaluation.Weight_]"}
 	{html {size 5}}
-	{help_text "over $grade_weight% of $grade_plural_name"}
+	{help_text "[_ evaluation.lt_over_grade_weight_of_]"}
     }
     
     {online_p:text(radio)     
-	{label "Will the task be submitted online?"} 
-	{options {{Yes t} {No f}}}
+	{label "[_ evaluation.lt_Will_the_task_be_subm]"} 
+	{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
 	{value t}
     }
 
     {late_submit_p:text(radio)     
-	{label "Can the student submit the answer <br> after the due date?"} 
-	{options {{Yes t} {"No" f}}}
+	{label "[_ evaluation.lt_Can_the_student_submi]"} 
+	{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
 	{value t}
     }
 
     {requires_grade_p:text(radio)     
-	{label "Will this task require a grade on the course?"} 
-	{options {{Yes t} {"No" f}}}
+	{label "[_ evaluation.lt_Will_this_task_requir]"} 
+	{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
 	{value t}
     }
 }
@@ -223,9 +223,9 @@ ad_form -extend -name task -form {
 if { $new_p && ![empty_string_p $community_id] } {
     ad_form -extend -name task -form {
 	{add_to_more_classes_p:text(checkbox),optional 
-	    {label "Add this assignment to other class(es)"} 
+	    {label "[_ evaluation.lt_Add_this_assignment_t]"} 
 	    {options {{"" "t"}}}
-	    {help_text "Check this if you want to add the assignment to other class(es) that you administer"}
+	    {help_text "[_ evaluation.lt_Check_this_if_you_wan_2]"}
 	}
     }
 } 
@@ -236,24 +236,25 @@ ad_form -extend -name task -form {
     
     db_1row task_info { *SQL* }
 
-    set due_date [template::util::date::from_ansi $due_date]
+    set due_date [template::util::date::from_ansi $due_date_ansi]
+    set weight [format %.2f [lc_numeric $weight]]
 
 } -validate {
     {due_date
 	{ [template::util::date::compare $due_date [template::util::date::now]] > 0 }
-	{Due date must be in the future}
+	{ [_ evaluation.lt_Due_date_must_be_in_t] }
     }
     {url
 	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || ([string eq $url "http://"] && [empty_string_p $upload_file]) || (![string eq $url "http://"] && [util_url_valid_p $url]) }
-	{Upload a file OR a url, not both}
+	{[_ evaluation.lt_Upload_a_file_OR_a_ur_1] }
     }
     {upload_file
 	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || ([string eq $url "http://"] && [empty_string_p $upload_file]) }
-	{Upload a file OR a url, not both}
+	{ [_ evaluation.lt_Upload_a_file_OR_a_ur_1] }
     }
     {unattach_p 
 	{ ([string eq $unattach_p "t"] && [empty_string_p $upload_file] && [string eq $url "http://"]) || [empty_string_p $unattach_p] }
-	{First unattach the file/url, then submit another one or just upload a new file/url and leave this in blank}
+	{ [_ evaluation.lt_First_unattach_the_fi] }
     }
 } -new_data {
     

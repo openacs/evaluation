@@ -15,16 +15,11 @@ ad_page_contract {
 
 set user_id [ad_verify_and_get_user_id]
 
-set page_title "Delete Assignment Type"
+set page_title "[_ evaluation.lt_Delete_Assignment_Typ]"
 
-set context [list [list "grades" "Assignment Types"] "Delete Assignment Type"]
+set context [list [list "grades" "[_ evaluation.Assignment_Types_]"] "[_ evaluation.lt_Delete_Assignment_Typ]"]
 
-db_1row get_grade_info "
-    select item_id,
-	grade_plural_name
-    from evaluation_gradesx
-	where grade_id = :grade_id
-"
+db_1row get_grade_info { *SQL* }
 
 set export_vars [export_form_vars grade_id return_url]
 

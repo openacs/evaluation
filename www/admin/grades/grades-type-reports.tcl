@@ -14,13 +14,13 @@ ad_page_contract {
 } -validate {
 	tasks_for_grade {
 		if { [string eq [db_string get_tasks { *SQL* }] 0] } {
-			ad_complain "There are no tasks for this grade type."
+			ad_complain "[_ evaluation.lt_There_are_no_tasks_fo_1]"
 		}
 	}
 }
 
-set page_title "Grades Report"
-set context [list [list "[export_vars -base grades-reports { }]" "Grades Report"] "One Grade Type"]
+set page_title "[_ evaluation.Grades_Report_]"
+set context [list [list "[export_vars -base grades-reports { }]" "[_ evaluation.Grades_Report_]"] "[_ evaluation.One_Grade_Type_]"]
 
 set package_id [ad_conn package_id]
 
@@ -36,24 +36,24 @@ if { [empty_string_p $community_id] } {
 }
 
 set elements [list student_name \
-				  [list label "Name" \
-					   orderby_asc {student_name asc} \
-					   orderby_desc {student_name desc} \
-					  ]\
-				 ]
+		  [list label "[_ evaluation.Name_]" \
+		       orderby_asc {student_name asc} \
+		       orderby_desc {student_name desc} \
+		      ]\
+		 ]
 
 db_foreach grade_task { *SQL* } {
-	lappend elements task_$task_id \
-		[list label "$task_name ($weight %)" \
-		 orderby_asc {task_$task_id asc} \
-		 orderby_desc {task_$task_id desc} \
-		]
-	
-	append sql_query [db_map task_grade]
+    lappend elements task_$task_id \
+	[list label "$task_name (${weight}%)" \
+	     orderby_asc {task_$task_id asc} \
+	     orderby_desc {task_$task_id desc} \
+	    ]
+    
+    append sql_query [db_map task_grade]
 } 
 
 lappend elements total_grade \
-	[list label "Total" \
+	[list label "[_ evaluation.Total_]" \
 		 orderby_asc {total_grade asc} \
 		 orderby_desc {total_grade desc} \
 		]

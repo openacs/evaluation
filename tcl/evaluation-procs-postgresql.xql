@@ -443,6 +443,44 @@
       </querytext>
 </fullquery>
 
+<partialquery name="evaluation::generate_grades_sheet.sql_query_individual">      
+      <querytext>
+
+	select cu.person_id as party_id, cu.last_name||' - '||cu.first_names as party_name,  
+               ese.grade,
+               ese.description as comments
+         from cc_users cu left outer join evaluation_student_evalsi ese on (ese.party_id = cu.person_id
+                                                                            and ese.task_id = :task_id
+                                                                            and content_revision__is_live(ese.evaluation_id) = true)
+	
+      </querytext>
+</partialquery>
+
+<partialquery name="evaluation::generate_grades_sheet.sql_query_groups">      
+      <querytext>
+
+	"select etg.group_id as party_id, 
+		g.group_name as party_name,  
+                ese.grade,
+                ese.description as comments
+         from groups g,
+              evaluation_task_groups etg left outer join evaluation_student_evalsi ese on (ese.party_id = etg.group_id
+                                                                                           and ese.task_id = :task_id
+                                                                                          and content_revision__is_live(ese.evaluation_id) = true)
+         where etg.task_id = :task_id
+               and etg.group_id = g.group_id
+	
+      </querytext>
+</partialquery>
+
+<fullquery name="evaluation::generate_grades_sheet.parties_with_to_grade">      
+      <querytext>
+
+		$sql_query
+	
+      </querytext>
+</fullquery>
+
 <fullquery name="evaluation::notification::do_notification.select_names">      
       <querytext>
 

@@ -12,14 +12,14 @@ ad_page_contract {
 	operation
 }
 
-if { [string eq $operation "Yes, I really want to remove this group"] } {
+if { [string eq $operation "[_ evaluation.lt_Yes_I_really_want_to__2]"] } {
     db_transaction {
 
 		db_exec_plsql delete_group { *SQL* }		
 
 		
     } on_error {
-		ad_return_error "Error deleting the evaluation" "We got the following error while trying to remove the evaluation: <pre>$errmsg</pre>"
+		ad_return_error "[_ evaluation.lt_Error_deleting_the_ev]" "[_ evaluation.lt_We_got_the_following_]"
 		ad_script_abort
     }
 }

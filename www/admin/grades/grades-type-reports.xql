@@ -1,5 +1,4 @@
 <queryset>
-   <rdbms><type>postgresql</type><version>7.4</version></rdbms>
 
 <fullquery name="get_tasks">      
       <querytext>

@@ -14,15 +14,15 @@ ad_page_contract {
 } -validate {
 	group_task {
 		if { [string eq [db_string get_number_of_members { *SQL* }] 1] } {
-			ad_complain "This task is not in groups"
+			ad_complain "[_ evaluation.lt_This_task_is_not_in_g]"
 		}
 	}
 }
 
 db_1row get_info { *SQL* }
 
-set page_title "Groups for task $task_name"
-set context [list "Assignment Groups"]
+set page_title "[_ evaluation.lt_Groups_for_task_task_]"
+set context [list "[_ evaluation.Assignment_Groups_]"]
 
 # we have to decide if we are going to show all the users in the system
 # or only the students of a given class (community in dotrln)
@@ -36,18 +36,18 @@ if { [empty_string_p $community_id] } {
 }
 
 set elements [list associate \
-				  [list label "" \
-				   display_template { <input type=checkbox name=student_ids.@students_without_group.student_id@ value=@students_without_group.student_id@> } \
-				   ] \
-				  student_name \
-				  [list label "Name" \
-					   orderby_asc {student_name asc} \
-					   orderby_desc {student_name desc}] \
-				  associate_to_group \
-				  [list label "" \
-					   link_url_col associate_to_group_url \
-					   link_html { title "Associate to group..." }] \
-				  ]
+		  [list label "" \
+		       display_template { <input type=checkbox name=student_ids.@students_without_group.student_id@ value=@students_without_group.student_id@> } \
+		      ] \
+		  student_name \
+		  [list label "[_ evaluation.Name_]" \
+		       orderby_asc {student_name asc} \
+		       orderby_desc {student_name desc}] \
+		  associate_to_group \
+		  [list label "" \
+		       link_url_col associate_to_group_url \
+		       link_html { title "[_ evaluation.Associate_to_group_]" }] \
+		 ]
 
 template::list::create \
     -name students_without_group \
@@ -66,26 +66,26 @@ if { [string equal $orderby ""] } {
 
 db_multirow -extend { associate_to_group_url associate_to_group } students_without_group $query_name { *SQL* } {
 	set associate_to_group_url [export_vars -base "group-member-add" -url { task_id student_id }]
-	set associate_to_group "Associate to group..."
+	set associate_to_group "[_ evaluation.Associate_to_group_]"
 }
 
 set elements [list group_name \
-				  [list label "Group Name" \
-					   orderby_asc {group_name asc} \
-					   orderby_desc {group_name desc}] \
-				  members \
-				  [list label "Members" \
-					   display_template { @task_groups.members;noquote@ } \
-					  ] \
-				  number_of_members \
-				  [list label "Total of Members" \
-					   orderby_asc {number_of_members asc} \
-					   orderby_desc {number_of_members desc}] \
-				  group_administration \
-				  [list label "" \
-					   link_url_col group_administration_url \
-					   link_html { title "Group administration" }] \
-				 ]
+		  [list label "[_ evaluation.Group_Name_]" \
+		       orderby_asc {group_name asc} \
+		       orderby_desc {group_name desc}] \
+		  members \
+		  [list label "[_ evaluation.Members_]" \
+		       display_template { @task_groups.members;noquote@ } \
+		      ] \
+		  number_of_members \
+		  [list label "[_ evaluation.Total_of_Members_]" \
+		       orderby_asc {number_of_members asc} \
+		       orderby_desc {number_of_members desc}] \
+		  group_administration \
+		  [list label "" \
+		       link_url_col group_administration_url \
+		       link_html { title "[_ evaluation.lt_Group_administration_]" }] \
+		 ]
 
 
 template::list::create \
@@ -106,14 +106,14 @@ if { [string equal $orderby_groups ""] } {
 
 db_multirow -extend { group_administration_url group_administration members } task_groups get_task_groups { *SQL* } {
 	set group_administration_url [export_vars -base "one-group" -url { task_id evaluation_group_id }]
-	set group_administration "Group administration"
+	set group_administration "[_ evaluation.lt_Group_administration_]"
 	set members [join [db_list get_group_members { *SQL* }] "<br />"]
 }
 
 if { [db_string get_groups_for_task { *SQL* }] > 0 } {
 	set reuse_link ""
 } else {
-	set reuse_link "<a href=\"[export_vars -base group-reuse { task_id }]\">Reuse groups from another task</a>"
+	set reuse_link "<a href=\"[export_vars -base group-reuse { task_id }]\">[_ evaluation.lt_Reuse_groups_from_ano]</a>"
 }
 
 ad_return_template

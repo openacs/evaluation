@@ -13,13 +13,13 @@ ad_page_contract {
 } -validate {
 	students_to_work_with {
 		if { [array size student_ids] == 0  } {
-			ad_complain "There must be some students selected in order to crate the group."
+			ad_complain "[_ evaluation.lt_There_must_be_some_st]"
 		}
 	}
 }
 
-set page_title "New Group"
-set context [list [list "[export_vars -base one-task { task_id }]" "Task Groups"] "Create Group"]
+set page_title "[_ evaluation.New_Group_]"
+set context [list [list "[export_vars -base one-task { task_id }]" "[_ evaluation.Task_Groups_]"] "[_ evaluation.Create_Group_]"]
 
 set current_groups_plus_one [db_string get_groups "select count(group_id)+1 from evaluation_task_groups where task_id = :task_id"]
 set evaluation_group_id [db_nextval acs_object_id_seq]

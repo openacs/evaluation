@@ -2,6 +2,7 @@
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 
-<p>Click on the task that you want the groups to be copy from</p>
+<p>#evaluation.lt_Click_on_the_task_tha#</p>
 
 <blockquote><listtemplate name="groups"></listtemplate></blockquote>
+

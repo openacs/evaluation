@@ -15,7 +15,7 @@
       <querytext>
 
 	select egs.title as grades_sheet_name,
-	to_char(egs.creation_date,'Month DD YYYY') as upload_date,
+	to_char(egs.creation_date, 'YYYY-MM-DD HH24:MI:SS') as upload_date_ansi,
 	person__name(egs.creation_user) as upload_user,
 	egs.data as sheet_data,
 	egs.revision_id

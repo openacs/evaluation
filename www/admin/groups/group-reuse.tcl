@@ -11,23 +11,23 @@ ad_page_contract {
 	{orderby:optional}
 }
 
-set page_title "Reuse Groups"
-set context [list [list "[export_vars -base one-task { task_id }]" "Task Groups"] "Reuse Groups"]
+set page_title "[_ evaluation.Reuse_Groups_]"
+set context [list [list "[export_vars -base one-task { task_id }]" "[_ evaluation.Task_Groups_]"] "[_ evaluation.Reuse_Groups_]"]
 
 set elements [list task_name \
-				  [list label "Group Name" \
-									 link_url_col task_url \
-									 orderby_asc {task_name asc} \
-									 orderby_desc {task_name desc}] \
-				  number_of_members \
-				  [list label "No. of Members" \
-									 orderby_asc {number_of_members asc} \
-									 orderby_desc {number_of_members desc}] \
-				  grade_plural_name \
-				  [list label "Assignment Type" \
-									 orderby_asc {grade_plural_name asc} \
-									 orderby_desc {grade_plural_name desc}] \
-				 ]
+		  [list label "[_ evaluation.Group_Name_]" \
+		       link_url_col task_url \
+		       orderby_asc {task_name asc} \
+		       orderby_desc {task_name desc}] \
+		  number_of_members \
+		  [list label "[_ evaluation.No_of_Members_]" \
+		       orderby_asc {number_of_members asc} \
+		       orderby_desc {number_of_members desc}] \
+		  grade_plural_name \
+		  [list label "[_ evaluation.Assignment_Type_]" \
+		       orderby_asc {grade_plural_name asc} \
+		       orderby_desc {grade_plural_name desc}] \
+		 ]
 
 template::list::create \
 	-name groups \

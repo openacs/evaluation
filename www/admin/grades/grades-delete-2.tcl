@@ -12,13 +12,13 @@ ad_page_contract {
 	operation
 } 
 
-if { [string eq $operation "Yes, I really want to remove this grade"] } {
+if { [string eq $operation "[_ evaluation.lt_Yes_I_really_want_to__1]"] } {
     db_transaction {
 
 		db_exec_plsql delete_grade { *SQL* }		
 		
     } on_error {
-		ad_return_error "Error deleting the grade" "We got the following error while trying to remove the grade: <pre>$errmsg</pre>"
+		ad_return_error "[_ evaluation.lt_Error_deleting_the_gr]" "[_ evaluation.lt_We_got_the_following__1]"
 		ad_script_abort
     }
 } else {

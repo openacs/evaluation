@@ -7,7 +7,10 @@
       <querytext>
 
 	select et.task_name, et.number_of_members, et.task_id,
-		to_char(et.due_date,'Month DD YYYY') as pretty_due_date, et.online_p, et.late_submit_p, et.item_id,
+		to_char(et.due_date, 'YYYY-MM-DD HH24:MI:SS') as due_date_ansi, 
+		et.online_p, 
+		et.late_submit_p, 
+		et.item_id,
 		et.requires_grade_p, et.description, et.grade_id,
 		cr.content_length,
 		et.data as task_data,
@@ -28,9 +31,14 @@
       <querytext>
 
 	select et.task_name, et.number_of_members, et.task_id,
-		to_char(et.due_date,'Month DD YYYY') as pretty_due_date, et.online_p, et.late_submit_p, et.item_id,
+		to_char(et.due_date, 'YYYY-MM-DD HH24:MI:SS') as due_date_ansi, 
+`		et.online_p, 
+		et.late_submit_p, 
+		et.item_id,
 		et.due_date,
-		et.requires_grade_p, et.description, et.grade_id,
+		et.requires_grade_p, 
+		et.description, 
+		et.grade_id,
 		et.title as task_title,
 		et.data as task_data,
 	   	et.task_id as revision_id,

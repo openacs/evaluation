@@ -36,7 +36,7 @@ ad_proc -public evaluation::notification::get_url {
 	    return [export_vars -base "${base_url}admin/evaluations/one-evaluation-edit" { task_id evaluation_id evaluation_mode }]
 	} 
 	default {
-	    error "Unrecognized value for notif type: $notif_type. Possible values are one_assignment_notif and one_evaluation_notif." 
+	    error "[_ evaluation.lt_Unrecognized_value_fo]" 
 	    ad_script_abort
 	}
     }
@@ -55,25 +55,26 @@ ad_proc -public evaluation::notification::do_notification {
     switch $notif_type {
 	"one_assignment_notif" { 	    
 	    if { [string eq $edit_p 0] } {
-		set notif_subject "New Assignment ($grade_name)"
-		set notif_text "A new assignment was uploaded, if you want to see more details \n"
+		set notif_subject "[_ evaluation.New_Assignment_] ($grade_name)"
+		set notif_text "[_ evaluation.lt_A_new_assignment_was_] \n"
 	    } else {
 		set notif_subject "Assignment Edited ($grade_name)"
-		set notif_text "An assignment was modified, if you want to see more details \n"
+		set notif_text "[_ evaluation.lt_An_assignment_was_mod] \n"
 	    }
-	    append notif_text "click on this link: [evaluation::notification::get_url -task_id $task_id -notif_type one_assignment_notif] \n"
+	    append notif_text "[_ evaluation.click_on_this_link_] [evaluation::notification::get_url -task_id $task_id -notif_type one_assignment_notif] \n"
 	    set response_id $task_id
 	    
 	}
 	"one_evaluation_notif" {
 	    db_1row get_eval_info { *SQL* }
 	    set user_name [person::name -person_id [ad_conn user_id]]
-	    set notif_subject "Evaluation Modified"
-	    set notif_text "$user_name has modified the grade of ${party_name}. \n The edit reason given by $user_name was: $edit_reason \n The current grade is: $current_grade \n\n Click on this link to see the evaluation details: [evaluation::notification::get_url -task_id $task_id -evaluation_id $evaluation_id -notif_type one_evaluation_notif] \n"
+	    set notif_subject "[_ evaluation.Evaluation_Modified_]"
+	    set url_link [evaluation::notification::get_url -task_id $task_id -evaluation_id $evaluation_id -notif_type one_evaluation_notif]
+	    set notif_text "[_ evaluation.lt_user_name_has_modifie]"
 	    set response_id $evaluation_id
 	}
 	default {
-	    error "Unrecognized value for notif type: $notif_type. Possible values are one_assignment_notif and one_evaluation_notif." 
+	    error "[_ evaluation.lt_Unrecognized_value_fo]" 
 	    ad_script_abort
 	}
     }
@@ -529,46 +530,33 @@ ad_proc -public evaluation::generate_grades_sheet {} {
     set csv_content [list] 
     lappend csv_content "Grades sheet for assighment \"$task_name\""  
 
-	lappend csv_content "\nMax Grade:"
+	lappend csv_content "\n[_ evaluation.Max_Grade_]"
   	lappend csv_content "100"
-	lappend csv_content "\nWill the student be able to see the grade? (Yes/No):"
-  	lappend csv_content "Yes"
+	lappend csv_content "\n[_ evaluation.lt_Will_the_student_be_a]"
+  	lappend csv_content "1"
 
-	lappend csv_content "\n\nId"  
-	lappend csv_content "Name"  
-	lappend csv_content "Grade"  
-	lappend csv_content "Comments/Edit reason"
+	lappend csv_content "\n\n[_ evaluation.Id_]"  
+	lappend csv_content "[_ evaluation.Name_]"  
+	lappend csv_content "[_ evaluation.Grade_]"  
+	lappend csv_content "[_ evaluation.CommentsEdit_reason_]"
 	
 	if { $number_of_members == 1 } {
 		# the task is individual
 
-		set sql_query "select cu.person_id as party_id, cu.last_name||' - '||cu.first_names as party_name,  
-                                        ese.grade,
-                                        ese.description as comments
-                  from cc_users cu left outer join evaluation_student_evalsi ese on (ese.party_id = cu.person_id
-                                                                                    and ese.task_id = :task_id
-                                                                                    and content_revision__is_live(ese.evaluation_id) = true)" 
+		set sql_query [db_map sql_query_individual] 
 	} else { 
 		# the task is in groups
 		
-		set sql_query "select etg.group_id as party_id, g.group_name as party_name,  
-                                        ese.grade,
-                                        ese.description as comments
-                  from groups g,
-                       evaluation_task_groups etg left outer join evaluation_student_evalsi ese on (ese.party_id = etg.group_id
-                                                                                    and ese.task_id = :task_id
-                                                                                    and content_revision__is_live(ese.evaluation_id) = true)
-                  where etg.task_id = :task_id
-                    and etg.group_id = g.group_id"
+		set sql_query [db_map sql_query_groups]
 	}
 	
-	db_foreach parties_with_to_grade $sql_query {
-		lappend csv_content "\n$party_id" 
-		lappend csv_content "$party_name" 
-		lappend csv_content "$grade" 
-		lappend csv_content "$comments" 
+    db_foreach parties_with_to_grade { *SQL* } {
+	    lappend csv_content "\n$party_id" 
+	    lappend csv_content "$party_name" 
+	    lappend csv_content "[format %.2f [lc_numeric $grade]]" 
+	    lappend csv_content "$comments" 
 	} if_no_rows { 
-		ad_return_error "No parties to grade" "In order to generate this file there must be some parties assigned to this task"
+		ad_return_error "[_ evaluation.No_parties_to_grade_]" "[_ evaluation.lt_In_order_to_generate_]"
 		return 
 	} 
 	
@@ -633,8 +621,8 @@ ad_proc -private evaluation::apm::create_one_assignment_type {
     return [notification::type::new \
 		-sc_impl_id $impl_id \
 		-short_name one_assignment_notif \
-		-pretty_name "One Assignment" \
-		-description "Notification for assignments"]
+		-pretty_name "[_ evaluation.One_Assignment_]" \
+		-description "[_ evaluation.lt_Notification_for_assi]"]
 }
 
 ad_proc -private evaluation::apm::create_one_evaluation_type {
@@ -646,8 +634,8 @@ ad_proc -private evaluation::apm::create_one_evaluation_type {
     return [notification::type::new \
 		-sc_impl_id $impl_id \
 		-short_name one_evaluation_notif \
-		-pretty_name "One Evaluation" \
-		-description "Notification for evaluations"]
+		-pretty_name "[_ evaluation.One_Evaluation_]" \
+		-description "[_ evaluation.lt_Notification_for_eval]"]
 }
 
 ad_proc -public evaluation::apm::enable_intervals_and_methods {

@@ -39,12 +39,13 @@ ad_page_contract {
 	    if { [info exists grades_gs($party_id)] && ![empty_string_p $grades_gs($party_id)] } {
 		incr counter
 		if { ![ad_var_type_check_number_p $grades_gs($party_id)] } {
-		    ad_complain "The grade most be a valid number ($grades_gs($party_id))"
+		    set wrong_grade $grades_gs($party_id)
+		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
 		}
 	    }
 	}
 	if { !$counter && ([array size show_student_gs] > 0) } {
-	    ad_complain "There must be at least one grade to work with"
+	    ad_complain "[_ evaluation.lt_There_must_be_at_leas]"
 	}
     }
     valid_grades_wa {
@@ -53,12 +54,13 @@ ad_page_contract {
 	    if { [info exists grades_wa($party_id)] && ![empty_string_p $grades_wa($party_id)] } {
 		incr counter
 		if { ![ad_var_type_check_number_p $grades_wa($party_id)] } {
-		    ad_complain "The grade most be a valid number ($grades_wa($party_id))"
+		    set wrong_grade $grades_wa($party_id)
+		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
 		}
 	    }
 	}
 	if { !$counter && ([array size show_student_wa] > 0) } {
-	    ad_complain "There must be at least one grade to work with"
+	    ad_complain "[_ evaluation.lt_There_must_be_at_leas]"
 	}
     }
     valid_grades_na {
@@ -67,12 +69,13 @@ ad_page_contract {
 	    if { [info exists grades_na($party_id)] && ![empty_string_p $grades_na($party_id)]} {
 		incr counter
 		if { ![ad_var_type_check_number_p $grades_na($party_id)] } {
-		    ad_complain "The grade most be a valid number ($grades_na($party_id))"
+		    set wrong_grade $grades_na($party_id)
+		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
 		}
 	    }
 	}
 	if { !$counter && ([array size show_student_na] > 0) } {
-	    ad_complain "There must be at least one grade to work with"
+	    ad_complain "[_ evaluation.lt_There_must_be_at_leas]"
 	}
     }
     valid_grades {
@@ -81,45 +84,54 @@ ad_page_contract {
 	    if { [info exists grades_to_edit($party_id)] && ![empty_string_p $grades_to_edit($party_id)] } {
 		incr counter
 		if { ![ad_var_type_check_number_p $grades_to_edit($party_id)] } {
-		    ad_complain "The grade most be a valid number ($grades_to_edit($party_id))"
+		    set wrong_grade $grades_to_edit($party_id)
+		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
 		}
 	    }
 	}
 	if { !$counter && ([array size show_student_to_edit] > 0) } {
-	    ad_complain "There must be at least one grade to work with"
+	    ad_complain "[_ evaluation.lt_There_must_be_at_leas]"
 	}
     }
     valid_data {
 	foreach party_id [array names comments_gs] {
 	    if { [info exists comments_gs($party_id)] && ![info exists grades_gs($party_id)] } {
-		ad_complain "There is a comment for a grade not realized ($comments_gs($party_id))"
+		set wrong_comments $comments_gs($party_id)
+		ad_complain "[_ evaluation.lt_There_is_a_comment_fo]"
 	    }
 	    if { [info exists comments_gs($party_id)] && ([string length $comments_gs($party_id)] > 400) } {
-		ad_complain "There is a comment larger than we can handle. ($comments_gs($party_id))"
+		set wrong_comments $comments_gs($party_id)
+		ad_complain "[_ evaluation.lt_There_is_a_comment_la]"
 	    }
 	}
 	foreach party_id [array names comments_wa] {
 	    if { [info exists comments_wa($party_id)] && ![info exists grades_wa($party_id)] } {
-		ad_complain "There is a comment for a grade not realized ($comments_wa($party_id))"
+		set wrong_comments $comments_wa($party_id)
+		ad_complain "[_ evaluation.lt_There_is_a_comment_fo]"
 	    }
 	    if { [info exists comments_wa($party_id)] && ([string length $comments_wa($party_id)] > 400) } {
-		ad_complain "There is a comment larger than we can handle. ($comments_wa($party_id))"
+		set wrong_comments $comments_wa($party_id)
+		ad_complain "[_ evaluation.lt_There_is_a_comment_la]"
 	    }
 	}
 	foreach party_id [array names comments_na] {
 	    if { [info exists comments_na($party_id)] && ![info exists grades_na($party_id)] } {
-		ad_complain "There is a comment for a grade not realized ($comments_na($party_id))"
+		set wrong_comments $comments_na($party_id)
+		ad_complain "[_ evaluation.lt_There_is_a_comment_fo]"
 	    }
 	    if { [info exists comments_na($party_id)] && ([string length $comments_na($party_id)] > 400) } {
-		ad_complain "There is a comment larger than we can handle. ($comments_na($party_id))"
+		set wrong_comments $comments_na($party_id)
+		ad_complain "[_ evaluation.lt_There_is_a_comment_la]"
 	    }
 	}
 	foreach party_id [array names reasons_to_edit] {
 	    if { [info exists reasons_to_edit($party_id)] && ![info exists grades_to_edit($party_id)] } {
-		ad_complain "There is an edit reason for a grade not realized ($reasons_to_edit($party_id))"
+		set wrong_comments $reasons_to_edit($party_id)
+		ad_complain "[_ evaluation.lt_There_is_an_edit_reas]"
 	    }
 	    if { [info exists reasons_to_edit($party_id)] && ([string length $reasons_to_edit($party_id)] > 400) } {
-		ad_complain "There is an edit reason larger than we can handle. ($reasons_to_edit($party_id))"
+		set wrong_comments $reasons_to_edit($party_id)
+		ad_complain "[_ evaluation.lt_There_is_an_edit_reas_1]"
 	    }
 	}
     }

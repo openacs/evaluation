@@ -5,7 +5,8 @@
 <fullquery name="get_evaluation_groups">      
       <querytext>
 
-	select g.group_name, g.group_id as evaluation_group_id,
+	select g.group_name, 
+	g.group_id as evaluation_group_id,
 	count(map.object_id_two) as number_of_members
 	from groups g, acs_rels map, evaluation_task_groups etg
 	where map.object_id_one = g.group_id

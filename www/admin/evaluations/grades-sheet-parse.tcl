@@ -1,32 +1,28 @@
 # /packages/evaluation/www/admin/evaluations/grades-sheet-parse.tcl 
 
 ad_page_contract { 
-
-	Parse the csv file with the grades or the parties for a given task
-
-	@author jopez@galileo.edu
-	@creation_date May 2004
+    
+    Parse the csv file with the grades or the parties for a given task
+    
+    @author jopez@galileo.edu
+    @creation_date May 2004
     @cvs_id $Id$
 } { 
     upload_file:notnull 
-	upload_file.tmpfile:notnull
+    upload_file.tmpfile:notnull
     task_id:integer,notnull
     grades_sheet_item_id:integer,notnull
 } -validate { 
-    csv_type_p { 
-        if { [string compare [string tolower [file extension $upload_file]] ".csv"] } { 
-            ad_complain "The file extension of the file is "[file extension $upload_file]" and it should be .CSV, we can't process it"
-        } 
-    } 
-}  
-
-set page_title "Confirm Evaluation"
-set context [list [list "[export_vars -base student-list { task_id }]" "Studen List"] "Confirm Evaluation"]
+    csv_type_p {
+	set file_extension [file extension $upload_file]
+	if { [string compare [string tolower $file_extension] ".csv"] } { 
+	    ad_complain "[_ evaluation.lt_The_file_extension_of]"
+set context [list [list "[export_vars -base student-list { task_id }]" "[_ evaluation.Studen_List_]"] "[_ evaluation.Confirm_Evaluation_]"]
 
 # Getting some info from the db about the task
 if ![db_0or1row get_task_info { *SQL* }] { 
 				# This should never happen. 
-				ad_return_complaint 1 "<li>There is no information about this task.</li>" 
+				ad_return_complaint 1 "<li>[_ evaluation.lt_There_is_no_informati]</li>" 
 				return 
 			} 
 
@@ -35,41 +31,13 @@ set evaluations_gs:rowcount 0
 # Double-click protection 
 if { ![db_string file_exists { *SQL* }] } { 
 	
-	set max_n_bytes [parameter::get -parameter MaxNumberOfBytes]
-
-	set tmp_filename [ns_queryget upload_file.tmpfile] 
-	
+    set max_n_bytes [parameter::get -parameter MaxNumberOfBytes]
+    
+    set tmp_filename [ns_queryget upload_file.tmpfile] 
+    
     if { ![empty_string_p $max_n_bytes] && ([file size "$tmp_filename"] > $max_n_bytes) } { 
-        ad_return_complaint 1 "The file is too large. (The maximun file size is [util_commify_number $max_n_bytes] bytes)" 
-        return 0 
-    }
-
-    set errors 0 
-    set errors_text "" 
-	set counter 0
-    set line_number 0 
-	
-    set file_handler [open $tmp_filename {RDWR}] 
-	
-	while { ![eof $file_handler] } { 
-		incr line_number 
-		set one_line [gets $file_handler] 
-		
-		# jump first two lines 
-		if { $line_number <= 2 } { 
-			continue 
-		} 
-		
-		# replace enters (<-|) with semicolons (;)
-		regsub -all {(,[\r\n])} $one_line "" clean_line 
-		regsub -all {[\r\n]} $clean_line "" clean_line 
-		
-		set evaluation [split $clean_line ","] 
-
-		if { $line_number == 3 } {
-			set max_grade [string trim [lindex $evaluation 1]] 
-			if { ![ad_var_type_check_number_p $max_grade] } {
-				ad_return_error "Invalid Max Grade" "Max Grade does not seem to be a real number. Please don't leave it blank."
+	set pretty_maxnbytes [lc_numeric $max_n_bytes]
+        ad_return_complaint 1 "[_ evaluation.lt_The_file_is_too_large]" "[_ evaluation.lt_Max_Grade_does_not_se]"
 				return 
 			}
 			continue
@@ -78,10 +46,10 @@ if { ![db_string file_exists { *SQL* }] } {
 			# removing the first and last " that comes from the csv format
 			regsub  ^\" $see_comments_p "" see_comments_p
 			regsub  \"\$ $see_comments_p "" see_comments_p
-			if { ![string eq $see_comments_p yes] && ![string eq $see_comments_p no] } {
-				ad_return_error "Bad input" "Input \"Will the student be able to see the grade\" must be YES or NO, please don't leave it blank."
+			if { ![string eq $see_comments_p 1] && ![string eq $see_comments_p 0] } {
+				ad_return_error "[_ evaluation.Bad_input_]" "[_ evaluation.lt_Input_Will_the_studen]"
 				return 
-			} elseif { [string eq $see_comments_p \"yes\"] } {
+			} elseif { [string eq $see_comments_p 1] } {
 				set comments_p "t"
 			} else {
 				set comments_p "f"
@@ -109,23 +77,23 @@ if { ![db_string file_exists { *SQL* }] } {
 			# start validations
 			if { ![ad_var_type_check_integer_p $party_id] } { 
 				incr errors 
-				append errors_text "<li> Party_id $party_id does not seems to be an integer. Please don't modify this field.</li>" 
+				append errors_text "<li> [_ evaluation.lt_Party_id_party_id_doe]</li>" 
 			} 
 			
 			if { ![ad_var_type_check_number_p $grade] } { 
 				incr errors 
-				append errors_text "<li> Grade $grade does not seem to be a real number.</li>" 
+				append errors_text "<li> [_ evaluation.lt_Grade_grade_does_not_]</li>" 
 			} 
 			
 			if { [string length $comments] > 4000 } { 
 				incr errors 
-				append errors_text "<li> Comment/edit reason on party_id $party_id is larger than 4,000 characters long, which is our max lenght. Please make this comment/edit reason shorter.</li>" 
+				append errors_text "<li> [_ evaluation.lt_Commentedit_reason_on]</li>" 
 			} 
 
 			# editing without reason
 			if { ![string eq [format %.2f [db_string check_evaluated { *SQL* } -default $grade]] [format %.2f $grade]] && [empty_string_p $comments] } { 
 				incr errors
-			    append errors_text "<li> (ahora $grade, antes [db_string check_evaluated { *SQL* } -default $grade] There must be an edit reason if you want to edit the grade on party_id ${party_id}.</li>"
+			    append errors_text "<li> [_ evaluation.lt_There_must_be_an_edit]</li>"
 			} 
 			
 			if { $errors } { 
@@ -158,9 +126,9 @@ if { ![db_string file_exists { *SQL* }] } {
 			set evaluations_gs:${counter}(grade) $grade
 			set evaluations_gs:${counter}(comment) $comments
 			if { [string eq $comments_p "t"] } {
-				set evaluations_gs:${counter}(show_student) Yes
+				set evaluations_gs:${counter}(show_student) "[_ evaluation.Yes_]"
 			} else {
-				set evaluations_gs:${counter}(show_student) No
+				set evaluations_gs:${counter}(show_student) "[_ evaluation.No_]"
 			}
 
 			set evaluation_id [db_string editing_p { *SQL* } -default 0]
@@ -182,8 +150,7 @@ if { ![db_string file_exists { *SQL* }] } {
 	close $file_handler
 
     if [catch {exec mv $tmp_filename "${tmp_filename}_grades_sheet"} errmsg] { 
-        ad_return_error "Error while storing file" "There was a problem storing the file. Please contact the administrator.   
-        <p>This was the error: <pre>$errmsg</pre></li>" 
+        ad_return_error "[_ evaluation.lt_Error_while_storing_f]" "[_ evaluation.lt_There_was_a_problem_s]" 
 		ad_script_abort
     } 
 }

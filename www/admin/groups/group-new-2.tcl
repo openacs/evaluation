@@ -14,7 +14,7 @@ ad_page_contract {
 } -validate {
 	students_to_work_with {
 		if { [array size student_ids] == 0  } {
-			ad_complain "There must be some students selected in order to crate the group."
+			ad_complain "[_ evaluation.lt_There_must_be_some_st]"
 		}
 	}
 }
