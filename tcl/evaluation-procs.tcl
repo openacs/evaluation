@@ -224,19 +224,20 @@ ad_proc -public evaluation::new_grade {
     }
     set creation_user [ad_verify_and_get_user_id]
     set creation_ip [ad_conn peeraddr]
-    
+    set creation_date [db_string get_date { *SQL* }]
     set item_name "${content_type}_${item_id}"
     
     set revision_id [db_nextval acs_object_id_seq]
     set revision_name "${content_type}_${revision_id}"
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
     if { $new_item_p } {
-         set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id]
+         set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -creation_date $creation_date]
     }
         set revision_id [content::revision::new \
                                   -item_id $item_id \
                                   -content_type $content_type \
                                   -description $description \
+                                  -creation_date $creation_date \
                                   -attributes [list [list weight $weight] \
                                                     [list grade_name $name] \
                                                     [list comments  $description] \                                                                                                                              [list grade_item_id  $item_id] \
@@ -365,20 +366,38 @@ ad_proc -public evaluation::new_task {
     set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
+    set creation_date [db_string get_date { *SQL* }]
     if { [empty_string_p $item_name] } {
 	set item_name "${item_id}_${title}"
     }
-    set revision_id [db_nextval acs_object_id_seq]
+#Falta agregarle el title
     if { $new_item_p } {
-    set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type {evaluation_tasks} -name $item_name -context_id $package_id -mime_type $mime_type -title $title -storage_type $storage_type] 
+     set item_id [content::item::new -item_id $item_id \
+                                     -parent_id $folder_id \
+                                     -content_type $content_type \
+                                     -name $item_name \
+                                     -context_id $package_id \
+                                     -mime_type $mime_type \
+                                     -title $title \
+                                     -creation_date $creation_date \
+                                     -storage_type $storage_type]
     }
     set revision_id [content::revision::new \
-                             -item_id $item_id \
-                             -content_type {evaluation_tasks} \
-                             -mime_type $mime_type \
-			     -title $title \
-                             -description $description \
-                             -attributes [list [list weight $weight] \                                                                                                                                      [list task_name $name] \                                                                                                                                     [list task_item_id $item_id] \                                                                                                                               [list online_p $online_p] \                                                                                                                                  [list grade_item_id $grade_item_id] \                                                                                                                        [list due_date $due_date] \                                                                                                                                  [list late_submit_p $late_submit_p] \                                                                                                                        [list requires_grade_p $requires_grade_p] \                                                                                                                  [list number_of_members $number_of_members]] ]   
+                                  -item_id $item_id \
+                                  -content_type $content_type \
+                                  -mime_type $mime_type \
+			          -title $title \
+                                  -description $description \
+                                  -creation_date $creation_date \
+			          -attributes [list [list weight $weight] \
+					            [list task_name $name] \
+					            [list task_item_id  $item_id] \                                                                         \                                                   [list online_p  $online_p] \
+						    [list grade_item_id $grade_item_id] \
+						    [list due_date $due_date] \
+						    [list late_submit_p $late_submit_p] \
+						    [list requires_grade_p $requires_grade_p] \
+					            [list number_of_members $number_of_members]] ]
+
 
     # in order to find the file we have to set the name in cr_items the same that in cr_revisions
     db_dml update_item_name { *SQL* }
@@ -422,21 +441,21 @@ ad_proc -public evaluation::new_solution {
     set revision_id [db_nextval acs_object_id_seq]
 
     if { [empty_string_p $publish_date] } {
-	set publish_date [db_string get_publish_date "select now()"]
+	set publish_date [db_string get_date { *SQL* }]
     }
 
     if { [empty_string_p $creation_date] } {
-	set creation_date [db_string get_creation_date "select now()"]
+	set creation_date [db_string get_date { *SQL* }]
     }
-
     if { $new_item_p } {
-        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -storage_type $storage_type -title $title]
+        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -storage_type $storage_type -title $title -creation_date $creation_date]
     }
         set revision_id [content::revision::new \
                                   -item_id $item_id \
                                   -content_type $content_type \
                                   -mime_type $mime_type \
 				  -title $title \
+                                  -creation_date $creation_date \
                                   -attributes [list [list task_item_id  $task_item_id] \
                                                     [list solution_item_id $item_id]] ]
 
@@ -478,31 +497,39 @@ ad_proc -public evaluation::new_answer {
     set package_id [ad_conn package_id]
     set creation_user [ad_verify_and_get_user_id]
     set creation_ip [ad_conn peeraddr]
+    set creation_date [db_string get_date { *SQL* }]
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
     set item_name "${item_id}_${title}"
 
     set revision_id [db_nextval acs_object_id_seq]
 
     if { [empty_string_p $publish_date] } {
-	set publish_date [db_string get_publish_date "select now()"]
+	set publish_date [db_string get_date { *SQL* }]
     }
 
     if { [empty_string_p $creation_date] } {
-	set creation_date [db_string get_creation_date "select now()"]
+	set creation_date [db_string get_date { *SQL* }]
     }
-
     if { $new_item_p } {
-        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -title $title -storage_type $storage_type]
-
-    }  
-        set revision_id [content::revision::new \
+	ns_log Notice "Entro !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \"$title\""
+	set item_id [content::item::new -item_id $item_id \
+                                        -parent_id $folder_id \
+                                        -content_type $content_type \
+                                        -name $item_name \
+                                        -context_id $package_id \
+                                        -mime_type $mime_type \
+                                        -title $title \
+                                        -creation_date $creation_date]
+    }
+    set revision_id [content::revision::new \
                                   -item_id $item_id \
                                   -content_type $content_type \
                                   -mime_type $mime_type \
-				  -title $title\
-                                  -attributes [list [list answer_item_id  $item_id] \
-						    [list party_id $party_id] \
-                                                    [list task_item_id $task_item_id]] ]
+                                  -title $title \
+                                  -creation_date $creation_date \
+  			          -attributes [list [list answer_item_id $item_id] \
+					            [list party_id $party_id]] ]
+
     # in order to find the file we have to set the name in cr_items the same that in cr_revisions
     db_dml update_item_name { *SQL* }
     return $revision_id
@@ -545,6 +572,7 @@ ad_proc -public evaluation::new_evaluation {
 
     set package_id [ad_conn package_id]
     set creation_user [ad_verify_and_get_user_id]
+    set creation_date [db_string get_date { *SQL* }]
     set creation_ip [ad_conn peeraddr]
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index {f}]
     set item_name "${item_id}_${title}"
@@ -552,21 +580,22 @@ ad_proc -public evaluation::new_evaluation {
     set revision_id [db_nextval acs_object_id_seq]
 
     if { [empty_string_p $publish_date] } {
-	set publish_date [db_string get_publish_date "select now()"]
+	set publish_date [db_string get_date { *SQL* }]
     }
 
     if { [empty_string_p $creation_date] } {
-	set creation_date [db_string get_creation_date "select now()"]
+	set creation_date [db_string get_date { *SQL* }]
     }
 
     if { $new_item_p } {
-        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -title $title -storage_type $storage_type]
+        set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -mime_type $mime_type -title $title -storage_type $storage_type -creation_date $creation_date]
     }   
         set revision_id [content::revision::new \
                                   -item_id $item_id \
                                   -content_type $content_type \
                                   -mime_type $mime_type \
                                   -title $title\
+                                  -creation_date $creation_date \
                                   -attributes [list [list evaluation_item_id  $item_id] \
                                                     [list party_id $party_id] \
 						    [list grade $grade] \
@@ -601,7 +630,7 @@ ad_proc -public evaluation::new_evaluation_group {
     set creation_ip [ad_conn peeraddr]
 
     if { [empty_string_p $creation_date] } {
-	set creation_date [db_string get_creation_date "select now()"]
+	set creation_date [db_string get_date { *SQL* }]
     }
 
     db_exec_plsql evaluation_group_new { *SQL* }
@@ -659,11 +688,11 @@ ad_proc -public evaluation::new_grades_sheet {
     set revision_id [db_nextval acs_object_id_seq]
 
     if { [empty_string_p $publish_date] } {
-	set publish_date [db_string get_publish_date "select now()"]
+	set publish_date [db_string get_date { *SQL* }]
     }
 
     if { [empty_string_p $creation_date] } {
-	set creation_date [db_string get_creation_date "select now()"]
+	set creation_date [db_string get_date { *SQL* }]
     }
 
     if { $new_item_p } {
