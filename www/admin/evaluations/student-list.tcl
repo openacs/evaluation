@@ -260,7 +260,7 @@ lappend elements comments \
 	]
 lappend elements show_answer \
     [list label "[_ evaluation.lt_Allow_the_students_br]" \
-	 display_template { <pre>[_ evaluation.Yes_]<input checked type=radio name="show_student_na.@not_evaluated_na.party_id@" value=t> [_ evaluation.No_]<input type=radio name="show_student_na.@not_evaluated_na.party_id@" value=f></pre> } \
+	 display_template { <pre>[_ evaluation.Yes_]<input checked type=radio name="show_student_na.@not_evaluated_na.party_id@" value=t> @not_evaluated_na.party_id@ [_ evaluation.No_]<input type=radio name="show_student_na.@not_evaluated_na.party_id@" value=f></pre> } \
 	]
 
 template::list::create \
@@ -290,7 +290,9 @@ if { $number_of_members > 1 } {
     if { [llength $done_students] > 0 } {
 	set not_in_clause [db_map not_yet_in_clause]
     } else {
-	set not_in_clause "where p.member_state = 'approved'"
+	set not_in_clause ", cc_users cu 
+                           where p.person_id = cu.person_id 
+                             and cu.member_state = 'approved'"
     }
 
     # if this page is called from within a community (dotlrn) we have to show only the students

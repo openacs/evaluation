@@ -242,7 +242,7 @@ ad_proc -public evaluation::clone_task {
     Cone a task
 
     @param item_id The item to create.
-    @param from_task_id Task to clon.
+    @param from_task_id Task to clone.
     @param to_grade_id Grade that will "own" the task
 } {
 
@@ -325,17 +325,35 @@ ad_proc -public evaluation::new_task {
 	return $revision_id
 } 
 
+ad_proc -public evaluation::clone_task_references {
+    -item_id:required
+    -from_task_id:required
+    -to_task_id:required
+} {
+    Cone a task
+
+    @param item_id The item to create.
+    @param from_task_id Task to clone.
+    @param to_task_id Target.
+} {
+    
+    db_transaction {
+	
+    }
+}
 
 ad_proc -public evaluation::new_solution {
-	-item_id:required
-	-content_type:required
-	-content_table:required
-	-content_id:required
-	-new_item_p:required
-	-task_id:required
-	-storage_type:required
-	-title:required
-	{-mime_type "text/plain"}
+    -item_id:required
+    -content_type:required
+    -content_table:required
+    -content_id:required
+    -new_item_p:required
+    -task_id:required
+    -storage_type:required
+    -title:required
+    {-mime_type "text/plain"}
+    {-publish_date ""}
+    {-creation_date ""}
 } {
 
 	Build a new content revision of a task solution.  If new_item_p is
@@ -360,6 +378,14 @@ ad_proc -public evaluation::new_solution {
 
 	set revision_id [db_nextval acs_object_id_seq]
 
+	if { [empty_string_p $publish_date] } {
+	    set publish_date [db_string get_publish_date "select now()"]
+	}
+
+	if { [empty_string_p $creation_date] } {
+	    set creation_date [db_string get_creation_date "select now()"]
+	}
+
 	if { $new_item_p } {
 		db_exec_plsql content_item_new { *SQL* }
 	}
@@ -373,16 +399,18 @@ ad_proc -public evaluation::new_solution {
 
 
 ad_proc -public evaluation::new_answer {
-	-item_id:required
-	-content_type:required
-	-content_table:required
-	-content_id:required
-	-new_item_p:required
-	-task_id:required
-	-storage_type:required
-	-title:required
-	-party_id:required
-	{-mime_type "text/plain"}
+    -item_id:required
+    -content_type:required
+    -content_table:required
+    -content_id:required
+    -new_item_p:required
+    -task_id:required
+    -storage_type:required
+    -title:required
+    -party_id:required
+    {-mime_type "text/plain"}
+    {-publish_date ""}
+    {-creation_date ""}
 } {
 
 	Build a new content revision of an answer.  If new_item_p is
@@ -407,6 +435,14 @@ ad_proc -public evaluation::new_answer {
 
 	set revision_id [db_nextval acs_object_id_seq]
 
+	if { [empty_string_p $publish_date] } {
+	    set publish_date [db_string get_publish_date "select now()"]
+	}
+
+	if { [empty_string_p $creation_date] } {
+	    set creation_date [db_string get_creation_date "select now()"]
+	}
+
 	if { $new_item_p } {
 		db_exec_plsql content_item_new { *SQL* }
 	}
@@ -419,19 +455,21 @@ ad_proc -public evaluation::new_answer {
 } 
 
 ad_proc -public evaluation::new_evaluation {
-	-item_id:required
-	-content_type:required
-	-content_table:required
-	-content_id:required
-	-new_item_p:required
-	-party_id:required
-	-task_id:required
-	-grade:required
-	{-title "evaluation"}
-	{-show_student_p "t"}
-	{-storage_type "text"}
-	{-description ""}
-	{-mime_type "text/plain"}
+    -item_id:required
+    -content_type:required
+    -content_table:required
+    -content_id:required
+    -new_item_p:required
+    -party_id:required
+    -task_id:required
+    -grade:required
+    {-title "evaluation"}
+    {-show_student_p "t"}
+    {-storage_type "text"}
+    {-description ""}
+    {-mime_type "text/plain"}
+    {-publish_date ""}
+    {-creation_date ""}
 } {
 	
 	Build a new content revision of an evaluation.  If new_item_p is
@@ -459,6 +497,14 @@ ad_proc -public evaluation::new_evaluation {
 
 	set revision_id [db_nextval acs_object_id_seq]
 
+	if { [empty_string_p $publish_date] } {
+	    set publish_date [db_string get_publish_date "select now()"]
+	}
+
+	if { [empty_string_p $creation_date] } {
+	    set creation_date [db_string get_creation_date "select now()"]
+	}
+
 	if { $new_item_p } {
 		db_exec_plsql content_item_new { *SQL* }
 	}
@@ -468,10 +514,11 @@ ad_proc -public evaluation::new_evaluation {
 } 
 
 ad_proc -public evaluation::new_evaluation_group {
-	-group_id:required
-	-group_name:required
-	-task_id:required
-	{-context ""}
+    -group_id:required
+    -group_name:required
+    -task_id:required
+    {-context ""}
+    {-creation_date ""}
 } {
 
 	Build a new group of type evlaution_groups for the tasks.
@@ -492,6 +539,10 @@ ad_proc -public evaluation::new_evaluation_group {
 	set creation_user [ad_verify_and_get_user_id]
 	set creation_ip [ad_conn peeraddr]
 
+	if { [empty_string_p $creation_date] } {
+	    set creation_date [db_string get_creation_date "select now()"]
+	}
+
 	db_exec_plsql evaluation_group_new { *SQL* }
 	
 	return $group_id
@@ -510,15 +561,17 @@ ad_proc -public evaluation::evaluation_group_name {
 } 
 
 ad_proc -public evaluation::new_grades_sheet {
-	-item_id:required
-	-content_type:required
-	-content_table:required
-	-content_id:required
-	-new_item_p:required
-	-task_id:required
-	-storage_type:required
-	-title:required
-	-mime_type:required
+    -item_id:required
+    -content_type:required
+    -content_table:required
+    -content_id:required
+    -new_item_p:required
+    -task_id:required
+    -storage_type:required
+    -title:required
+    -mime_type:required
+    {-creation_date ""}
+    {-publish_date ""}
 } {
 
 	Build a new content revision of a grades sheet.  If new_item_p is
@@ -543,6 +596,14 @@ ad_proc -public evaluation::new_grades_sheet {
 	set item_name "${item_id}_${title}"
 
 	set revision_id [db_nextval acs_object_id_seq]
+
+	if { [empty_string_p $publish_date] } {
+	    set publish_date [db_string get_publish_date "select now()"]
+	}
+
+	if { [empty_string_p $creation_date] } {
+	    set creation_date [db_string get_creation_date "select now()"]
+	}
 
 	if { $new_item_p } {
 		db_exec_plsql content_item_new { *SQL* }

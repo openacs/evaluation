@@ -246,11 +246,11 @@
 			:revision_id,	
 			:task_id,
 			'evaluation_tasks_sols',	
-			now(), --creation date	
+			:creation_date, --creation date	
 			:creation_user, 
 			:creation_ip,	
 			:title,			
-			now(),  --publish date
+			:publish_date,  --publish date
 			null,  -- nls_language
 			:mime_type --mime_type
 			);
@@ -302,11 +302,11 @@
 			:task_id,
 		    :party_id,
 			'evaluation_answers',	
-			now(), --creation date	
+			:creation_date, --creation date	
 			:creation_user, 
 			:creation_ip,	
 			:title,			
-			now(),  --publish date
+			:publish_date,  --publish date
 			null,  -- nls_language
 			:mime_type --mime_type
 			);
@@ -361,11 +361,11 @@
 			:show_student_p,
 			:description,
 			'evaluation_student_evals',	
-			now(), --creation date	
+			:creation_date, --creation date	
 			:creation_user, 
 			:creation_ip,	
 			:item_name,		    --title
-			now(),  --publish date
+			:publish_date,  --publish date
 			null,  -- nls_language
 			:mime_type --mime_type
 			);
@@ -380,7 +380,7 @@
 													  :group_id,
 													  :group_name,
 													  'closed',
-													  now(),
+													  :creation_date,
 													  :creation_user,
 													  :creation_ip,
 													  :context,
@@ -430,11 +430,11 @@
 			:revision_id,	
 			:task_id,
 			'evaluation_grades_sheets',	
-			now(), --creation date	
+			:creation_date, --creation date	
 			:creation_user, 
 			:creation_ip,	
 			:title,			
-			now(),  --publish date
+			:publish_date,  --publish date
 			null,  -- nls_language
 			:mime_type --mime_type
 			);

@@ -324,6 +324,11 @@ ad_form -extend -name task -form {
 			     -mime_type $mime_type]
 	
 	evaluation::set_live -revision_id $revision_id
+
+	
+	if { ![ad_form_new_p -key task_id] } {
+	    evaluation::clone_task_references -from_task_id $task_id -to_task_id $revision_id
+	} 
 	
 	if { ![empty_string_p $upload_file] }  {
 	    
