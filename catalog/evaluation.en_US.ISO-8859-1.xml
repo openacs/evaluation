@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="evaluation" package_version="0.1d" locale="en_US" charset="ISO-8859-1">
+
+  <msg key="1__Individual_">1 = Individual </msg>
+  <msg key="Add_Assignment_">Add Assignment </msg>
+  <msg key="Add_Assignment_Type_">Add Assignment Type </msg>
+  <msg key="Add_assignment_type_">Add assignment type </msg>
+  <msg key="Add_Member_to_group_">Add Member to group </msg>
+  <msg key="Add_Task_">Add Task </msg>
+  <msg key="Add_Task_Solution_">Add Task Solution </msg>
+  <msg key="Addedit_answer_">Add/edit answer </msg>
+  <msg key="Addedit_solution_">Add/edit solution </msg>
+  <msg key="again_">again </msg>
+  <msg key="Answer_">Answer </msg>
+  <msg key="Assignment_Groups_">Assignment Groups </msg>
+  <msg key="Assignment_Type_">Assignment Type </msg>
+  <msg key="Assignment_Types">Assignment Types</msg>
+  <msg key="Assignment_Types_">Assignment Types </msg>
+  <msg key="Assignments">Assignments</msg>
+  <msg key="Assignments_">Assignments </msg>
+  <msg key="Associate_">Associate </msg>
+  <msg key="Associate_to_group_">Associate to group... </msg>
+  <msg key="Audit_Info_">Audit Info. </msg>
+  <msg key="Audit_info_">Audit info </msg>
+  <msg key="Audit_Info__1">Audit Info </msg>
+  <msg key="Audit_info_for_task_">Audit info for task </msg>
+  <msg key="Bad_input_">Bad input </msg>
+  <msg key="Change_Answer_">Change Answer </msg>
+  <msg key="Click">Click</msg>
+  <msg key="click_on_this_link_">click on this link: </msg>
+  <msg key="Comments">Comments:</msg>
+  <msg key="Comments_">Comments </msg>
+  <msg key="CommentsEdit_reason">Comments/Edit reason:</msg>
+  <msg key="CommentsEdit_reason_">Comments/Edit reason </msg>
+  <msg key="Confirm_Evaluation_">Confirm Evaluation </msg>
+  <msg key="Create">Group </msg>
+  <msg key="Create_Group_">Create Group </msg>
+  <msg key="Delete_Evaluation_">Delete Evaluation </msg>
+  <msg key="Delete_evaluation_">Delete evaluation </msg>
+  <msg key="Delete_Group_">Delete Group </msg>
+  <msg key="Delete_Task_">Delete Task </msg>
+  <msg key="Delete_task_">Delete task </msg>
+  <msg key="Description">Description</msg>
+  <msg key="Description_">Description </msg>
+  <msg key="Due_Date">Due Date:</msg>
+  <msg key="Due_Date_">Due Date </msg>
+  <msg key="Due_date_">Due date </msg>
+  <msg key="Due_Date_1">Due Date</msg>
+  <msg key="Edit_evaluation_">Edit evaluation </msg>
+  <msg key="Edit_Evaluations_">Edit Evaluations </msg>
+  <msg key="Edit_Reason">Edit Reason:</msg>
+  <msg key="Edit_Reason_">Edit Reason </msg>
+  <msg key="Edit_Task_">Edit Task </msg>
+  <msg key="Edit_task_">Edit task </msg>
+  <msg key="Evaluation_Index_">Evaluation Index </msg>
+  <msg key="Evaluation_Modified_">Evaluation Modified </msg>
+  <msg key="Evaluations">Evaluations</msg>
+  <msg key="Evaluations_">Evaluations </msg>
+  <msg key="Evaluations_Admin">Evaluations Admin</msg>
+  <msg key="Evaluations_List_">Evaluations List </msg>
+  <msg key="File_">File </msg>
+  <msg key="Fileurl_associated">File/url associated</msg>
+  <msg key="Generate_file">Generate file</msg>
+  <msg key="Go_Back">Go Back</msg>
+  <msg key="Grade">Grade:</msg>
+  <msg key="Grade_">Grade </msg>
+  <msg key="Grade_1">Students </msg>
+  <msg key="Grade_Distribution_">Grade Distribution </msg>
+  <msg key="Grade_over_">Grade over </msg>
+  <msg key="Grade_over_100_">Grade over 100 </msg>
+  <msg key="Grades_">Grades </msg>
+  <msg key="Grades_Category">Grades Category</msg>
+  <msg key="Grades_Report_">Grades Report </msg>
+  <msg key="Grades_Reports">Grades Reports</msg>
+  <msg key="Grades_Sheet_Name_">Grades Sheet Name </msg>
+  <msg key="Grades_Sheets_">Grades Sheets </msg>
+  <msg key="Group">#&gt; %current_groups_plus_one%&quot; size=20&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+      &lt;input type=hidden name=task_id value=&quot;%task_id%&quot;&gt;
+      &lt;input type=hidden name=evaluation_group_id value=&quot;%evaluation_group_id%&quot;&gt;
+		&lt;blockquote&gt;
+	 	&lt;td&gt;&lt;/td&gt;
+		&lt;td&gt;
+        &lt;table&gt;
+          &lt;multiple name=&quot;students&quot;&gt;
+                &lt;if %students.rownum% odd&gt;&lt;tr class=&quot;list-odd&quot;&gt;&lt;/if&gt;&lt;else&gt;&lt;tr class=&quot;list-even&quot;&gt;&lt;/else&gt;
+						&lt;td&gt;%students.rownum%.&lt;/td&gt;&lt;td&gt;%students.student_name%&lt;/td&gt;&lt;/tr&gt;
+                    &lt;/tr&gt;
+          &lt;/multiple&gt;
+        &lt;/table&gt;
+		&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+        &lt;td&gt;&lt;input type=submit value=&quot;&lt;# Create Group </msg>
+  <msg key="Group_name">Group name</msg>
+  <msg key="Group_Name_">Group Name </msg>
+  <msg key="Groups_Admin_">Groups Admin. </msg>
+  <msg key="here">here</msg>
+  <msg key="How_does_this_work">How does this work?</msg>
+  <msg key="Id_">Id </msg>
+  <msg key="Insert_Failed_">Insert Failed </msg>
+  <msg key="Is_live_">Is live? </msg>
+  <msg key="Last_Modified_">Last Modified </msg>
+  <msg key="late_">late </msg>
+  <msg key="late__1">(late) </msg>
+  <msg key="lt_A_new_assignment_was_">A new assignment was uploaded, if you want to see more details </msg>
+  <msg key="lt_able_to_see_the_grade">able to see the grade?</msg>
+  <msg key="lt_Add_a_member_to_a_gro">Add a member to a group </msg>
+  <msg key="lt_Add_Assignment_to_Com">Add Assignment to Communities </msg>
+  <msg key="lt_Add_this_assignment_t">Add this assignment to other class(es) </msg>
+  <msg key="lt_Admin_Assignment_Type">Admin Assignment Types </msg>
+  <msg key="lt_Admin_my_Assignment_T">Admin my Assignment Types</msg>
+  <msg key="lt_Allow_the_students_br">Allow the students &lt;br&gt; to see the grade? </msg>
+  <msg key="lt_Already_created_group">Already created groups</msg>
+  <msg key="lt_Also_you_will_see_the">Also, you will see the list of already created groups (if there are any created groups). Click on the &quot;Group administration&quot; link in order to administer the group. In this administration pages you will be able to unassociate members of a given group, rename the group and/or delete the group.</msg>
+  <msg key="lt_An_assignment_was_mod">An assignment was modified, if you want to see more details </msg>
+  <msg key="lt_Are_you_sure_remove">Are you sure you want to remove the evaluaiton on &quot;%party_name%&quot;?</msg>
+  <msg key="lt_Are_you_sure_you_want">Are you sure you want to remove the assignment type &quot;%grade_plural_name%&quot;? (If your answer is yes, all the evaluations, tasks, tasks solutions and answers associated with this assignment type will be deleted too)</msg>
+  <msg key="lt_Are_you_sure_you_want_1">Are you sure you want to remove the group &quot;%group_name%&quot;? (If the group has an evaluation/answer associated, it will be deleted too)</msg>
+  <msg key="lt_Are_you_sure_you_want_2">Are you sure you want to delete the task &quot;%task_name%&quot;? (If you delete the task, all the information associated with the task, such as answers, task solutions, etc, will be deleted too)</msg>
+  <msg key="lt_Assignment_Plural_Typ">Assignment Plural Type Name </msg>
+  <msg key="lt_Assignment_Type_Name_">Assignment Type Name </msg>
+  <msg key="lt_Assignment_Types_Comm">Assignment Type's Comments </msg>
+  <msg key="lt_Assignment_Types_Dist">Assignment Types Distribution </msg>
+  <msg key="lt_Assignments_Descripti">Assignment's Description </msg>
+  <msg key="lt_Associate_to_this_gro">Associate to this group </msg>
+  <msg key="lt_Audit_info_for_task_t">Audit info for task &quot;%task_name%&quot;</msg>
+  <msg key="lt_Can_the_student_submi">Can the student submit the answer &lt;br&gt; after the due date? </msg>
+  <msg key="lt_Check_the_rest_of_com">Check the rest of communities where you want to upload the assignment too</msg>
+  <msg key="lt_Check_this_if_you_wan">Check this if you want to unattach the file </msg>
+  <msg key="lt_Check_this_if_you_wan_1">Check this if you want to go to the groups admin page after submitting the task </msg>
+  <msg key="lt_Check_this_if_you_wan_2">Check this if you want to add the assignment to other class(es) that you administer </msg>
+  <msg key="lt_Click_on_the_task_tha">Click on the task that you want the groups to be copy from</msg>
+  <msg key="lt_Commentedit_reason_on">Comment/edit reason on party_id %party_id% is larger than 4,000 characters long, which is our max lenght. Please make this comment/edit reason shorter. </msg>
+  <msg key="lt_Confirm_Your_Evaluati">Confirm Your Evaluation </msg>
+  <msg key="lt_Confirm_your_evaluati">Confirm your evaluation(s) on &quot;%task_name%&quot;</msg>
+  <msg key="lt_Currently_content_is_">Currently $content is associated to this task solution, but you can associate a different url/file just by adding it here </msg>
+  <msg key="lt_Currently_content_is__1">Currently $content is associated to this task, but you can associate a different url/file just by adding it here </msg>
+  <msg key="lt_Currently_title_is_at">Currently $title is attached to this task solution, but you can attach a different file/url just by adding it here </msg>
+  <msg key="lt_Currently_title_is_at_1">Currently $title is attached to this task, but you can attach a different file/url just by adding it here </msg>
+  <msg key="lt_Delete_Assignment_Typ">Delete Assignment Type </msg>
+  <msg key="lt_Delete_assignment_typ">Delete assignment type </msg>
+  <msg key="lt_Distribution_for_grad">Distribution for grade &quot;%grade_plural_name%&quot;</msg>
+  <msg key="lt_Do_NOT_change_the_par">Do NOT change the &quot;party id&quot; field because with this file we associate the grade with the student or group.</msg>
+  <msg key="lt_Due_date_must_be_in_t">Due date must be in the future </msg>
+  <msg key="lt_Edit_Assignment_Type_">Edit Assignment Type </msg>
+  <msg key="lt_Edit_assignment_type_">Edit assignment type </msg>
+  <msg key="lt_Edit_grades_distribut">Edit grades distribution of $grade_plural_name </msg>
+  <msg key="lt_Enter_the_grades_for_">Enter the grades for the students/groups and KEEP THE STRUCTURE of the file. If you are editing a grade, you MUST give an edit reason in the &quot;Comments/Edit reason&quot; field.</msg>
+  <msg key="lt_Error_deleting_the_ev">Error deleting the evaluation </msg>
+  <msg key="lt_Error_deleting_the_gr">Error deleting the grade </msg>
+  <msg key="lt_Error_deleting_the_ta">Error deleting the task </msg>
+  <msg key="lt_Error_while_storing_f">Error while storing file </msg>
+  <msg key="lt_Evaluated_Students_to">Evaluated Students (%total_evaluated%)</msg>
+  <msg key="lt_First_unattach_the_fi">First unattach the file/url, then submit another one or just upload a new file/url and leave this in blank </msg>
+  <msg key="lt_First_you_will_see_th">First, you will see the list of students without group (if there are students without group) and you can create a group by selecting the members of the group and then clicking on the &quot;Create Group&quot; botton.</msg>
+  <msg key="lt_Generate_the_csv_file">Generate the csv file from the system. This file has the proper structure so the system can parse it and obtain the information about the grades. This file is generated by clicking on the &quot;Generate File&quot; link.</msg>
+  <msg key="lt_Grade_grade_does_not_">Grade %grade% does not seem to be a real number. </msg>
+  <msg key="lt_Grade_students_using_">Grade students using generated file:</msg>
+  <msg key="lt_Grade_students_using_file">Grade students using generated file:</msg>
+  <msg key="lt_Grade_students_with_0">Grade students with 0</msg>
+  <msg key="lt_Grades_Sheet_Explanat">Grades Sheet Explanation </msg>
+  <msg key="lt_Group_administration_">Group administration </msg>
+  <msg key="lt_Groups_administration">Groups administration </msg>
+  <msg key="lt_Groups_for_task_task_">Groups for task %task_name% </msg>
+  <msg key="lt_If_you_administer_mor">If you administer more than one community and you want to upload an assigment in more than one community, you must set the same name for each of the assignment types in each community so the system can identify where to store the assignment.</msg>
+  <msg key="lt_If_you_do_not_want_to">If you do not want to grade or edit the grade of a student/group, just leave intact the fields of that row, or you can delete the whole row.</msg>
+  <msg key="lt_if_you_want_to_downlo">if you want to download all the answers in one file</msg>
+  <msg key="lt_In_order_to_generate_">In order to generate this file there must be some parties assigned to this task. </msg>
+  <msg key="lt_In_this_page_you_can_">In this page you can administer the groups for the assignment.</msg>
+  <msg key="lt_Input_Will_the_studen">Input \&quot;Will the student be able to see the grade\&quot; must be 1 (one) for YES or 0 (zero) for NO, please don't leave it blank. </msg>
+  <msg key="lt_Max_Grade_does_not_se">Max Grade does not seem to be a real number. Please don't leave it in blank. </msg>
+  <msg key="lt_No_fileurl_associated">No file/url associated with this task </msg>
+  <msg key="lt_No_fileurl_associated_1">No file/url associated with this task solution </msg>
+  <msg key="lt_No_I_want_to_cancel_m">No, I want to cancel my request </msg>
+  <msg key="lt_Notification_for_assi">Notification for assignments </msg>
+  <msg key="lt_Notification_for_eval">Notification for evaluations </msg>
+  <msg key="lt_Number_of_members_for">Number of members for this task:</msg>
+  <msg key="lt_Number_of_members_of_">Number of members of this group:</msg>
+  <msg key="lt_over_grade_weight_of_">over %grade_weight%% of %grade_plural_name% </msg>
+  <msg key="lt_Party_id_party_id_doe">Party_id %party_id% does not seem to be an integer. Please don't modify this field. </msg>
+  <msg key="lt_please_check_the_last">please check the last check box at the bottom of the form.</msg>
+  <msg key="lt_Please_enter_the_grou">Please enter the group name</msg>
+  <msg key="lt_Please_enter_the_new_">Please enter the new group name</msg>
+  <msg key="lt_Please_select_the_gro">Please select the group</msg>
+  <msg key="lt_Reuse_groups_from_ano">Reuse groups from another assignment </msg>
+  <msg key="lt_Save_the_csv_file_and">Save the csv file and KEEP THE CSV FORMAT. The CSV file can be edited with any text editor (and MS Excell) but you have to save it keeping the CSV format. If you do not keep the format, the system will not be able to parse the file.</msg>
+  <msg key="lt_See_grades_sheets_ass">See grades sheets associated with this task</msg>
+  <msg key="lt_Send_the_file_using_t">Send the file using the &quot;Send file&quot; botton. The system will parse the file and you will be asked for a confirmation (if everything is ok with the file) for the grades.</msg>
+  <msg key="lt_Students_who_have_not">Students who have not submitted answers and have not been evaluated (%not_evaluated_with_no_answer%)</msg>
+  <msg key="lt_Students_with_answers">Students with answers that have not been evaluated (%not_evaluated_with_answer%)</msg>
+  <msg key="lt_submission_date_prett">%submission_date_pretty% (late) </msg>
+  <msg key="lt_submission_date_prett_1">$submission_date_pretty &lt;span style=\&quot;color:red;\&quot;&gt;(late answer)&lt;/span&gt; </msg>
+  <msg key="lt_The_assignment_task_n">The assignment &quot;%task_name%&quot; has been uploaded in this community.</msg>
+  <msg key="lt_The_commentsedit_reas">The comments/edit reason is a string with no more than 4,000 characters.</msg>
+  <msg key="lt_The_edit_reason_must_">The edit reason must be less than 4000 characteras long </msg>
+  <msg key="lt_The_file_extension_of">The file extension of the file is &quot;%file_extension&quot; and it should be .CSV. Sorry, we can't process it&quot;
+	} 
+    } 
+}  
+
+set page_title &quot;&lt;#_ Confirm Evaluation </msg>
+  <msg key="lt_The_file_is_too_large">The file is too large. (The maximun file size is %pretty_maxnbytes% bytes)&quot; 
+        return 0 
+    }
+    
+    set errors 0 
+    set errors_text &quot;&quot; 
+    set counter 0
+    set line_number 0 
+    
+    set file_handler [open $tmp_filename {RDWR}] 
+	
+	while { ![eof $file_handler] } { 
+		incr line_number 
+		set one_line [gets $file_handler] 
+		
+		# jump first two lines 
+		if { $line_number &lt;= 2 } { 
+			continue 
+		} 
+		
+		# replace enters (&lt;-|) with semicolons (;)
+		regsub -all {(,[\r\n])} $one_line &quot;&quot; clean_line 
+		regsub -all {[\r\n]} $clean_line &quot;&quot; clean_line 
+		
+		set evaluation [split $clean_line &quot;,&quot;] 
+
+		if { $line_number == 3 } {
+			set max_grade [string trim [lindex $evaluation 1]] 
+			if { ![ad_var_type_check_number_p $max_grade] } {
+				ad_return_error &quot;&lt;#_ Invalid Max Grade </msg>
+  <msg key="lt_The_file_should_have_">The file should have a pre-defined format so the system can parse it and obtain the information. If you want to use this functionallity you must follow the following steps:</msg>
+  <msg key="lt_The_grade_most_be_a_v">The grade most be a valid number: %wrong_grade% </msg>
+  <msg key="lt_The_grade_must_be_a_R">The grade must be a REAL NUMBER.</msg>
+  <msg key="lt_The_grade_must_be_a_v">The grade must be a valid number: %wrong_grade% </msg>
+  <msg key="lt_The_grade_must_be_a_v_1">The grade must be a valid number </msg>
+  <msg key="lt_The_sum_of_the_weight">The sum of the weight of all the assignment types is %total_weight% and it should be 100 by the end of the term(supposedly). </msg>
+  <msg key="lt_The_system_assumes_th">The system assumes that the grades start at the 7th line of the file.</msg>
+  <msg key="lt_There_are_no_edit">There are no grades to edit</msg>
+  <msg key="lt_There_are_no_files_as">There are no files associated with this task </msg>
+  <msg key="lt_There_are_no_grades_f">There are no grades for this group. </msg>
+  <msg key="lt_There_are_no_groups_f">There are no groups for this task yet. </msg>
+  <msg key="lt_There_are_no_more_com">There are no more communities where you can add the task.</msg>
+  <msg key="lt_There_are_no_studens_">There are no studens associated with this group.</msg>
+  <msg key="lt_There_are_no_students">There are no students to eval that already answered</msg>
+  <msg key="lt_There_are_no_students_1">There are no students to eval with no answer</msg>
+  <msg key="lt_There_are_no_tasks_as">There are no tasks associated with this assignment type</msg>
+  <msg key="lt_There_are_no_tasks_fo">There are no tasks for this package.</msg>
+  <msg key="lt_There_are_no_tasks_fo_1">There are no tasks for this grade type. </msg>
+  <msg key="lt_There_are_no_tasks_to">There are no tasks to evaluate for this package.</msg>
+  <msg key="lt_There_is_a_comment_fo">There is a comment for a grade not realized: %wrong_comments% </msg>
+  <msg key="lt_There_is_a_comment_la">There is a comment larger than we can handle: %wrong_comments% </msg>
+  <msg key="lt_There_is_a_comment_la_1">There is a comment larger than we can handle: %wrong_comments%  </msg>
+  <msg key="lt_There_is_an_edit_reas">There is an edit reason for a grade not realized: %wrong_comments% </msg>
+  <msg key="lt_There_is_an_edit_reas_1">There is an edit reason larger than we can handle: %wrong_comments% </msg>
+  <msg key="lt_There_is_no_info_">There are no grades in the csv file or there are no modifications in the csv file.</msg>
+  <msg key="lt_There_is_no_informati">There is no information about this task. </msg>
+  <msg key="lt_There_must_be_an_edit">There must be an edit reason if you want to edit the grade on party_id %party_id%. </msg>
+  <msg key="lt_There_must_be_at_leas">There must be at least one grade to work with </msg>
+  <msg key="lt_There_must_be_no_grou">There must be no groups for this task in order to copy the groups form another task. You can go back and delete the groups for this task. </msg>
+  <msg key="lt_There_must_be_some_st">There must be some students selected in order to crate the group. </msg>
+  <msg key="lt_There_was_a_problem_s">There was a problem storing the file. Please contact the administrator.   
+        &lt;p&gt;This was the error: &lt;pre&gt;%errmsg%&lt;/pre&gt;&lt;/li&gt; </msg>
+  <msg key="lt_There_was_an_error_cr">There was an error creating the groups </msg>
+  <msg key="lt_These_are_the_grades_">These are the grades sheets used to evaluate students for this task</msg>
+  <msg key="lt_This_funcionallity_al">This funcionallity allows you to upload a CSV (Comma Separated Value) file with the grades of the students. This CSV file can be edited with MS Excell and many other text editors.</msg>
+  <msg key="lt_This_is_the_grades_re">This is the grades report of the students acording to the assignments/evaluations that you have made.</msg>
+  <msg key="lt_This_is_the_grades_re_1">This is the grades report of the students acording to one assignment type and the evaluations that you have made in this assignment type.</msg>
+  <msg key="lt_This_task_can_not_be_">This task can not be submitted after the due date </msg>
+  <msg key="lt_This_task_is_not_in_g">This task is not in groups </msg>
+  <msg key="lt_This_was_the_error___">This was the error:
+               &lt;blockquote&gt; 
+                &lt;pre&gt;%errmsg%&lt;/pre&gt; 
+                &lt;/blockquote&gt; </msg>
+  <msg key="lt_To_add_this_assignmen">To add this assignment to other classes (where you are administrator)</msg>
+  <msg key="lt_To_chanche_the_name_e">To chanche the name, edit the name in the text input and then click on the &quot;Rename Group&quot; botton.</msg>
+  <msg key="lt_To_delete_the_group_c">To delete the group, click on the &quot;Delete Group&quot; botton.</msg>
+  <msg key="lt_to_submit_their_answe">to submit their answers after due date?</msg>
+  <msg key="lt_To_unassociate_a_memb">To unassociate a member of the group, click on the &quot;Unassociate member&quot; link.</msg>
+  <msg key="lt_Total_points_in_this_">Total points in this category: %total_grade% / $max_grade&lt;br /&gt;
+                     This grade category represents the ${grade_weight}% of the 100% of the class </msg>
+  <msg key="lt_Total_points_in_this__1">Total points in this category: %total_grade% / %max_grade%&lt;br /&gt;
+                     This grade category represents the %grade_weight%% of the 100% of the class </msg>
+  <msg key="lt_Unassociate_student_f">Unassociate student for this group </msg>
+  <msg key="lt_Unrecognized_value_fo">Unrecognized value for notif type: $notif_type. Possible values are one_assignment_notif and one_evaluation_notif. </msg>
+  <msg key="lt_Upload_a_file_OR_a_ur">Upload a file OR a url, and not both </msg>
+  <msg key="lt_Upload_a_file_OR_a_ur_1">Upload a file OR a url, not both </msg>
+  <msg key="lt_Upload_a_file_OR_a_va">Upload a file OR a valid url, and not both </msg>
+  <msg key="lt_user_name_has_modifie">$user_name has modified the grade of %party_name%. \n The edit reason given by %user_name% was: %edit_reason% \n The current grade is: %current_grade% \n\n Click on this link to see the evaluation details: %url_link% \n </msg>
+  <msg key="lt_ViewEdit_Task_Solutio">View/Edit Task Solution </msg>
+  <msg key="lt_We_got_the_following_">We got the following error while trying to remove the evaluation: &lt;pre&gt;%errmsg%&lt;/pre&gt; </msg>
+  <msg key="lt_We_got_the_following__1">We got the following error while trying to remove the grade: &lt;pre&gt;%errmsg%&lt;/pre&gt; </msg>
+  <msg key="lt_We_got_the_following__2">We got the following error while trying to remove the task: &lt;pre&gt;%errmsg%&lt;/pre&gt; </msg>
+  <msg key="lt_Weight_must_be_a_real">Weight must be a real number and between 0 and 100 </msg>
+  <msg key="lt_Weight_used_in_grade_">Weight used in $grade_plural_name: ${category_weight}% (of 100% of $grade_plural_name) &lt;br /&gt;
+                    $grade_plural_name represents ${grade_weight}% of the 100% of the class </msg>
+  <msg key="lt_Weight_used_in_grade__1">Weight used in %grade_plural_name%: ${category_weight}% (of 100% of $grade_plural_name) &lt;br /&gt;
+                    $grade_plural_name represents ${grade_weight}% of the 100% of the class </msg>
+  <msg key="lt_Weight_used_in_grade__2">Weight used in %grade_plural_name%: %category_weight%% (of 100% of %grade_plural_name%) &lt;br /&gt;
+                    %grade_plural_name% represents %grade_weight%% of the 100% of the class </msg>
+  <msg key="lt_Will_the_student_be_a">Will the student be able to see the grade? (1 = Yes / 0 = No): </msg>
+  <msg key="lt_Will_the_student_be_a_1">Will the student be able to see the grade? </msg>
+  <msg key="lt_Will_the_students_be_">Will the students be able</msg>
+  <msg key="lt_Will_the_task_be_subm">Will the task be submitted online? </msg>
+  <msg key="lt_Will_this_task_be_sub">Will this task be submitted on line?</msg>
+  <msg key="lt_Will_this_task_requir">Will this task require a grade on the course? </msg>
+  <msg key="lt_Yes_I_really_want_to_">Yes, I really want to remove this evaluation </msg>
+  <msg key="lt_Yes_I_really_want_to__1">Yes, I really want to remove this grade </msg>
+  <msg key="lt_Yes_I_really_want_to__2">Yes, I really want to remove this group </msg>
+  <msg key="lt_Yes_I_really_want_to__3">Yes, I really want to remove this task </msg>
+  <msg key="lt_You_can_also_add_a_st">You can also add a student to an existing group by clicking on the &quot;Associate to group...&quot; link. Here you will be asked to select the group to wich you want to add the user.</msg>
+  <msg key="lt_You_can_associate_a_l">You can associate a link to this task by entering the absolute url here (also optional) </msg>
+  <msg key="lt_You_can_order_the_gra">You can order the grade report by the name of the student, by the total grade, or by any of the assignment types, or see the assignment type details by clicking on the view icon at the left of the assignment type name.</msg>
+  <msg key="lt_You_can_order_the_gra_1">You can order the grade report by the name of the student, by the total grade, or by any of the assignments of this assignment type.</msg>
+  <msg key="lt_You_can_see_the_csv_f">You can see the csv files associated with the task by clicking on the &quot;See grades sheets associated with this task&quot; botton.</msg>
+  <msg key="lt_You_can_upload_a_file">You can upload a file associated to this task by using the browse button (optional) </msg>
+  <msg key="lt_You_can_upload_a_file_1">You can upload a file associated to this task by using the browse button and select the file from your computer (optional) </msg>
+  <msg key="lt_You_must_give_an_edit">You must give an edit reason (%old_grade% --&gt; %grade_wo_reason% </msg>
+  <msg key="lt_Your_total_grade_in_t">Your total grade in this class is:</msg>
+  <msg key="Max_Grade_">Max Grade: </msg>
+  <msg key="Maximun_Grade_">Maximun Grade: </msg>
+  <msg key="Members_">Members </msg>
+  <msg key="Modifying_User_">Modifying User </msg>
+  <msg key="Name">Name:</msg>
+  <msg key="Name_">Name </msg>
+  <msg key="Net_value_">Net value </msg>
+  <msg key="NEW_answer_">(NEW answer) </msg>
+  <msg key="New_Assignment_">New Assignment </msg>
+  <msg key="New_Group_">New Group </msg>
+  <msg key="No_">No </msg>
+  <msg key="No_data_">(No data) </msg>
+  <msg key="No_group_for_task_">No group for task </msg>
+  <msg key="No_of_Members_">No. of Members </msg>
+  <msg key="No_of_members_">No. of members </msg>
+  <msg key="No_parties_to_grade_">No parties to grade </msg>
+  <msg key="No_response_">No response </msg>
+  <msg key="Not_available_">Not available </msg>
+  <msg key="Not_evaluated_">Not evaluated </msg>
+  <msg key="Number_of_Integrants">Number of Integrants</msg>
+  <msg key="Number_of_Members_">Number of Members </msg>
+  <msg key="One_Assignment_">One Assignment </msg>
+  <msg key="One_Evaluation_">One Evaluation </msg>
+  <msg key="One_Grade_Type_">One Grade Type </msg>
+  <msg key="One_Group_">One Group </msg>
+  <msg key="pero">y entonces </msg>
+  <msg key="Remove_Grade">Remove Grade</msg>
+  <msg key="Rename">Group </msg>
+  <msg key="Requires_Grade_">Requires Grade? </msg>
+  <msg key="Reuse_Groups_">Reuse Groups </msg>
+  <msg key="Studen_List_">Studen List </msg>
+  <msg key="Student_List_">Student List </msg>
+  <msg key="Student_Name_">Student Name </msg>
+  <msg key="Students_List_">Students List </msg>
+  <msg key="Submission_Date_">Submission Date </msg>
+  <msg key="submit_answer_">submit answer </msg>
+  <msg key="submit_answer_again_">submit answer again </msg>
+  <msg key="Sumission_Date_">Sumission Date </msg>
+  <msg key="Task_Groups_">Task Groups </msg>
+  <msg key="Task_Name">Task Name:</msg>
+  <msg key="Task_Name_">Task Name </msg>
+  <msg key="Task_Name_1">Task Name</msg>
+  <msg key="Task_Solution">Task Solution</msg>
+  <msg key="Tasks_List_">Tasks List </msg>
+  <msg key="Total_">Total </msg>
+  <msg key="Total_current_grade_">Total current grade: </msg>
+  <msg key="Total_Grade_">Total Grade </msg>
+  <msg key="Total_of_Members_">Total of Members </msg>
+  <msg key="Unassociate_member_">Unassociate member </msg>
+  <msg key="Unassociate_url_">Unassociate url? </msg>
+  <msg key="Unattach_file_">Unattach file? </msg>
+  <msg key="Upload_Answer_">Upload Answer </msg>
+  <msg key="Upload_Date_">Upload Date </msg>
+  <msg key="Upload_Solution_">Upload Solution </msg>
+  <msg key="Uploaded_by_">Uploaded by </msg>
+  <msg key="URL_">(URL) </msg>
+  <msg key="URL__1">URL </msg>
+  <msg key="veamos">pues, esto esta interesante </msg>
+  <msg key="View_answer_">View answer </msg>
+  <msg key="View_comments_">View comments </msg>
+  <msg key="View_evaluation_">View evaluation </msg>
+  <msg key="View_grades_sheet_">View grades sheet </msg>
+  <msg key="View_my_answer_">View my answer </msg>
+  <msg key="View_NEW_answer_">View NEW answer </msg>
+  <msg key="View_Task_">View Task </msg>
+  <msg key="View_task_">View task </msg>
+  <msg key="ViewEdit_Evaluation_">View/Edit Evaluation </msg>
+  <msg key="ViewEdit_Solution_">View/Edit Solution </msg>
+  <msg key="Weight">Weight</msg>
+  <msg key="Weight_">Weight </msg>
+  <msg key="Will_the_studens_be">Will the studen(s) be</msg>
+  <msg key="Y">upi , pero no yupin</msg>
+  <msg key="Yes_">Yes </msg>
+</message_catalog>
