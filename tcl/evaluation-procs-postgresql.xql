@@ -33,7 +33,6 @@
 			:item_id,		
 			:revision_id,	
 			:name, 	
-			-1,		-- class_id temporal
 			:weight,		
 			'evaluation_grades',	
 			now(), --creation date	
@@ -90,7 +89,6 @@
 			:revision_id,	
 			:name,
 			:number_of_members,
-			:grade_id,		-- class_id temporal
 			:description,  	
 			:weight,	
 			:due_date,
@@ -462,7 +460,6 @@
 					  :exams_item_id,		
 					  :exams_revision_id,	
 					  'Exams', 	
-					  -1,		-- class_id temporal
 					  40,		
 					  'evaluation_grades',	
 					  now(), --creation date	
@@ -510,6 +507,28 @@
       </querytext>
 </fullquery>
 
+<fullquery name="evaluation::apm::create_folders.projects_revision_new">      
+      <querytext>
+
+	    select evaluation__new_grade (
+					  :projects_item_id,		
+					  :projects_revision_id,	
+					  'Projects', 	
+					  20,		
+					  'evaluation_grades',	
+					  now(), --creation date	
+					  :creation_user, 
+					  :creation_ip,	
+					  :projects_revision_name,			
+					  'Projects for students',	
+					  now(),  --publish date
+					  null, --nls_language
+					  'text/plain' --mime_type
+					  );
+
+      </querytext>
+</fullquery>
+
 <fullquery name="evaluation::apm::create_folders.projects_live_revision">      
       <querytext>
 
@@ -550,7 +569,6 @@
 					  :tasks_item_id,		
 					  :tasks_revision_id,	
 					  'Tasks', 	
-					  -1,		-- class_id temporal
 					  40,		
 					  'evaluation_grades',	
 					  now(), --creation date	

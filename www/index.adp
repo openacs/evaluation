@@ -14,7 +14,7 @@
 </if><else>
 <multiple name="grades">
 	<li><strong>@grades.grade_name@</strong> <br />
-	<include src="../lib/tasks-chunk" grade_id=@grades.grade_id@>
+	<include src="../lib/tasks-chunk" grade_id=@grades.grade_id@ assignments_orderby=@assignments_orderby@>
 	</li>
 </multiple>
 </else>
@@ -27,11 +27,11 @@
 </if><else>
  <multiple name="grades">
 	<li><strong>@grades.grade_name@</strong> <br />
-	<include src="../lib/evaluations-chunk" grade_id=@grades.grade_id@>
+	<include src="../lib/evaluations-chunk" grade_id=@grades.grade_id@ evaluations_orderby=@evaluations_orderby@>
 	</li>
  </multiple>
  <if @admin_p@ eq "0">
- <br />Your total grade in this class is: @total_class_grade@
+ <br />Your total grade in this class is: <strong>@total_class_grade@</strong>
  </if>
 </else>
 </ul>

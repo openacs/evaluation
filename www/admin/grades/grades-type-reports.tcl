@@ -24,6 +24,17 @@ set context [list [list "[export_vars -base grades-reports { }]" "Grades Report"
 
 set package_id [ad_conn package_id]
 
+# we have to decide if we are going to show all the users in the system
+# or only the students of a given class (community in dotrln)
+# in order to create the groups
+
+set community_id [dotlrn_community::get_community_id]
+if { [empty_string_p $community_id] } {
+    set query_name get_grades
+} else {
+    set query_name community_get_grades
+}
+
 set elements [list student_name \
 				  [list label "Name" \
 					   orderby_asc {student_name asc} \
@@ -63,6 +74,6 @@ if { [string equal $orderby ""] } {
     set task_order " order by student_name asc"
 }
 
-db_multirow grade_tasks get_grades { *SQL* } {
+db_multirow grade_tasks $query_name { *SQL* } {
 	
 }

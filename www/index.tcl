@@ -1,13 +1,16 @@
 # /package/evaluation/www/index.tcl
 
 ad_page_contract {
-	
-	Index page for evaluation package
+    
+    Index page for evaluation package
 
     @author jopez@galileo.edu
     @creation-date Mar 2004
     @cvs-id $Id$
-
+    
+} {
+    {assignments_orderby ""}
+    {evaluations_orderby ""}
 }
 
 set page_title "Evaluation Index"

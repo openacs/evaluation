@@ -2,54 +2,71 @@
 
 ad_page_contract {
 
-	Grades reports of a group
+    Grades reports of a group
 
-	@creation-date Apr 2004
-	@author jopez@galileo.edu
-	@cvs-id $Id$
+    @creation-date Apr 2004
+    @author jopez@galileo.edu
+    @cvs-id $Id$
 
 } {
-	{orderby ""}
+    {orderby ""}
 } -validate {
-	grades_for_package {
-		if { [string eq [db_string package_grades { *SQL* }] 0] } {
-			ad_complain "There are no grades for this group."
-		}
+    grades_for_package {
+	if { [string eq [db_string package_grades { *SQL* }] 0] } {
+	    ad_complain "There are no grades for this group."
 	}
+    }
 }
 
 set page_title "Grades Report"
 set context "Grades Report"
 set package_id [ad_conn package_id]
 
+# we have to decide if we are going to show all the users in the system
+# or only the students of a given class (community in dotrln)
+# in order to create the groups
+
+set community_id [dotlrn_community::get_community_id]
+if { [empty_string_p $community_id] } {
+    set query_name grades_report
+} else {
+    set query_name community_grades_report
+}
+
 set elements [list student_name \
-				  [list label "Name" \
-					   link_url_col student_url \
-					   orderby_asc {student_name asc} \
-					   orderby_desc {student_name desc}] \
-				 ]
+		  [list label "Name" \
+		       link_url_col student_url \
+		       orderby_asc {student_name asc} \
+		       orderby_desc {student_name desc}] \
+		 ]
 
 db_foreach grade_type { *SQL* } {
-	lappend elements grade_$grade_id \
-		[list label "<a href=[export_vars -base "grades-type-reports" { grade_id }]>$grade_name ($weight %)</a>"]
+    set grade_label_${grade_id} "$grade_name ($weight %) <a href=[export_vars -base "grades-type-reports" { grade_id }]><img src=\"/resources/acs-subsite/Zoom16.gif\" width=\"16\" height=\"16\" border=\"0\"></a>"
+    append pass_grades " grade_label_${grade_id} "
+    lappend elements grade_$grade_id \
+	[list label "@grade_label_${grade_id};noquote@" \
+	     orderby_asc {grade_$grade_id asc} \
+	     orderby_desc {grade_$grade_id desc} \
+	    ]
 
-	append sql_query [db_map grade_total_grade]
+    append sql_query [db_map grade_total_grade]
 }
 
 lappend elements total_grade \
-	[list label "Total Grade" \
-		 orderby_asc {total_grade asc} \
-		 orderby_desc {total_grade desc} \
-   ]
+    [list label "Total Grade" \
+	 orderby_asc {total_grade asc} \
+	 orderby_desc {total_grade desc} \
+	]
 
 append sql_query [db_map class_total_grade]
 
 template::list::create \
-	-name grades_report \
-	-multirow grades_report \
-	-key grade_id \
-	-elements $elements \
-	-orderby { default_value student_name }
+    -name grades_report \
+    -multirow grades_report \
+    -key grade_id \
+    -elements $elements \
+    -pass_properties " $pass_grades " \
+    -orderby { default_value student_name } 
 
 if { ![empty_string_p $orderby] } {
     set orderby "[template::list::orderby_clause -orderby -name grades_report]"
@@ -58,7 +75,7 @@ if { ![empty_string_p $orderby] } {
 }
 
 
-		
-db_multirow grades_report grades_report { *SQL* } {
-	
+
+db_multirow grades_report $query_name { *SQL* } {
+    
 }

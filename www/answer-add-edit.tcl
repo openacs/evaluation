@@ -13,7 +13,7 @@ ad_page_contract {
     item_id:integer,notnull,optional
     upload_file:trim,optional
     upload_file.tmpfile:tmpfile,optional
-    {return_url "/"}
+    return_url:notnull
 } 
 
 set user_id [ad_conn user_id]
@@ -31,7 +31,7 @@ if { [ad_form_new_p -key answer_id] } {
 
 set context [list $page_title]
 
-ad_form -html { enctype multipart/form-data } -name answer -cancel_url $return_url -export { item_id grade_id task_id attached_p } -form {
+ad_form -html { enctype multipart/form-data } -name answer -cancel_url $return_url -export { item_id grade_id task_id attached_p return_url } -form {
 
 	answer_id:key
 

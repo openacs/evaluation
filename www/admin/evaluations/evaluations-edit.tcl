@@ -22,7 +22,7 @@ set elements [list party_name \
 				  [list label "Answer" \
 					   link_url_col answer_url \
 					   link_html { title "View answer" }] \
-				  submission_date \
+				  pretty_submission_date \
 				  [list label "Submission Date" \
 					   orderby_asc {submission_date asc} \
 					   orderby_desc {submission_date desc}] \

@@ -57,4 +57,21 @@
       </querytext>
 </fullquery>
 
+<fullquery name="community_grades_report">      
+      <querytext>
+
+	select cu.first_names||', '||cu.last_name as student_name
+	$sql_query
+    from cc_users cu,
+	registered_users ru,
+        dotlrn_member_rels_approved app
+    where app.community_id = :community_id
+      and app.user_id = ru.user_id
+      and app.user_id = cu.person_id
+      and app.role = 'student'		
+    $orderby
+
+      </querytext>
+</fullquery>
+
 </queryset>

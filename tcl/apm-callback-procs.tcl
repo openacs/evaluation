@@ -48,22 +48,21 @@ ad_proc -private evaluation::apm::package_uninstall {
     Cleans the integration whith the notifications package.  
 
 } {
-
     db_transaction {
 	
         # Delete the type_id for a specific assignment
         notification::type::delete -short_name one_assignment_notif
 	
         # Delete the implementation for the notification of an assignment
-        delete_assignment_impl
+        delete_one_assignment_impl
 	
         # Delete the type_id for a especific evaluation
         notification::type::delete -short_name one_evaluation_notif
 	
         # Delete the implementation for the notification of an evaluation
-	delete_evaluation_impl
+	delete_one_evaluation_impl
 	
-    }
+    } 
 }
 
 ad_proc -private evaluation::apm::package_instantiate { 

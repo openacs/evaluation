@@ -159,28 +159,6 @@ ad_proc -public evaluation::set_live {
 	return 
 }
 
-
-
-ad_proc -private evaluation::export_entire_form_except { args } { 
-	Exports all but part of a form 
-} { 
-    # exports entire form except the variables specified in args 
-    set hidden "" 
-    set the_form [ns_getform] 
-    if {![empty_string_p $the_form]} { 
-        for {set i 0} {$i<[ns_set size $the_form]} {incr i} { 
-            set varname [ns_set key $the_form $i] 
-            if { [lsearch -exact $args $varname] == -1 } { 
-                set varvalue [ns_set value $the_form $i] 
-                append hidden "<input type=hidden name=\"$varname\" value=\"[ad_quotehtml $va\
-rvalue]\">\n" 
-            } 
-        } 
-    } 
-    return $hidden 
-} 
-
-
 ad_proc -private evaluation::now_plus_days { -ndays } {
     Create a new Date object for the current date and time 
     plus the number of days given
@@ -526,8 +504,8 @@ ad_proc -public evaluation::generate_grades_sheet {} {
 	lappend csv_content "\nWill the student be able to see the grade? (Yes/No):"
   	lappend csv_content "Yes"
 
-	lappend csv_content "\n\nParty id"  
-	lappend csv_content "Party Name"  
+	lappend csv_content "\n\nId"  
+	lappend csv_content "Name"  
 	lappend csv_content "Grade"  
 	lappend csv_content "Comments/Edit reason"
 	
@@ -695,24 +673,7 @@ ad_proc -public evaluation::apm::create_folders {
 	
 	db_exec_plsql projects_item_new { *SQL* }
 	
-	db_exec_plsql projects_revision_new { 			
-	    select evaluation__new_grade (
-					  :projects_item_id,		
-					  :projects_revision_id,	
-					  'Projects', 	
-					  -1,		-- class_id temporal
-					  20,		
-					  'evaluation_grades',	
-					  now(), --creation date	
-					  :creation_user, 
-					  :creation_ip,	
-					  :projects_revision_name,			
-					  'Projects for students',	
-					  now(),  --publish date
-					  null, --nls_language
-					  'text/plain' --mime_type
-					  );
-	}
+	db_exec_plsql projects_revision_new { *SQL* }
 
 	db_exec_plsql projects_live_revision { *SQL* }
 	

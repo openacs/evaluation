@@ -11,7 +11,7 @@
 	from evaluation_tasksi et
 	where grade_id = :grade_id
 	  and content_revision__is_live(et.task_id) = true 
-      $orderby
+      $evaluations_orderby
 	
       </querytext>
 </fullquery>
@@ -22,10 +22,11 @@
 	select et.task_name, 
 	ese.grade,
 	ese.description as comments,
+	ese.show_student_p,
 	(et.weight*eg.weight)/100 as task_weight,
-    (ese.grade*et.weight*eg.weight)/10000 as task_grade,
+        (ese.grade*et.weight*eg.weight)/10000 as task_grade,
 	et.number_of_members,
-    et.task_id,
+        et.task_id,
 	ea.data as answer_data,
 	ea.title as answer_title,
 	ea.answer_id
@@ -36,10 +37,10 @@
                                                                     and ea.party_id = evaluation__party_id(:user_id,et.task_id))
 	where eg.grade_id = :grade_id
 	and eg.grade_id = et.grade_id
-    and et.task_id = et2.task_id
+        and et.task_id = et2.task_id
 	and content_revision__is_live(et.task_id) = true 
 	and content_revision__is_live(eg.grade_id) = true
-	$orderby
+	$evaluations_orderby
 	
       </querytext>
 </fullquery>

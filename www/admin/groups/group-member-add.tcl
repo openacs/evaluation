@@ -51,7 +51,7 @@ if { [string equal $orderby ""] } {
 
 db_multirow -extend { associate_to_group_url associate_to_group } evaluation_groups get_evaluation_groups { *SQL* } {
 	set associate_to_group_url [export_vars -base "group-member-add-2" -url { task_id student_id evaluation_group_id }]
-	set associate_to_group "Associate to group..."
+	set associate_to_group "Associate to this group"
 }
 
 

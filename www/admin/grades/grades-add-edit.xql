@@ -6,7 +6,7 @@
 <fullquery name="get_grade_info">      
       <querytext>
 
-		select grade_name, class_id, comments, weight
+		select grade_name, comments, weight
 		from evaluation_grades
 		where grade_id = :grade_id
 

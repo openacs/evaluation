@@ -6,7 +6,10 @@
 <ul>
 <li><a href="grades/grades">Admin my Assignment Types</a></li>
 </ul>
-
+<h2>Grades Reports</h2>
+<ul>
+<li><a href="grades/grades-reports">Grades Reports</a></li>
+</ul>
 <h2>Assignments</h2>
 <p>@assignments_notification_chunk;noquote@</p>
 <ul>
@@ -15,7 +18,7 @@
 </if><else>
 <multiple name="grades">
 	<li><strong>@grades.grade_name@</strong> <br />
-	<include src="../../lib/tasks-chunk" grade_id=@grades.grade_id@>
+	<include src="../../lib/tasks-chunk" grade_id=@grades.grade_id@ assignments_orderby=@assignments_orderby@>
 	</li>
 </multiple>
 </else>
@@ -29,13 +32,9 @@
 </if><else>
 <multiple name="grades">
 	<li><strong>@grades.grade_name@</strong> <br />
-	<include src="../../lib/evaluations-chunk" grade_id=@grades.grade_id@>
+	<include src="../../lib/evaluations-chunk" grade_id=@grades.grade_id@ evaluations_orderby=@evaluations_orderby@>
 	</li>
 </multiple>
 </else>
 </ul>
-<br />
-<h2>Grades Reports</h2>
-<ul>
-<li><a href="grades/grades-reports">Grades Reports</a></li>
-</ul>
+

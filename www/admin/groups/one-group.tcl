@@ -29,10 +29,10 @@ set elements [list student_name \
 				  [list label "Student Name" \
 					   orderby_asc {student_name asc} \
 					   orderby_desc {student_name desc}] \
-				  desassociate_member \
+				  unassociate_member \
 				  [list label "" \
-					   link_url_col desassociate_member_url \
-					   link_html { title "Desassociate student for this group" }] \
+					   link_url_col unassociate_member_url \
+					   link_html { title "Unassociate student for this group" }] \
 				 ]
 
 template::list::create \
@@ -50,9 +50,9 @@ if { [string equal $orderby ""] } {
     set orderby " order by student_name asc"
 }
 
-db_multirow -extend { desassociate_member_url desassociate_member } one_group get_group_members { *SQL* } {
-	set desassociate_member_url [export_vars -base "group-remove-member" -url { evaluation_group_id task_id rel_id }]
-	set desassociate_member "Desassociate member"
+db_multirow -extend { unassociate_member_url unassociate_member } one_group get_group_members { *SQL* } {
+	set unassociate_member_url [export_vars -base "group-remove-member" -url { evaluation_group_id task_id rel_id }]
+	set unassociate_member "Unassociate member"
 }
 
 set export_vars [export_vars -form { task_id evaluation_group_id }]

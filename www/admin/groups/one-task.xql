@@ -35,7 +35,7 @@
       </querytext>
 </fullquery>
 
-<fullquery name="get_community_students_without_group">      
+<fullquery name="community_get_students_without_group">      
       <querytext>
 
 		select p.last_name ||', '|| p.first_names as student_name,

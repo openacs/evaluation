@@ -4,6 +4,12 @@
 
 
 <if @one_group:rowcount@ gt 0>
+<ul>
+<li>To chanche the name, edit the name in the text input and then click on the "Rename Group" botton.
+<li>To delete the group, click on the "Delete Group" botton.
+<li>To unassociate a member of the group, click on the "Unassociate member" link.
+</ul>
+
    <form action="group-rename">
    @export_vars;noquote@
    <blockquote>
@@ -16,8 +22,8 @@
   	 <tr>
   	 <td><listtemplate name="one_group"></listtemplate></td>
   	 <td>
-  	 <h1>Number of Members <br /> of this group: 
-  	 @number_of_members@</h1>
+  	 <h2>Number of members of this group: <br /> 
+  	 @number_of_members@</h2>
   	 </td>
 	 <td></td>
   	 </tr>

@@ -31,4 +31,14 @@
       </querytext>
 </fullquery>
 
+<fullquery name="sum_grades">      
+      <querytext>
+    select sum(eg.weight) 
+    from evaluation_gradesx eg, acs_objects ao 
+    where content_revision__is_live(eg.grade_id) = true 
+    and eg.item_id = ao.object_id 
+    and ao.context_id = :package_id
+      </querytext>
+</fullquery>
+
 </queryset>

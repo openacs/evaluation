@@ -8,7 +8,11 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 
+} {
+    {assignments_orderby ""}
+    {evaluations_orderby ""}
 }
+
 
 set page_title "Evaluation Index"
 set context {}

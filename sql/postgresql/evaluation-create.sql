@@ -7,19 +7,12 @@ create table evaluation_grades (
 				constraint evaluation_grades_id_fk
 				references cr_revisions(revision_id),
 	grade_name	varchar(100),
-	class_id	integer
-				constraint evaluation_grades_cid_nn
-				not null
-				constraint evaluation_grades_cid_fk
-				references groups,
 	comments	text,
 	-- percentage of this grade type in the class
 	weight		numeric
 				constraint evaluation_grades_w_ck
 				check (weight between 0 and 100)
 );
-
-create index evalutaion_grades_cid_index on evaluation_grades(class_id);
 
 select content_type__create_type (
 	'evaluation_grades',			-- content_type
@@ -84,14 +77,14 @@ select content_type__create_type (
 
 
 create table evaluation_tasks_class_map (
-	class_id	integer
+	package_id  		integer
 				constraint evaluations_tasks_cmap_cid_fk
-				references groups,
+				references apm_packages,
 	revision_id		integer
 				constraint evaluations_tasks_cmap_fid_fk
 				references cr_revisions,
 	constraint evaluaition_tasks_cmap_pk
-				primary key (class_id, revision_id)
+				primary key (package_id, revision_id)
 );
 
 create table evaluation_tasks_sols (
@@ -320,23 +313,22 @@ end;
 -- GRADES
 ---------------------------------------
 
-create function evaluation__new_grade (integer, integer, varchar, integer, numeric, varchar, timestamptz, integer, varchar, varchar, varchar, timestamptz, varchar, varchar)
+create function evaluation__new_grade (integer, integer, varchar, numeric, varchar, timestamptz, integer, varchar, varchar, varchar, timestamptz, varchar, varchar)
 returns integer as '
 declare
 	p_item_id			alias for $1;
 	p_revision_id		alias for $2;
 	p_grade_name 		alias for $3;
-	p_class_id			alias for $4;
-	p_weight			alias for $5;
-	p_object_type		alias for $6;
-	p_creation_date		alias for $7;
-	p_creation_user 	alias for $8;
-	p_creation_ip		alias for $9;
-	p_title				alias for $10; -- default null
-	p_description		alias for $11; -- default null
-	p_publish_date		alias for $12;
-	p_nls_language   	alias for $13; -- default null
-	p_mime_type   		alias for $14; -- default null
+	p_weight			alias for $4;
+	p_object_type		alias for $5;
+	p_creation_date		alias for $6;
+	p_creation_user 	alias for $7;
+	p_creation_ip		alias for $8;
+	p_title				alias for $9; -- default null
+	p_description		alias for $10; -- default null
+	p_publish_date		alias for $11;
+	p_nls_language   	alias for $12; -- default null
+	p_mime_type   		alias for $13; -- default null
 
 	v_revision_id		integer;
 
@@ -360,13 +352,11 @@ begin
 	insert into evaluation_grades
 			(grade_id, 
 			grade_name, 
-			class_id, 
 			comments, 
 			weight)
 	values
 			(v_revision_id, 
 			p_grade_name, 
-			p_class_id, 
 			p_description,
 			p_weight);
 

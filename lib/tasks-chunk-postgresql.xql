@@ -19,7 +19,7 @@
 	where cr.revision_id = et.revision_id
 	  and grade_id = :grade_id	
 	  and content_revision__is_live(et.task_id) = true 
-	$orderby
+	$assignments_orderby
 
       </querytext>
 </fullquery>
@@ -42,7 +42,7 @@
 	where cr.revision_id = et.revision_id
 	  and grade_id = :grade_id
 	  and content_revision__is_live(et.task_id) = true 
-    $orderby
+    $assignments_orderby
 	
       </querytext>
 </fullquery>

@@ -3,7 +3,7 @@
 <property name="context">@context;noquote@</property>
 
 <if @evaluation_groups:rowcount@ gt 0>
-<h3>Please select the group</h3>
+<h2>Please select the group</h2>
 <blockquote>
 <listtemplate name="evaluation_groups"></listtemplate>
 </blockquote>

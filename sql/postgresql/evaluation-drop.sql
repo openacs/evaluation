@@ -167,7 +167,7 @@ drop function evaluation__new_item (integer,varchar,varchar,integer,integer,varc
 -- GRADES
 ---------------------------------------
 
-drop function evaluation__new_grade (integer, integer, varchar, integer, numeric, varchar, timestamptz, integer, varchar, varchar, varchar, timestamptz, varchar, varchar);
+drop function evaluation__new_grade (integer, integer, varchar, numeric, varchar, timestamptz, integer, varchar, varchar, varchar, timestamptz, varchar, varchar);
 
 drop function evaluation__delete_grade (integer);
 
@@ -254,5 +254,9 @@ drop function evaluation__new_folder (varchar,varchar,text,integer,varchar);
 drop function evaluation__delete_contents (integer);
 
 drop function evaluation__delete_folder (integer,varchar);
+
+drop function evaluation__new_grades_sheet (integer, integer, integer, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
+
+drop function evaluation__delete_grades_sheet (integer);
 
 
