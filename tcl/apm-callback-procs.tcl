@@ -12,10 +12,10 @@ ad_library {
 }
 
 namespace eval evaluation {}
-namespace eval evaluation::apm {}
+namespace eval evaluation::apm_callback {}
 
 
-ad_proc -public evaluation::apm::package_install {  
+ad_proc -public evaluation::apm_callback::package_install {  
 } {
     
     Does the integration whith the notifications package.  
@@ -92,7 +92,7 @@ content::type::attribute::new -content_type {evaluation_grades_sheets} -attribut
 }
 }
 
-ad_proc -public evaluation::apm::package_uninstall { 
+ad_proc -public evaluation::apm_callback::package_uninstall { 
 } {
 
     Cleans the integration whith the notifications package.  
@@ -160,7 +160,7 @@ content::type::delete -content_type {evaluation_student_evals}
 content::type::delete -content_type {evaluation_grades_sheets}                                                                                            } 
 }
 
-ad_proc -public evaluation::apm::package_instantiate { 
+ad_proc -public evaluation::apm_callback::package_instantiate { 
     -package_id:required
 } {
 
@@ -175,7 +175,7 @@ ad_proc -public evaluation::apm::package_instantiate {
 }
 
 
-ad_proc -public evaluation::apm::package_uninstantiate { 
+ad_proc -public evaluation::apm_callback::package_uninstantiate { 
     -package_id:required
 } {
 
