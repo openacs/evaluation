@@ -10,9 +10,11 @@
 		et.title,
         	et.item_id,
 		et.mime_type,
+		crr.content_length,
 		cri.storage_type
-		from evaluation_tasksi et, cr_items cri
+		from evaluation_tasksi et, cr_items cri, cr_revisions crr
 		where et.task_id = :task_id
+		  and crr.revision_id = et.task_id
           and et.item_id = cri.item_id
 	
       </querytext>
@@ -21,7 +23,7 @@
 <fullquery name="set_date">      
       <querytext>
 
-		select to_timestamp('[template::util::date::get_property linear_date $due_date]','YYYY MM DD HH24 MI SS')l
+		select to_timestamp('[template::util::date::get_property linear_date $due_date]','YYYY MM DD HH24 MI SS')
 	
       </querytext>
 </fullquery>
@@ -42,6 +44,16 @@
 	update cr_revisions	
  	set content = :url
 	where revision_id = :revision_id
+
+     </querytext>
+</fullquery>
+
+<fullquery name="set_storage_type">      
+      <querytext>
+
+	update cr_items
+ 	set storage_type = 'text'
+	where item_id = :item_id
 
      </querytext>
 </fullquery>

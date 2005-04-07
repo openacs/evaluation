@@ -37,6 +37,16 @@
      </querytext>
 </fullquery>
 
+<fullquery name="set_storage_type">      
+      <querytext>
+
+	update cr_items
+ 	set storage_type = 'lob'
+	where item_id = :item_id
+
+     </querytext>
+</fullquery>
+
 <fullquery name="link_content">      
       <querytext>
 

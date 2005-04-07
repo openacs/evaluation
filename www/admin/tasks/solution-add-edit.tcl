@@ -60,7 +60,7 @@ if { ![ad_form_new_p -key solution_id] } {
 		}
 		{url:text(text),optional
 		    {label "[_ evaluation.URL__1]"} 
-		    {value "htp://"}
+		    {value "http://"}
 		}			
 	    }
 	} else {
@@ -238,9 +238,11 @@ ad_form -extend -name solution -form {
 		
 	    } elseif { ![string eq $url "http://"] } {
 		
-		db_dml link_content { *SQL* }
-		set content_length [string length $url] 
-		db_dml content_size { *SQL* }
+			db_dml link_content { *SQL* }
+			set content_length [string length $url] 
+			# in order to support oracle and postgres and still using only the cr_items table to store the task
+			db_dml set_storage_type { *SQL* }
+			db_dml content_size { *SQL* }
 		
 	    } elseif { [string eq $attached_p "t"] && ![string eq $unattach_p "t"] } {
 		# just copy the old content to the new revision

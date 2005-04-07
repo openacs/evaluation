@@ -16,8 +16,7 @@ ad_page_contract {
 if { [string eq $operation "[_ evaluation.lt_Yes_I_really_want_to__2]"] } {
     db_transaction {
 
-		db_exec_plsql delete_group { *SQL* }		
-
+		evaluation::delete_evaluation_group -group_id $evaluation_group_id
 		
     } on_error {
 		ad_return_error "[_ evaluation.lt_Error_deleting_the_ev]" "[_ evaluation.lt_We_got_the_following_]"

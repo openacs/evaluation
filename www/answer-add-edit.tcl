@@ -145,6 +145,8 @@ ad_form -extend -name answer -form {
 			
 			db_dml link_content { *SQL* }
 			set content_length 0
+			# in order to support oracle and postgres and still using only the cr_items table to store the task
+			db_dml set_storage_type { *SQL* }
 			db_dml content_size { *SQL* }
 			
 		}

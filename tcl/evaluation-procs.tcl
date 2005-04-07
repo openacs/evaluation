@@ -128,7 +128,6 @@ ad_proc -public evaluation::delete_task {
     db_foreach evaluation_delete_grades_sheet { select grades_sheet_id from evaluation_grades_sheets where task_item_id = :task_item_id } {
 	content::revision::delete -revision_id $grades_sheet_id
     }
-    #    db_1row get_task_id { select task_id as tasks_task_id from evaluation_tasks where task_item_id = :task_item_id }
     content::revision::delete -revision_id $task_id
 }
 
@@ -718,6 +717,18 @@ ad_proc -public evaluation::new_evaluation_group {
     db_exec_plsql evaluation_group_new { *SQL* }
     
     return $group_id
+} 
+
+ad_proc -public evaluation::delete_evaluation_group {
+    -group_id:required
+} {
+
+	Deletes an evaluation_group
+
+    @param group_id The group_id that will be deleted.
+
+} {
+	db_exec_plsql delete_evaluation_group { *SQL* }
 } 
 
 ad_proc -public evaluation::evaluation_group_name {

@@ -3,11 +3,11 @@
 <queryset>
   <rdbms><type>oracle</type><version>8.1.6</version></rdbms>
 
-<fullquery name="evaluation::set_live.content_set_live_revision">      
+<fullquery name="evaluation::delete_evaluation_group.delete_evaluation_group">      
       <querytext>
 	begin
-	     select content_item.set_live_revision (
-	     revision_id => :revision_id			
+	     :1 := evaluation.delete_evaluation_task_group (
+	     	p_task_group_id => :group_id				
 	     );
 	end;	
       </querytext>

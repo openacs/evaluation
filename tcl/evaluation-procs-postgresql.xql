@@ -3,13 +3,11 @@
 <queryset>
    <rdbms><type>postgresql</type><version>7.3</version></rdbms>
 
-<fullquery name="evaluation::set_live.content_set_live_revision">      
+<fullquery name="evaluation::delete_evaluation_group.delete_evaluation_group">      
       <querytext>
 
-		select content_item__set_live_revision (
-		:revision_id			
-		);
-	
+	   	select evaluation__delete_evaluation_task_group (:group_id)
+
       </querytext>
 </fullquery>
 
@@ -211,7 +209,7 @@
 <fullquery name="evaluation::clone_task.clone_content">      
       <querytext>
 
-	select evaluation__clone(:from_task_id,:revision_id)
+	select evaluation__clone_task(:from_task_id,:revision_id)
 		
       </querytext>
 </fullquery>

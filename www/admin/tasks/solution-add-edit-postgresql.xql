@@ -50,6 +50,26 @@
       </querytext>
 </fullquery>
 
+<fullquery name="set_storage_type">      
+      <querytext>
+
+	update cr_items
+ 	set storage_type = 'text'
+	where item_id = :item_id
+
+     </querytext>
+</fullquery>
+
+<fullquery name="link_content">      
+      <querytext>
+
+				update cr_revisions	
+				set content = :url
+				where revision_id = :revision_id
+	
+      </querytext>
+</fullquery>
+
 <fullquery name="set_file_content">      
       <querytext>
 

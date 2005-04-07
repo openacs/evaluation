@@ -43,15 +43,4 @@
       </querytext>
 </fullquery>
 
-
-<fullquery name="link_content">      
-      <querytext>
-
-				update cr_revisions	
-				set content = :url
-				where revision_id = :revision_id
-	
-      </querytext>
-</fullquery>
-
 </queryset>

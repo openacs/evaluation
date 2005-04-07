@@ -12,7 +12,8 @@ begin
     END LOOP;
 end;
 /
-show errors
+show errors;
+
 drop index ev_cal_task_map_tcid_index;
 drop table evaluation_cal_task_map;
 

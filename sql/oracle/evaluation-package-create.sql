@@ -5,7 +5,7 @@
 -- Package definition
 ----------------------
 
-create or replace package evaluation
+create package evaluation
 as	
  function grade_name (
        grade_id  in evaluation_grades.grade_id%TYPE  
@@ -81,7 +81,7 @@ show errors;
 -- Package Body
 ------------------
 
-create or replace package body evaluation 
+create package body evaluation 
 as 
  
  function grade_name ( 

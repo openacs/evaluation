@@ -45,7 +45,7 @@ declare
     v_content 		    cr_revisions.content%TYPE;
 begin
     select content, 
-	content_legth,
+	content_length,
 	lob
     into
 	v_content,
@@ -58,7 +58,7 @@ begin
     set content = v_content,
     content_length = v_content_length,
     lob = v_lob
-    where revision_id = p_to_revision_id
+    where revision_id = p_to_revision_id;
 
     return p_to_revision_id;
 end;
