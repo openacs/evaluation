@@ -71,7 +71,7 @@ if { !$new_p } {
 		{upload_file:file,optional
 		    {label "[_ evaluation.File_]"} 
 		    {html "size 30"}
-		    {help_text "[_ evaluation.lt_Currently_title_is_at_1]"}
+		    {help_text "[_ evaluation.lt_Currently_title_is_at_2]"}
 		}
 		{unattach_p:text(checkbox),optional 
 		    {label "[_ evaluation.Unattach_file_]"} 
@@ -88,7 +88,7 @@ if { !$new_p } {
 		{upload_file:text,optional
 		    {label "[_ evaluation.File_]"} 
 		    {html "size 30"}
-		    {value "$content"}
+		    {value "$title"}
 		}
 		{unattach_p:text(hidden)
 		}
@@ -326,8 +326,8 @@ ad_form -extend -name task -form {
 	    set title [template::util::file::get_property filename $upload_file]
 	    set mime_type [cr_filename_to_mime_type -create $title]
 	    
-	    if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
-		set storage_type file
+	    if { ![parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
+			set storage_type file
 	    }
 	} elseif { ![string eq $url "http://"] } {
 	    set mime_type "text/plain"
@@ -379,17 +379,16 @@ ad_form -extend -name task -form {
 	    set content_length [file size $tmp_file]
 	    
 	    if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
-		# create the new item
-
-		set filename [cr_create_content_file $item_id $revision_id $tmp_file]
+			# create the new item
+			db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
+			
+			# Unfortunately, we can only calculate the file size after the lob is uploaded 
+			db_dml lob_size { *SQL* }
+	    } else {
+			# create the new item
+			set file_name [cr_create_content_file $item_id $revision_id $tmp_file]
                 db_dml set_file_content { *SQL* }
 
-	    } else {
-		# create the new item
-		db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
-		
-		# Unfortunately, we can only calculate the file size after the lob is uploaded 
-		db_dml lob_size { *SQL* }
 	    }
 	    
 	} elseif { ![string eq $url "http://"] } {

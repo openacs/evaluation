@@ -166,7 +166,7 @@ if { ![empty_string_p $tmp_filename] } {
 	if { [parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
 	    # create the new item
 	    
-	    set filename [cr_create_content_file $grades_sheet_item_id $revision_id $tmp_filename]
+	    set file_name [cr_create_content_file $grades_sheet_item_id $revision_id $tmp_filename]
 	    db_dml set_file_content { *SQL* }
 	    
 	} else {
@@ -188,11 +188,18 @@ if { ![empty_string_p $tmp_filename] } {
 	    
 	    if { [info exists grades_gs($party_id)] && ![empty_string_p $grades_gs($party_id)] } {
 		set grades_gs($party_id) [expr ($grades_gs($party_id)*100)/$max_grade.0]
-		set revision_id [evaluation::new_evaluation -new_item_p $new_p_gs($party_id) -item_id $item_ids($party_id) -content_type evaluation_student_evals \
-				     -content_table evaluation_student_evals -content_id evaluation_id -description $comments_gs($party_id) \
-				     -show_student_p $show_student_gs($party_id) -grade $grades_gs($party_id) -task_item_id $task_item_id -party_id $party_id]
+		set revision_id [evaluation::new_evaluation -new_item_p $new_p_gs($party_id) \
+							 -item_id $item_ids($party_id) \
+							 -content_type evaluation_student_evals \
+							 -content_table evaluation_student_evals \
+							 -content_id evaluation_id \
+							 -description $comments_gs($party_id) \
+							 -show_student_p $show_student_gs($party_id) \
+							 -grade $grades_gs($party_id) \
+							 -task_item_id $task_item_id \
+							 -party_id $party_id]
 		
-		evaluation::set_live -revision_id $revision_id
+		content::item::set_live_revision -revision_id $revision_id
 		
 		if { [string eq $new_p_gs($party_id) 0] } {
 		    # if editing the grade, send the notification

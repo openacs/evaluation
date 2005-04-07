@@ -12,7 +12,7 @@ template::list::create \
     -key task_name \
     -filters { task_id {} } \
     -pass_properties { return_url } \
-    -orderby { default_value last_modified } \
+    -orderby { default_value "last_modified,desc" } \
     -elements {
         task_grade {
             label "[_ evaluation.Grade_]"
@@ -38,11 +38,10 @@ template::list::create \
         }
         is_live {
             label "[_ evaluation.Is_live_]"
-	    orderby_asc {comments asc}
-	    orderby_desc {comments desc}
         }
     }
 
+set orderby [template::list::orderby_clause -orderby -name grade_tasks]
 
 db_multirow -extend { last_modified_pretty } grade_tasks get_task_audit_info { *SQL* } {
     set last_modified_pretty [lc_time_fmt $last_modified_ansi "%q %r"]

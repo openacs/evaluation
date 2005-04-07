@@ -340,7 +340,8 @@ ad_proc -public evaluation::clone_task {
 					  [list requires_grade_p $requires_grade_p] \
 					  [list number_of_members $number_of_members]]]
 
-    db_dml clone_content { *SQL* }
+    db_exec_plsql clone_content { *SQL* }
+
     return $revision_id
 }
 
@@ -556,11 +557,11 @@ ad_proc -public evaluation::new_answer {
     set revision_id [db_nextval acs_object_id_seq]
 
     if { [empty_string_p $publish_date] } {
-	set publish_date [db_string get_date { *SQL* }]
+		set publish_date [db_string get_date { *SQL* }]
     }
-
+	
     if { [empty_string_p $creation_date] } {
-	set creation_date [db_string get_date { *SQL* }]
+		set creation_date [db_string get_date { *SQL* }]
     }
     if { $new_item_p } {
         set item_id [content::item::new \
@@ -579,7 +580,7 @@ ad_proc -public evaluation::new_answer {
 			 -item_id $item_id \
 			 -content_type $content_type \
 			 -mime_type $mime_type \
-			 -title $title\
+			 -title $title \
 			 -creation_user $creation_user \
 			 -creation_ip $creation_ip \
 			 -creation_date $creation_date \

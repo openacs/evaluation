@@ -29,8 +29,10 @@
       <querytext>
 
 		update cr_revisions	
- 		set lob = [set __lob_id [db_string get_lob_id "select empty_lob() from dual"]]
+ 		set content = empty_blob(),
+		filename = :filename
 		where revision_id = :revision_id
+		returning content into :1
 
      </querytext>
 </fullquery>
@@ -57,7 +59,7 @@
       <querytext>
 
 		update cr_revisions
-		set filename = :title,
+		set filename = :file_name,
 		mime_type = :mime_type,
 		content_length = :content_length
 		where revision_id = :revision_id

@@ -77,4 +77,66 @@
       </querytext>
 </fullquery>
 
+<fullquery name="compare_evaluation_date">      
+      <querytext>
+
+	select 1 from dual where :submission_date_ansi > :evaluation_date_ansi
+	
+      </querytext>
+</fullquery>
+
+<fullquery name="compare_submission_date">      
+      <querytext>
+
+	select 1 from dual where :submission_date_ansi > :due_date_ansi
+	
+      </querytext>
+</fullquery>
+
+<partialquery name="processed_clause">
+	  <querytext>         
+
+		and ev.party_id not in ([join $done_students ","]) 
+
+	  </querytext>
+</partialquery>
+
+<fullquery name="get_task_info">      
+      <querytext>
+
+	select et.task_name,
+		et.task_item_id,
+		eg.grade_id,
+		eg.grade_plural_name,
+		eg.weight as grade_weight,
+		et.weight as task_weight,
+		to_char(et.due_date, 'YYYY-MM-DD HH24:MI:SS') as due_date_ansi,
+		et.number_of_members,
+		et.online_p
+		from evaluation_grades eg, evaluation_tasks et, cr_items cri
+		where et.task_id = :task_id
+		  and et.grade_item_id = eg.grade_item_id
+		  and cri.live_revision = eg.grade_id
+	
+      </querytext>
+</fullquery>
+
+<partialquery name="sql_query_groups">
+	  <querytext>         
+
+		select g.group_name as party_name,
+		g.group_id as party_id
+		from groups g, evaluation_task_groups etg, evaluation_tasks et,
+		acs_rels map
+		where g.group_id = etg.group_id
+		  and etg.group_id = map.object_id_one
+		  and map.rel_type = 'evaluation_task_group_rel'
+		  and etg.task_item_id = et.task_item_id
+	   	  and et.task_id = :task_id
+		  $not_in_clause
+		group by g.group_id, g.group_name
+
+	  </querytext>
+</partialquery>
+
 </queryset>

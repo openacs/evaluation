@@ -68,7 +68,7 @@
           </tr> 
           <tr> 
           <td><a href="grades-sheet-csv-@task_id@.csv">#evaluation.Generate_file#</a></td> 
-          <td><a href="grades-sheets?task_id=@task_id@">#evaluation.lt_See_grades_sheets_ass#</a></td> 
+          <td><a href="grades-sheets?task_id=@task_id@&return_url=student-list">#evaluation.lt_See_grades_sheets_ass#</a></td> 
           <td colspan=2><a href="grades-sheet-explanation?task_id=@task_id@">#evaluation.How_does_this_work#</a></td> 
           </tr> 
        </table> 
@@ -117,7 +117,7 @@
           </tr> 
           <tr> 
           <td><a href="grades-sheet-csv-@task_id@.csv">#evaluation.Generate_file#</a></td> 
-          <td><a href="grades-sheets?task_id=@task_id@">#evaluation.lt_See_grades_sheets_ass#</a></td> 
+          <td><a href="grades-sheets?task_id=@task_id@&return_url=student-list">#evaluation.lt_See_grades_sheets_ass#</a></td> 
           <td colspan=2><a href="grades-sheet-explanation?task_id=@task_id@">#evaluation.How_does_this_work#</a></td> 
           </tr> 
        </table> 

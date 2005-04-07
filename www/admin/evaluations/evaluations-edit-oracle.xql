@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 
 <queryset>
-   <rdbms><type>postgresql</type><version>7.3</version></rdbms>
+   <rdbms><type>oracle</type><version>8.1.6</version></rdbms>
 
 <fullquery name="get_evaluated_students">      
       <querytext>
 
-	select evaluation__party_name(ese.party_id,et.task_id) as party_name,
+	select evaluation.party_name(ese.party_id,et.task_id) as party_name,
 	ese.party_id,
 	round(ese.grade,2) as grade,
 	to_char(ese.last_modified,'YYYY-MM-DD HH24:MI:SS') as evaluation_date_ansi,
@@ -22,7 +22,7 @@
 	     evaluation_student_evalsi ese 
 	where et.task_id = :task_id
 	  and et.task_item_id = ese.task_item_id
-	  and content_revision__is_live(ese.evaluation_id) = true
+	  and content_revision.is_live(ese.evaluation_id) = 't'
         $orderby       
 	
       </querytext>
@@ -39,7 +39,7 @@
 	    from evaluation_answersi ea 
             where ea.party_id = :party_id 
 	    and ea.task_item_id = :task_item_id
-	    and content_revision__is_live(ea.answer_id) = true
+	    and content_revision.is_live(ea.answer_id) = 't'
 	
       </querytext>
 </fullquery>

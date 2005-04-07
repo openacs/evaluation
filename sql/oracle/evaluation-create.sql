@@ -30,7 +30,7 @@ create table evaluation_tasks (
         number_of_members       integer default 1
 					constraint evaluation_tasks_nom_nn
                                         not null,
-        due_date                date,
+        due_date            date,
         grade_item_id   	integer constraint evaluation_tasks_gid_fk
                                 	references cr_items(item_id),
         -- percentage of the grade of the course

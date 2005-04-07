@@ -192,5 +192,29 @@ select acs_attribute__create_attribute (
 	'f' 						--static_p
 );
 
+create table evaluation_user_profile_rels (
+    rel_id                      integer
+                                constraint evaluation_user_profile_rels_pk
+                                primary key
+);
+
+select acs_rel_type__create_type(
+        'evaluation_task_group_rel',
+        'Evaluation Task Group Member',
+        'Evaluation Task Group Members',
+		'membership_rel',
+        'evaluation_user_profile_rels',
+        'rel_id',
+        'evaluations',
+        'evaluation_task_groups',
+        null,
+        0,
+        null,
+        'user',
+        null,
+        0,
+        1
+);
+
 \i evaluation-package-create.sql                                                                                                                                                
 \i evaluation-calendar-create.sql

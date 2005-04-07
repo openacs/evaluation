@@ -26,12 +26,13 @@
 
 <fullquery name="get_answer_info">      
       <querytext>
-	    select ea.data as answer_data, 
-	    ea.title as answer_title, 
+	    select crr.filename as answer_data, 
+	    crr.title as answer_title, 
 	    ea.answer_id 
-	    from evaluation_answersi ea, cr_items cri
+	    from evaluation_answers ea, cr_items cri, cr_revisions crr
 	    where ea.task_item_id = :task_item_id 
 	    and cri.live_revision = ea.answer_id
+		and crr.revision_id = ea.answer_id 
 	    and ea.party_id = evaluation.party_id(:user_id,:task_id)
       </querytext>
 </fullquery>

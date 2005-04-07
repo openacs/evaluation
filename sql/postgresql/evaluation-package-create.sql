@@ -9,7 +9,7 @@ declare
     p_grade_id      alias for $1;
     v_grade_name    evaluation_grades.grade_name%TYPE;
 begin
-	select grade_name  into v_grade_name
+	select grade_name into v_grade_name
 		from evaluation_grades
 		where grade_id = p_grade_id;
 
@@ -27,11 +27,40 @@ declare
     p_task_id      alias for $1;
     v_task_name    evaluation_tasks.task_name%TYPE;
 begin
-	select task_name  into v_task_name
+	select task_name into v_task_name
 		from evaluation_tasks
 		where task_id = p_task_id;
 
     return v_task_name;
+end;
+' language 'plpgsql';
+
+create function evaluation__clone_task(integer,integer)
+returns integer as '
+declare 
+    p_from_revision_id      alias for $1;
+    p_to_revision_id 	    alias for $2;
+    v_content_length	    cr_revisions.content_length%TYPE;
+    v_lob 	            cr_revisions.lob%TYPE;
+    v_content 		    cr_revisions.content%TYPE;
+begin
+    select content, 
+	content_legth,
+	lob
+    into
+	v_content,
+	v_content_length,
+	v_lob
+    from cr_revisions
+    where revision_id = p_from_revision_id;
+
+    update cr_revisions	
+    set content = v_content,
+    content_length = v_content_length,
+    lob = v_lob
+    where revision_id = p_to_revision_id
+
+    return p_to_revision_id;
 end;
 ' language 'plpgsql';
 
@@ -113,30 +142,6 @@ begin
 	return 0;
 end;
 ' language 'plpgsql';
-
-create table evaluation_user_profile_rels (
-    rel_id                      integer
-                                constraint evaluation_user_profile_rels_pk
-                                primary key
-);
-
-select acs_rel_type__create_type(
-        'evaluation_task_group_rel',
-        'Evaluation Task Group Member',
-        'Evaluation Task Group Members',
-		'membership_rel',
-        'evaluation_user_profile_rels',
-        'rel_id',
-        'evaluations',
-        'evaluation_task_groups',
-        null,
-        0,
-        null,
-        'user',
-        null,
-        0,
-        1
-    );
 
 ---------------------------------------
 -- GRADE FUNCTIONS

@@ -19,7 +19,7 @@
       and ese.party_id = :party_id
 	and et.task_item_id = ese.task_item_id
 	and content_revision__is_live(et.task_id) = true
-	order by evaluation__party_name(party_id,task_id), ese.evaluation_id desc
+	$orderby
 
       </querytext>
 </fullquery>

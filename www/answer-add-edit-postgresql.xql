@@ -11,17 +11,6 @@
       </querytext>
 </fullquery>
 
-<fullquery name="task_info">      
-      <querytext>
-	
-		select task_item_id, task_name
-		from evaluation_tasks
-		where task_id = :task_id
-	
-      </querytext>
-</fullquery>
-
-
 <fullquery name="double_click">      
       <querytext>
 
@@ -34,29 +23,10 @@
       </querytext>
 </fullquery>
 
-<fullquery name="late_turn_in">      
-      <querytext>
-	
-	select late_submit_p from evaluation_tasks where task_id = :task_id
-	
-      </querytext>
-</fullquery>
-
 <fullquery name="compare_dates">      
       <querytext>
 	
 	select 1 from evaluation_tasks  where task_id = :task_id and due_date < now()
-	
-      </querytext>
-</fullquery>
-
-<fullquery name="item_data">      
-      <querytext>
-	
-		select crr.title, crr.item_id
-		from evaluation_answers ea, cr_revisions crr
-		where ea.answer_id = :answer_id
-          and crr.revision_id = ea.answer_id
 	
       </querytext>
 </fullquery>
@@ -78,6 +48,18 @@
 		set content = :url
 		where revision_id = :revision_id
 
+      </querytext>
+</fullquery>
+
+<fullquery name="set_file_content">      
+      <querytext>
+
+		update cr_revisions
+		set content = :file_name,
+		mime_type = :mime_type,
+		content_length = :content_length
+		where revision_id = :revision_id
+			
       </querytext>
 </fullquery>
 

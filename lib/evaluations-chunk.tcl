@@ -126,14 +126,14 @@ if { $admin_p } {
 	if { [db_0or1row get_answer_info { *SQL* }] } {
 	    # working with answer stuff (if it has a file/url attached)
 	    if { [string eq $answer_title "link"] } {
-		# there is a bug in the template::list, if the url does not has a http://, ftp://, the url is not absolute,
-		# so we have to deal with this case
-		array set community_info [site_node::get -url "[dotlrn_community::get_community_url [dotlrn_community::get_community_id]][evaluation::package_key]"]
-		if { ![regexp ([join [split [parameter::get -parameter urlProtocols -package_id $community_info(package_id)] ","] "|"]) "$answer_data"] } {
-		    set answer_data "http://$answer_data"
-		} 
-		set answer_url "[export_vars -base "$answer_data" { }]"
-		set answer "[_ evaluation-portlet.View_my_answer_]"
+			# there is a bug in the template::list, if the url does not has a http://, ftp://, the url is not absolute,
+			# so we have to deal with this case
+			array set community_info [site_node::get -url "[dotlrn_community::get_community_url [dotlrn_community::get_community_id]][evaluation::package_key]"]
+			if { ![regexp ([join [split [parameter::get -parameter urlProtocols -package_id $community_info(package_id)] ","] "|"]) "$answer_data"] } {
+				set answer_data "http://$answer_data"
+			} 
+			set answer_url "[export_vars -base "$answer_data" { }]"
+			set answer "[_ evaluation-portlet.View_my_answer_]"
 	    } else {
 		# we assume it's a file
 		set answer_url "[export_vars -base "${base_url}view/$answer_title" { {revision_id $answer_id} }]"

@@ -11,6 +11,7 @@ ad_page_contract {
 } -query {
 	{orderby:optional}
 	task_id:integer,notnull
+	return_url
 } -validate {
 	grades_sheets {
 		if { ![db_string count_grades_sheets { *SQL* }] } {
@@ -29,7 +30,7 @@ template::list::create \
     -name grades_sheets \
     -multirow grades_sheets \
     -key grades_sheet_id \
-    -filters { task_id {} } \
+    -filters { task_id {} return_url {} } \
     -orderby { default_value grades_sheet_name } \
     -elements {
         grades_sheet_name {

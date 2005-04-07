@@ -59,7 +59,7 @@
 
 <fullquery name="compare_due_date">      
       <querytext>
-	select 1 from dual where :due_date > sysdate
+	select 1 from dual where :due_date_ansi > to_char(sysdate,'YYYY-MM-DD HH24:MI:SS')
       </querytext>
 </fullquery>
 

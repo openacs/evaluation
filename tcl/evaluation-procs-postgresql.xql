@@ -211,12 +211,8 @@
 <fullquery name="evaluation::clone_task.clone_content">      
       <querytext>
 
-	update cr_revisions	
- 	set content = :content,
-	content_length = :content_length,
-	lob = :lob
-	where revision_id = :revision_id
-	
+	select evaluation__clone(:from_task_id,:revision_id)
+		
       </querytext>
 </fullquery>
  

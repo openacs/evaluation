@@ -154,6 +154,7 @@
   <msg key="lt_Currently_content_is__1">Currently %content% is associated to this task, but you can associate a different url/file just by adding it here </msg>
   <msg key="lt_Currently_title_is_at">Currently %title% is attached to this task solution, but you can attach a different file/url just by adding it here </msg>
   <msg key="lt_Currently_title_is_at_1">Currently %title% is attached to this task, but you can attach a different file/url just by adding it here </msg>
+  <msg key="lt_Currently_title_is_at_2">Currently %title% is attached to this task, but you can attach a different file/url just by adding it here</msg>
   <msg key="lt_Delete_Assignment_Typ">Delete Assignment Type </msg>
   <msg key="lt_Delete_assignment_typ">Delete assignment type </msg>
   <msg key="lt_Distribution_for_grad">Distribution for grade &quot;%grade_plural_name%&quot;</msg>
@@ -229,6 +230,8 @@
   <msg key="lt_Students_with_answers">Students with answers that have not been evaluated (%not_evaluated_with_answer%)</msg>
   <msg key="lt_submission_date_prett">%submission_date_pretty% (late) </msg>
   <msg key="lt_submission_date_prett_1">%submission_date_pretty% &lt;span style=\&quot;color:red;\&quot;&gt;(late answer)&lt;/span&gt; </msg>
+  <msg key="lt_Submit_answer_again_s">Submit answer again (&lt;span style=color:red;&gt;late&lt;/span&gt;)</msg>
+  <msg key="lt_Submit_answer_span_st">Submit answer (&lt;span style=color:red;&gt;late&lt;/span&gt;)</msg>
   <msg key="lt_task_name_administrat">%task_name% administration</msg>
   <msg key="lt_task_name_is_in_group">&quot;%task_name%&quot; is in groups, may be there are no groups, click this link if you want to go to the Groups Admin page: %groups_admin;noquote%</msg>
   <msg key="lt_The_assignment_task_n">The assignment &quot;%task_name%&quot; has been uploaded in this community.</msg>

@@ -6,5 +6,5 @@
 
 <blockquote><listtemplate name="grades_sheets"></listtemplate></blockquote>
 
-
+<a href=@return_url;noquote@?task_id=@task_id@>Go Back</a>
 

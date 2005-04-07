@@ -17,7 +17,6 @@ set context [list [list "[export_vars -base one-task { task_id }]" "[_ evaluatio
 
 db_1row get_group_info { *SQL* }
 
-ns_log notice "si.. es $return_url \n"
 set export_vars [export_vars -form { evaluation_group_id task_id return_url }]
 
 

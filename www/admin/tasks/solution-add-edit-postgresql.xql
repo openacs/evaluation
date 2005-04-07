@@ -50,4 +50,16 @@
       </querytext>
 </fullquery>
 
+<fullquery name="set_file_content">      
+      <querytext>
+
+		update cr_revisions
+		set content = :file_name,
+		mime_type = :mime_type,
+		content_length = :content_length
+		where revision_id = :revision_id
+			
+      </querytext>
+</fullquery>
+
 </queryset>

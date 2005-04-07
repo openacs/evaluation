@@ -16,16 +16,16 @@
 <fullquery name="evaluation::new_evaluation_group.evaluation_group_new">      
       <querytext>
 	 begin
-		select evaluation__new_evaluation_task_group (
-													  :group_id,
-													  :group_name,
-													  'closed',
-													  :creation_date,
-													  :creation_user,
-													  :creation_ip,
-													  :context,
-													  :task_item_id
-													  );
+		:1 := evaluation.new_evaluation_task_group (
+											 p_task_group_id => :group_id,
+											 p_task_group_name => :group_name,
+											 p_join_policy => 'closed',
+											 p_creation_date => :creation_date,
+											 p_creation_user => :creation_user,
+											 p_creation_ip => :creation_ip,
+											 p_context_id => :context,
+											 p_task_item_id => :task_item_id
+											  );
 	 end;
       </querytext>
 </fullquery>
@@ -33,7 +33,7 @@
 <fullquery name="evaluation::evaluation_group_name.evaluation_group_name">      
       <querytext>
 	 begin
-		select acs_group.name(:group_id) as group_name;
+		:1 := acs_group.name(:group_id);
 	 end;
       </querytext>
 </fullquery>
@@ -186,13 +186,12 @@
 
 <fullquery name="evaluation::clone_task.clone_content">      
       <querytext>
-
-	update cr_revisions	
- 	set content = :content,
-	content_length = :content_length,
-	filename = :filename
-	where revision_id = :revision_id
-	
+	begin
+	evaluation.clone_task (
+	   p_from_revision_id => :from_task_id, 
+	   p_to_revision_id => :revision_id
+	);
+	end;
       </querytext>
 </fullquery>
  

@@ -58,7 +58,7 @@
       <querytext>
 
 		update cr_revisions
-		set content = :filename,
+		set content = :file_name,
 		mime_type = :mime_type,
 		content_length = :content_length
 		where revision_id = :revision_id

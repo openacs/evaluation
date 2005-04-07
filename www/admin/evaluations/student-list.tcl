@@ -57,55 +57,55 @@ if { ![empty_string_p $community_id] && $number_of_members == 1 } {
 set actions [list "[_ evaluation.Edit_Evaluations_]" [export_vars -base "evaluations-edit" { task_id }]]
 
 set elements [list count \
-		  [list label "" \
-		       display_template { @evaluated_students.rownum@. } \
-		       ] \
-		  party_name \
-		  [list label "[_ evaluation.Name_]" \
-		       orderby_asc {party_name asc} \
-		       orderby_desc {party_name desc} \
-		       link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id evaluation_mode }]} \
-		       link_html { title "[_ evaluation.View_evaluation_]" } \
-		      ] \
-		  grade \
-		  [list label "[_ evaluation.Grade_over_100_]" \
-		       orderby_asc {grade asc} \
-		       orderby_desc {grade desc} \
-		      ] \
-		  action \
-		  [list label "" \
-		       display_template { @evaluated_students.action;noquote@ } \
-		       link_url_col action_url \
-		      ] \
-		 ]
+				  [list label "" \
+					   display_template { @evaluated_students.rownum@. } \
+					  ] \
+				  party_name \
+				  [list label "[_ evaluation.Name_]" \
+					   orderby_asc {party_name asc} \
+					   orderby_desc {party_name desc} \
+					   link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id evaluation_mode }]} \
+					   link_html { title "[_ evaluation.View_evaluation_]" } \
+					  ] \
+				  grade \
+				  [list label "[_ evaluation.Grade_over_100_]" \
+					   orderby_asc {grade asc} \
+					   orderby_desc {grade desc} \
+					  ] \
+				  action \
+				  [list label "" \
+					   display_template { @evaluated_students.action;noquote@ } \
+					   link_url_col action_url \
+					  ] \
+				 ]
 
 if { [string eq $online_p "t"] } {
     lappend elements submission_date_pretty \
-	[list label "[_ evaluation.Submission_Date_]" \
-	     display_template { @evaluated_students.submission_date_pretty;noquote@ }]
+		[list label "[_ evaluation.Submission_Date_]" \
+			 display_template { @evaluated_students.submission_date_pretty;noquote@ }]
 }
 
 lappend elements view \
     [list label "" \
-	 sub_class narrow \
-	 display_template {<img src="/resources/acs-subsite/Zoom16.gif" width="16" height="16" border="0">} \
-	 link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id evaluation_mode }]} \
-	 link_html { title "[_ evaluation.View_evaluation_]" } \
-	]
+		 sub_class narrow \
+		 display_template {<img src="/resources/acs-subsite/Zoom16.gif" width="16" height="16" border="0">} \
+		 link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id evaluation_mode }]} \
+		 link_html { title "[_ evaluation.View_evaluation_]" } \
+		]
 lappend elements edit \
     [list label "" \
-	 sub_class narrow \
-	 display_template {<img src="/resources/acs-subsite/Edit16.gif" width="16" height="16" border="0">} \
-	 link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id }]} \
-	 link_html { title "[_ evaluation.Edit_evaluation_]" } \
-	] 
+		 sub_class narrow \
+		 display_template {<img src="/resources/acs-subsite/Edit16.gif" width="16" height="16" border="0">} \
+		 link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id }]} \
+		 link_html { title "[_ evaluation.Edit_evaluation_]" } \
+		] 
 lappend elements delete \
     [list label {} \
-	 sub_class narrow \
-	 display_template {<img src="/resources/acs-subsite/Delete16.gif" width="16" height="16" border="0">} \
-	 link_url_eval {[export_vars -base "evaluation-delete" { evaluation_id return_url task_id }]} \
-	 link_html { title "[_ evaluation.Delete_evaluation_]" } \
-	] 
+		 sub_class narrow \
+		 display_template {<img src="/resources/acs-subsite/Delete16.gif" width="16" height="16" border="0">} \
+		 link_url_eval {[export_vars -base "evaluation-delete" { evaluation_id return_url task_id }]} \
+		 link_html { title "[_ evaluation.Delete_evaluation_]" } \
+		] 
 
 
 template::list::create \
@@ -132,28 +132,28 @@ db_multirow -extend { action action_url submission_date_pretty count } evaluated
     set grade [lc_numeric $grade]
     
     if { [string eq $online_p "t"] } {
-	if { [db_0or1row get_answer_info { *SQL* }] } {
-	    # working with answer stuff (if it has a file/url attached)
-	    if { [empty_string_p $answer_data] } {
-		set action "[_ evaluation.No_response_]"
-	    } elseif { [string eq $answer_title "link"] } {
-		set action_url "[export_vars -base "$answer_data" { }]"
-		set action "[_ evaluation.View_answer_]"
-	    } else {
-		# we assume it's a file
-		set action_url "[export_vars -base "../../view/$answer_title" { revision_id }]"
-		set action "[_ evaluation.View_answer_]"
-	    }
-	    if { [string eq $action "[_ evaluation.View_answer_]"] && ([db_string compare_evaluation_date { *SQL* } -default 0] ) } {
-		set action "<span style=\"color:red;\"> [_ evaluation.View_NEW_answer_]</span>"
-	    }
-	    set submission_date_pretty [lc_time_fmt $submission_date_ansi "%q %r"]
-	    if { [db_string compare_submission_date { *SQL* } -default 0] } {
-		set submission_date_pretty "[_ evaluation.lt_submission_date_prett]"
-	    }
-	} else {
-	    set action "[_ evaluation.No_response_]"
-	}
+		if { [db_0or1row get_answer_info { *SQL* }] } {
+			# working with answer stuff (if it has a file/url attached)
+			if { [empty_string_p $answer_data] } {
+				set action "[_ evaluation.No_response_]"
+			} elseif { [string eq $answer_title "link"] } {
+				set action_url "[export_vars -base "$answer_data" { }]"
+				set action "[_ evaluation.View_answer_]"
+			} else {
+				# we assume it's a file
+				set action_url "[export_vars -base "../../view/$answer_title" { revision_id }]"
+				set action "[_ evaluation.View_answer_]"
+			}
+			if { [string eq $action "[_ evaluation.View_answer_]"] && ([db_string compare_evaluation_date { *SQL* } -default 0] ) } {
+				set action "<span style=\"color:red;\"> [_ evaluation.View_NEW_answer_]</span>"
+			}
+			set submission_date_pretty [lc_time_fmt $submission_date_ansi "%q %r"]
+			if { [db_string compare_submission_date { *SQL* } -default 0] } {
+				set submission_date_pretty "[_ evaluation.lt_submission_date_prett]"
+			}
+		} else {
+			set action "[_ evaluation.No_response_]"
+		}
     }
 } 
 
@@ -170,40 +170,40 @@ set not_evaluated_with_answer 0
 #
 
 set elements [list party_name \
-		  [list label "[_ evaluation.Name_]" \
-		       orderby_asc {party_name asc} \
-		       orderby_desc {party_name desc} \
-		       link_url_col party_url \
-		      ] \
-		 ]
+				  [list label "[_ evaluation.Name_]" \
+					   orderby_asc {party_name asc} \
+					   orderby_desc {party_name desc} \
+					   link_url_col party_url \
+					  ] \
+				 ]
 
 if { [string eq $show_portrait_p "t"] && [string eq $number_of_members "1"] } {
     lappend elements portrait \
-	[list label "[_ evaluation.Students_Portrait_]" \
-	     display_template { @not_evaluated_wa.portrait;noquote@ }
-	]
+		[list label "[_ evaluation.Students_Portrait_]" \
+			 display_template { @not_evaluated_wa.portrait;noquote@ }
+		]
 } 
 
 lappend elements submission_date_pretty \
     [list label "[_ evaluation.Submission_Date_]" \
-	 display_template { @not_evaluated_wa.submission_date_pretty;noquote@ } \
-	 orderby_asc {submission_date_ansi asc} \
-	 orderby_desc {submission_date_ansi desc}]
+		 display_template { @not_evaluated_wa.submission_date_pretty;noquote@ } \
+		 orderby_asc {submission_date_ansi asc} \
+		 orderby_desc {submission_date_ansi desc}]
 lappend elements answer \
     [list label "[_ evaluation.Answer_]" \
-	 link_url_col answer_url \
-	 link_html { title "[_ evaluation.View_answer_]" }] 
+		 link_url_col answer_url \
+		 link_html { title "[_ evaluation.View_answer_]" }] 
 lappend elements grade \
     [list label "[_ evaluation.Maximun_Grade_] <input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"100\">" \
-	 display_template { <input type=text name=grades_wa.@not_evaluated_wa.party_id@ maxlength=\"6\" size=\"3\"> } ] 
+		 display_template { <input type=text name=grades_wa.@not_evaluated_wa.party_id@ maxlength=\"6\" size=\"3\"> } ] 
 lappend elements comments \
     [list label "[_ evaluation.Comments_]" \
-	 display_template { <textarea rows="3" cols="15" wrap name=comments_wa.@not_evaluated_wa.party_id@></textarea> } \
-	] 
+		 display_template { <textarea rows="3" cols="15" wrap name=comments_wa.@not_evaluated_wa.party_id@></textarea> } \
+		] 
 lappend elements show_answer \
     [list label "[_ evaluation.lt_Allow_the_students_br]" \
-	 display_template { <pre>[_ evaluation.Yes_]<input checked type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=t> [_ evaluation.No_]<input type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=f></pre> } \
-	] 
+		 display_template { <pre>[_ evaluation.Yes_]<input checked type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=t> [_ evaluation.No_]<input type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=f></pre> } \
+		] 
 
 template::list::create \
     -name not_evaluated_wa \
@@ -225,27 +225,27 @@ db_multirow -extend { party_url answer answer_url submission_date_pretty portrai
     
     incr not_evaluated_with_answer
     if { $number_of_members == 1 } {
-	set tag_attributes [ns_set create]
-	ns_set put $tag_attributes alt "[_ evaluation.lt_No_portrait_for_party]"
-	ns_set put $tag_attributes width 98
-	ns_set put $tag_attributes height 104
-	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id -tag_attributes $tag_attributes]</a>"
+		set tag_attributes [ns_set create]
+		ns_set put $tag_attributes alt "[_ evaluation.lt_No_portrait_for_party]"
+		ns_set put $tag_attributes width 98
+		ns_set put $tag_attributes height 104
+		set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id -tag_attributes $tag_attributes]</a>"
     } else {
-	set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
+		set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
     }
 
     lappend done_students $party_id
     set submission_date_pretty  "[lc_time_fmt $submission_date_ansi "%q %r"]"
     if { [db_string compare_submission_date { *SQL* } -default 0] } {
-	set submission_date_pretty "[_ evaluation.lt_submission_date_prett_1]"
+		set submission_date_pretty "[_ evaluation.lt_submission_date_prett_1]"
     } 
     set answer "[_ evaluation.View_answer_]"
     # working with answer stuff (if it has a file/url attached)
     if { [string eq $answer_title "link"] } {
-	set answer_url [export_vars -base "$answer_data" { }]
+		set answer_url [export_vars -base "$answer_data" { }]
     } else {
-	# we assume it's a file
-	set answer_url [export_vars -base "../../view/$answer_title" { revision_id }]
+		# we assume it's a file
+		set answer_url [export_vars -base "../../view/$answer_title" { revision_id }]
     }
 }
 
@@ -254,31 +254,31 @@ db_multirow -extend { party_url answer answer_url submission_date_pretty portrai
 #
 
 set elements [list party_name \
-		  [list label "[_ evaluation.Name_]" \
-		       orderby_asc {party_name asc} \
-		       orderby_desc {party_name desc} \
-		       link_url_col party_url \
-		      ] \
-		 ]
+				  [list label "[_ evaluation.Name_]" \
+					   orderby_asc {party_name asc} \
+					   orderby_desc {party_name desc} \
+					   link_url_col party_url \
+					  ] \
+				 ]
 
 if { [string eq $show_portrait_p "t"] && [string eq $number_of_members "1"] } {
     lappend elements portrait \
-	[list label "[_ evaluation.Students_Portrait_]" \
-	     display_template { @not_evaluated_na.portrait;noquote@ }
-	]
+		[list label "[_ evaluation.Students_Portrait_]" \
+			 display_template { @not_evaluated_na.portrait;noquote@ }
+		]
 } 
 
 lappend elements grade \
     [list label "[_ evaluation.Grade_over_] <input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"100\">" \
-	 display_template { <input type=text name=grades_na.@not_evaluated_na.party_id@ maxlength=\"6\" size=\"3\"> } ]
+		 display_template { <input type=text name=grades_na.@not_evaluated_na.party_id@ maxlength=\"6\" size=\"3\"> } ]
 lappend elements comments \
     [list label "[_ evaluation.Comments_]" \
-	 display_template { <textarea rows="3" cols="15" wrap name=comments_na.@not_evaluated_na.party_id@></textarea> } \
-	]
+		 display_template { <textarea rows="3" cols="15" wrap name=comments_na.@not_evaluated_na.party_id@></textarea> } \
+		]
 lappend elements show_answer \
     [list label "[_ evaluation.lt_Allow_the_students_br]" \
-	 display_template { <pre>[_ evaluation.Yes_]<input checked type=radio name="show_student_na.@not_evaluated_na.party_id@" value=t> [_ evaluation.No_]<input type=radio name="show_student_na.@not_evaluated_na.party_id@" value=f></pre> } \
-	]
+		 display_template { <pre>[_ evaluation.Yes_]<input checked type=radio name="show_student_na.@not_evaluated_na.party_id@" value=t> [_ evaluation.No_]<input type=radio name="show_student_na.@not_evaluated_na.party_id@" value=f></pre> } \
+		]
 
 template::list::create \
     -name not_evaluated_na \
@@ -297,24 +297,24 @@ if { [string equal $orderby_na ""] } {
 
 if { $number_of_members > 1 } {
     if { [llength $done_students] > 0 } {
-	set not_in_clause [db_map not_in_clause]
+		set not_in_clause [db_map not_in_clause]
     } else {
-	set not_in_clause ""
+		set not_in_clause ""
     }
     set sql_query [db_map sql_query_groups]
 } else {
     if { [llength $done_students] > 0 } {
-	set not_in_clause [db_map not_yet_in_clause_non_empty]
+		set not_in_clause [db_map not_yet_in_clause_non_empty]
     } else {
-	set not_in_clause [db_map not_yet_in_clause_empty]
+		set not_in_clause [db_map not_yet_in_clause_empty]
     }
 
     # if this page is called from within a community (dotlrn) we have to show only the students
 
     if { [empty_string_p $community_id] } {
-	set sql_query [db_map sql_query_individual]
+		set sql_query [db_map sql_query_individual]
     } else {
-	set sql_query [db_map sql_query_community_individual]
+		set sql_query [db_map sql_query_community_individual]
     }
 
 }
@@ -325,13 +325,13 @@ db_multirow -extend { party_url portrait } not_evaluated_na get_not_evaluated_na
     
     incr not_evaluated_with_no_answer
     if { $number_of_members == 1 } {
-	set tag_attributes [ns_set create]
-	ns_set put $tag_attributes alt "[_ evaluation.lt_No_portrait_for_party]"
-	ns_set put $tag_attributes width 98
-	ns_set put $tag_attributes height 104
-	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id -tag_attributes $tag_attributes]</a>"
+		set tag_attributes [ns_set create]
+		ns_set put $tag_attributes alt "[_ evaluation.lt_No_portrait_for_party]"
+		ns_set put $tag_attributes width 98
+		ns_set put $tag_attributes height 104
+		set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id -tag_attributes $tag_attributes]</a>"
     } else {
-	set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
+		set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
     }
 }
 

@@ -173,11 +173,11 @@ if { $admin_p } {
 		}
 	    } elseif { [string eq $late_submit_p "t"] } {
 		if { ![db_0or1row answer_info { *SQL* }] } {
-		    set answer "[_ evaluation-portlet.lt_submit_answer_style_f]"
+		    set answer "[_ evaluation.lt_Submit_answer_span_st]"
 		    set answer_mode edit
 		    set answer_url "[export_vars -base "${base_url}answer-add-edit" { grade_id task_id return_url answer_mode }]"
 		} else {
-		    set answer "[_ evaluation-portlet.lt_submit_answer_style_f_1]"
+		    set answer "[_ evaluation.lt_Submit_answer_again_s]"
 		    set answer_mode display
 		    set answer_url "[export_vars -base "${base_url}answer-add-edit" { grade_id task_id answer_id return_url answer_mode }]"
 		}
