@@ -14,6 +14,7 @@
 	end as party_name,
 	round(ev.grade,2) as grade,
 	ev.last_modified as evaluation_date,
+	to_char(ev.last_modified, 'YYYY-MM-DD HH24:MI:SS') as evaluation_date_ansi,
 	et.online_p,
 	et.due_date,
 	ev.evaluation_id
