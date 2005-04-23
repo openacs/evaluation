@@ -20,7 +20,7 @@ set return_url [ad_conn url]
 
 set actions [list "[_ evaluation.Add_assignment_type_]" [export_vars -base "grades-add-edit" { }]]
 
-if { [lc_numeric %2.f [db_string sum_grades { *SQL* }]] > 100.00} {
+if { [lc_numeric %.2f [db_string sum_grades { *SQL* }]] > 100.00} {
     set aggregate_label "<span style=\"color: red;\">[_ evaluation.Total_]</span>"
 } else {
     set aggregate_label "[_ evaluation.Total_]"
@@ -80,7 +80,11 @@ if {[string equal $orderby ""]} {
 }
 
 db_multirow grades get_class_grades { *SQL* } {
-    set weight [lc_numeric %.2f $weight]
+    if [empty_string_p $weight] {
+	set weight [lc_numeric %.2f 0]
+    } else {
+	set weight [lc_numeric %.2f $weight]
+    }
 }
 
 db_1row get_total_weight { *SQL* }
