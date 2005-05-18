@@ -8,7 +8,7 @@ ad_library {
 
 namespace eval evaluation {}
 namespace eval evaluation::notification {}
-namespace eval evaluation::apm_callback {}
+namespace eval evaluation::apm {}
 
 #####
 #
@@ -879,7 +879,7 @@ ad_proc -public evaluation::generate_grades_sheet {} {
     $csv_formatted_content" 
 }
 
-ad_proc -public evaluation::apm_callback::delete_one_assignment_impl {} {
+ad_proc -public evaluation::apm::delete_one_assignment_impl {} {
     Unregister the NotificationType implementation for one_assignment_notif_type.
 } {
     acs_sc::impl::delete \
@@ -887,7 +887,7 @@ ad_proc -public evaluation::apm_callback::delete_one_assignment_impl {} {
         -impl_name one_assignment_notif_type
 }
 
-ad_proc -public evaluation::apm_callback::delete_one_evaluation_impl {} {
+ad_proc -public evaluation::apm::delete_one_evaluation_impl {} {
     Unregister the NotificationType implementation for one_evaluation_notif_type.
 } {
     acs_sc::impl::delete \
@@ -895,7 +895,7 @@ ad_proc -public evaluation::apm_callback::delete_one_evaluation_impl {} {
         -impl_name one_evaluation_notif_type
 }
 
-ad_proc -public evaluation::apm_callback::create_one_assignment_impl {} {
+ad_proc -public evaluation::apm::create_one_assignment_impl {} {
     Register the service contract implementation and return the impl_id
     @return impl_id of the created implementation 
 } {
@@ -910,7 +910,7 @@ ad_proc -public evaluation::apm_callback::create_one_assignment_impl {} {
     }]
 }
 
-ad_proc -public evaluation::apm_callback::create_one_evaluation_impl {} {
+ad_proc -public evaluation::apm::create_one_evaluation_impl {} {
     Register the service contract implementation and return the impl_id
     @return impl_id of the created implementation 
 } {
@@ -925,7 +925,7 @@ ad_proc -public evaluation::apm_callback::create_one_evaluation_impl {} {
     }]
 }
 
-ad_proc -public evaluation::apm_callback::create_one_assignment_type {
+ad_proc -public evaluation::apm::create_one_assignment_type {
     -impl_id:required
 } {
     Create the notification type for one specific assignment
@@ -938,7 +938,7 @@ ad_proc -public evaluation::apm_callback::create_one_assignment_type {
 		-description "[_ evaluation.lt_Notification_for_assi]"]
 }
 
-ad_proc -public evaluation::apm_callback::create_one_evaluation_type {
+ad_proc -public evaluation::apm::create_one_evaluation_type {
     -impl_id:required
 } {
     Create the notification type for one specific evaluation
@@ -951,7 +951,7 @@ ad_proc -public evaluation::apm_callback::create_one_evaluation_type {
 		-description "[_ evaluation.lt_Notification_for_eval]"]
 }
 
-ad_proc -public evaluation::apm_callback::enable_intervals_and_methods {
+ad_proc -public evaluation::apm::enable_intervals_and_methods {
     -type_id:required
 } {
     Enable the intervals and delivery methods of a specific type
