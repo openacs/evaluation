@@ -2,6 +2,14 @@
 
 <queryset>
 
+<fullquery name="evaluation::new_grade.double_click">      
+      <querytext>
+
+	select count(*) from cr_items where item_id = :item_id
+
+      </querytext>
+</fullquery>
+
 <fullquery name="evaluation::get_user_portrait.user_portrait">      
       <querytext>
 
@@ -25,6 +33,22 @@
       </querytext>
 </fullquery>
 
+<fullquery name="evaluation::new_task.double_click">      
+      <querytext>
+
+	select count(*) from cr_items where item_id = :item_id
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::new_solution.double_click">      
+      <querytext>
+
+	select count(*) from cr_items where item_id = :item_id
+
+      </querytext>
+</fullquery>
+
 <fullquery name="evaluation::new_solution.update_item_name">      
       <querytext>
 
@@ -32,6 +56,14 @@
 		set name = :item_name,
 		storage_type = :storage_type
 		where item_id = :item_id
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::new_answer.double_click">      
+      <querytext>
+
+	select count(*) from cr_items where item_id = :item_id
 
       </querytext>
 </fullquery>
@@ -74,6 +106,22 @@
 
 		$sql_query
 	
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::new_evaluation.double_click">      
+      <querytext>
+
+	select count(*) from cr_items where item_id = :item_id
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::new_grades_sheet.double_click">      
+      <querytext>
+
+	select count(*) from cr_items where item_id = :item_id
+
       </querytext>
 </fullquery>
 

@@ -92,22 +92,30 @@ ad_proc -public evaluation::delete_grade {
     db_1row get_grade_id { select grade_item_id from evaluation_grades where grade_id = :grade_id }
     db_foreach del_rec { select task_item_id from evaluation_tasks where grade_item_id = :grade_item_id } {
 	db_foreach evaluation_delete_student_eval { select evaluation_id from evaluation_student_evals where task_item_id = :task_item_id } {
-	    content::revision::delete -revision_id $evaluation_id
+	    evaluation::revision_delete -revision_id $evaluation_id
 	}
 	db_foreach evaluation_delete_answer { select answer_id from evaluation_answers where task_item_id = :task_item_id } {
-	    content::revision::delete -revision_id $answer_id
+	    evaluation::revision_delete -revision_id $answer_id
 	}
 	db_foreach evaluation_delete_task_sol { select solution_id from evaluation_tasks_sols where task_item_id = :task_item_id } {
-	    content::revision::delete -revision_id $solution_id
+	    evaluation::revision_delete -revision_id $solution_id
 	}
 	db_foreach evaluation_delete_grades_sheet { select grades_sheet_id from evaluation_grades_sheets where task_item_id = :task_item_id } {
-	    content::revision::delete -revision_id $grades_sheet_id
+	    evaluation::revision_delete -revision_id $grades_sheet_id
 	}
 	db_foreach evaluation_delete_task { select task_id from evaluation_tasks where task_item_id = :task_item_id } {
-	    content::revision::delete -revision_id $task_id                                                                                                              }
+	    evaluation::revision_delete -revision_id $task_id                                                                                                              }
     }
     #    db_1row get_grade_id { select grade_id as grade_task_id from evaluation_grades where grade_item_id = :grade_item_id}
-    content::revision::delete -revision_id $grade_id
+    evaluation::revision_delete -revision_id $grade_id
+}
+
+ad_proc -public evaluation::revision_delete {
+    -revision_id:required
+} {
+    wrapper for the content::revision::delete
+} {
+    content::item::unset_live_revision -item_id [db_string get_revision_item_id {select item_id from cr_revisions where revision_id = :revision_id}]
 }
 
 ad_proc -public evaluation::delete_task {
@@ -117,18 +125,18 @@ ad_proc -public evaluation::delete_task {
 } {
     db_1row get_task_id { select task_item_id from evaluation_tasks where task_id = :task_id }
     db_foreach evaluation_delete_student_eval { select evaluation_id from evaluation_student_evals where task_item_id = :task_item_id } {
-	content::revision::delete -revision_id $evaluation_id
+	evaluation::revision_delete -revision_id $evaluation_id
     }
     db_foreach evaluation_delete_answer { select answer_id from evaluation_answers where task_item_id = :task_item_id } {
-	content::revision::delete -revision_id $answer_id
+	evaluation::revision_delete -revision_id $answer_id
     }
     db_foreach evaluation_delete_task_sol { select solution_id from evaluation_tasks_sols where task_item_id = :task_item_id } {
-	content::revision::delete -revision_id $solution_id
+	evaluation::revision_delete -revision_id $solution_id
     }
     db_foreach evaluation_delete_grades_sheet { select grades_sheet_id from evaluation_grades_sheets where task_item_id = :task_item_id } {
-	content::revision::delete -revision_id $grades_sheet_id
+	evaluation::revision_delete -revision_id $grades_sheet_id
     }
-    content::revision::delete -revision_id $task_id
+    evaluation::revision_delete -revision_id $task_id
 }
 
 ad_proc -public evaluation::delete_student_eval {
@@ -136,7 +144,7 @@ ad_proc -public evaluation::delete_student_eval {
 } {
     delete all tasks
 } {
-    content::revision::delete -revision_id $evaluation_id
+    evaluation::revision_delete -revision_id $evaluation_id
 }
 
 ad_proc -public evaluation::notification::do_notification { 
@@ -231,7 +239,7 @@ ad_proc -public evaluation::new_grade {
     set revision_id [db_nextval acs_object_id_seq]
     set revision_name "${content_type}_${revision_id}"
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index f]
-    if { $new_item_p } {
+    if { $new_item_p && ![db_string double_click { *SQL* }] } {
 	set item_id [content::item::new -item_id $item_id -parent_id $folder_id -content_type $content_type -name $item_name -context_id $package_id -creation_date $creation_date]
     }
     set revision_id [content::revision::new \
@@ -397,7 +405,7 @@ ad_proc -public evaluation::new_task {
 	set item_name "${item_id}_${title}"
     }
 
-    if { $new_item_p } {
+    if { $new_item_p && ![db_string double_click { *SQL* }] } {
 
 	set item_id [content::item::new -item_id $item_id \
 			 -parent_id $folder_id \
@@ -481,7 +489,7 @@ ad_proc -public evaluation::new_solution {
 	set creation_date [db_string get_date { *SQL* }]
     }
 
-    if { $new_item_p } {
+    if { $new_item_p && ![db_string double_click { *SQL* }] } {
         set item_id [content::item::new -item_id $item_id \
 			 -parent_id $folder_id \
 			 -content_type $content_type \
@@ -562,7 +570,7 @@ ad_proc -public evaluation::new_answer {
     if { [empty_string_p $creation_date] } {
 		set creation_date [db_string get_date { *SQL* }]
     }
-    if { $new_item_p } {
+    if { $new_item_p && ![db_string double_click { *SQL* }] } {
         set item_id [content::item::new \
 			 -item_id $item_id \
 			 -parent_id $folder_id \
@@ -650,7 +658,7 @@ ad_proc -public evaluation::new_evaluation {
 	set creation_date [db_string get_date { *SQL* }]
     }
 
-    if { $new_item_p } {
+    if { $new_item_p && ![db_string double_click { *SQL* }] } {
         set item_id [content::item::new -item_id $item_id \
 			 -parent_id $folder_id \
 			 -content_type $content_type \
@@ -794,7 +802,7 @@ ad_proc -public evaluation::new_grades_sheet {
 	set creation_date [db_string get_date { *SQL* }]
     }
 
-    if { $new_item_p } {
+    if { $new_item_p && ![db_string double_click { *SQL* }] } {
         set item_id [content::item::new -item_id $item_id \
 			 -parent_id $folder_id \
 			 -content_type $content_type \
