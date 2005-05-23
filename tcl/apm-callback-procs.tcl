@@ -99,6 +99,60 @@ ad_proc -public evaluation::apm::package_install {
     }
 }
 
+ad_proc -public evaluation::apm::package_before_upgrade {
+    -from_version_name:required
+    -to_version_name:required
+} {
+    Upgrade script for the evaluation package
+} {
+    apm_upgrade_logic \
+	-from_version_name $from_version_name \
+	-to_version_name $to_version_name \
+	-spec {
+	    0.4d 2.0d {
+
+		#Create content type attributes for content type evaluation_grades
+		content::type::attribute::new -content_type evaluation_grades -attribute_name grade_item_id -datatype number -pretty_name grade_item_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_grades -attribute_name grade_name -datatype string -pretty_name grade_name -column_spec "varchar(100)"
+		content::type::attribute::new -content_type evaluation_grades -attribute_name grade_plural_name -datatype string -pretty_name grade_plural_name -column_spec "varchar(100)"
+		content::type::attribute::new -content_type evaluation_grades -attribute_name comments -datatype string -pretty_name Comments -column_spec "varchar(500)"
+		content::type::attribute::new -content_type evaluation_grades -attribute_name weight -datatype number -pretty_name Weight -column_spec numeric
+
+		#Create content type attributes for content type evaluation_tasks
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name task_name -datatype number -pretty_name task_name -column_spec integer
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name number_of_members -datatype string -pretty_name number_of_members -column_spec varchar
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name due_date -datatype timestamp -pretty_name due_date -column_spec timestamptz
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name grade_item_id -datatype number -pretty_name grade_item_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name weight -datatype number -pretty_name weight -column_spec numeric
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name online_p -datatype string -pretty_name online_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name late_submit_p -datatype string -pretty_name late_submit_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name requires_grade_p -datatype string -pretty_name requires_grade_p -column_spec "varchar(1)"
+
+		#Create content type attributes for content type evaluation_tasks_sols
+		content::type::attribute::new -content_type evaluation_tasks_sols -attribute_name solution_item_id -datatype number -pretty_name solution_item_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_tasks_sols -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
+
+		#Create content type attributes for content type evaluation_answers
+		content::type::attribute::new -content_type evaluation_answers -attribute_name answer_item_id -datatype number -pretty_name answer_item_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_answers -attribute_name party_id -datatype number -pretty_name party_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_answers -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
+
+		#Create content type attributes for content type evaluation_student_evals
+		content::type::attribute::new -content_type evaluation_student_evals -attribute_name evaluation_item_id -datatype number -pretty_name evaluation_item_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_student_evals -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_student_evals -attribute_name party_id -datatype number -pretty_name party_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_student_evals -attribute_name grade -datatype number -pretty_name grade -column_spec numeric
+		content::type::attribute::new -content_type evaluation_student_evals -attribute_name show_student_p -datatype string -pretty_name show_student_p -column_spec "varchar(1)"
+
+		#Create content type attributes for content type evaluation_grades_sheets
+		content::type::attribute::new -content_type evaluation_grades_sheets -attribute_name grades_sheet_item_id -datatype number -pretty_name grades_sheet_item_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_grades_sheets -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
+		
+	    }
+	}
+}
+
 ad_proc -public evaluation::apm::package_uninstall { 
 } {
 
@@ -275,7 +329,6 @@ ad_proc -public evaluation::apm::package_uninstantiate {
 	content::folder::unregister_content_type -folder_id $folder_id  -content_type evaluation_tasks_sols -include_subtypes t
 	db_dml delete_task_sols_folder_map "delete from cr_folder_type_map where content_type = 'evaluation_tasks_sols'"
 	content::folder::delete -folder_id $folder_id
-	ns_log notice "checkpoint 1"
     #evaluation_answers
     set folder_id [content::item::get_id -item_path "evaluation_answers_$package_id" -resolve_index f]
 
@@ -289,7 +342,6 @@ ad_proc -public evaluation::apm::package_uninstantiate {
     content::folder::unregister_content_type -folder_id $folder_id -content_type evaluation_answers -include_subtypes t
     db_dml delete_answer_folder_map "delete from cr_folder_type_map where content_type = 'evaluation_answers'"
     content::folder::delete -folder_id $folder_id
-	ns_log notice "checkpoint 2"
 
     #evaluation_students_eval
     set folder_id [content::item::get_id -item_path "evaluation_student_evals_$package_id" -resolve_index f]
@@ -302,8 +354,6 @@ ad_proc -public evaluation::apm::package_uninstantiate {
     } {
 		evaluation::delete_student_eval -evaluation_id $evaluation_id 
     }
-	ns_log notice "checkpoint 3"
-
     content::folder::unregister_content_type -folder_id $folder_id -content_type content_revision -include_subtypes t
     content::folder::unregister_content_type -folder_id $folder_id -content_type evaluation_student_evals -include_subtypes t
 
@@ -322,7 +372,6 @@ ad_proc -public evaluation::apm::package_uninstantiate {
 
     #evaluation_grades_sheets
     set folder_id [content::item::get_id -item_path "evaluation_grades_sheets_$package_id" -resolve_index f]
-	ns_log notice "checkpoint 4"
 
     db_foreach grade_sheet_item { 
 		select item_id  from cr_items where  parent_id = :folder_id 
@@ -332,7 +381,6 @@ ad_proc -public evaluation::apm::package_uninstantiate {
 
     content::folder::unregister_content_type -folder_id $folder_id -content_type content_revision -include_subtypes t
     content::folder::unregister_content_type -folder_id $folder_id -content_type evaluation_grades_sheets -include_subtypes t
-	ns_log notice "checkpoint 5"
 
     db_dml delete_grade_sheet_folder_map "delete from cr_folder_type_map where content_type = 'evaluation_grades_sheets'"
     content::folder::delete -folder_id $folder_id
@@ -355,7 +403,6 @@ ad_proc -public evaluation::apm::package_uninstantiate {
 
 		evaluation::delete_task -task_id $item_id 
     }
-	ns_log notice "checkpoint 6"
 
     content::folder::unregister_content_type -folder_id $folder_id -content_type content_revision -include_subtypes t
     content::folder::unregister_content_type -folder_id $folder_id -content_type evaluation_tasks -include_subtypes t

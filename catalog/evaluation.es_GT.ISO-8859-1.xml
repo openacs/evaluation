@@ -281,6 +281,7 @@ y haga click en OK.</msg>
   <msg key="lt_The_commentsedit_reas">La razón de comentarios/edición es una cadena de caracteres de no mas de 4,000 caracteres. </msg>
   <msg key="lt_The_edit_reason_must_">La razón de edición debe de ser menor a los 4,000 caracteres de largo
 </msg>
+  <msg key="lt_The_estimated_time_mu">El tiempo estimado debe ser mayor o igual a 0</msg>
   <msg key="lt_The_file_extension_of">La extensión del archivo es &quot;%file_extension&quot; y debería ser .CSV. Lo siento, pero no podemos procesarlo&quot; } } } set page_title &quot;&lt;#_ Confirm Evaluation</msg>
   <msg key="lt_The_file_extension_of_1">La extensión del archivo \&quot;$file_extension\&quot; debe de ser .CSV, lo sentimos, no podemos procesarlo </msg>
   <msg key="lt_The_file_is_too_large_1">El archivo es muy grande. (El tamaño máximo es de %pretty_maxnbytes% bytes)</msg>
@@ -367,6 +368,7 @@ y haga click en OK.</msg>
                &lt;blockquote&gt; 
                 &lt;pre&gt;%errmsg%&lt;/pre&gt; 
                 &lt;/blockquote&gt; </msg>
+  <msg key="lt_Time_estimated_to_com">Tiempo estimado para terminar este(a) %grade_name% (en horas)</msg>
   <msg key="lt_To_add_this_assignmen">Si desea agregar asignaciones en varias clases o secciones seleccione la opción que se encuentra</msg>
   <msg key="lt_To_chanche_the_name_e">Para cambiar el nombre, edite el nombre en la entrada del texto y luego haga click en el botón &quot;Renombrar Grupo&quot;.
 </msg>
@@ -481,7 +483,7 @@ esta tarea?</msg>
   <msg key="Projects_">Proyectos</msg>
   <msg key="Remove_Grade">Eliminar Nota</msg>
   <msg key="Rename">Renombrar Grupo</msg>
-  <msg key="Requires_Grade_">Hacer &quot;sin punteo&quot;</msg>
+  <msg key="Requires_Grade_">¿Tendrá nota esta tarea?</msg>
   <msg key="Reuse_Groups_">Bloquear Grupos</msg>
   <msg key="Send">Enviar Archivo</msg>
   <msg key="Solution_Attachment_">Adjunto de la Solución</msg>

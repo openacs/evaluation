@@ -98,7 +98,6 @@ if { !$new_p } {
 		}
     } elseif { [string eq $title "link"] } {
 
-		ns_log notice "si va bien!, content trae -${content}- "
 		if { [string eq $mode "edit"] } {
 
 			set attached_p "t"
@@ -286,8 +285,8 @@ ad_form -extend -name task -form {
 		{ [_ evaluation.lt_The_number_of_members]}
     }
     {online_p
-		{ ([empty_string_p $due_date] && [string eq $online_p "f"]) || (![empty_string_p $due_date] && [string eq $online_p "t"]) }
-		{ "You can't leave the due date empty if the students have to submit their answers online." }
+	{ (![empty_string_p $due_date] && [string eq $online_p "t"]) || [string eq $online_p "f"] }
+	{ "[_ evaluation.lt_You_cant_leave_the_du]" }
     }
     {estimated_time
 		{ $estimated_time >= 0 }

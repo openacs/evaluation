@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<message_catalog package_key="evaluation" package_version="1.0d" locale="en_US" charset="ISO-8859-1">
+<message_catalog package_key="evaluation" package_version="0.2d" locale="en_US" charset="ISO-8859-1">
 
   <msg key="1__Individual_">1 = Individual </msg>
   <msg key="Add_Assignment_">Add Assignment </msg>
@@ -31,6 +31,51 @@
   <msg key="Audit_info_">Audit info </msg>
   <msg key="Audit_Info__1">Audit Info </msg>
   <msg key="Audit_info_for_task_">Audit info for task </msg>
+  <msg key="Back">#&gt;&quot; onClick=&quot;history.go(-1)&quot;&gt;
+    &lt;/form&gt;
+&lt;/if&gt;
+
+&lt;if %evaluations_na:rowcount% gt 0&gt;
+   &lt;form action=&quot;evaluate-students-2&quot; method+&quot;post&quot;&gt;
+	@export_vars;noquote@
+      &lt;input type=hidden name=task_id value=&quot;%task_id%&quot;&gt;
+      &lt;input type=hidden name=max_grade value=&quot;%max_grade%&quot;&gt;
+		&lt;blockquote&gt;
+        &lt;table&gt;
+          &lt;multiple name=&quot;evaluations_na&quot;&gt;
+                &lt;if %evaluations_na.rownum% odd&gt;&lt;table bgcolor=&quot;#EAF2FF&quot;&gt;&lt;/if&gt;&lt;else&gt;&lt;table bgcolor=&quot;white&quot;&gt;&lt;/else&gt;
+						&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Name#&lt;/th&gt;&lt;td&gt;%evaluations_na.party_name%&lt;/td&gt;&lt;/tr&gt;
+					 	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.grade% / %max_grade%&lt;/td&gt;&lt;/tr&gt;
+                     	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Comments#&lt;/th&gt;&lt;td&gt;%evaluations_na.comment%&lt;/td&gt;&lt;/tr&gt;
+                     	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Will_the_studens_be# &lt;br /&gt; #evaluation.lt_able_to_see_the_grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.show_student%&lt;/td&gt;&lt;/tr&gt;
+                    &lt;/tr&gt;
+					&lt;/table&gt;
+          &lt;/multiple&gt;
+        &lt;/table&gt;
+		&lt;/blockquote&gt;
+        &lt;input type=submit value=&quot;&lt;# Grade Students </msg>
+  <msg key="Back_1">#&gt;&quot; onClick=&quot;history.go(-1)&quot;&gt; 
+    &lt;/form&gt; 
+&lt;/if&gt; 
+&lt;if %evaluations_na:rowcount% gt 0&gt; 
+  &lt;form action=&quot;evaluate-students-2&quot; method+&quot;post&quot;&gt; 
+  @export_vars;noquote@ 
+  &lt;input type=hidden name=task_id value=&quot;%task_id%&quot;&gt; 
+  &lt;input type=hidden name=max_grade value=&quot;%max_grade%&quot;&gt; 
+  &lt;blockquote&gt; 
+  &lt;table&gt; 
+    &lt;multiple name=&quot;evaluations_na&quot;&gt; 
+    &lt;if %evaluations_na.rownum% odd&gt; &lt;table bgcolor=&quot;#EAF2FF&quot;&gt; &lt;/if&gt;
+    &lt;else&gt;&lt;table bgcolor=&quot;white&quot;&gt;&lt;/else&gt; 
+      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Name#&lt;/th&gt;&lt;td&gt;%evaluations_na.party_name%&lt;/td&gt;&lt;/tr&gt; 
+      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.grade% / %max_grade%&lt;/td&gt;&lt;/tr&gt; 
+      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Comments#&lt;/th&gt;&lt;td&gt;%evaluations_na.comment%&lt;/td&gt;&lt;/tr&gt; 
+      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Will_the_studens_be# &lt;br /&gt; #evaluation.lt_able_to_see_the_grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.show_student%&lt;/td&gt;&lt;/tr&gt; &lt;/tr&gt; 
+    &lt;/table&gt; 
+    &lt;/multiple&gt; 
+  &lt;/table&gt; 
+  &lt;/blockquote&gt; 
+  &lt;input type=submit value=&quot;&lt;# Grade Students </msg>
   <msg key="Bad_input_">Bad input </msg>
   <msg key="Change_Answer_">Change Answer </msg>
   <msg key="Click">Click</msg>
@@ -99,6 +144,25 @@
   <msg key="Grades_Reports">Grades Reports</msg>
   <msg key="Grades_Sheet_Name_">Grades Sheet Name </msg>
   <msg key="Grades_Sheets_">Grades Sheets </msg>
+  <msg key="Group">#&gt; %current_groups_plus_one%&quot; size=20&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+      &lt;input type=hidden name=task_id value=&quot;%task_id%&quot;&gt;
+      &lt;input type=hidden name=evaluation_group_id value=&quot;%evaluation_group_id%&quot;&gt;
+		&lt;blockquote&gt;
+	 	&lt;td&gt;&lt;/td&gt;
+		&lt;td&gt;
+        &lt;table&gt;
+          &lt;multiple name=&quot;students&quot;&gt;
+                &lt;if %students.rownum% odd&gt;&lt;tr class=&quot;list-odd&quot;&gt;&lt;/if&gt;&lt;else&gt;&lt;tr class=&quot;list-even&quot;&gt;&lt;/else&gt;
+						&lt;td&gt;%students.rownum%.&lt;/td&gt;&lt;td&gt;%students.student_name%&lt;/td&gt;&lt;/tr&gt;
+                    &lt;/tr&gt;
+          &lt;/multiple&gt;
+        &lt;/table&gt;
+		&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+        &lt;td&gt;&lt;input type=submit value=&quot;&lt;# Create Group </msg>
   <msg key="Group_Members">Group Members</msg>
   <msg key="Group_Name">Group Name</msg>
   <msg key="Group_name">Group name</msg>
@@ -238,7 +302,43 @@
   <msg key="lt_The_commentsedit_reas">The comments/edit reason is a string with no more than 4,000 characters.</msg>
   <msg key="lt_The_edit_reason_must_">The edit reason must be less than 4000 characteras long </msg>
   <msg key="lt_The_estimated_time_mu">The estimated time must be grather than 0</msg>
+  <msg key="lt_The_file_extension_of">The file extension of the file is &quot;%file_extension&quot; and it should be .CSV. Sorry, we can't process it&quot;
+	} 
+    } 
+}  
+
+set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_The_file_extension_of_1">The file extension of the file is &quot;%file_extension%&quot; and it should be .CSV, we can't process it </msg>
+  <msg key="lt_The_file_is_too_large">The file is too large. (The maximun file size is %pretty_maxnbytes% bytes)&quot; 
+        return 0 
+    }
+    
+    set errors 0 
+    set errors_text &quot;&quot; 
+    set counter 0
+    set line_number 0 
+    
+    set file_handler [open $tmp_filename {RDWR}] 
+	
+	while { ![eof $file_handler] } { 
+		incr line_number 
+		set one_line [gets $file_handler] 
+		
+		# jump first two lines 
+		if { $line_number &lt;= 2 } { 
+			continue 
+		} 
+		
+		# replace enters (&lt;-|) with semicolons (;)
+		regsub -all {(,[\r\n])} $one_line &quot;&quot; clean_line 
+		regsub -all {[\r\n]} $clean_line &quot;&quot; clean_line 
+		
+		set evaluation [split $clean_line &quot;,&quot;] 
+
+		if { $line_number == 3 } {
+			set max_grade [string trim [lindex $evaluation 1]] 
+			if { ![ad_var_type_check_number_p $max_grade] } {
+				ad_return_error &quot;&lt;#_ Invalid Max Grade </msg>
   <msg key="lt_The_file_is_too_large_1">The file is too large. (The maximun file size is %pretty_maxnbytes% bytes) </msg>
   <msg key="lt_The_file_should_have_">The file should have a pre-defined format so the system can parse it and obtain the information. If you want to use this functionallity you must follow the following steps:</msg>
   <msg key="lt_The_grade_most_be_a_v">The grade most be a valid number: %wrong_grade% </msg>
@@ -323,6 +423,9 @@
   <msg key="lt_Weight_of_this_grade_">Weight of this %grade_name% over %grade_plural_name%</msg>
   <msg key="lt_Weight_over_100_br__o">Weight over 100% &lt;br /&gt; of the Course </msg>
   <msg key="lt_Weight_over_grade_wei">Weight over %grade_weight%% &lt;br /&gt; of %grade_plural_name% </msg>
+  <msg key="lt_Weight_over_grade_wei_1">Weight over %grade_weight%% of %grade_plural_name%&quot;}
+	{html {size 5}}
+	{help_text &quot;&lt;#_ You can enter the weight over %grade_weight%% of %grade_plural_name% or you can enter the net value of it in the field below. </msg>
   <msg key="lt_Weight_over_grade_wei_2">Weight over %grade_weight%% of %grade_plural_name% </msg>
   <msg key="lt_Weight_used_in_grade_">Weight used in %grade_plural_name%: %category_weight%% (of 100% of $grade_plural_name) &lt;br /&gt;
                     %grade_plural_name% represents %grade_weight%% of the 100% of the class </msg>
@@ -348,6 +451,7 @@
   <msg key="lt_You_can_see_the_csv_f">You can see the csv files associated with the task by clicking on the &quot;See grades sheets associated with this task&quot; botton.</msg>
   <msg key="lt_You_can_upload_a_file">You can upload a file associated to this task by using the browse button (optional) </msg>
   <msg key="lt_You_can_upload_a_file_1">You can upload a file associated to this task by using the browse button and select the file from your computer (optional) </msg>
+  <msg key="lt_You_cant_leave_the_du">You can't leave the due date empty if the students have to submit their answers online. due es ($due_date y online es $online_p )</msg>
   <msg key="lt_You_must_give_an_edit">You must give an edit reason (%old_grade% --&gt; %grade_wo_reason% </msg>
   <msg key="lt_Your_answer_has_been_">Your answer has been submited successfully.</msg>
   <msg key="lt_Your_total_grade_in_t">Your total grade in this class is:</msg>
