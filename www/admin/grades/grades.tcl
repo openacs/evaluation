@@ -88,7 +88,7 @@ db_1row get_total_weight { *SQL* }
 set total_weight [format %.2f $total_weight]
 
 if { ![string eq $total_weight "100.00"] && ![string eq $total_weight "0"] } {
-    set notice "es $total_weight <span style=\"font-style: italic; color: red;\">[_ evaluation.lt_The_sum_of_the_weight]</span>"
+    set notice "<span style=\"font-style: italic; color: red;\">[_ evaluation.lt_The_sum_of_the_weight]</span>"
 } else {
     set notice ""
 }
