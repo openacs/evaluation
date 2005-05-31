@@ -17,6 +17,10 @@ ad_page_contract {
     admin_groups_p:optional
     {add_to_more_classes_p ""}
     {attached_p "f"}
+    {enable 1}
+    {return_p ""}
+    {simple_p ""}
+
 }
 
 set package_id [ad_conn package_id]
@@ -24,6 +28,8 @@ set user_id [ad_conn user_id]
 
 set community_id [dotlrn_community::get_community_id]
 set new_p [ad_form_new_p -key task_id] 
+set simple_p [parameter::get -parameter SimpleVersion ]
+
 
 set more_communities_option 0
 if { $new_p && ![empty_string_p $community_id] && [db_string get_user_comunities { *SQL* }] } {
@@ -191,53 +197,102 @@ ad_form -extend -name task -form {
 		{format "MONTH DD YYYY HH24 MI SS"}
 		{today}
 		{help}
-		{value {[evaluation::now_plus_days -ndays 15]}}
     }
-
-    {number_of_members:naturalnum
-		{label "[_ evaluation.Number_of_Members_]"}
-		{value "1"}
-		{html {size 5 onChange TaskInGroups()}}
-		{help_text "[_ evaluation.1__Individual_]"}
-		{after_html {<div id="silentDiv" style="visibility:$div_visibility;"><div class="form-help-text"><input type="checkbox" name="admin_groups_p" $checked_p> [_ evaluation.lt_Check_this_if_you_wan_1] </div></div>}}
+    {relative_weight:float(hidden)
+	{value 0}
     }
+}
 
-    {weight:float,optional
-		{label "[_ evaluation.lt_Weight_over_grade_wei_2]"}
-		{html {size 5}} 
-		{help_text "[_ evaluation.lt_You_can_enter_the_wei]"}
-		{value "0"}
-    }
+if { $simple_p } {
+    ad_form -extend -name task -form {    
+	{number_of_members:naturalnum(hidden)
+	    {value "1"}
+	}
+	{weight:float(hidden)
+	    {value "0"}
+	}
+	{net_value:float(hidden)
+	    {value "0"}
+	}
 
-    {net_value:float,optional
-		{label "[_ evaluation.Net_Value_]"}
-		{html {size 5}}
-		{help_text "[_ evaluation.lt_If_you_enter_the_net_]"}
-		{value "0"}
+	
     }
     
-    {online_p:text(radio)     
-		{label "[_ evaluation.lt_Will_the_task_be_subm]"} 
-		{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
-		{value t}
+} else {
+    ad_form -extend -name task -form {
+        {number_of_members:naturalnum
+	{label "[_ evaluation.Number_of_Members_]"}
+	    {value "1"}
+	    {html {size 5 onChange TaskInGroups()}}
+	    {help_text "[_ evaluation.1__Individual_]"}
+	    {after_html {<div id="silentDiv" style="visibility:$div_visibility;"><div class="form-help-text"><input type="checkbox" name="admin_groups_p" $checked_p> [_ evaluation.lt_Check_this_if_you_wan_1] </div></div>}}
+	}
+	
+	{weight:float,optional
+	    {label "[_ evaluation.lt_Weight_over_grade_wei_2]"}
+	    {html {size 5}} 
+	    {help_text "[_ evaluation.lt_You_can_enter_the_wei]"}
+	    {value "0"}
+	}
+	
+	{net_value:float,optional
+		{label "[_ evaluation.Net_Value_]"}
+	    {html {size 5}}
+	    {help_text "[_ evaluation.lt_If_you_enter_the_net_]"}
+	    {value "0"}
+	}
     }
-
-    {late_submit_p:text(radio)     
-		{label "[_ evaluation.lt_Can_the_student_submi]"} 
-		{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
-		{value t}
+}
+ad_form -extend -name task -form {    
+    {perfect_score:float(text)
+	{label "[_ evaluation.perfect_score]"}
+	{html {size 5}} 
+	{help_text "[_ evaluation.perfect_score_help]"}
+	{value 0.00}
     }
+    {answer_choice:text(radio)     
+	{label "[_ evaluation.answer_choice_]"} 
+	{options {{"[_ evaluation.submitted_online_]" ol}  {"[_ evaluation.forum_r_]" fr} {"[_ evaluation.not_submited_]" ns}}}
+	{value "ol"}
+    }
+}
+if { $simple_p } {
+    ad_form -extend -name task -form {    
+	{late_submit_p:text(hidden)     
+	    {value t}
+	}
+    }
+} else {
+    ad_form -extend -name task -form {    
+	{late_submit_p:text(radio)     
+	    {label "[_ evaluation.lt_Can_the_student_submi]"} 
+	    {options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
+	    {value t}
+	}
+    }
+}
 
+ad_form -extend -name task -form {
     {requires_grade_p:text(radio)     
 		{label "[_ evaluation.lt_Will_this_task_requir]"} 
 		{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
 		{value t}
     }
-
-    {estimated_time:float,optional     
-		{label "[_ evaluation.lt_Time_estimated_to_com]"}
-		{html {size 5}} 
-		{value "0"}
+}
+if { $simple_p } {
+    ad_form -extend -name task -form {
+	{estimated_time:float(hidden)
+	    {value "0"}
+	}
+    }
+    
+} else { 
+    ad_form -extend -name task -form {
+	{estimated_time:float,optional     
+	    {label "[_ evaluation.lt_Time_estimated_to_com]"}
+	    {html {size 5}} 
+	    {value "0"}
+	}
     }
 }
 
@@ -256,9 +311,19 @@ ad_form -extend -name task -form {
 } -edit_request {
     
     db_1row task_info { *SQL* }
+    if {[string eq $online_p t]} {
+	set answer_choice "ol"
+    } else {
+	set answer_choice "ns"
+    }
+    if {[string eq $forums_related_p t]} {
+	set answer_choice "fr"
+    }
 
     set due_date [template::util::date::from_ansi $due_date_ansi "YYYY-MM-DD HH24:MI:SS"]
-    set weight [lc_numeric %.2f $weight]
+    set weight [format %0.2f $weight]
+
+    
 
 } -validate {
     {url
@@ -285,10 +350,6 @@ ad_form -extend -name task -form {
 		{ $number_of_members >= 1 }
 		{ [_ evaluation.lt_The_number_of_members]}
     }
-    {online_p
-		{ ([empty_string_p $due_date] && [string eq $online_p "f"]) || (![empty_string_p $due_date] && [string eq $online_p "t"]) }
-		{ "You can't leave the due date empty if the students have to submit their answers online." }
-    }
     {estimated_time
 		{ $estimated_time >= 0 }
 		{ [_ evaluation.lt_The_estimated_time_mu] }
@@ -309,7 +370,20 @@ ad_form -extend -name task -form {
 		}
     } else {
 		set weight 0
+	        set points 0
     }
+    set points [format %0.2f [expr ($weight*$grade_weight)/100.00]]
+    set forums_related_p "f"
+    set online_p "f"
+    
+    if {[string eq $answer_choice "ol"]} {
+	set online_p "t"
+    }
+    
+    if {[string eq $answer_choice "fr"]} {
+	set forums_related_p "t"
+    } 
+    
 
     db_transaction {
 		
@@ -337,10 +411,17 @@ ad_form -extend -name task -form {
 			set mime_type "text/plain"
 			set title ""
 		}
+		set due_date_p 1
 		
 		set title [evaluation::safe_url_name -name $title]
 		set cal_due_date [calendar::to_sql_datetime -date $due_date -time $due_date -time_p 1]
 		set due_date_ansi [db_string set_date " *SQL* "]
+		
+		if { [string equal $cal_due_date  "-- :"]} {
+		    set due_date_p 0
+		    set due_date ""
+		}
+
 
 		if { [ad_form_new_p -key task_id] } {
 			set item_id $task_id
@@ -419,14 +500,39 @@ ad_form -extend -name task -form {
 
 		if { ![db_0or1row calendar_mappings { *SQL* }] } {
 			# create cal_item
+		    if { $due_date_p } {
 			set cal_item_id [calendar::item::new -start_date $cal_due_date -end_date $cal_due_date -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id]
-			db_dml insert_cal_mapping { *SQL* }
+		    
+		    db_dml insert_cal_mapping { *SQL* }
+		    }
 		} else {
-			# edit previous cal_item
+		    # edit previous cal_item
+		    if { $due_date_p } {
 			calendar::item::edit -cal_item_id $cal_item_id -start_date $due_date_ansi -end_date $due_date_ansi -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id
+		    }
 		}
-    }
+		db_transaction {
+		    
+		    
+		    if {!$simple_p } {
+			
+			set relative_weight [format %0.2f [expr (($tasks_counter)*$weight)/100.00]]
+			set update_p [db_dml update_points { *SQL* }]
+			if { $new_p } {
+			    db_foreach get_grade_tasks {} {
+				set relative_weight [format %0.2f [expr (($tasks_counter)*$weight)/100.00]]
+				db_dml update_tasks {*SQL*}
+			    }
+			}
+			
+		    }
+		    
+		}
+
+		
+	    }
 } -after_submit {
+
     set redirect_to_groups_p 0
     if { [info exists admin_groups_p] && $number_of_members > 1 } {
 		set redirect_to_groups_p 1
@@ -437,8 +543,14 @@ ad_form -extend -name task -form {
 		ad_returnredirect [export_vars -base "../groups/one-task" { {task_id $revision_id} }]
 		ad_script_abort
     } else {
-		ad_returnredirect "$return_url"
-		ad_script_abort
+	if { $simple_p } {
+	    set return_url "../grades/distribution-edit?task_id=$revision_id&grade_id=$grade_id"
+	    ad_returnredirect $return_url
+	    ad_script_abort
+	} else {
+	    ad_returnredirect $return_url
+	}
+	
     }
 } 
 

@@ -112,7 +112,10 @@
 		et.weight as task_weight,
 		to_char(et.due_date, 'YYYY-MM-DD HH24:MI:SS') as due_date_ansi,
 		et.number_of_members,
-		et.online_p
+		et.online_p,
+		et.points,
+		et.perfect_score,
+	        et.forums_related_p
 		from evaluation_grades eg, evaluation_tasks et, cr_items cri
 		where et.task_id = :task_id
 		  and et.grade_item_id = eg.grade_item_id
@@ -120,6 +123,28 @@
 	
       </querytext>
 </fullquery>
+<fullquery name="class_students">      
+      <querytext>
+	select ev.party_id,
+	case when et.number_of_members = 1 then 
+	(select last_name||', '||first_names from persons where person_id = ev.party_id)
+	else  
+ 	(select group_name from groups where group_id = ev.party_id)
+	end as party_name
+	from evaluation_answersi ev, 
+	     evaluation_tasks et,
+	     $roles_table	
+	     cr_items cri
+	where ev.task_item_id = et.task_item_id
+          and et.task_id = :task_id
+          and ev.data is not null
+	  $roles_clause
+          and cri.live_revision = ev.answer_id
+	  $processed_clause
+	union $sql_query
+      </querytext>
+</fullquery>
+
 
 <partialquery name="sql_query_groups">
 	  <querytext>         

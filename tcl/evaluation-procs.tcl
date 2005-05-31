@@ -408,6 +408,7 @@ ad_proc -public evaluation::new_task {
 			 -storage_type $storage_type]
     }
 
+
     set revision_id [content::revision::new \
 			 -item_id $item_id \
 			 -content_type $content_type \
@@ -526,6 +527,7 @@ ad_proc -public evaluation::new_answer {
     {-mime_type "text/plain"}
     {-publish_date ""}
     {-creation_date ""}
+    {-comment ""}
 } {
 
     Build a new content revision of an answer.  If new_item_p is
@@ -660,6 +662,7 @@ ad_proc -public evaluation::new_evaluation {
 			 -storage_type $storage_type \
 			 -creation_user $creation_user \
 			 -creation_ip $creation_ip \
+			 -description $description \
 			 -creation_date $creation_date]
     }   
     set revision_id [content::revision::new \
@@ -670,6 +673,7 @@ ad_proc -public evaluation::new_evaluation {
 			 -creation_user $creation_user \
 			 -creation_ip $creation_ip \
 			 -creation_date $creation_date \
+			 -description $description \
 			 -attributes [list [list evaluation_item_id  $item_id] \
 					  [list party_id $party_id] \
 					  [list grade $grade] \
@@ -1041,7 +1045,7 @@ ad_proc -public evaluation::public_answers_to_file_system {
 	    close $fp
 	}
     }
-
+    
     return $dir
     db_foreach get_answers_for_task}
 
@@ -1051,6 +1055,140 @@ ad_proc -public evaluation::get_archive_extension {} {
 } {
     return [parameter::get -parameter ArchiveExtension -default "txt"]
 }
+
+
+ad_proc -public evaluation::set_points {
+} {
+    Proc called in after upgrade callback from version 0.4d3 to 0.4d4
+    Sets points field in table evaluation_tasks
+    
+} {
+    
+    set grades [db_list_of_lists get_grades {}]
+    foreach grade $grades {
+	set grade_id [lindex $grade 0]
+	set tasks [db_list_of_lists get_grade_tasks {}]
+	set grade_weight [lindex $grade 1]
+	
+	foreach task $tasks {
+	    set task_id [lindex $task 0]
+	    set task_weight [lindex $task 1]
+	    set points [format %0.2f [expr ($task_weight*$grade_weight)/100.00]]
+	    db_dml update_task {}
+	}
+    }
+}
+
+
+ad_proc -public evaluation::enable_due_date {
+    {-task_id}
+} {
+} {
+    set enable_p 0
+    set enable_p [db_string enable {} -default 1]
+    
+    if {$enable_p > 1} {
+	set enable_p 0
+    }
+    return $enable_p
+}
+
+ad_proc -public evaluation::set_perfect_score {
+} {
+    Proc called in after upgrade callback from version 0.4d4 to 0.4d5
+    Sets perfect_score field in table evaluation_tasks
+    
+} {
+    set tasks [db_list_of_lists get_tasks {}]
+    set perfect_score 100
+    
+    foreach task_id $tasks {
+	db_transaction {
+	    db_dml update_task {}
+	}
+    }
+    
+}
+
+ad_proc -public evaluation::clone_grade {
+    -item_id:required
+    -content_type:required
+    -content_table:required
+    -content_id:required
+    -new_item_p:required
+    -description:required
+    -weight:required
+    -name:required
+    -plural_name:required
+    -package_id:required
+} {
+    
+    Build a new content revision of a evaluation subtype.  If new_item_p is
+    set true then a new item is first created, otherwise a new revision is created for
+    the item indicated by item_id.
+    
+    @param item_id The item to update or create.
+    @param content_type The type to make
+    @param content_table
+    @param new_item_p If true make a new item using item_id
+    
+} {
+    
+    set creation_user [ad_verify_and_get_user_id]
+    set creation_ip [ad_conn peeraddr]
+    
+    set item_name "${content_type}_${item_id}"
+    
+    set revision_id [db_nextval acs_object_id_seq]
+    set revision_name "${content_type}_${revision_id}"
+    
+    if { $new_item_p } {
+	db_exec_plsql content_item_new { *SQL* }
+	
+    }
+    
+    db_exec_plsql content_revision_new { *SQL* }
+    
+    return $revision_id
+} 
+
+
+ad_proc -public evaluation::set_relative_weight {
+} {
+    Proc called in after upgrade callback from version 0.4d5 to 0.4d6
+    Sets relative_weight field in table evaluation_tasks
+    
+} {
+    set tasks [db_list_of_lists get_tasks {}]
+    set relative_weight 1
+    
+    foreach task_id $tasks {
+	db_transaction {
+	    db_dml update_task {}
+	}
+    }
+
+}
+
+ad_proc -public evaluation::set_forums_related {
+} {
+    Proc called in after upgrade callback from version 0.4d7 to 0.4d8
+    Sets forums_related_p field in table evaluation_tasks
+    
+} {
+    set tasks [db_list_of_lists get_tasks {}]
+    set forums_related_p "f"
+    
+    foreach task_id $tasks {
+	db_transaction {
+	    db_dml update_task {}
+	}
+    }
+
+}
+
+
+
 
 ad_register_proc GET /grades-sheet-csv* evaluation::generate_grades_sheet 
 ad_register_proc POST /grades-sheet-csv* evaluation::generate_grades_sheet

@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
 
 <queryset>
+   <rdbms><type>postgresql</type><version>7.3</version></rdbms>
+
 <fullquery name="grade_info">      
       <querytext>
 
-	select eg.grade_plural_name,
+	select eg.grade_plural_name,upper(eg.grade_plural_name) as grade_plural_name_up,
 		eg.weight as grade_weight,
 		eg.grade_item_id,
 		eg.comments as grade_comments

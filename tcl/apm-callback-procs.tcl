@@ -75,6 +75,14 @@ ad_proc -public evaluation::apm_callback::package_install {
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name online_p -datatype string -pretty_name online_p -column_spec "varchar(1)"
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name late_submit_p -datatype string -pretty_name late_submit_p -column_spec "varchar(1)"
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name requires_grade_p -datatype string -pretty_name requires_grade_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name points -datatype number -pretty_name points -column_spec "numeric"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name perfect_score -datatype number -pretty_name perfect_score -column_spec "numeric"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name relative_weight -datatype number -pretty_name relative_weight -column_spec "numeric"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name forums_related_p -datatype string -pretty_name forums_related_p -column_spec "varchar(1)"
+
+	
+
+
 
 		#Create content type attributes for content type evaluation_tasks_sols
 		content::type::attribute::new -content_type evaluation_tasks_sols -attribute_name solution_item_id -datatype number -pretty_name solution_item_id -column_spec integer
@@ -84,6 +92,8 @@ ad_proc -public evaluation::apm_callback::package_install {
 		content::type::attribute::new -content_type evaluation_answers -attribute_name answer_item_id -datatype number -pretty_name answer_item_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_answers -attribute_name party_id -datatype number -pretty_name party_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_answers -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_answers -attribute_name comment -datatype string -pretty_name comment -column_spec text
+
 
 		#Create content type attributes for content type evaluation_student_evals
 		content::type::attribute::new -content_type evaluation_student_evals -attribute_name evaluation_item_id -datatype number -pretty_name evaluation_item_id -column_spec integer
@@ -405,5 +415,27 @@ ad_proc -public evaluation::apm_callback::package_uninstantiate {
 		and context_id = :package_id
 	} {
 		relation_remove $rel_id
+	}
+}
+
+ad_proc -public evaluation::apm_callback::after_upgrade { 
+    {-from_version_name:required}
+    {-to_version_name:required}
+} {
+    
+
+} {
+    apm_upgrade_logic \
+	-from_version_name $from_version_name \
+	-to_version_name $to_version_name \
+	-spec {
+	    2.0 2.0.1 {
+		evaluation::set_points
+		evaluation::set_perfect_score
+		evaluation::set_relative_weight 
+		evaluation::set_forums_related 
+	    }
+	    
+	    
 	}
 }

@@ -11,6 +11,7 @@ create table evaluation_grades (
 				references cr_items(item_id),
 	grade_name	varchar(100),
 	grade_plural_name varchar(100),
+	comments 	text,	
 	-- percentage of this grade type in the class
 	weight		numeric
 				constraint evaluation_grades_w_ck
@@ -55,7 +56,13 @@ create table evaluation_tasks (
 					constraint evaluations_tasks_rgp_ck
 					check(late_submit_p in ('t','f')),
 	-- estimated time to complete the assigment
-	estimated_time	decimal	
+	estimated_time	decimal,
+	points 		numeric,
+	perfect_score	numeric,
+	relative_weight numeric,
+	forums_related_p char(1) 	constraint	evaluation_tasks_frp_ck
+                  			check(forums_related_p in ('t','f'))
+
 );
 
 create index evalutaion_tasks_gid_index on evaluation_tasks(grade_item_id);
@@ -90,7 +97,8 @@ create table evaluation_answers (
 				references parties(party_id),
 	task_item_id     integer
 				constraint evaluation_sans_tid_fk
-				references cr_items(item_id)
+				references cr_items(item_id),
+	comment 	 text
 );
 
 create index evaluation_answers_tid_index on evaluation_answers(party_id,task_item_id);

@@ -187,7 +187,7 @@ if { ![empty_string_p $tmp_filename] } {
 	    }
 	    
 	    if { [info exists grades_gs($party_id)] && ![empty_string_p $grades_gs($party_id)] } {
-		set grades_gs($party_id) [expr ($grades_gs($party_id)*100)/$max_grade.0]
+		set grades_gs($party_id) [expr ($grades_gs($party_id)*$perfect_score)/[format %0.3f $max_grade]]
 		set revision_id [evaluation::new_evaluation -new_item_p $new_p_gs($party_id) \
 							 -item_id $item_ids($party_id) \
 							 -content_type evaluation_student_evals \
@@ -226,7 +226,7 @@ db_transaction {
 	    } else {
 		set new_item_p 1
 	    }
-	    set grades_wa($party_id) [expr ($grades_wa($party_id)*100)/$max_grade.0]
+	    set grades_wa($party_id) [expr ($grades_wa($party_id)*100)/[format %0.3f $max_grade]]
 	    set revision_id [evaluation::new_evaluation -new_item_p $new_item_p -item_id $item_ids($party_id) -content_type evaluation_student_evals \
 				 -content_table evaluation_student_evals -content_id evaluation_id -description $comments_wa($party_id) \
 				 -show_student_p $show_student_wa($party_id) -grade $grades_wa($party_id) -task_item_id $task_item_id -party_id $party_id]
@@ -250,7 +250,7 @@ db_transaction {
 	    } else {
 		set new_item_p 1
 	    }
-	    set grades_na($party_id) [expr ($grades_na($party_id)*100)/$max_grade.0]
+	    set grades_na($party_id) [expr ($grades_na($party_id)*100)/[format %0.3f $max_grade]]
 	    set revision_id [evaluation::new_evaluation -new_item_p $new_item_p -item_id $item_ids($party_id) -content_type evaluation_student_evals \
 				 -content_table evaluation_student_evals -content_id evaluation_id -description $comments_na($party_id) \
 				 -show_student_p $show_student_na($party_id) -grade $grades_na($party_id) -task_item_id $task_item_id -party_id $party_id]
@@ -263,7 +263,7 @@ db_transaction {
 db_transaction {
     foreach party_id [array names grades_to_edit] {
 	if { [info exists grades_to_edit($party_id)] && ![empty_string_p $grades_to_edit($party_id)] } { 
-	    set grades_to_edit($party_id) [expr ($grades_to_edit($party_id)*100)/$max_grade.0]
+	    set grades_to_edit($party_id) [expr ($grades_to_edit($party_id)*100)/[format %0.3f $max_grade]]
 	    set revision_id [evaluation::new_evaluation -new_item_p 0 -item_id $item_to_edit_ids($party_id) -content_type evaluation_student_evals \
 				 -content_table evaluation_student_evals -content_id evaluation_id -description $reasons_to_edit($party_id) \
 				 -show_student_p $show_student_to_edit($party_id) -grade $grades_to_edit($party_id) -task_item_id $task_item_id -party_id $party_id]

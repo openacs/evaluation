@@ -1,0 +1,579 @@
+#evaluation-thread { 
+        max-width: 95%;
+        text-align: left;
+        margin-bottom: 5px;
+        margin-left: 1em;
+}
+
+
+#evaluation-thread .action-list {
+        float: right;
+        text-align: right;
+        margin-top: 8px;
+        margin-right: 8px;
+}
+
+#evaluation-thread .details {
+        margin-top: 3px;
+}
+
+#evaluation-thread .content {
+        text-align: left;
+        padding: 0.5em;
+        margin-bottom: 1em;
+}
+
+#evaluation-thread .dynexpanded {
+        padding-top: 3px;
+        padding-bottom: 3px;
+        border: 0px;
+}
+
+#evaluation-thread .dyncollapsed {
+        padding: 0px;
+}
+
+#evaluation-thread .subject {
+        text-align: left;
+        background: #f0f0f0;
+        padding: 0.5em;
+}
+
+#evaluation-thread .subject a.title { 
+#        color: blue;
+#        font-weight: bold;
+        text-decoration:none;
+}
+
+#evaluation-thread .subject .viewed0 {
+}
+
+#evaluation-thread .subject .viewed1 {
+        font-weight: normal;
+}
+
+#evaluation-thread .subject .response { 
+        color: black;
+}
+#evaluation-thread .subject .reference { 
+        color: green;
+}
+
+#evaluation-thread .attribution {
+  padding-top: 0.5em;
+  color: #aaaaaa;
+}
+
+#evaluation-thread .attribution a {
+        font-weight: normal;
+}
+
+#evaluation-thread .odd {
+        background: #d9e4f9;
+}
+
+#evaluation-thread .even {
+        background: #eeeeee;
+}
+
+#evaluation-thread .level0 {
+        margin-left: 0em;
+}
+#evaluation-thread .level1 {
+        margin-left: 1em;
+}
+#evaluation-thread .level2 {
+        margin-left: 2em;
+}
+#evaluation-thread .level3 {
+        margin-left: 3em;
+}
+#evaluation-thread .level4 {
+        margin-left: 4em;
+}
+#evaluation-thread .level5 {
+        margin-left: 5em;
+}
+#evaluation-thread .level6 {
+        margin-left: 6em;
+}
+#evaluation-thread .level7 {
+        margin-left: 7em;
+}
+#evaluation-thread .level8 {
+        margin-left: 8em;
+}
+#evaluation-thread .level9 {
+        margin-left: 9em;
+}
+#evaluation-thread .level10 {
+        margin-left: 10em;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.dynexpanded {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border-top: 1px solid black;
+  margin-top: 3px;
+}
+
+.dyncollapsed {
+  display: none;
+}
+
+.level0 {
+        margin-left: 0em;
+}
+.level1 {
+        margin-left: 1em;
+}
+.level2 {
+        margin-left: 2em;
+}
+.level3 {
+        margin-left: 3em;
+}
+.level4 {
+        margin-left: 4em;
+}
+.level5 {
+        margin-left: 5em;
+}
+.level6 {
+        margin-left: 6em;
+}
+.level7 {
+        margin-left: 7em;
+}
+.level8 {
+        margin-left: 8em;
+}
+.level9 {
+        margin-left: 9em;
+}
+.level10 {
+        margin-left: 10em;
+}
+
+.evaluationbuttons {
+  padding-top: 7px;
+}
+
+
+#evaluations {
+  font-size: 10px; 
+  color: #354785; 
+  font-style: Verdana; 
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#evaluations .header {
+  font-size: 14px;
+  color: #354785; 
+  font-style: Verdana; 
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#evaluations form {
+  font-size: 10px; 
+  color: #354785; 
+  font-style: Verdana; 
+  font-weight: bold;
+}
+
+#evaluations table {
+  background: #cccccc; 
+  border-top: solid #A0BDEB 3px; 
+  border-bottom: solid #A0BDEB 3px;
+}
+
+#evaluations a:link, #evaluations a:visited, #evaluations a:active {
+  font-size: 10px; 
+  color: #354785; 
+  font-style: Verdana; 
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#evaluations a:hover {
+  font-size: 10px; 
+  color: #354785; 
+  font-style: Verdana; 
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+#evaluationthread {
+  font-size: 10px; 
+  color: #354785; 
+  font-style: Verdana;
+  margin-bottom: 30px; 
+}
+
+#evaluationthread .content {
+  font-size: 10px; 
+  border-top: solid #354785 1px; 
+  border-bottom: solid #354785 1px;
+  padding-top: 10px;
+  padding-bottom: 30px;
+}
+
+#evaluationthread .content table tr td{
+  font-size: 10px; 
+}
+
+#evaluationthread .messagebody {
+  font-size: 11px; 
+}
+
+#evaluationthread .threadsummary {
+  font-size: 10px; 
+  border-top: solid #354785 1px; 
+  border-bottom: solid #354785 1px;
+  padding: 10px 10px 10px 10px;
+  background: #EAF2FF;
+}
+
+#evaluationthread .threadsummary table tr td {
+  color: #354785; 
+  font-size: 10px; 
+}
+
+#evaluationthread .new1 {
+  font-weight: bold; 
+}
+
+#evaluationthread .threadsummary table tr td a:active,
+#evaluationthread .threadsummary table tr td a:link,
+#evaluationthread .threadsummary table tr td a:visited,
+#evaluationthread .content table tr td a:active,
+#evaluationthread .content table tr td a:link,
+#evaluationthread .content table tr td a:visited {
+  color: #354785; 
+  font-size: 10px;
+  text-decoration: none;
+}
+
+#evaluationthread .threadsummary table tr td a:hover,
+#evaluationthread .content table tr td a:hover {
+  color: #354785; 
+  font-size: 10px;
+  text-decoration: underline;
+}
+
+#evaluationthread .actionbuttons a:active,
+#evaluationthread .actionbuttons a:link,
+#evaluationthread .actionbuttons a:visited {
+  padding-left: 6px;
+  padding-right: 6px;
+  font-size: 10px; 
+  color: #354785; 
+  font-style: Verdana; 
+  text-decoration: none;
+}
+
+#evaluationthread .actionbuttons a:hover {
+  font-size: 10px; 
+  color: #354785; 
+  font-style: Verdana; 
+  text-decoration: underline;
+}
+
+th.list-evaluations {
+  font-weight: bold;
+  color: #354785; 
+  padding-left: 16px; 
+  padding-right: 16px;
+  border-bottom: 3px solid #A0BDEB;
+}
+
+td.list-evaluations {
+  font-size: 10px;
+  color: #354785; 
+  padding-left: 10px; 
+  padding-right: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #A0BDEB;
+}
+
+td.list-evaluations a:visited,
+td.list-evaluations a:active,
+td.list-evaluations a:hover,
+td.list-evaluations a:link {
+  font-size: 10px;
+  color: #354785; 
+}
+
+td.list-evaluations-messages {
+  font-size: 10px;
+  color: #354785; 
+  padding-left: 16px; 
+  padding-right: 16px;
+}
+
+td.list-evaluations-messages a:visited,
+td.list-evaluations-messages a:active,
+td.list-evaluations-messages a:link {
+  font-size: 10px;
+  color: #354785; 
+  text-decoration: none;
+}
+
+td.list-evaluations-messages a:hover {
+  font-size: 10px;
+  color: #354785; 
+  text-decoration: underline;
+}
+
+tr.first td {
+  border-top: 1px solid #A0BDEB;
+}
+
+tr.last td {
+  border-bottom: 1px solid #A0BDEB;
+}
+
+tr.newt {
+  font-weight: bold; 
+}
+
+td.list-evaluations-thread {
+  font-size: 10px;
+  color: #354785;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #A0BDEB;
+}
+
+th.list-evaluations-thread {
+  font-size: 10px;
+  font-weight: bold;
+  color: #354785;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom: 3px solid #A0BDEB;
+}
+table.pbs_list {
+  font-family: tahoma; 
+  border-collapse: collapse;
+  font-size: 100%;
+  color:#003399;
+}
+table.pbs_list-tiny {
+  font-family: tahoma, verdana, helvetica; 
+  font-size: 75%;
+  border-collapse: collapse;
+  color:#003399;
+}
+
+p.pbs_list-row {
+  font-family: tahoma, verdana, helvetica; 
+  font-size: 87%;
+  color:#003399;
+}
+
+span.pbs_list-label {
+  color:#003399;
+  font-size: 87%;
+}
+
+
+tr.pbs_list-header {
+  color:#003399;
+  background-color: white; 
+  font-size: 87%;
+}
+tr.pbs_list-subheader {
+  font-variant: small-caps;
+  background-color: white; 
+  font-weight: bold;
+  color:#003399;
+  font-size: 87%;
+}
+tr.pbs_list-even {
+  color:#003399;;
+  background-color: white;
+  font-size: 100%;
+}
+tr.pbs_list-odd {
+
+   color:#003399;
+   background-color: #EAF2FF;
+   font-size: 100%;
+}
+tr.pbs_list-spacer {
+  background-color: #f9f9f9;
+}
+th.pbs_list {
+  padding-left: 16px; 
+  padding-right: 16px;
+  color:#003399;
+  font-size: 100%;
+}
+th.pbs_list-narrow {
+  padding-left: 4px; 
+  padding-right: 4px;
+  color:#003399;
+  font-size: 100%;
+}
+th.pbs_list a {
+  color:#003399;
+
+}
+th.pbs_list-narrow a {
+  color:#003399;
+
+}
+
+
+td.pbs_list {
+  padding-left: 16px; 
+  padding-right: 16px;
+  color:#003399;
+  font-size: 100%;
+  width: 50%;
+
+}
+td.pbs_list-narrow {
+  padding-left: 4px; 
+  padding-right: 4px;
+  color:#003399;
+
+	
+ }
+tr.pbs_list last td {
+  color:#003399;
+
+}
+
+
+
+tr.pbs_list-paginator { 
+  background-color: #eeeeee;
+
+  color:#003399;}
+
+
+td.pbs_list-button-bar { 
+  padding-bottom: 12px;
+  font-size: 115%;
+  color:#003399;
+}
+
+.pbs_list-filter { 
+  font-size: 70%; 
+  font-family: tahoma,verdana,arial,helvetica; 
+  color:#003399;
+}
+tr.pbs_list-filter-selected { 
+  background-color: #eeeeff;
+  color:#003399;
+}
+span.pbs_list-filter-selected { 
+
+  color:#003399;
+}
+.pbs_list-filter-header { 
+  font-size: 70%; 
+  font-family: tahoma,verdana,arial,helvetica; 
+  font-weight: bold; 
+}
+.pbs_list-filter-section { 
+  font-size: 70%; 
+  font-family: tahoma,verdana,arial,helvetica; 
+  font-weight: bold; 
+  background-color: #bbbbff; 
+  padding-left: 4px; 
+  padding-top: 4px; 
+  padding-bottom: 4px; 
+  margin-top: 0px; 
+  margin-bottom: 8px;
+}
+
+div.pbs_list-inline-filter { 
+  font-size: 70%; 
+  font-family: tahoma,verdana,arial,helvetica; 
+}
+span.pbs_list-inline-filter { 
+}
+span.pbs_list-inline-filter-selected { 
+  font-weight: bold;
+}
+a.pbs_list-inline-filter { 
+}
+
+
+td.pbs_list-filter-pane {
+  background-color: #ddddff;
+  vertical-align: top;
+}
+
+td.pbs_list-list-pane {
+  background-color: white;
+  valign: center;
+  padding-left: 10px;
+}
+td.title {
+  border-top: 3px solid #A0BDEB;
+  border-bottom: 3px solid #A0BDEB;
+  background: #D8D8D8;
+  color:#003399;
+  }
+table.title {
+  border-collapse: collapse;
+  font-size:95%;
+}
+td.blue {
+  color: #3d4584;
+ font-size:100%;
+}
+tr.blue {
+  color:#003399;
+  font-size:100%;
+}
+text.blue {
+  color:#003399;
+  font-size:100%;
+}
+li.arrow {
+  list-style: square url(arrow.gif);
+  margin-top: 10px;
+  font-size:95%;
+}
+li.arrow2 {
+  list-style: square url(arrow2.gif);
+  font-weight: normal;
+  margin-top: 10px;
+  font-size:95%;
+}
+h1.blue {
+  color:#003399;
+  font-size:115%;
+  font-weight:bold;
+}
+
+input.blue {
+  background-image: url("submit.jpg");
+}
+
+td.blue a {
+  font-size:95%;
+  color:#003399;
+}
+
+td.comment {
+  width: 50px;
+}
