@@ -17,7 +17,7 @@ set page_title "[_ evaluation.Evaluation_Index_]"
 set context {}
 set package_id [ad_conn package_id]
 set user_id [ad_conn user_id]
-
+set simple_p [parameter::get -parameter "SimpleVersion"]
 set admin_p [permission::permission_p -party_id $user_id -object_id $package_id -privilege admin]
 
 db_multirow grades get_grades { *SQL* } {

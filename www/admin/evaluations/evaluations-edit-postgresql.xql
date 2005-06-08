@@ -57,5 +57,13 @@
 	
       </querytext>
 </fullquery>
+<fullquery name="get_task_weight">      
+      <querytext>
+
+	select perfect_score from evaluation_tasks where task_id=:task_id
+	
+      </querytext>
+</fullquery>
+
 
 </queryset>

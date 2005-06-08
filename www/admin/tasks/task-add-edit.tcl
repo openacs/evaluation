@@ -13,16 +13,20 @@ ad_page_contract {
     upload_file:trim,optional
     upload_file.tmpfile:tmpfile,optional
     {mode "edit"}
-    return_url
+    {return_url ""}
     admin_groups_p:optional
     {add_to_more_classes_p ""}
     {attached_p "f"}
+    {enable 1}
+    {return_p ""}
+    {simple_p ""}
+    
 }
 
 set package_id [ad_conn package_id]
 set user_id [ad_conn user_id]
-
 set community_id [dotlrn_community::get_community_id]
+set simple_p [parameter::get -parameter SimpleVersion ]
 set new_p [ad_form_new_p -key task_id] 
 db_1row get_grade_info { *SQL* }
 if { $new_p } {
@@ -42,9 +46,9 @@ if { [info exists admin_groups_p] } {
 set context [list $page_title]
 
 ad_form -html { enctype multipart/form-data } -name task -cancel_url $return_url -export { return_url item_id storage_type grade_id } -mode $mode -form {
-
+    
     task_id:key
-
+    
     {task_name:text  
 	{label "[_ evaluation.Task_Name_]"}
 	{html {size 30}}
@@ -53,11 +57,11 @@ ad_form -html { enctype multipart/form-data } -name task -cancel_url $return_url
 }
 
 if { !$new_p } {
-
+    
     db_1row get_task_info { *SQL* }
     
     if { [string eq $storage_type "lob"] || [string eq $storage_type "file"] } {
-
+	
 	if { [string eq $mode "edit"] } {
 	    set attached_p "t"
 	    
@@ -91,9 +95,9 @@ if { !$new_p } {
 	    }
 	}
     } elseif { [string eq $title "link"] } {
-
+	
 	if { [string eq $mode "edit"] } {
-
+	    
 	    set attached_p "t"
 	    
 	    ad_form -extend -name task -form {			
@@ -157,7 +161,7 @@ if { !$new_p } {
 	    {help_text "[_ evaluation.lt_You_can_upload_a_file_1]"}
 	}
     }
-
+    
     ad_form -extend -name task -form {
 	
 	{url:text(text),optional
@@ -173,86 +177,143 @@ if { !$new_p } {
 }
 
 ad_form -extend -name task -form {
-
+    
     {description:richtext,optional  
 	{label "[_ evaluation.lt_Assignments_Descripti]"}
 	{html {rows 4 cols 40 wrap soft}}
     }
-
-    {due_date:date,to_sql(linear_date),from_sql(sql_date)
+    
+    
+    {due_date:date,to_sql(linear_date),from_sql(sql_date),optional
 	{label "[_ evaluation.Due_Date_]"}
 	{format "MONTH DD YYYY HH24 MI SS"}
 	{today}
-	{help}
-	{value {[evaluation::now_plus_days -ndays 15]}}
+	{help_text "[_ evaluation.Due_Date_help_text]"}
     }
-
-    {number_of_members:naturalnum
-	{label "[_ evaluation.Number_of_Members_]"}
-	{value "1"}
-	{html {size 5 onChange TaskInGroups()}}
-	{help_text "[_ evaluation.1__Individual_]"}
-	{after_html {<div id="silentDiv" style="visibility:$div_visibility;"><div class="form-help-text"><input type="checkbox" name="admin_groups_p" $checked_p> [_ evaluation.lt_Check_this_if_you_wan_1] </div></div>}}
+    {relative_weight:float(hidden)
+	{value 0}
     }
-
-    {weight:float,optional
-	{label "[_ evaluation.lt_Weight_over_grade_wei_2]"}
+}
+if { $simple_p } {
+    ad_form -extend -name task -form {    
+	{number_of_members:naturalnum(hidden)
+	    {value "1"}
+	}
+	{weight:float(hidden)
+	    {value "0"}
+	}
+	
+    }
+} else {
+    ad_form -extend -name task -form {    
+	{number_of_members:naturalnum
+	    {value "1"}
+	    {label "[_ evaluation.Number_of_Members_]"}
+	    {html {size 5 onChange TaskInGroups()}}
+	    {help_text "[_ evaluation.1__Individual_]"}
+	    {after_html {<div id="silentDiv" style="visibility:$div_visibility;"><div class="form-help-text"><input type="checkbox" name="admin_groups_p" $checked_p> [_ evaluation.lt_Check_this_if_you_wan_1] </div></div>}}
+	}
+	{weight:float,optional
+	    {value "0"}
+	    {label "[_ evaluation.lt_Weight_over_grade_wei]"}
+	    {html {size 5}} 
+	    {help_text "[_ evaluation.lt_You_can_enter_the_wei]"}
+	    
+	}
+	{net_value:float,optional
+	    {label "[_ evaluation.Net_Value_]"}
+	    {html {size 5}}
+	    {help_text "[_ evaluation.lt_If_you_enter_the_net_]"}
+	    {value "0"}
+	}
+	
+    }
+}
+ad_form -extend -name task -form {    
+    {perfect_score:float
+	{label "[_ evaluation.perfect_score]"}
 	{html {size 5}} 
-	{help_text "[_ evaluation.lt_You_can_enter_the_wei]"}
-	{value "0"}
+	{help_text "[_ evaluation.perfect_score_help]"}
+	{value 100}
+	
     }
 
-    {net_value:float,optional
-	{label "[_ evaluation.Net_Value_]"}
-	{html {size 5}}
-	{help_text "[_ evaluation.lt_If_you_enter_the_net_]"}
-	{value "0"}
-    }
-    
-    {online_p:text(radio)     
-	{label "[_ evaluation.lt_Will_the_task_be_subm]"} 
-	{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
-	{value t}
-    }
-
-    {late_submit_p:text(radio)     
-	{label "[_ evaluation.lt_Can_the_student_submi]"} 
-	{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
-	{value t}
-    }
-
-    {requires_grade_p:text(radio)     
-	{label "[_ evaluation.lt_Will_this_task_requir]"} 
-	{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
-	{value t}
-    }
-
-    {estimated_time:float,optional     
-	{label "[_ evaluation.lt_Time_estimated_to_com]"}
-	{html {size 5}} 
-	{value "0"}
+    {answer_choice:text(radio)     
+	{label "[_ evaluation.answer_choice_]"} 
+	{options {{"[_ evaluation.submitted_online_]" ol}  {"[_ evaluation.forum_r_]" fr} {"[_ evaluation.not_submited_]" ns}}}
+	{value "ol"}
     }
 }
 
-if { $new_p && ![empty_string_p $community_id] && [db_string get_user_comunities { *SQL* }] } {
-    ad_form -extend -name task -form {
-	{add_to_more_classes_p:text(checkbox),optional 
-	    {label "[_ evaluation.lt_Add_this_assignment_t]"} 
-	    {options {{"" "t"}}}
-	    {help_text "[_ evaluation.lt_Check_this_if_you_wan_2]"}
+if { $simple_p } {
+    ad_form -extend -name task -form {    
+	
+	{late_submit_p:text(hidden)     
+	    {value t}
 	}
     }
-} 
+} else {
+    ad_form -extend -name task -form {    
+	{late_submit_p:text(radio)     
+	    {value t}
+	    {label "[_ evaluation.lt_Can_the_student_submi]"} 
+	    {options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
+	    
+	}
+    }
+}
+ad_form -extend -name task -form {
+    {requires_grade_p:text(radio)     
+	
+        {label "[_ evaluation.lt_Will_this_task_requir]"} 
+	{options {{"[_ evaluation.Yes_]" t} {"[_ evaluation.No_]" f}}}
+	{value t}
+    }
+}
+
+if { $simple_p } {
+    ad_form -extend -name task -form {
+	{estimated_time:float(hidden)
+	    {value "0"}
+	}
+    }
+    	    
+} else { 
+    ad_form -extend -name task -form {
+	{estimated_time:float
+	    {value "0"}
+	    {label "[_ evaluation.lt_Time_estimated_to_com]"}
+	    {html {size 5}} 
+	}
+    }
+    if { $new_p && ![empty_string_p $community_id] && [db_string get_user_comunities { *SQL* }] } {
+	ad_form -extend -name task -form {
+	    {add_to_more_classes_p:text(checkbox),optional 
+		{label "[_ evaluation.lt_Add_this_assignment_t]"} 
+		{options {{"" "t"}}}
+		{help_text "[_ evaluation.lt_Check_this_if_you_wan_2]"}
+	    }
+	}
+    } 
+    
+}
 
 ad_form -extend -name task -form {
-
+    
 } -edit_request {
     
     db_1row task_info { *SQL* }
-
+    if {[string eq $online_p t]} {
+	set answer_choice "ol"
+    } else {
+	set answer_choice "ns"
+    }
+    if {[string eq $forums_related_p t]} {
+	set answer_choice "fr"
+    }
     set due_date [template::util::date::from_ansi $due_date_ansi "YYYY-MM-DD HH24:MI:SS"]
-    set weight [lc_numeric %.2f $weight]
-
+    set weight [format %0.2f $weight]
+    set perfect_score $perfect_score
 } -validate {
     {url
 	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || ([string eq $url "http://"] && [empty_string_p $upload_file]) || (![string eq $url "http://"] && [util_url_valid_p $url]) }
@@ -266,12 +327,8 @@ ad_form -extend -name task -form {
 	{ ([string eq $unattach_p "t"] && [empty_string_p $upload_file] && [string eq $url "http://"]) || [empty_string_p $unattach_p] }
 	{ [_ evaluation.lt_First_unattach_the_fi] }
     }
-    {net_value 
-	{ !$net_value || ([empty_string_p $net_value] && [string eq $requires_grade_p f]) || (($net_value > 0) && ($net_value <= $grade_weight) && (!$weight || [empty_string_p $weight])) }
-	{ [_ evaluation.lt_The_net_value_must_be] }
-    }
     {weight
-	{ !$weight || ([empty_string_p $weight] && [string eq $requires_grade_p f]) || (($weight > 0) && (!$net_value || [empty_string_p $net_value])) }
+	{ !$weight || ([empty_string_p $weight] && [string eq $requires_grade_p f]) || (($weight > 0)) }
 	{ [_ evaluation.lt_The_weight_must_be_gr] }
     }
      {number_of_members
@@ -282,26 +339,41 @@ ad_form -extend -name task -form {
 	{ $estimated_time >= 0 }
 	{ [_ evaluation.lt_The_estimated_time_mu] }
     }
+    
 } -new_data {
     
     evaluation::notification::do_notification -task_id $revision_id -package_id [ad_conn package_id] -edit_p 0 -notif_type one_assignment_notif
+
     
 } -edit_data {
 
     evaluation::notification::do_notification -task_id $revision_id -package_id [ad_conn package_id] -edit_p 1 -notif_type one_assignment_notif
 
 } -on_submit {
-    
     if { [string eq $requires_grade_p t] } {
 	if { [info exists net_value] && ($net_value > 0) } {
 	    set weight [expr $net_value*100.000/$grade_weight]
 	}
     } else {
 	set weight 0
+	set points 0
     }
-
+    
+    set points [format %0.2f [expr ($weight*$grade_weight)/100.00]]
+    set forums_related_p "f"
+    set online_p "f"
+    
+    if {[string eq $answer_choice "ol"]} {
+	set online_p "t"
+    }
+    
+    if {[string eq $answer_choice "fr"]} {
+	set forums_related_p "t"
+    } 
+    
+    
     db_transaction {
-		
+	
 	if { ![empty_string_p $upload_file] } {
 	    
 	    # Get the filename part of the upload file
@@ -327,14 +399,19 @@ ad_form -extend -name task -form {
 	    set title ""
 	    set storage_type text
 	}
-	
+	set due_date_p 1
 	set title [evaluation::safe_url_name -name $title]
 	set cal_due_date [calendar::to_sql_datetime -date $due_date -time $due_date -time_p 1]
 	set due_date [db_string set_date { *SQL* }]
+	
+	if { [string equal $cal_due_date  "-- :"]} {
+	    set due_date_p 0
+	    set due_date ""
+	}
 	if { [ad_form_new_p -key task_id] } {
 	    set item_id $task_id
 	} 
-
+	
 	set revision_id [evaluation::new_task -new_item_p [ad_form_new_p -key grade_id] -item_id $item_id -content_type evaluation_tasks \
 			     -content_table evaluation_tasks -content_id task_id -name $task_name -description $description -weight $weight \
 			     -grade_item_id $grade_item_id -number_of_members $number_of_members -online_p $online_p -storage_type $storage_type \
@@ -342,7 +419,10 @@ ad_form -extend -name task -form {
 			     -mime_type $mime_type -estimated_time $estimated_time]
 	
 	evaluation::set_live -revision_id $revision_id
+	
 
+	
+	
 	if { ![empty_string_p $upload_file] }  {
 	    
 	    set tmp_file [template::util::file::get_property tmp_filename $upload_file]
@@ -353,7 +433,7 @@ ad_form -extend -name task -form {
 
 		set filename [cr_create_content_file $item_id $revision_id $tmp_file]
                 db_dml set_file_content { *SQL* }
-
+		
 	    } else {
 		# create the new item
 		db_dml lob_content { *SQL* } -blob_files [list $tmp_file]
@@ -387,14 +467,37 @@ ad_form -extend -name task -form {
 
 	if { ![db_0or1row calendar_mappings { *SQL* }] } {
 	    # create cal_item
-	    set cal_item_id [calendar::item::new -start_date $cal_due_date -end_date $cal_due_date -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id]
-	    db_dml insert_cal_mapping { *SQL* }
+	    if { $due_date_p } {
+		set cal_item_id [calendar::item::new -start_date $cal_due_date -end_date $cal_due_date -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id]
+		db_dml insert_cal_mapping { *SQL* }
+	    }
 	} else {
 	    # edit previous cal_item
-	    calendar::item::edit -cal_item_id $cal_item_id -start_date $due_date -end_date $due_date -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id
+	    if { $due_date_p } {
+		calendar::item::edit -cal_item_id $cal_item_id -start_date $due_date -end_date $due_date -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id
+	    }
 	}
 
     }
+    db_transaction {
+	
+	
+	if {!$simple_p } {
+
+		set relative_weight [format %0.2f [expr (($tasks_counter)*$weight)/100.00]]
+		if { $new_p } {
+		    db_foreach get_grade_tasks {} {
+			set relative_weight [format %0.2f [expr (($tasks_counter)*$weight)/100.00]]
+			db_dml update_tasks {*SQL*}
+		    }
+		}
+		
+	    }
+	set update_p [db_dml update_points { *SQL* }]	
+    }
+    
+
+    
 } -after_submit {
     set redirect_to_groups_p 0
     if { [info exists admin_groups_p] && $number_of_members > 1 } {
@@ -406,8 +509,13 @@ ad_form -extend -name task -form {
 	ad_returnredirect [export_vars -base "../groups/one-task" { {task_id $revision_id} }]
 	ad_script_abort
     } else {
-	ad_returnredirect "$return_url"
-	ad_script_abort
+	if { $simple_p } {
+	    set return_url "../grades/distribution-edit?task_id=$revision_id&grade_id=$grade_id"
+	    ad_returnredirect $return_url
+	    ad_script_abort
+	} else {
+	    ad_returnredirect "$return_url"
+	} 
     }
 } 
 

@@ -7,7 +7,7 @@
       <querytext>
 
 		update evaluation_tasks
-		set weight = :aweight
+		set weight = :aweight,points=:apoints,relative_weight=:rel_weight
 		where task_id = :id
 	
       </querytext>
@@ -28,5 +28,19 @@
 	
       </querytext>
 </fullquery>
+
+<fullquery name="grade_info">      
+      <querytext>
+
+	select eg.grade_plural_name,
+		eg.weight as grade_weight,
+		eg.grade_item_id,
+		eg.comments as grade_comments
+		from evaluation_gradesi eg
+		where grade_id = :grade_id
+	
+      </querytext>
+</fullquery>
+
 
 </queryset>

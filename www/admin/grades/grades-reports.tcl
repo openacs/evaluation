@@ -8,6 +8,7 @@ ad_page_contract {
     @author jopez@galileo.edu
     @cvs-id $Id$
 
+
 } {
     {orderby ""}
 } -validate {
@@ -21,11 +22,15 @@ ad_page_contract {
 set page_title "[_ evaluation.Grades_Report_]"
 set context "[_ evaluation.Grades_Report_]"
 set package_id [ad_conn package_id]
-
+set simple_p [parameter::get -parameter "SimpleVersion"]
 # we have to decide if we are going to show all the users in the system
 # or only the students of a given class (community in dotrln)
 # in order to create the groups
 
+set class "list"
+if { $simple_p } {
+    set class "pbs_list"
+}
 set community_id [dotlrn_community::get_community_id]
 if { [empty_string_p $community_id] } {
     set query_name grades_report
@@ -53,11 +58,13 @@ db_foreach grade_type { *SQL* } {
     append sql_query [db_map grade_total_grade]
 }
 
+
 lappend elements total_grade \
     [list label "[_ evaluation.Total_Grade_]" \
 	 orderby_asc {total_grade asc} \
 	 orderby_desc {total_grade desc} \
 	]
+
 
 append sql_query [db_map class_total_grade]
 
@@ -65,6 +72,8 @@ template::list::create \
     -name grades_report \
     -multirow grades_report \
     -key grade_id \
+    -main_class $class \
+    -sub_class narrow \
     -elements $elements \
     -pass_properties " $pass_grades " \
     -orderby { default_value student_name } 

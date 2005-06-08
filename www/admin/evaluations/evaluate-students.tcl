@@ -8,7 +8,7 @@ ad_page_contract {
     @cvs-id $Id$
 } { 
     task_id:integer,notnull
-    max_grade:integer,notnull
+    max_grade:notnull
     item_ids:array,integer,optional
     item_to_edit_ids:array,integer,optional
     
@@ -127,6 +127,8 @@ ad_page_contract {
     }
 }
 
+#ad_return_complaint 1 "[lc_numeric %.2f $max_grade]"
+#ad_script_abort
 set page_title "[_ evaluation.lt_Confirm_Your_Evaluati]"
 set context [list [list "[export_vars -base student-list { task_id }]" "[_ evaluation.Studen_List_]"] "[_ evaluation.Confirm_Evaluation_]"]
 

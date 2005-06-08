@@ -1,7 +1,21 @@
 <master>
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
-
+<if @simple_p@ eq 1>
+<h1 class=blue>#evaluation.Evaluations#</h1>
+<br>
+<ul>
+      <li class="arrow"><a href="grades/grades"><text class="blue"><b>#evaluation-portlet.lt_Admin_my_Assignment_T#</b></text></a><br></li>
+	<text class="blue">#evaluation-portlet.admin_help#</text></li><br>
+      <li class="arrow"><a href="grades/grades-reports"><text class="blue"><b>#evaluation-portlet.view_students_grades#</b></text></a><br>
+	<text class="blue">#evaluation-portlet.view_grades_help#</text></li><br>
+      <li class="arrow"><text class="blue"><b>Notifications</b></text>
+	<br>
+      <text class="blue">@assignments_notification_chunk;noquote@</text></li> 
+<br>
+<br>
+</if>
+<else>
 <h2>#evaluation.Assignment_Types#</h2>
 <ul>
 <li><a href="grades/grades">#evaluation.lt_Admin_my_Assignment_T#</a></li>
@@ -28,11 +42,14 @@
 <h2>#evaluation.Evaluations#</h2>
 <p>@evaluations_notification_chunk;noquote@</p>
 <ul>
+</else>
 <if @grades:rowcount@ eq 0>
 <li>#evaluation.lt_There_are_no_tasks_to#</li>
 </if><else>
 <multiple name="grades">
+	<if @simple_p@ eq 0>
 	<li><strong>@grades.grade_plural_name;noquote@</strong> <br />
+	</if>
 	<include src="../../lib/evaluations-chunk" grade_item_id=@grades.grade_item_id@ grade_id=@grades.grade_id@ evaluations_orderby=@evaluations_orderby@>
         <br /><br />
 	</li>

@@ -288,6 +288,7 @@ ad_proc -public evaluation::new_task {
     {-title ""}
     {-mime_type "text/plain"}
     {-item_name ""}
+    {-package_id ""}
 } {
 
     Build a new content revision of a task.  If new_item_p is
@@ -309,8 +310,9 @@ ad_proc -public evaluation::new_task {
     @storage_type File or text, depending on what are we going to store
 
 } {
-
-    set package_id [ad_conn package_id]
+    if {[empty_string_p $package_id]} {
+	set package_id [ad_conn package_id]
+    }
     set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
 
@@ -400,6 +402,7 @@ ad_proc -public evaluation::new_answer {
     {-mime_type "text/plain"}
     {-publish_date ""}
     {-creation_date ""}
+    {-comment ""}
 } {
 
     Build a new content revision of an answer.  If new_item_p is
@@ -776,6 +779,16 @@ ad_proc -public evaluation::apm::create_folders {
 	set projects_name "[_ evaluation.Projects_]"
 	set projects_singular_name "[_ evaluation.Project]"
 	set projects_desc "[_ evaluation.lt_Projects_for_students]"
+	set journals_name "[_ evaluation.Journals_]"
+	set journals_singular_name "[_ evaluation.Journal]"
+	set journals_desc "[_ evaluation.Journals_for_students_]"
+	set activities_name "[_ evaluation.Activities_]"
+	set activities_singular_name "[_ evaluation.Activity]"
+	set activities_desc "[_ evaluation.Activities_for_students_]"
+	set final_projects_name "[_ evaluation.Final_Projects_]"
+	set final_projects_singular_name "[_ evaluation.Final_Project]"
+	set final_projects_desc "[_ evaluation.lt_Final_Projects_for_students]"
+
 	db_exec_plsql create_evaluation_folders { *SQL* }
 
 	set creation_user [ad_verify_and_get_user_id]
@@ -813,9 +826,101 @@ ad_proc -public evaluation::apm::create_folders {
 	db_exec_plsql tasks_revision_new { *SQL* }
 	
 	db_exec_plsql tasks_live_revision { *SQL* }
+	
+	set journals_item_id [db_nextval acs_object_id_seq]
+	set journals_item_name "evaluation_grades_${journals_item_id}"		
+	set journals_revision_id [db_nextval acs_object_id_seq]
+	set journals_revision_name "evaluation_grades_${journals_revision_id}"
+	
+	db_exec_plsql journals_item_new { *SQL* }
+	
+	db_exec_plsql journals_revision_new { *SQL* }
+	
+	db_exec_plsql journals_live_revision { *SQL* }
+	
+	set final_projects_item_id [db_nextval acs_object_id_seq]
+	set final_projects_item_name "evaluation_grades_${final_projects_item_id}"		
+	set final_projects_revision_id [db_nextval acs_object_id_seq]
+	set final_projects_revision_name "evaluation_grades_${final_projects_revision_id}"
+	
+	db_exec_plsql final_projects_item_new { *SQL* }
+	
+	db_exec_plsql final_projects_revision_new { *SQL* }
+
+	db_exec_plsql final_projects_live_revision { *SQL* }
+	
+	set activities_item_id [db_nextval acs_object_id_seq]
+	set activities_item_name "evaluation_grades_${activities_item_id}"		
+	set activities_revision_id [db_nextval acs_object_id_seq]
+	set activities_revision_name "evaluation_grades_${activities_revision_id}"
+	
+	db_exec_plsql activities_item_new { *SQL* }
+	
+	db_exec_plsql activities_revision_new { *SQL* }
+	
+	db_exec_plsql activities_live_revision { *SQL* }
+
 
     }
 }
+ad_proc -public evaluation::apm::create_folders_upgrade {
+    -package_id:required
+} {
+    Helper for the apm_proc
+} {
+    db_transaction {
+	set journals_name "[_ evaluation.Journals_]"
+	set journals_singular_name "[_ evaluation.Journal]"
+	set journals_desc "[_ evaluation.Journals_for_students_]"
+	set activities_name "[_ evaluation.Activities_]"
+	set activities_singular_name "[_ evaluation.Activity]"
+	set activities_desc "[_ evaluation.Activities_for_students_]"
+	set final_projects_name "[_ evaluation.Final_Projects_]"
+	set final_projects_singular_name "[_ evaluation.Final_Project]"
+	set final_projects_desc "[_ evaluation.lt_Final_Projects_for_students]"
+
+	set creation_user [ad_verify_and_get_user_id]
+	set creation_ip [ad_conn peeraddr]
+	
+		
+	set journals_item_id [db_nextval acs_object_id_seq]
+	set journals_item_name "evaluation_grades_${journals_item_id}"		
+	set journals_revision_id [db_nextval acs_object_id_seq]
+	set journals_revision_name "evaluation_grades_${journals_revision_id}"
+	
+	db_exec_plsql journals_item_new { *SQL* }
+	
+	db_exec_plsql journals_revision_new { *SQL* }
+	
+	db_exec_plsql journals_live_revision { *SQL* }
+	
+	set final_projects_item_id [db_nextval acs_object_id_seq]
+	set final_projects_item_name "evaluation_grades_${final_projects_item_id}"		
+	set final_projects_revision_id [db_nextval acs_object_id_seq]
+	set final_projects_revision_name "evaluation_grades_${final_projects_revision_id}"
+	
+	db_exec_plsql final_projects_item_new { *SQL* }
+	
+	db_exec_plsql final_projects_revision_new { *SQL* }
+
+	db_exec_plsql final_projects_live_revision { *SQL* }
+	
+	set activities_item_id [db_nextval acs_object_id_seq]
+	set activities_item_name "evaluation_grades_${activities_item_id}"		
+	set activities_revision_id [db_nextval acs_object_id_seq]
+	set activities_revision_name "evaluation_grades_${activities_revision_id}"
+	
+	db_exec_plsql activities_item_new { *SQL* }
+	
+	db_exec_plsql activities_revision_new { *SQL* }
+	
+	db_exec_plsql activities_live_revision { *SQL* }
+	
+	
+    }
+    
+}
+
 
 ad_proc -public evaluation::apm::delete_contents {
     -package_id:required
@@ -922,6 +1027,147 @@ ad_proc -public evaluation::get_archive_extension {} {
 } {
     return [parameter::get -parameter ArchiveExtension -default "txt"]
 }
+
+ad_proc -public evaluation::set_points {
+} {
+    Proc called in after upgrade callback from version 0.4d3 to 0.4d4
+    Sets points field in table evaluation_tasks
+    
+} {
+    
+    set grades [db_list_of_lists get_grades {}]
+    foreach grade $grades {
+	set grade_id [lindex $grade 0]
+	set tasks [db_list_of_lists get_grade_tasks {}]
+	set grade_weight [lindex $grade 1]
+	
+	foreach task $tasks {
+	    set task_id [lindex $task 0]
+	    set task_weight [lindex $task 1]
+	    set points [format %0.2f [expr ($task_weight*$grade_weight)/100.00]]
+	    db_dml update_task {}
+	}
+    }
+}
+
+
+ad_proc -public evaluation::enable_due_date {
+    {-task_id}
+} {
+} {
+    set enable_p 0
+    set enable_p [db_string enable {} -default 1]
+    
+    if {$enable_p > 1} {
+	set enable_p 0
+    }
+    return $enable_p
+}
+
+ad_proc -public evaluation::set_perfect_score {
+} {
+    Proc called in after upgrade callback from version 0.4d4 to 0.4d5
+    Sets perfect_score field in table evaluation_tasks
+    
+} {
+    set tasks [db_list_of_lists get_tasks {}]
+    set perfect_score 100
+    
+    foreach task_id $tasks {
+	db_transaction {
+	    db_dml update_task {}
+	}
+    }
+
+}
+
+ad_proc -public evaluation::clone_grade {
+    -item_id:required
+    -content_type:required
+    -content_table:required
+    -content_id:required
+    -new_item_p:required
+    -description:required
+    -weight:required
+    -name:required
+    -plural_name:required
+    -package_id:required
+} {
+    
+    Build a new content revision of a evaluation subtype.  If new_item_p is
+    set true then a new item is first created, otherwise a new revision is created for
+    the item indicated by item_id.
+    
+    @param item_id The item to update or create.
+    @param content_type The type to make
+    @param content_table
+    @param new_item_p If true make a new item using item_id
+    
+} {
+    
+    set creation_user [ad_verify_and_get_user_id]
+    set creation_ip [ad_conn peeraddr]
+    
+    set item_name "${content_type}_${item_id}"
+    
+    set revision_id [db_nextval acs_object_id_seq]
+    set revision_name "${content_type}_${revision_id}"
+    
+    if { $new_item_p } {
+	db_exec_plsql content_item_new { *SQL* }
+	
+    }
+    
+    db_exec_plsql content_revision_new { *SQL* }
+    
+    return $revision_id
+} 
+
+
+ad_proc -public evaluation::set_relative_weight {
+} {
+    Proc called in after upgrade callback from version 0.4d5 to 0.4d6
+    Sets relative_weight field in table evaluation_tasks
+    
+} {
+    set tasks [db_list_of_lists get_tasks {}]
+    set relative_weight 1
+    
+    foreach task_id $tasks {
+	db_transaction {
+	    db_dml update_task {}
+	}
+    }
+
+}
+
+ad_proc -public evaluation::set_forums_related {
+} {
+    Proc called in after upgrade callback from version 0.4d7 to 0.4d8
+    Sets forums_related_p field in table evaluation_tasks
+    
+} {
+    set tasks [db_list_of_lists get_tasks {}]
+    set forums_related_p "f"
+    
+    foreach task_id $tasks {
+	db_transaction {
+	    db_dml update_task {}
+	}
+    }
+
+}
+
+
+
+ad_proc -public evaluation::get_archive_extension {} {
+    return the archive extension that should be added to the output file of
+    an archive command
+} {
+    return [parameter::get -parameter ArchiveExtension -default "txt"]
+}
+
+
 
 ad_register_proc GET /grades-sheet-csv* evaluation::generate_grades_sheet 
 ad_register_proc POST /grades-sheet-csv* evaluation::generate_grades_sheet

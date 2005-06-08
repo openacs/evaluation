@@ -91,3 +91,30 @@ ad_proc -public evaluation::apm::package_uninstantiate {
     delete_contents -package_id $package_id
 
 }
+ad_proc -public evaluation::apm::after_upgrade { 
+    {-from_version_name:required}
+    {-to_version_name:required}
+} {
+    
+
+} {
+    apm_upgrade_logic \
+	-from_version_name $from_version_name \
+	-to_version_name $to_version_name \
+	-spec {
+	    0.4d3 0.4d4 {
+		evaluation::set_points
+	    }
+	    0.4d4 0.4d5 {
+		evaluation::set_perfect_score
+	    }
+	    0.4d5 0.4d6 {
+		evaluation::set_relative_weight 
+	    }
+	    0.4d7 0.4d8 {
+		evaluation::set_forums_related 
+	    }
+	    
+	    
+	}
+}

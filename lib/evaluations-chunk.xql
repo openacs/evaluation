@@ -6,7 +6,7 @@
 <fullquery name="get_grade_info">      
       <querytext>
 
-		select grade_plural_name, weight as grade_weight from evaluation_grades where grade_id = :grade_id
+		select upper(grade_plural_name) as grade_plural_name, grade_plural_name as low_name,grade_name,weight as grade_weight,weight as category_weight from evaluation_grades where grade_id = :grade_id
 	
       </querytext>
 </fullquery>

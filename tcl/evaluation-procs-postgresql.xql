@@ -308,7 +308,8 @@
 			:title,			
 			:publish_date,  --publish date
 			null,  -- nls_language
-			:mime_type --mime_type
+			:mime_type, --mime_type
+			:comment
 			);
 
       </querytext>
@@ -601,6 +602,7 @@
 
       </querytext>
 </fullquery>
+	
 
 <fullquery name="evaluation::apm::create_folders.exams_item_new">      
       <querytext>
@@ -634,7 +636,7 @@
 					  :exams_revision_id,	
 					  :exams_singular_name,
 					  :exams_name, 	
-					  40,		
+					  20,		
 					  'evaluation_grades',	
 					  now(), --creation date	
 					  :creation_user, 
@@ -747,7 +749,7 @@
 					  :tasks_revision_id,	
 					  :tasks_singular_name, 	
 					  :tasks_name,
-					  40,		
+					  20,		
 					  'evaluation_grades',	
 					  now(), --creation date	
 					  :creation_user, 
@@ -889,5 +891,456 @@
 
       </querytext>
 </fullquery>
+	
+<fullquery name="evaluation::apm::create_folders.journals_item_new">      
+      <querytext>
+
+	    select evaluation__new_item (
+					 :journals_item_id, --item_id
+					 :journals_item_name,
+					 null,
+					 :creation_user,
+					 :package_id,
+  	  			         current_timestamp,
+					 :creation_ip,
+					 :journals_name,
+					 :journals_desc,
+					 'text/plain',
+					 null,
+					 null,
+					 'text',
+					 'content_item', -- item_subtype
+					 'evaluation_grades' -- content_type
+					 );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.journals_revision_new">      
+      <querytext>
+
+	    select evaluation__new_grade (
+					  :journals_item_id,		
+					  :journals_revision_id,	
+					  :journals_singular_name,
+					  :journals_name, 	
+					  20,		
+					  'evaluation_grades',	
+					  now(), --creation date	
+					  :creation_user, 
+					  :creation_ip,	
+					  :journals_revision_name,			
+					  :journals_desc,	
+					  now(),  --publish date
+					  null, --nls_language
+					  'text/plain' --mime_type
+					  );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.journals_live_revision">      
+      <querytext>
+
+	    select content_item__set_live_revision (
+						    :journals_revision_id			
+						    );
+
+      </querytext>
+</fullquery>
+<fullquery name="evaluation::apm::create_folders.final_projects_item_new">      
+      <querytext>
+
+	    select evaluation__new_item (
+					 :final_projects_item_id, --item_id
+					 :final_projects_item_name,
+					 null,
+					 :creation_user,
+					 :package_id,
+				         current_timestamp,
+					 :creation_ip,
+					 :final_projects_name,
+					 :final_projects_desc,
+					 'text/plain',
+					 null,
+					 null,
+					 'text',
+					 'content_item', -- item_subtype
+					 'evaluation_grades' -- content_type
+					 );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.final_projects_revision_new">      
+      <querytext>
+
+	    select evaluation__new_grade (
+					  :final_projects_item_id,		
+					  :final_projects_revision_id,	
+					  :final_projects_singular_name,
+					  :final_projects_name, 	
+					  10,		
+					  'evaluation_grades',	
+					  now(), --creation date	
+					  :creation_user, 
+					  :creation_ip,	
+					  :final_projects_revision_name,			
+					  :final_projects_desc,	
+					  now(),  --publish date
+					  null, --nls_language
+					  'text/plain' --mime_type
+					  );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.final_projects_live_revision">      
+      <querytext>
+
+	    select content_item__set_live_revision (
+						    :final_projects_revision_id			
+						    );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.activities_item_new">      
+      <querytext>
+
+	    select evaluation__new_item (
+					 :activities_item_id, --item_id
+					 :activities_item_name,
+					 null,
+					 :creation_user,
+					 :package_id,
+				         current_timestamp,
+					 :creation_ip,
+					 :activities_name,
+					 :activities_desc,
+					 'text/plain',
+					 null,
+					 null,
+					 'text',
+					 'content_item', -- item_subtype
+					 'evaluation_grades' -- content_type
+					 );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders.activities_revision_new">      
+      <querytext>
+
+	    select evaluation__new_grade (
+					  :activities_item_id,		
+					  :activities_revision_id,	
+					  :activities_singular_name, 	
+					  :activities_name,
+					  10,		
+					  'evaluation_grades',	
+					  now(), --creation date	
+					  :creation_user, 
+					  :creation_ip,	
+					  :activities_revision_name,			
+					  :activities_desc,	
+					  now(),  --publish date
+					  null, --nls_language
+					  'text/plain' --mime_type
+					  );
+
+      </querytext>
+</fullquery>
+<fullquery name="evaluation::apm::create_folders.activities_live_revision">      
+      <querytext>
+
+	    select content_item__set_live_revision (
+						    :activities_revision_id			
+						    );
+
+      </querytext>
+</fullquery>
+	
+<fullquery name="evaluation::apm::create_folders_upgrade.create_evaluation_folders">      
+      <querytext>
+
+	    select evaluation__new_folder (
+					   'evaluation_grades_'||:package_id,
+					   'evaluation_grades_'||:package_id,
+					   'Evaluation grades folder',
+					   null,
+					   'evaluation_grades'
+					   );
+	    
+	    select evaluation__new_folder (
+					   'evaluation_tasks_'||:package_id,
+					   'evaluation_tasks_'||:package_id,
+					   'Evaluation tasks folder',
+					   null,
+					   'evaluation_tasks'
+					   );
+	    
+	    select evaluation__new_folder (
+					   'evaluation_tasks_sols_'||:package_id,
+					   'evaluation_tasks_sols_'||:package_id,
+					   'Evaluation tasks solutions folder',
+					   null,
+					   'evaluation_tasks_sols'
+					   );
+	    
+	    select evaluation__new_folder (
+					   'evaluation_answers_'||:package_id,
+					   'evaluation_answers_'||:package_id,
+					   'Evaluation answers folder',
+					   null,
+					   'evaluation_answers'
+					   );
+	    
+	    select evaluation__new_folder (
+					   'evaluation_grades_sheets_'||:package_id,
+					   'evaluation_grades_sheets_'||:package_id,
+					   'Grades sheets folder',
+					   null,
+					   'evaluation_grades_sheets'
+					   );
+	    
+	    select evaluation__new_folder (
+					   'evaluation_student_evals_'||:package_id,
+					   'evaluation_student_evals_'||:package_id,
+					   'Evaluation student evaluations folder',
+					   null,
+					   'evaluation_student_evals'
+					   );
+
+      </querytext>
+</fullquery>
+<fullquery name="evaluation::apm::create_folders_upgrade.journals_item_new">      
+      <querytext>
+
+	    select evaluation__new_item (
+					 :journals_item_id, --item_id
+					 :journals_item_name,
+					 null,
+					 :creation_user,
+					 :package_id,
+  	  			         current_timestamp,
+					 :creation_ip,
+					 :journals_name,
+					 :journals_desc,
+					 'text/plain',
+					 null,
+					 null,
+					 'text',
+					 'content_item', -- item_subtype
+					 'evaluation_grades' -- content_type
+					 );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders_upgrade.journals_revision_new">      
+      <querytext>
+
+	    select evaluation__new_grade (
+					  :journals_item_id,		
+					  :journals_revision_id,	
+					  :journals_singular_name,
+					  :journals_name, 	
+					  0,		
+					  'evaluation_grades',	
+					  now(), --creation date	
+					  :creation_user, 
+					  :creation_ip,	
+					  :journals_revision_name,			
+					  :journals_desc,	
+					  now(),  --publish date
+					  null, --nls_language
+					  'text/plain' --mime_type
+					  );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders_upgrade.journals_live_revision">      
+      <querytext>
+
+	    select content_item__set_live_revision (
+						    :journals_revision_id			
+						    );
+
+      </querytext>
+</fullquery>
+<fullquery name="evaluation::apm::create_folders_upgrade.final_projects_item_new">      
+      <querytext>
+
+	    select evaluation__new_item (
+					 :final_projects_item_id, --item_id
+					 :final_projects_item_name,
+					 null,
+					 :creation_user,
+					 :package_id,
+				         current_timestamp,
+					 :creation_ip,
+					 :final_projects_name,
+					 :final_projects_desc,
+					 'text/plain',
+					 null,
+					 null,
+					 'text',
+					 'content_item', -- item_subtype
+					 'evaluation_grades' -- content_type
+					 );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders_upgrade.final_projects_revision_new">      
+      <querytext>
+
+	    select evaluation__new_grade (
+					  :final_projects_item_id,		
+					  :final_projects_revision_id,	
+					  :final_projects_singular_name,
+					  :final_projects_name, 	
+					  0,		
+					  'evaluation_grades',	
+					  now(), --creation date	
+					  :creation_user, 
+					  :creation_ip,	
+					  :final_projects_revision_name,			
+					  :final_projects_desc,	
+					  now(),  --publish date
+					  null, --nls_language
+					  'text/plain' --mime_type
+					  );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders_upgrade.final_projects_live_revision">      
+      <querytext>
+
+	    select content_item__set_live_revision (
+						    :final_projects_revision_id			
+						    );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders_upgrade.activities_item_new">      
+      <querytext>
+
+	    select evaluation__new_item (
+					 :activities_item_id, --item_id
+					 :activities_item_name,
+					 null,
+					 :creation_user,
+					 :package_id,
+				         current_timestamp,
+					 :creation_ip,
+					 :activities_name,
+					 :activities_desc,
+					 'text/plain',
+					 null,
+					 null,
+					 'text',
+					 'content_item', -- item_subtype
+					 'evaluation_grades' -- content_type
+					 );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::apm::create_folders_upgrade.activities_revision_new">      
+      <querytext>
+
+	    select evaluation__new_grade (
+					  :activities_item_id,		
+					  :activities_revision_id,	
+					  :activities_singular_name, 	
+					  :activities_name,
+					  0,		
+					  'evaluation_grades',	
+					  now(), --creation date	
+					  :creation_user, 
+					  :creation_ip,	
+					  :activities_revision_name,			
+					  :activities_desc,	
+					  now(),  --publish date
+					  null, --nls_language
+					  'text/plain' --mime_type
+					  );
+
+      </querytext>
+</fullquery>
+<fullquery name="evaluation::apm::create_folders_upgrade.activities_live_revision">      
+      <querytext>
+
+	    select content_item__set_live_revision (
+						    :activities_revision_id			
+						    );
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::enable_due_date.enable">      
+      <querytext>
+	select task_id 
+	from evaluation_tasks 
+	where task_id=:task_id and due_date is null
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::clone_grade.content_item_new">      
+      <querytext>
+
+   			select evaluation__new_item (
+	                :item_id, --item_id
+			:item_name,
+			null,
+			:creation_user,
+			:package_id,
+			now(),
+			:creation_ip,
+			:name,
+			:description,
+			'text/plain',
+			null,
+			null,
+			'text',
+			'content_item', -- item_subtype
+			'evaluation_grades' -- content_type
+			);
+
+      </querytext>
+</fullquery>
+
+<fullquery name="evaluation::clone_grade.content_revision_new">      
+      <querytext>
+
+			select evaluation__new_grade (
+			:item_id,		
+			:revision_id,	
+			:name, 	
+			:plural_name,
+			:weight,		
+			'evaluation_grades',	
+			now(), --creation date	
+			:creation_user, 
+			:creation_ip,	
+			:revision_name,			
+			:description,	
+			now(),  --publish date
+		    null, --nls_language
+			'text/plain' --mime_type
+			);
+	
+      </querytext>
+</fullquery>
+
+
+
+
  
 </queryset>

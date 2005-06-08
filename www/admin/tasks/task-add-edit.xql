@@ -50,4 +50,22 @@
       </querytext>
 </fullquery>
 
+<fullquery name="enable">      
+
+      <querytext>
+	select task_id from evaluation_tasks where task_id=:task_id and due_date is null
+
+      </querytext>
+</fullquery>
+
+<fullquery name="update_points">      
+
+      <querytext>
+	update evaluation_tasks set points=:points,perfect_score=:perfect_score,relative_weight=:relative_weight,forums_related_p=:forums_related_p where task_id=:revision_id
+
+      </querytext>
+</fullquery>
+
+
+
 </queryset>

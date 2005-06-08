@@ -195,7 +195,7 @@ drop function evaluation__delete_task_sol (integer);
 -- STUDENT ANSWERS
 ---------------------------------------
 
-drop function evaluation__new_answer (integer, integer, integer, integer, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
+drop function evaluation__new_answer (integer, integer, integer, integer, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar,text);
 
 drop function evaluation__delete_answer (integer);
 

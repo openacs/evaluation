@@ -27,22 +27,22 @@ ad_form -name grade -cancel_url [export_vars -base grades { }] -export { } -form
 	grade_id:key
 
 	{grade_name:text  
-		{label "[_ evaluation.lt_Assignment_Type_Name_]"}
+		{label "[_ evaluation.lt_Assignment_Type_Name_]:"}
 		{html {size 30}}
 	}
 
 	{grade_plural_name:text  
-		{label "[_ evaluation.lt_Assignment_Plural_Typ]"}
+		{label "[_ evaluation.lt_Assignment_Plural_Typ]:"}
 		{html {size 30}}
 	}
 	
 	{weight:float
-		{label "[_ evaluation.lt_Weight_over_100_br__o]"}
+		{label "[_ evaluation.total_percentage]:"}
 		{html {size 5}}
 	}
 
 	{comments:text(textarea),optional  
-		{label "[_ evaluation.lt_Assignment_Types_Comm]"}
+		{label "[_ evaluation.lt_Assignment_Types_Comm]:"}
 		{html {rows 4 cols 40}}
 	}
 	
@@ -61,16 +61,21 @@ ad_form -name grade -cancel_url [export_vars -base grades { }] -export { } -form
 } -on_submit {
 	
 	db_transaction {
-		
+	    
 	    set revision_id [evaluation::new_grade -new_item_p [ad_form_new_p -key grade_id] -item_id $grade_id -content_type evaluation_grades \
 				 -content_table evaluation_grades -content_id grade_id -name $grade_name -plural_name $grade_plural_name -description $comments -weight $weight]
 	    
 	    evaluation::set_live -revision_id $revision_id
 	    
+	    db_foreach get_grade_tasks get_grade_tasks { 
+		set task_weight [format %0.2f [expr ($points*100)/$weight]]
+		db_dml update_tasks {}
+	    }
+	    
 	}
 	
 	ad_returnredirect "grades"
 	ad_script_abort
-}
+    }
 
 ad_return_template
