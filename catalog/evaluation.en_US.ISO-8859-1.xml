@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<message_catalog package_key="evaluation" package_version="0.4d8" locale="en_US" charset="ISO-8859-1">
+<message_catalog package_key="evaluation" package_version="0.2d" locale="en_US" charset="ISO-8859-1">
+
 
   <msg key="1__Individual_">1 = Individual </msg>
   <msg key="Activities_">Activities</msg>
@@ -369,13 +370,14 @@ is referred to as the weight. You have three choices.
   <msg key="lt_The_commentsedit_reas">The comments/edit reason is a string with no more than 4,000 characters.</msg>
   <msg key="lt_The_edit_reason_must_">The edit reason must be less than 4000 characteras long </msg>
   <msg key="lt_The_estimated_time_mu">The estimated time must be grather than 0</msg>
+
   <msg key="lt_The_file_extension_of">The file extension of the file is &quot;%file_extension&quot; and it should be .CSV. Sorry, we can't process it&quot;
 	} 
     } 
 }  
 
 set page_title &quot;&lt;#_ Confirm Evaluation </msg>
-  <msg key="lt_The_file_extension_of_1">The file extension of the file is \&quot;$file_extension\&quot; and it should be .CSV, we can't process it </msg>
+  <msg key="lt_The_file_extension_of_1">The file extension of the file is &quot;%file_extension%&quot; and it should be .CSV, we can't process it </msg>
   <msg key="lt_The_file_is_too_large">The file is too large. (The maximun file size is %pretty_maxnbytes% bytes)&quot; 
         return 0 
     }
@@ -520,6 +522,7 @@ To see the assignment type details, click on the view icon at the left of the as
   <msg key="lt_You_can_see_the_csv_f">You can see the csv files associated with the task by clicking on the &quot;See grades sheets associated with this task&quot; botton.</msg>
   <msg key="lt_You_can_upload_a_file">You can upload a file associated to this task by using the browse button (optional) </msg>
   <msg key="lt_You_can_upload_a_file_1">You can upload a file associated to this task by using the browse button and select the file from your computer (optional) </msg>
+  <msg key="lt_You_cant_leave_the_du">You can't leave the due date empty if the students have to submit their answers online. due es ($due_date y online es $online_p )</msg>
   <msg key="lt_You_must_give_an_edit">You must give an edit reason (%old_grade% --&gt; %grade_wo_reason% </msg>
   <msg key="lt_Your_total_grade_in_t">Your total grade in this class is:</msg>
   <msg key="Max_Grade_">Max Grade: </msg>

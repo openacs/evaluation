@@ -5,6 +5,7 @@ ad_page_contract {
 
     @author jopez@galileo.edu
     @creation-date Mar 2004
+
     @cvs-id $Id$
 } {
     task_id:integer,notnull
@@ -171,7 +172,7 @@ ad_form -extend -name solution -form {
     db_transaction {
 
 	if { [string eq $unattach_p "t"] } {
-	    content::revision::delete -revision_id $solution_id
+	    evaluation::revision_delete -revision_id $solution_id
 	} else {
 	    # set storage_type to its default value according to a db constraint
 	    set storage_type "lob"

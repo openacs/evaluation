@@ -7,8 +7,6 @@ ad_page_contract {
     @author jopez@galileo.edu
     @creation-date Feb 2004
     @cvs-id $Id$
-    
-    
 } -query {
     {orderby:optional}
 }
@@ -111,6 +109,7 @@ db_multirow  -extend {} grades  get_class_grades { *SQL* } {
 db_1row get_total_weight { *SQL* }
 
 set total_weight [lc_numeric %.2f $total_weight]
+
 
 if { ($total_weight < 100 && $total_weight > 0) || $total_weight > 100} {
     set notice "<span style=\"font-style: italic; color: red;\">[_ evaluation.lt_The_sum_of_the_weight]</span>"
