@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<message_catalog package_key="evaluation" package_version="0.2d" locale="en_US" charset="ISO-8859-1">
-
+<message_catalog package_key="evaluation" package_version="2.0.1" locale="en_US" charset="ISO-8859-1">
 
   <msg key="1__Individual_">1 = Individual </msg>
   <msg key="Activities_">Activities</msg>
@@ -29,6 +28,7 @@
   <msg key="answers_">ANSWERS</msg>
   <msg key="Assignment_Group_">Assignment Group </msg>
   <msg key="Assignment_Groups_">Assignment Groups </msg>
+  <msg key="Assignment_Type">Assignment Type</msg>
   <msg key="Assignment_Type_">Assignment Type </msg>
   <msg key="Assignment_Types">Assignment Types</msg>
   <msg key="Assignment_Types_">Assignment Types </msg>
@@ -370,7 +370,6 @@ is referred to as the weight. You have three choices.
   <msg key="lt_The_commentsedit_reas">The comments/edit reason is a string with no more than 4,000 characters.</msg>
   <msg key="lt_The_edit_reason_must_">The edit reason must be less than 4000 characteras long </msg>
   <msg key="lt_The_estimated_time_mu">The estimated time must be grather than 0</msg>
-
   <msg key="lt_The_file_extension_of">The file extension of the file is &quot;%file_extension&quot; and it should be .CSV. Sorry, we can't process it&quot;
 	} 
     } 

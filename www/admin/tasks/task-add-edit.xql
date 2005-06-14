@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
 <queryset>
+
 <fullquery name="get_grade_info">      
       <querytext>
 
@@ -14,6 +15,19 @@
 	
       </querytext>
 </fullquery>
+
+<fullquery name="select_grade_types">      
+      <querytext>
+	select eg.grade_name, eg.grade_item_id 
+		from evaluation_grades eg, acs_objects ao, cr_items cri
+		where cri.live_revision = eg.grade_id
+		and eg.grade_item_id = ao.object_id
+		and ao.context_id = :package_id
+		order by eg.grade_plural_name desc
+
+      </querytext>
+</fullquery>
+	    
 <fullquery name="update_points">      
 
       <querytext>

@@ -39,6 +39,8 @@ if { $new_p && ![empty_string_p $community_id] && [db_string get_user_comunities
 db_1row get_grade_info { *SQL* }
 if { $new_p } {
     set page_title "[_ evaluation.Add_grade_name_]"
+    # set storage_type to its default value according to a db constraint
+    set storage_type "lob"
 } else {
     set page_title "[_ evaluation.Edit_grade_name_]"
 }
@@ -58,144 +60,151 @@ ad_form -html { enctype multipart/form-data } -name task -cancel_url $return_url
     task_id:key
 
     {task_name:text  
-		{label "[_ evaluation.Task_Name_]"}
-		{html {size 30}}
+	{label "[_ evaluation.Task_Name_]"}
+	{html {size 30}}
     }
     
 }
 
 if { !$new_p } {
 
+    ad_form -extend -name task -form {
+	{grade_item_id:text
+	    {label "[_ evaluation.Assignment_Type]"}
+	    {widget select}
+	    {options "[db_list_of_lists select_grade_types { *SQL* }]"}
+	    {value $grade_id}
+	}
+    }
+
     db_1row get_task_info { *SQL* }
     
     if { ![string eq $title "link"] && $content_length > 0 } {
-
-		if { [string eq $mode "edit"] } {
-			set attached_p "t"
-			
-			ad_form -extend -name task -form {			
-				{upload_file:file,optional
-					{label "[_ evaluation.File_]"} 
-					{html "size 30"}
-					{help_text "[_ evaluation.lt_Currently_title_is_at_2]"}
-				}
-				{unattach_p:text(checkbox),optional 
-					{label "[_ evaluation.Unattach_file_]"} 
-					{options {{"" "t"}}}
-					{help_text "[_ evaluation.lt_Check_this_if_you_wan]"}
-				}
-				{url:text(text),optional
-					{label "[_ evaluation.URL__1]"} 
-					{value "http://"}
-				}			
-			}
-		} else {
-			ad_form -extend -name task -form {			
-				{upload_file:text,optional
-					{label "[_ evaluation.File_]"} 
-					{html "size 30"}
-					{value "$title"}
-				}
-				{unattach_p:text(hidden)
-				}
-				{url:text(hidden)
-				}			
-			}
+	if { [string eq $mode "edit"] } {
+	    set attached_p "t"
+	    ad_form -extend -name task -form {			
+		{upload_file:file,optional
+		    {label "[_ evaluation.File_]"} 
+		    {html "size 30"}
+		    {help_text "[_ evaluation.lt_Currently_title_is_at_2]"}
 		}
+		{unattach_p:text(checkbox),optional 
+		    {label "[_ evaluation.Unattach_file_]"} 
+		    {options {{"" "t"}}}
+		    {help_text "[_ evaluation.lt_Check_this_if_you_wan]"}
+		}
+		{url:text(text),optional
+		    {label "[_ evaluation.URL__1]"} 
+		    {value "http://"}
+		}			
+	    }
+	} else {
+	    ad_form -extend -name task -form {			
+		{upload_file:text,optional
+		    {label "[_ evaluation.File_]"} 
+		    {html "size 30"}
+		    {value "$title"}
+		}
+		{unattach_p:text(hidden)
+		}
+		{url:text(hidden)
+		}			
+	    }
+	}
     } elseif { [string eq $title "link"] } {
 
-		if { [string eq $mode "edit"] } {
+	if { [string eq $mode "edit"] } {
 
-			set attached_p "t"
-			
-			ad_form -extend -name task -form {			
-				
-				{upload_file:file,optional
-					{label "[_ evaluation.File_]"} 
-					{html "size 30"}
-				}
-				{url:text(text),optional
-					{label "[_ evaluation.URL__1]"} 
-					{value "http://"}
-					{help_text "[_ evaluation.lt_Currently_content_is__1]"}
-				}			
-				{unattach_p:text(checkbox),optional 
-					{label "[_ evaluation.Unassociate_url_]"}
-					{options {{"" "t"}}} 
-					{help_text "[_ evaluation.lt_Check_this_if_you_wan]"}
-				}
-			}
-		} else {
-			ad_form -extend -name task -form {			
-				
-				{upload_file:text(hidden)
-				}
-				{url:text(text),optional
-					{label "[_ evaluation.URL__1]"} 
-					{value "$content"}
-				}			
-				{unattach_p:text(hidden)
-				}
-			}
-		}
-    } else {
-		ad_form -extend -name task -form {
-			
-			{upload_file:file,optional
-				{label "[_ evaluation.File_]"} 
-				{html "size 30"}
-				{help_text "[_ evaluation.lt_You_can_upload_a_file]"}
-			}
-			
-			{url:text(text),optional
-				{label "[_ evaluation.URL__1]"} 
-				{value "http://"}
-				{help_text "You can associate a link to this task by entering the absolute url here (also optional)"}
-			}
-			
-			{unattach_p:text(hidden),optional
-				{value ""}
-			}
-		}
+	    set attached_p "t"
+	    
+	    ad_form -extend -name task -form {			
 		
+		{upload_file:file,optional
+		    {label "[_ evaluation.File_]"} 
+		    {html "size 30"}
+		}
+		{url:text(text),optional
+		    {label "[_ evaluation.URL__1]"} 
+		    {value "http://"}
+		    {help_text "[_ evaluation.lt_Currently_content_is__1]"}
+		}			
+		{unattach_p:text(checkbox),optional 
+		    {label "[_ evaluation.Unassociate_url_]"}
+		    {options {{"" "t"}}} 
+		    {help_text "[_ evaluation.lt_Check_this_if_you_wan]"}
+		}
+	    }
+	} else {
+	    ad_form -extend -name task -form {			
+		
+		{upload_file:text(hidden)
+		}
+		{url:text(text),optional
+		    {label "[_ evaluation.URL__1]"} 
+		    {value "$content"}
+		}			
+		{unattach_p:text(hidden)
+		}
+	    }
+	}
+    } else {
+	ad_form -extend -name task -form {
+	    
+	    {upload_file:file,optional
+		{label "[_ evaluation.File_]"} 
+		{html "size 30"}
+		{help_text "[_ evaluation.lt_You_can_upload_a_file]"}
+	    }
+	    
+	    {url:text(text),optional
+		{label "[_ evaluation.URL__1]"} 
+		{value "http://"}
+		{help_text "You can associate a link to this task by entering the absolute url here (also optional)"}
+	    }
+	    
+	    {unattach_p:text(hidden),optional
+		{value ""}
+	    }
+	}
+	
     }
 } else {
     
     ad_form -extend -name task -form {
-		
-		{upload_file:file,optional
-			{label "[_ evaluation.File_]"} 
-			{html "size 30"}
-			{help_text "[_ evaluation.lt_You_can_upload_a_file_1]"}
-		}
+	
+	{upload_file:file,optional
+	    {label "[_ evaluation.File_]"} 
+	    {html "size 30"}
+	    {help_text "[_ evaluation.lt_You_can_upload_a_file_1]"}
+	}
     }
 
     ad_form -extend -name task -form {
-		
-		{url:text(text),optional
-			{label "[_ evaluation.URL__1]"} 
-			{value "http://"}
-			{help_text "[_ evaluation.lt_You_can_associate_a_l]"}
-		}
-		
-		{unattach_p:text(hidden),optional
-			{value ""}
-		}
+	
+	{url:text(text),optional
+	    {label "[_ evaluation.URL__1]"} 
+	    {value "http://"}
+	    {help_text "[_ evaluation.lt_You_can_associate_a_l]"}
+	}
+	
+	{unattach_p:text(hidden),optional
+	    {value ""}
+	}
     }
 }
 
 ad_form -extend -name task -form {
 
     {description:richtext,optional  
-		{label "[_ evaluation.lt_Assignments_Descripti]"}
-		{html {rows 4 cols 40 wrap soft}}
+	{label "[_ evaluation.lt_Assignments_Descripti]"}
+	{html {rows 4 cols 40 wrap soft}}
     }
 
     {due_date:date,to_sql(linear_date),from_sql(sql_date),optional
-		{label "[_ evaluation.Due_Date_]"}
-		{format "MONTH DD YYYY HH24 MI SS"}
-		{today}
-		{help}
+	{label "[_ evaluation.Due_Date_]"}
+	{format "MONTH DD YYYY HH24 MI SS"}
+	{value "[evaluation::now_plus_days -ndays 20]"}
+	{help}
     }
     {relative_weight:float(hidden)
 	{value 0}
@@ -385,10 +394,7 @@ ad_form -extend -name task -form {
     
     
     db_transaction {
-	
-	# set storage_type to its default value according to a db constraint
-	set storage_type "lob"
-	
+		
 	if { ![empty_string_p $upload_file] } {
 	    
 	    # Get the filename part of the upload file
@@ -401,14 +407,14 @@ ad_form -extend -name task -form {
 	    set mime_type [cr_filename_to_mime_type -create $title]
 	    
 	    if { ![parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
-				set storage_type file
+		set storage_type file
 	    }
 	} elseif { ![string eq $url "http://"] } {
-			set mime_type "text/plain"
+	    set mime_type "text/plain"
 	    set title "link"
 	} elseif { [string eq $attached_p "f"] } {
 	    set mime_type "text/plain"
-			set title ""
+	    set title ""
 	}
 	set due_date_p 1
 	
@@ -417,32 +423,32 @@ ad_form -extend -name task -form {
 	set due_date_ansi [db_string set_date " *SQL* "]
 	
 	if { [string equal $cal_due_date  "-- :"]} {
-		    set due_date_p 0
+	    set due_date_p 0
 	    set due_date ""
 	}
 	
 	
 	if { [ad_form_new_p -key task_id] } {
 	    set item_id $task_id
-		} 
+	} 
 	
-		set revision_id [evaluation::new_task -new_item_p [ad_form_new_p -key grade_id] -item_id $item_id \
-				     -content_type evaluation_tasks \
-				     -content_table evaluation_tasks \
-				     -content_id task_id \
-				     -name $task_name \
-				     -description $description \
-				     -weight $weight \
-				     -grade_item_id $grade_item_id \
-				     -number_of_members $number_of_members \
-				     -online_p $online_p \
-				     -storage_type $storage_type \
-				     -due_date  $due_date_ansi \
-				     -late_submit_p $late_submit_p \
-				     -requires_grade_p $requires_grade_p \
-				     -title $title \
-				     -mime_type $mime_type \
-				     -estimated_time $estimated_time]
+	set revision_id [evaluation::new_task -new_item_p [ad_form_new_p -key grade_id] -item_id $item_id \
+			     -content_type evaluation_tasks \
+			     -content_table evaluation_tasks \
+			     -content_id task_id \
+			     -name $task_name \
+			     -description $description \
+			     -weight $weight \
+			     -grade_item_id $grade_item_id \
+			     -number_of_members $number_of_members \
+			     -online_p $online_p \
+			     -storage_type $storage_type \
+			     -due_date  $due_date_ansi \
+			     -late_submit_p $late_submit_p \
+			     -requires_grade_p $requires_grade_p \
+			     -title $title \
+			     -mime_type $mime_type \
+			     -estimated_time $estimated_time]
 	
 	content::item::set_live_revision -revision_id $revision_id
 	
@@ -453,9 +459,13 @@ ad_form -extend -name task -form {
 	    update evaluation_tasks set due_date = (select to_date(:due_date,'YYYY-MM-DD HH24:MI:SS') from dual)
 	    where task_id = :revision_id
 	}
-	
+
+	# initialize content_length in order to prevent wrong values
+	set content_length 0
+	db_dml lob_size { *SQL* }
+
+
 	if { ![empty_string_p $upload_file] }  {
-	    
 	    set tmp_file [template::util::file::get_property tmp_filename $upload_file]
 	    set content_length [file size $tmp_file]
 	    
@@ -479,7 +489,7 @@ ad_form -extend -name task -form {
 	    db_dml set_storage_type { *SQL* }
 	    set content_length [string length $url]
 	    db_dml content_size { *SQL* }
-	    
+
 	} elseif { [string eq $attached_p "t"] && ![string eq $unattach_p "t"] } {
 	    
 	    # just copy the old content to the new revision
@@ -501,7 +511,7 @@ ad_form -extend -name task -form {
 	    # create cal_item
 	    if { $due_date_p } {
 		set cal_item_id [calendar::item::new -start_date $cal_due_date -end_date $cal_due_date -name "[_ evaluation.Due_date_task_name]" -description $desc_url -calendar_id $calendar_id]
-		    
+		
 		db_dml insert_cal_mapping { *SQL* }
 	    }
 	} else {
