@@ -187,7 +187,7 @@ ad_form -extend -name task -form {
     {due_date:date,to_sql(linear_date),from_sql(sql_date),optional
 	{label "[_ evaluation.Due_Date_]"}
 	{format "MONTH DD YYYY HH24 MI SS"}
-	{today}
+	{value "[evaluation::now_plus_days -ndays 20]"}
 	{help_text "[_ evaluation.Due_Date_help_text]"}
     }
     {relative_weight:float(hidden)
