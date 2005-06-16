@@ -90,7 +90,7 @@ ad_proc -public evaluation::delete_grade {
     delete all grades
 } {
     db_1row get_grade_id { select grade_item_id from evaluation_grades where grade_id = :grade_id }
-    db_foreach del_rec { select task_item_id from evaluation_tasks where grade_item_id = :grade_item_id } {
+    db_foreach del_rec { select task_item_id, task_id from evaluation_tasks where grade_item_id = :grade_item_id } {
 	db_foreach evaluation_delete_student_eval { select evaluation_id from evaluation_student_evals where task_item_id = :task_item_id } {
 	    evaluation::revision_delete -revision_id $evaluation_id
 	}
@@ -103,8 +103,7 @@ ad_proc -public evaluation::delete_grade {
 	db_foreach evaluation_delete_grades_sheet { select grades_sheet_id from evaluation_grades_sheets where task_item_id = :task_item_id } {
 	    evaluation::revision_delete -revision_id $grades_sheet_id
 	}
-	db_foreach evaluation_delete_task { select task_id from evaluation_tasks where task_item_id = :task_item_id } {
-	    evaluation::revision_delete -revision_id $task_id                                                                                                              }
+	evaluation::revision_delete -revision_id $task_id
     }
     #    db_1row get_grade_id { select grade_id as grade_task_id from evaluation_grades where grade_item_id = :grade_item_id}
     evaluation::revision_delete -revision_id $grade_id
@@ -116,6 +115,48 @@ ad_proc -public evaluation::revision_delete {
     wrapper for the content::revision::delete
 } {
     content::item::unset_live_revision -item_id [db_string get_revision_item_id {select item_id from cr_revisions where revision_id = :revision_id}]
+}
+
+
+ad_proc -public evaluation::set_live_item {
+    -item_id
+} {
+    wrapper for contet::item::set_live_revision, in case the way items are deleted in the eval package ever change
+} {
+    content::item::set_live_revision -revision_id [content::item::get_best_revision -item_id $item_id]
+}
+
+ad_proc -public evaluation::set_live_grade {
+    -grade_item_id:required
+} {
+
+} {
+    evaluation::set_live_item -item_id $grade_item_id
+}
+
+ad_proc -public evaluation::set_live_task {
+    -task_item_id:required
+} {
+
+} {
+
+    db_foreach evaluation_deleted_student_eval { select evaluation_item_id from evaluation_student_evals, cr_items where task_item_id = :task_item_id and (live_revision = evaluation_id or latest_revision = evaluation_id) and evaluation_item_id = item_id } {
+	evaluation::set_live_item -item_id $evaluation_item_id
+    }
+
+    db_foreach evaluation_deleted_answer { select answer_item_id from evaluation_answers, cr_items where task_item_id = :task_item_id and (live_revision = answer_id or latest_revision = answer_id) and answer_item_id = item_id } {
+	evaluation::set_live_item -item_id $answer_item_id
+    }
+
+    db_foreach evaluation_deleted_task_sol { select solution_item_id from evaluation_tasks_sols, cr_items where task_item_id = :task_item_id and (live_revision = solution_id or latest_revision = solution_id) and solution_item_id = item_id } {
+	evaluation::set_live_item -revision_id $solution_item_id
+    }
+    db_foreach evaluation_deleted_grades_sheet { select grades_sheet_item_id from evaluation_grades_sheets, cr_items where task_item_id = :task_item_id and (live_revision = grades_sheet_id or latest_revision = grades_sheet_id) and grades_sheet_item_id = item_id } {
+	evaluation::set_live_item -revision_id $grades_sheet_item_id
+    }
+
+    evaluation::set_live_item -item_id $task_item_id
+
 }
 
 ad_proc -public evaluation::delete_task {

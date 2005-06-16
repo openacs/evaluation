@@ -9,6 +9,7 @@ ad_page_contract {
     @cvs-id $Id$
 } -query {
     {orderby:optional}
+    {set_grade_id_live:optional ""}
 }
 
 set context [list "[_ evaluation.Grades_]"]
@@ -23,6 +24,10 @@ set return_url [ad_conn url]
 set total 0
 set a_label [_ evaluation.total_of_course]
 set actions "<a href=[export_vars -base "grades-add-edit" { }] class=\"tlmidnav\"><img src=\"/resources/evaluation/cross.gif\" width=\"10\" height=\"9\" hspace=\"5\" vspace=\"1\" border=\"0\" align=\"absmiddle\">[_ evaluation.Add_assignment_type_]</a>"
+
+if { ![empty_string_p $set_grade_id_live] } {
+    evaluation::set_live_grade -grade_item_id $set_grade_id_live
+}
 
 if { [lc_numeric %2.f [db_string sum_grades { *SQL* }]] > 100.00} {
     set aggregate_label "<span style=\"color: red;\">[_ evaluation.Total_d]</span>"
@@ -86,9 +91,7 @@ template::list::create \
         delete {
             label {}
             sub_class narrow
-            display_template {<if $simple_p eq 1>[_ evaluation-portlet.delete]</if><else><img src="/resources/acs-subsite/Delete16.gif" width="16" height="16" border="0"></else>
-            } 
-            link_url_eval {[export_vars -base "grades-delete" { grade_id return_url }]}
+            display_template {@grades.delete_template;noquote@} 
             link_html { title "[_ evaluation.lt_Delete_assignment_typ]" }
         }
     }
@@ -100,9 +103,16 @@ if {[string equal $orderby ""]} {
 }
 
 
-db_multirow  -extend {} grades  get_class_grades { *SQL* } {
+db_multirow  -extend { delete_template } grades  get_class_grades { *SQL* } {
     if { $simple_p } {
 	set total [expr $total + $weight]
+    }
+    if { [empty_string_p $live_revision] } {
+	set delete_template "<span style=\"font-style: italic; color: red; font-size: 9pt;\">[_ evaluation.Deleted]</span> <a href=[export_vars -base "grades" { {set_grade_id_live $item_id} }]>[_ evaluation.make_it_live]</a>"
+    } elseif { $simple_p } {
+	set delete_template "<a href=\"[export_vars -base "grades-delete" { grade_id return_url }]\">[_ evaluation-portlet.Delete]</a>"
+    } else {
+	set delete_template "<a href=\"[export_vars -base "grades-delete" { grade_id return_url }]\"><img src=\"/resources/acs-subsite/Delete16.gif\" width=\"16\" height=\"16\" border=\"0\"></a>"
     }
 }
 

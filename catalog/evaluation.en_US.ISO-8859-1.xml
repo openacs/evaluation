@@ -108,6 +108,7 @@
   <msg key="Delete_Group_">Delete Group </msg>
   <msg key="Delete_Task_">Delete Task </msg>
   <msg key="Delete_task_">Delete task </msg>
+  <msg key="Deleted">Deleted</msg>
   <msg key="Description">Description</msg>
   <msg key="description">DESCRIPTION</msg>
   <msg key="Description_">Description </msg>
@@ -359,6 +360,7 @@ is referred to as the weight. You have three choices.
   <msg key="lt_Send_the_file_using_t">Send the file using the &quot;Send file&quot; botton. The system will parse the file and you will be asked for a confirmation (if everything is ok with the file) for the grades.</msg>
   <msg key="lt_smallTotal_points_in_">&lt;small&gt;Total points in this category: ${total_grade}/${max_grade} &lt;br /&gt;
     $grade_plural_name represents the ${grade_weight}% of the 100% of the class&lt;/small&gt; </msg>
+  <msg key="lt_span_stylefont-style_">&lt;span style=\&quot;font-style: italic; color: red; font-size: 9pt;\&quot;&gt;Deleted&lt;/span&gt;</msg>
   <msg key="lt_Students_List_for_tas">Student Scores for &quot;%task_name%&quot;</msg>
   <msg key="lt_Students_who_have_not">NOT YET SUBMITTED (%not_evaluated_with_no_answer%)</msg>
   <msg key="lt_Students_with_answers">NOT YET GRADED (%not_evaluated_with_answer%)</msg>
@@ -524,6 +526,7 @@ To see the assignment type details, click on the view icon at the left of the as
   <msg key="lt_You_cant_leave_the_du">You can't leave the due date empty if the students have to submit their answers online. due es ($due_date y online es $online_p )</msg>
   <msg key="lt_You_must_give_an_edit">You must give an edit reason (%old_grade% --&gt; %grade_wo_reason% </msg>
   <msg key="lt_Your_total_grade_in_t">Your total grade in this class is:</msg>
+  <msg key="make_it_live">(make it live!)</msg>
   <msg key="Max_Grade_">Max Grade: </msg>
   <msg key="Maximun_Grade_">Maximun Grade: </msg>
   <msg key="MaxNumberOfBytes">File Upload Size</msg>

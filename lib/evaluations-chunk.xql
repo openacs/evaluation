@@ -16,7 +16,7 @@
 
 	select et.task_name, 
 	round(et.weight,2) as task_weight,
-        et.task_id, (select perfect_score from evaluation_tasks where task_id=et.task_id) as perfect_score, online_p
+        et.task_id, coalesce(perfect_score,0) as perfect_score, online_p
 	from evaluation_tasksi et, cr_items cri
 	where grade_item_id = :grade_item_id
 	  and cri.live_revision = et.task_id
@@ -48,7 +48,7 @@
 	et.online_p,
 	et.due_date,
 	et.late_submit_p,
-        et.task_id, (select perfect_score from evaluation_tasks where task_id=et.task_id) as perfect_score
+        et.task_id, coalesce(perfect_score,0) as perfect_score
 	from evaluation_grades eg,
 	evaluation_tasksi et,
 	cr_items cri

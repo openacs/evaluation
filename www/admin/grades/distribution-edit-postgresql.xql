@@ -6,15 +6,18 @@
 <fullquery name="get_grade_tasks">      
       <querytext>
 
-		select et.task_name, 
+		select et.task_item_id,
+		et.task_name, 
 		et.weight as task_weight,
 		et.requires_grade_p,
 		et.task_id,
-		(select points from evaluation_tasks where task_id=et.task_id) as points,
-		(select relative_weight from evaluation_tasks where task_id=et.task_id) as relative_weight
-		from evaluation_tasksi et
+		et.points,
+		coalesce(et.relative_weight,0) as relative_weight,
+		cri.live_revision
+		from evaluation_tasksi et, cr_items cri
 		where et.grade_item_id = :grade_item_id
-		and content_revision__is_live(et.task_id) = true
+		and (cri.live_revision = et.task_id or cri.latest_revision = et.task_id)
+		and cri.item_id = et.task_item_id
    		order by task_name 
 	
       </querytext>

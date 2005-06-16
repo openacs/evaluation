@@ -5,8 +5,8 @@
 <fullquery name="get_grade_info">      
       <querytext>
 
-		select eg.grade_plural_name, (select count(et.task_id) from evaluation_tasks et where
-	        et.grade_item_id = eg.grade_item_id and et.task_id=(select live_revision from cr_items where item_id=et.task_item_id)) as tasks_counter ,
+		select eg.grade_plural_name, (select count(et.task_id) from evaluation_tasks et, cr_items cri where
+	        et.grade_item_id = eg.grade_item_id and et.task_id=cri.live_revision) as tasks_counter,
 		eg.grade_name, 
 		eg.weight as grade_weight,
 		eg.grade_item_id
