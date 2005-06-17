@@ -444,6 +444,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_There_is_no_info_">There are no grades in the csv file or there are no modifications in the csv file.</msg>
   <msg key="lt_There_is_no_info_for_">There is no info for this student</msg>
   <msg key="lt_There_is_no_informati">There is no information about this task. </msg>
+  <msg key="lt_There_must_be_a_task_">There must be a task identifier to work with, please verify that you are sending all the information required.</msg>
   <msg key="lt_There_must_be_an_edit">There must be an edit reason if you want to edit the grade on party_id %party_id%. </msg>
   <msg key="lt_There_must_be_at_leas">There must be at least one grade to work with </msg>
   <msg key="lt_There_must_be_no_grou">There must be no groups for this task in order to copy the groups form another task. You can go back and delete the groups for this task. </msg>

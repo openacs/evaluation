@@ -10,16 +10,22 @@ ad_page_contract {
     @cvs-id $Id$
 
 } {
-    task_id:integer,notnull
+    {task_id:integer,optional ""}
+    {task_item_id:integer,optional ""}
     {show_portrait_p ""}
-    {return_url "[ad_conn url]?[export_vars -url { task_id }]"}
     {orderby_wa:optional}
     {orderby_na:optional}
     {orderby:optional}
     {grade_id ""}
     {class "list"}
     {bulk_actions ""}
-} 
+} -validate {
+    empty_task_id_and_task_item_id {
+	if { [empty_string_p $task_id] && [empty_string_p $task_item_id] } {
+	    ad_complain "[_ evaluation.lt_There_must_be_a_task_]"
+	}
+    }
+}
 
 set simple_p [parameter::get -parameter "SimpleVersion" ]
 if { $simple_p } {
@@ -28,7 +34,15 @@ if { $simple_p } {
 
 set user_id [ad_conn user_id]
 
+if { [empty_string_p $task_id] } {
+    db_1row get_task_live_revision {select et.task_id from evaluation_tasks et, cr_items cri where et.task_id = cri.live_revision and et.task_item_id = :task_item_id}
+}
+
 db_1row get_task_info { *SQL* }
+
+
+set return_url "[ad_conn url]?[export_vars -url { task_item_id }]"
+
 set community_id [dotlrn_community::get_community_id]
 set max_grade $perfect_score
 set page_title "[_ evaluation.lt_Students_List_for_tas]"
@@ -41,7 +55,6 @@ if { [string eq $show_portrait_p "t"] } {
 }
 
 set due_date_pretty  [lc_time_fmt $due_date_ansi "%q %r"]
-set return_url "[ad_conn url]?[ad_conn query]"
 
 if { $number_of_members > 1 } {
     set groups_admin "<a href=[export_vars -base ../groups/one-task { task_id }]>[_ evaluation.lt_Groups_administration]</a>"
