@@ -415,6 +415,7 @@ ad_proc -public evaluation::new_task {
     {-title ""}
     {-mime_type "text/plain"}
     {-item_name ""}
+    {-package_id ""}
 } {
     Build a new content revision of a task.  If new_item_p is
     set true then a new item is first created, otherwise a new revision is created for
@@ -440,7 +441,9 @@ ad_proc -public evaluation::new_task {
 	set creation_ip [ad_conn peeraddr]
     }
 
-    set package_id [ad_conn package_id]
+    if {[empty_string_p $package_id]} {
+	set package_id [ad_conn package_id]
+    }
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index f]
     if { [empty_string_p $item_name] } {
 	set item_name "${item_id}_${title}"
