@@ -10,6 +10,7 @@ create table evaluation_grades
                                 references cr_items(item_id),
         grade_name      varchar(100),
         grade_plural_name varchar(100),
+        comments        varchar(4000),
         -- percentage of this grade type in the class
         weight          number(9,4) constraint evaluation_grades_w_ck
                                 check (weight between 0 and 100)
@@ -73,7 +74,8 @@ create table evaluation_answers
                                 constraint evaluation_sans_pid_fk
                                 references parties(party_id),
         task_item_id    integer constraint evaluation_sans_tid_fk
-                                references cr_items(item_id)
+                                references cr_items(item_id),
+        comments        varchar(4000)
 );
 
 create index eva_answers_tid_index on evaluation_answers(party_id,task_item_id);
