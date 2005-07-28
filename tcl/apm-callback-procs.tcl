@@ -92,7 +92,7 @@ ad_proc -public evaluation::apm::package_install {
 		content::type::attribute::new -content_type evaluation_answers -attribute_name answer_item_id -datatype number -pretty_name answer_item_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_answers -attribute_name party_id -datatype number -pretty_name party_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_answers -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
-		content::type::attribute::new -content_type evaluation_answers -attribute_name comment -datatype string -pretty_name comment -column_spec text
+		content::type::attribute::new -content_type evaluation_answers -attribute_name comments -datatype string -pretty_name comments -column_spec text
 
 
 		#Create content type attributes for content type evaluation_student_evals
@@ -147,6 +147,7 @@ ad_proc -public evaluation::apm::package_before_upgrade {
 		content::type::attribute::new -content_type evaluation_answers -attribute_name answer_item_id -datatype number -pretty_name answer_item_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_answers -attribute_name party_id -datatype number -pretty_name party_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_answers -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_answers -attribute_name comments -datatype string -pretty_name comments -column_spec text
 
 		#Create content type attributes for content type evaluation_student_evals
 		content::type::attribute::new -content_type evaluation_student_evals -attribute_name evaluation_item_id -datatype number -pretty_name evaluation_item_id -column_spec integer
@@ -202,6 +203,7 @@ ad_proc -public evaluation::apm::package_uninstall {
 		content::type::attribute::delete -content_type evaluation_answers -attribute_name answer_item_id 
 		content::type::attribute::delete -content_type evaluation_answers -attribute_name party_id 
 		content::type::attribute::delete -content_type evaluation_answers -attribute_name task_item_id 
+		content::type::attribute::delete -content_type evaluation_answers -attribute_name comments
 		content::type::attribute::delete -content_type evaluation_student_evals -attribute_name evaluation_item_id 
 		content::type::attribute::delete -content_type evaluation_student_evals -attribute_name task_item_id 
 		content::type::attribute::delete -content_type evaluation_student_evals -attribute_name party_id 
