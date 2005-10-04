@@ -154,12 +154,12 @@
 
 <fullquery name="class_students">      
       <querytext>
-	select ev.party_id,
+	select
 	case when et.number_of_members = 1 then 
 	(select last_name||', '||first_names from persons where person_id = ev.party_id)
 	else  
  	(select group_name from groups where group_id = ev.party_id)
-	end as party_name
+	end as party_name,ev.party_id
 	from evaluation_answersi ev, 
 	     evaluation_tasks et,
 	     $roles_table	
