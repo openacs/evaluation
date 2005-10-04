@@ -27,6 +27,7 @@
     evaluation_grades eg,
     cr_items cri1, cr_items cri2
     where ese.evaluation_id = :evaluation_id
+	and ese.show_student_p = 't'
     and ese.task_item_id = et.task_item_id
     and et.grade_item_id = eg.grade_item_id
     and cri1.live_revision = et.task_id

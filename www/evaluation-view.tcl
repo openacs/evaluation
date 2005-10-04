@@ -15,7 +15,10 @@ set page_title "[_ evaluation.View_Evaluation]"
 set context [list $page_title]
 set user_id [ad_conn user_id]
 
-db_1row get_evaluation_info { *SQL* }
+if { ![db_0or1row get_evaluation_info { *SQL* }] } {
+	ad_return_complaint 1 "Evaluation does not exist"
+	return
+}
 
 ad_form -name evaluation -has_submit 1 -has_edit 1 -mode display -form {
 

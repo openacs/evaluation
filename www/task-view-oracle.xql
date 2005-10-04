@@ -18,10 +18,14 @@
                eg.grade_plural_name, eg.weight as grade_weight,
 	       ets.revision_id as solution_revision_id
         from evaluation_grades eg,
-	evaluation_tasksi et left outer join evaluation_tasks_solsi ets on (ets.task_item_id = et.task_item_id and content_revision.is_live(ets.solution_id) = 't') 
-        where et.task_id = :task_id
-          and et.grade_item_id = eg.grade_item_id
-	  and content_revision.is_live(eg.grade_id) = 't'
+			 evaluation_tasksi et,
+			 evaluation_tasks_solsi ets 
+		where
+			 et.task_id = :task_id
+		 and et.task_item_id = ets.task_item_id(+) 
+         and et.grade_item_id = eg.grade_item_id
+		 and (ets.solution_id is null or content_revision.is_live(ets.solution_id) = 't')
+	     and content_revision.is_live(eg.grade_id) = 't'
 	
       </querytext>
 </fullquery>
