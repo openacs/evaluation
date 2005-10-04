@@ -10,19 +10,6 @@
       </querytext>
 </fullquery>
 
-<fullquery name="get_tasks_admin">      
-      <querytext>
-
-	select et.task_name, 
-	round(et.weight,2) as task_weight,
-        et.task_id, coalesce(perfect_score,0) as perfect_score, online_p
-	from evaluation_tasksi et, cr_items cri
-	where grade_item_id = :grade_item_id
-	  and cri.live_revision = et.task_id
-      $evaluations_orderby
-	
-      </querytext>
-</fullquery>
 <fullquery name="solution_info">      
       <querytext>
 
@@ -34,28 +21,33 @@
       </querytext>
 </fullquery>
 
-
-<fullquery name="get_grade_tasks">      
+<fullquery name="answer_info">      
       <querytext>
 
-	select et.task_name, 
-	et.task_item_id,
-	et.weight as t_weight,
-	eg.weight as g_weight,
-	round((et.weight*eg.weight)/100,2) as task_weight,
-	et.number_of_members, 
-	et.online_p,
-	et.due_date,
-	et.late_submit_p,
-        et.task_id, coalesce(perfect_score,0) as perfect_score
-	from evaluation_grades eg,
-	evaluation_tasksi et,
-	cr_items cri
-	where eg.grade_id = :grade_id
-	and eg.grade_item_id = et.grade_item_id
-	and cri.live_revision = et.task_id
-	$evaluations_orderby
-	
+      select ea.answer_id
+      from evaluation_answers ea, cr_items cri
+      where ea.task_item_id = :task_item_id 
+      and cri.live_revision = ea.answer_id
+      and ea.party_id = 
+	( select 
+	CASE  
+	  WHEN et3.number_of_members = 1 THEN 
+	  (select user_id from users where user_id = :user_id)
+	  ELSE  
+	(select etg2.group_id from evaluation_task_groups etg2, 
+                                                      evaluation_tasks et2, 
+                                                      acs_rels map 
+                                                      where map.object_id_one = etg2.group_id 
+                                                        and map.object_id_two = :user_id 
+                                                        and etg2.task_item_id = et2.task_item_id 
+                                                        and et2.task_id = :task_id) 
+	END as nom 
+               from evaluation_tasks et3 
+              where et3.task_id = :task_id 
+	) 
+
+ --evaluation__party_id(:user_id,:task_id)
+      
       </querytext>
 </fullquery>
 
