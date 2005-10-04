@@ -131,8 +131,8 @@
 <partialquery name="sql_query_groups">
 	  <querytext>         
 
-		select g.group_name as party_name,
-		g.group_id as party_id
+		select g.group_id as party_id,
+		g.group_name as party_name
 		from groups g, evaluation_task_groups etg, evaluation_tasks et,
 		acs_rels map
 		where g.group_id = etg.group_id
@@ -154,12 +154,12 @@
 
 <fullquery name="class_students">      
       <querytext>
-	select
+	select ev.party_id,
 	case when et.number_of_members = 1 then 
 	(select last_name||', '||first_names from persons where person_id = ev.party_id)
 	else  
  	(select group_name from groups where group_id = ev.party_id)
-	end as party_name,ev.party_id
+	end as party_name
 	from evaluation_answersi ev, 
 	     evaluation_tasks et,
 	     $roles_table	
