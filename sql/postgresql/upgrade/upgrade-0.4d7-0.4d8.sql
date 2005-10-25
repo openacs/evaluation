@@ -1,7 +1,6 @@
 alter table evaluation_tasks add column forums_related_p char(1) constraint evaluation_tasks_frp_ck check(forums_related_p in ('t','f'));
 
-drop function evaluation__clone (integer,integer);
-create function evaluation__clone (integer,integer)
+create or replace function evaluation__clone (integer,integer)
 returns integer as '
 declare
  p_new_package_id  	alias for $1;   --default null,

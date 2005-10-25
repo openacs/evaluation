@@ -1,9 +1,3 @@
-alter table evaluation_tasks add column points numeric; 
-alter table evaluation_tasks add column perfect_score numeric; 
-alter table evaluation_tasks add column relative_weight numeric; 
-alter table evaluation_tasks add column forums_related_p char(1) constraint evaluation_tasks_frp_ck check(forums_related_p in ('t','f'));
-
-
 create function evaluation__clone (integer,integer)
 returns integer as '
 declare
