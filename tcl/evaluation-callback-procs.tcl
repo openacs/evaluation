@@ -42,4 +42,65 @@ ad_proc -callback merge::MergePackageUser -impl evaluation {
     lappend result "Evaluation merge is done"
 }
 
+#Callbacks for application-track
+
+ad_proc -callback application-track::getApplicationName -impl evaluation {} { 
+        callback implementation 
+    } {
+        return "evaluation"
+    }    
+ad_proc -callback application-track::getGeneralInfo -impl evaluation {} { 
+        callback implementation 
+    } {
+    
+	db_1row my_query {
+	select count(1) as result
+		from acs_objects a, acs_objects b
+        	where b.object_id = :comm_id
+	        and a.tree_sortkey between b.tree_sortkey
+        	and tree_right(b.tree_sortkey)
+	        and a.object_type = 'evaluation_tasks'	
+	}
+	return "$result"
+    } 
+    
+ad_proc -callback application-track::getSpecificInfo -impl evaluation {} { 
+        callback implementation 
+    } {
+   	
+	upvar $query_name my_query
+	upvar $elements_name my_elements
+
+	set my_query {
+		select e.task_name as name,e.task_id as task_id,e.number_of_members as number_elements
+		from acs_objects a, acs_objects b,evaluation_tasks e
+        	where b.object_id = :class_instance_id
+	        and a.tree_sortkey between b.tree_sortkey
+        	and tree_right(b.tree_sortkey)
+	        and a.object_type = 'evaluation_tasks'
+            	and e.task_id = a.object_id
+
+	}
+		
+	set my_elements {
+    		name {
+	            label "Name"
+	            display_col name	                        
+	 	    html {align center}	 	    
+	 	                
+	        }
+	        id {
+	            label "Id"
+	            display_col task_id 	      	              
+	 	    html {align center}	 	               
+	        }
+	        number_elements {
+	            label "Number of elements"
+	            display_col number_elements 	      	               
+	 	    html {align center}	 	              
+	        }            
+	      
+	    
+	}
+    }         
 
