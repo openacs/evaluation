@@ -49,7 +49,7 @@ ad_proc -callback application-track::getApplicationName -impl evaluation {} {
     } {
         return "evaluation"
     }    
-ad_proc -callback application-track::getGeneralInfo -impl evaluation {} { 
+    ad_proc -callback application-track::getGeneralInfo -impl evaluation {} { 
         callback implementation 
     } {
     
@@ -64,7 +64,7 @@ ad_proc -callback application-track::getGeneralInfo -impl evaluation {} {
 	return "$result"
     } 
     
-ad_proc -callback application-track::getSpecificInfo -impl evaluation {} { 
+     ad_proc -callback application-track::getSpecificInfo -impl evaluation {} { 
         callback implementation 
     } {
    	
@@ -72,13 +72,14 @@ ad_proc -callback application-track::getSpecificInfo -impl evaluation {} {
 	upvar $elements_name my_elements
 
 	set my_query {
-		select e.task_name as name,e.task_id as task_id,e.number_of_members as number_elements
-		from acs_objects a, acs_objects b,evaluation_tasks e
+		select e.task_name as name,e.task_id as task_id,e.number_of_members as number_elements,c.description as type
+		from acs_objects a, acs_objects b,evaluation_tasks e,cr_revisions c
         	where b.object_id = :class_instance_id
 	        and a.tree_sortkey between b.tree_sortkey
         	and tree_right(b.tree_sortkey)
 	        and a.object_type = 'evaluation_tasks'
             	and e.task_id = a.object_id
+            	and e.grade_item_id = c.item_id
 
 	}
 		
@@ -94,13 +95,19 @@ ad_proc -callback application-track::getSpecificInfo -impl evaluation {} {
 	            display_col task_id 	      	              
 	 	    html {align center}	 	               
 	        }
+	        type_evaluation {
+	            label "Type"
+	            display_col type 	      	               
+	 	    html {align center}
+	 	}
 	        number_elements {
 	            label "Number of elements"
 	            display_col number_elements 	      	               
 	 	    html {align center}	 	              
-	        }            
+	        }
+	      	 	              
+	                       
 	      
 	    
 	}
     }         
-
