@@ -17,7 +17,7 @@
 
         <provides url="evaluation" version="2.0.2"/>
         <requires url="notifications" version="5.0.0b4"/>
-        <requires url="calendar" version="2.1.0b4"/>
+        <requires url="calendar" version="2.1.0b3"/>
 
         <callbacks>
             <callback type="after-install"  proc="evaluation::apm::package_install"/>
