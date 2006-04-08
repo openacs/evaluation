@@ -38,20 +38,32 @@
 
 <fullquery name="get_answer_info">      
       <querytext>
-
     select ea.data as answer_data,
     ea.title as answer_title,
     ea.revision_id as answer_revision_id,
     to_char(ea.creation_date, 'YYYY-MM-DD HH24:MI:SS') as submission_date_ansi,
     ea.last_modified as submission_date,
     nvl(person.name(modifying_user),person.name(creation_user)) as answer_owner
-    from evaluation_answersi ea, cr_items cri, evaluation_tasks et, cr_items cri1
-    where ea.party_id = evaluation.party_id(ea.party_id,et.task_id)
+    from evaluation_answersi ea, cr_items cri
+    where ea.party_id = 
+	( select 
+	CASE  
+	  WHEN et3.number_of_members = 1 THEN 
+	(select user_id from users where user_id = :user_id)
+	  ELSE  
+	(select etg2.group_id from evaluation_task_groups etg2, 
+                               evaluation_tasks et2, 
+                               acs_rels map 
+                          where map.object_id_one = etg2.group_id 
+                            and map.object_id_two = :user_id 
+                            and etg2.task_item_id = et2.task_item_id 
+                            and et2.task_id = :task_id) 
+	END as nom 
+      from evaluation_tasks et3 
+      where et3.task_id = :task_id 
+	) 
     and ea.task_item_id = :task_item_id
-	and et.task_item_id = ea.task_item_id
     and cri.live_revision = ea.answer_id
-	and cri1.live_revision = et.task_id
-
       </querytext>
 </fullquery>
 

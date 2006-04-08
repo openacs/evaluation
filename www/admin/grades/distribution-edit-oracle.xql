@@ -11,6 +11,8 @@
 		et.weight as task_weight,
 		et.requires_grade_p,
 		et.task_id,
+ 		et.points,
+		nvl(et.relative_weight,0) as relative_weight,
 		cri.live_revision
 		from evaluation_tasksi et, cr_items cri
 		where et.grade_item_id = :grade_item_id

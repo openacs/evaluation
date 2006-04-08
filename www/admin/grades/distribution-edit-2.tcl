@@ -59,7 +59,7 @@ foreach id [array names weights] {
     } else { 
         lappend without_grade $id
     }
-    set aweight [lc_numeric %.2f $weights($id)]
+    set aweight [format %.2f $weights($id)]
     set apoints [format %0.2f [expr ($weights($id)*$grade_weight)/100.00]]
     set rel_weight [format %0.2f [expr ($counter*$aweight/100.00)]]
 
