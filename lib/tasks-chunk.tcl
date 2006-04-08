@@ -95,7 +95,7 @@ if { $admin_p } {
 
     db_multirow -extend { solution_url due_date_pretty solution solution_mode task_url groups_admin groups_admin_url } tasks_admin get_tasks_admin { *SQL* } {
 
-	set due_date_pretty [lc_time_fmt $due_date_ansi "%q %r"]
+	set due_date_pretty [lc_time_fmt $due_date_ansi "%q %X"]
 
 	# working with task stuff (if it has a file/url attached)
 	if { [empty_string_p $task_data] } {
