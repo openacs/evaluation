@@ -177,7 +177,7 @@ if { $admin_p } {
 	set category_weight [expr $category_weight + $task_weight]
 	set grade_url  [export_vars -base "${base_url}admin/evaluations/student-list" { grade_id task_id return_url }] 
 	set max_weight [format %0.2f [expr $max_weight + $task_weight]]
-	set task_weight [lc_numeric $task_weight]
+	set task_weight [format %0.2f $task_weight]
 	set max_grade  [expr $max_grade + $perfect_score]
 	set max_grade_label "<center><text class=blue>$max_grade pts.</text></center>"
 	set solution_label "[_ evaluation-portlet.weight_possible_of_grade_] <text class=blue>$low_name )</text>"
