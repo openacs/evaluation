@@ -161,6 +161,29 @@ ad_proc -public evaluation::apm::package_before_upgrade {
 		content::type::attribute::new -content_type evaluation_grades_sheets -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
 		
 	    }
+	    
+	    2.0.3d1 2.0.3d2 {
+		
+		#Fixing i18n issues with grade names
+		set exams_singular_name "[_ evaluation.Exam]"
+		db_dml updagra_exams_name {
+		    update evaluation_grades set grade_name = '\#evaluation.Exam\#',
+		    grade_plural_name = '\#evaluation.Exams_\#' where grade_name = :exams_singular_name
+		}
+		
+		set tasks_singular_name "[_ evaluation.Task]"
+		db_dml updagra_exams_name {
+		    update evaluation_grades set grade_name = '\#evaluation.Task\#',
+		    grade_plural_name = '\#evaluation.Tasks_\#' where grade_name = :tasks_singular_name
+		}
+		
+		set projects_singular_name "[_ evaluation.Project]"
+		db_dml updagra_exams_name {
+		    update evaluation_grades set grade_name = '\#evaluation.Project\#',
+		    grade_plural_name = '\#evaluation.Projects_\#' where grade_name = :projects_singular_name
+		}
+		
+	    }
 	}
 }
 
@@ -242,15 +265,15 @@ ad_proc -public evaluation::apm::package_instantiate {
 
     set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
-    set exams_name "[_ evaluation.Exams_]"
-    set exams_singular_name "[_ evaluation.Exam]"
-    set exams_desc "[_ evaluation.Exams_for_students_]"
-    set tasks_name "[_ evaluation.Tasks_]"
-    set tasks_singular_name "[_ evaluation.Task]"
-    set tasks_desc "[_ evaluation.Tasks_for_students_]"
-    set projects_name "[_ evaluation.Projects_]"
-    set projects_singular_name "[_ evaluation.Project]"
-    set projects_desc "[_ evaluation.lt_Projects_for_students]"
+    set exams_name "\#evaluation.Exams_\#"
+    set exams_singular_name "\#evaluation.Exam\#"
+    set exams_desc "\#evaluation.Exams_for_students_\#"
+    set tasks_name "\#evaluation.Tasks_\#"
+    set tasks_singular_name "\#evaluation.Task\#"
+    set tasks_desc "\#evaluation.Tasks_for_students_\#"
+    set projects_name "\#evaluation.Projects_\#"
+    set projects_singular_name "\#evaluation.Project\#"
+    set projects_desc "\#evaluation.lt_Projects_for_students\#"
 
     db_transaction {
 		set folder_id [content::folder::new -name "evaluation_grades_$package_id" -label "evaluation_grades_$package_id" -package_id $package_id ]
