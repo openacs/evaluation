@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<message_catalog package_key="evaluation" package_version="2.0.2" locale="es_ES" charset="ISO-8859-1">
+<message_catalog package_key="evaluation" package_version="2.0.3d2" locale="es_ES" charset="ISO-8859-1">
 
   <msg key="1__Individual_">Individual = 1 </msg>
   <msg key="Activities_">Actividades</msg>
@@ -92,6 +92,7 @@
   <msg key="Evaluations_Admin">Administración de Evaluaciones</msg>
   <msg key="Evaluations_List_">Lista de Evaluaciones</msg>
   <msg key="Exam">Examen</msg>
+  <msg key="Examns_">Exámenes</msg>
   <msg key="Exams_">Exámenes</msg>
   <msg key="Exams_for_students_">Exámenes para estudiantes</msg>
   <msg key="File_">Nombre del archivo:</msg>
@@ -428,8 +429,8 @@ one_assignment_notif and one_evaluation_notif.
   <msg key="lt_Weight_over_100_br__o">Ponderación sobre el 100% &lt;br /&gt; del Curso</msg>
   <msg key="lt_Weight_over_grade_wei">Ponderación sobre %grade_weight%% &lt;br /&gt; de %grade_plural_name%</msg>
   <msg key="lt_Weight_over_grade_wei_2">Nota sobre el %grade_weight%% de %grade_plural_name%</msg>
-  <msg key="lt_Weight_used_in_grade_">La ponderación utilizada en %grade_plural_name% es: %category_weight%% (del 100% de %grade_plural_name%) &lt;br /&gt;
-                       %grade_plural_name% representan el %grade_weight%% del 100% de la clase</msg>
+  <msg key="lt_Weight_used_in_grade_">La ponderación utilizada en %low_name% es: %category_weight%% (del 100% de %low_name%) &lt;br /&gt;
+                       %low_name% representan el %grade_weight%% del 100% de la clase</msg>
   <msg key="lt_Weight_used_in_grade__1">La ponderación utilizada en $grade_plural_name es: ${category_weight}% (del 100% de $grade_plural_name) &lt;br /&gt;
                        $grade_plural_name representan el ${grade_weight}% del 100% de la clase</msg>
   <msg key="lt_Weight_used_in_grade__2">La ponderación utilizada en $grade_plural_name es: ${category_weight}% (del 100% de $grade_plural_name) &lt;br /&gt;
@@ -508,6 +509,7 @@ esta tarea?</msg>
   <msg key="pero">y entonces </msg>
   <msg key="points">PUNTOS</msg>
   <msg key="Project">Proyecto</msg>
+  <msg key="Project_">Proyectos</msg>
   <msg key="Projects_">Proyectos</msg>
   <msg key="rel_weight">PESO RELATIVO</msg>
   <msg key="rel_weights">Pesos Relativos</msg>
