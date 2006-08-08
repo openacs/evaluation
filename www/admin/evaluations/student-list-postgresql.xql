@@ -17,7 +17,9 @@
 	to_char(ev.last_modified, 'YYYY-MM-DD HH24:MI:SS') as evaluation_date_ansi,
 	et.online_p,
 	et.due_date,
-	ev.evaluation_id
+	ev.evaluation_id,
+	et.forums_related_p,
+	(select description from  evaluation_student_evalsx where evaluation_id=ev.evaluation_id) as comments
 	from evaluation_tasks et,
 	     evaluation_student_evalsi ev,
 	     $roles_table	
@@ -38,7 +40,8 @@
 	    ea.title as answer_title,
 	    ea.revision_id,
 	    to_char(ea.creation_date, 'YYYY-MM-DD HH24:MI:SS') as submission_date_ansi,
-	    ea.last_modified as submission_date
+	    ea.last_modified as submission_date,
+	    (select comment from evaluation_answers where answer_id=ea.revision_id) as s_comment
 	    from evaluation_answersi ea, cr_items cri
             where ea.party_id = :party_id 
 	    and ea.task_item_id = :task_item_id
@@ -62,7 +65,8 @@
 	ev.revision_id,
 	to_char(ev.last_modified, 'YYYY-MM-DD HH24:MI:SS') as submission_date_ansi,
 	et.due_date,
-	ev.last_modified as submission_date
+	ev.last_modified as submission_date,
+	et.forums_related_p
 	from evaluation_answersi ev, 
 	     evaluation_tasks et,
 	     $roles_table	

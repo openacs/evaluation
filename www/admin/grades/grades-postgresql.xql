@@ -10,10 +10,12 @@
 		eg.item_id,
 		eg.grade_plural_name,
 		eg.comments,
-		eg.weight
-   	    from evaluation_gradesx eg, acs_objects ao
-		where content_revision__is_live(eg.grade_id) = true
-          and eg.item_id = ao.object_id
+		eg.weight,
+		cri.live_revision
+   	    from evaluation_gradesx eg, acs_objects ao, cr_items cri
+          where eg.item_id = ao.object_id
+	        and eg.grade_item_id = cri.item_id
+		and (cri.live_revision = eg.grade_id or cri.latest_revision = eg.grade_id)
    		  and ao.context_id = :package_id
 		$orderby
 

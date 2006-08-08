@@ -90,7 +90,12 @@ ad_proc -public evaluation::delete_grade {
     delete all grades
 } {
     db_1row get_grade_id { select grade_item_id from evaluation_grades where grade_id = :grade_id }
-    db_foreach del_rec { select task_item_id from evaluation_tasks where grade_item_id = :grade_item_id } {
+
+    # DRB: This should be wrapped in a transaction so a failure will rollback rather than
+    # leave the DB in an inconsistent state.  You can't nest db_foreach in a transaction
+    # so it should be rewritten using db_list (caught while merging .LRN 2.2 to HEAD)
+
+    db_foreach del_rec { select task_item_id, task_id from evaluation_tasks where grade_item_id = :grade_item_id } {
 	db_foreach evaluation_delete_student_eval { select evaluation_id from evaluation_student_evals where task_item_id = :task_item_id } {
 	    evaluation::revision_delete -revision_id $evaluation_id
 	}
@@ -104,7 +109,8 @@ ad_proc -public evaluation::delete_grade {
 	    evaluation::revision_delete -revision_id $grades_sheet_id
 	}
 	db_foreach evaluation_delete_task { select task_id from evaluation_tasks where task_item_id = :task_item_id } {
-	    evaluation::revision_delete -revision_id $task_id                                                                                                              }
+             evaluation::revision_delete -revision_id $task_id
+        }
     }
     #    db_1row get_grade_id { select grade_id as grade_task_id from evaluation_grades where grade_item_id = :grade_item_id}
     evaluation::revision_delete -revision_id $grade_id
@@ -116,6 +122,48 @@ ad_proc -public evaluation::revision_delete {
     wrapper for the content::revision::delete
 } {
     content::item::unset_live_revision -item_id [db_string get_revision_item_id {select item_id from cr_revisions where revision_id = :revision_id}]
+}
+
+
+ad_proc -public evaluation::set_live_item {
+    -item_id
+} {
+    wrapper for contet::item::set_live_revision, in case the way items are deleted in the eval package ever change
+} {
+    content::item::set_live_revision -revision_id [content::item::get_best_revision -item_id $item_id]
+}
+
+ad_proc -public evaluation::set_live_grade {
+    -grade_item_id:required
+} {
+
+} {
+    evaluation::set_live_item -item_id $grade_item_id
+}
+
+ad_proc -public evaluation::set_live_task {
+    -task_item_id:required
+} {
+
+} {
+
+    db_foreach evaluation_deleted_student_eval { select evaluation_item_id from evaluation_student_evals, cr_items where task_item_id = :task_item_id and (live_revision = evaluation_id or latest_revision = evaluation_id) and evaluation_item_id = item_id } {
+	evaluation::set_live_item -item_id $evaluation_item_id
+    }
+
+    db_foreach evaluation_deleted_answer { select answer_item_id from evaluation_answers, cr_items where task_item_id = :task_item_id and (live_revision = answer_id or latest_revision = answer_id) and answer_item_id = item_id } {
+	evaluation::set_live_item -item_id $answer_item_id
+    }
+
+    db_foreach evaluation_deleted_task_sol { select solution_item_id from evaluation_tasks_sols, cr_items where task_item_id = :task_item_id and (live_revision = solution_id or latest_revision = solution_id) and solution_item_id = item_id } {
+	evaluation::set_live_item -revision_id $solution_item_id
+    }
+    db_foreach evaluation_deleted_grades_sheet { select grades_sheet_item_id from evaluation_grades_sheets, cr_items where task_item_id = :task_item_id and (live_revision = grades_sheet_id or latest_revision = grades_sheet_id) and grades_sheet_item_id = item_id } {
+	evaluation::set_live_item -revision_id $grades_sheet_item_id
+    }
+
+    evaluation::set_live_item -item_id $task_item_id
+
 }
 
 ad_proc -public evaluation::delete_task {
@@ -374,6 +422,7 @@ ad_proc -public evaluation::new_task {
     {-title ""}
     {-mime_type "text/plain"}
     {-item_name ""}
+    {-package_id ""}
 } {
     Build a new content revision of a task.  If new_item_p is
     set true then a new item is first created, otherwise a new revision is created for
@@ -399,7 +448,9 @@ ad_proc -public evaluation::new_task {
 	set creation_ip [ad_conn peeraddr]
     }
 
-    set package_id [ad_conn package_id]
+    if {[empty_string_p $package_id]} {
+	set package_id [ad_conn package_id]
+    }
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index f]
     if { [empty_string_p $item_name] } {
 	set item_name "${item_id}_${title}"
@@ -415,6 +466,7 @@ ad_proc -public evaluation::new_task {
 			 -mime_type $mime_type \
 			 -storage_type $storage_type]
     }
+
 
     set revision_id [content::revision::new \
 			 -item_id $item_id \
@@ -534,6 +586,7 @@ ad_proc -public evaluation::new_answer {
     {-mime_type "text/plain"}
     {-publish_date ""}
     {-creation_date ""}
+    {-comment ""}
 } {
 
     Build a new content revision of an answer.  If new_item_p is
@@ -668,6 +721,7 @@ ad_proc -public evaluation::new_evaluation {
 			 -storage_type $storage_type \
 			 -creation_user $creation_user \
 			 -creation_ip $creation_ip \
+			 -description $description \
 			 -creation_date $creation_date]
     }   
     set revision_id [content::revision::new \
@@ -678,6 +732,7 @@ ad_proc -public evaluation::new_evaluation {
 			 -creation_user $creation_user \
 			 -creation_ip $creation_ip \
 			 -creation_date $creation_date \
+			 -description $description \
 			 -attributes [list [list evaluation_item_id  $item_id] \
 					  [list party_id $party_id] \
 					  [list grade $grade] \
@@ -1049,7 +1104,7 @@ ad_proc -public evaluation::public_answers_to_file_system {
 	    close $fp
 	}
     }
-
+    
     return $dir
     db_foreach get_answers_for_task}
 
@@ -1059,6 +1114,138 @@ ad_proc -public evaluation::get_archive_extension {} {
 } {
     return [parameter::get -parameter ArchiveExtension -default "txt"]
 }
+
+
+ad_proc -public evaluation::set_points {
+} {
+    Proc called in after upgrade callback from version 0.4d3 to 0.4d4
+    Sets points field in table evaluation_tasks
+    
+} {
+    
+    set grades [db_list_of_lists get_grades {}]
+    foreach grade $grades {
+	set grade_id [lindex $grade 0]
+	set tasks [db_list_of_lists get_grade_tasks {}]
+	set grade_weight [lindex $grade 1]
+	
+	foreach task $tasks {
+	    set task_id [lindex $task 0]
+	    set task_weight [lindex $task 1]
+	    set points [format %0.2f [expr ($task_weight*$grade_weight)/100.00]]
+	    db_dml update_task {}
+	}
+    }
+}
+
+
+ad_proc -public evaluation::enable_due_date {
+    {-task_id}
+} {
+} {
+    set enable_p 0
+    set enable_p [db_string enable {} -default 1]
+    
+    if {$enable_p > 1} {
+	set enable_p 0
+    }
+    return $enable_p
+}
+
+ad_proc -public evaluation::set_perfect_score {
+} {
+    Proc called in after upgrade callback from version 0.4d4 to 0.4d5
+    Sets perfect_score field in table evaluation_tasks
+    
+} {
+    set tasks [db_list_of_lists get_tasks {}]
+    set perfect_score 100
+    
+    foreach task_id $tasks {
+	db_transaction {
+	    db_dml update_task {}
+	}
+    }
+    
+}
+
+ad_proc -public evaluation::clone_grade {
+    -item_id:required
+    -content_type:required
+    -content_table:required
+    -content_id:required
+    -new_item_p:required
+    -description:required
+    -weight:required
+    -name:required
+    -plural_name:required
+    -package_id:required
+} {
+    
+    Build a new content revision of a evaluation subtype.  If new_item_p is
+    set true then a new item is first created, otherwise a new revision is created for
+    the item indicated by item_id.
+    
+    @param item_id The item to update or create.
+    @param content_type The type to make
+    @param content_table
+    @param new_item_p If true make a new item using item_id
+    
+} {
+    
+    set creation_user [ad_verify_and_get_user_id]
+    set creation_ip [ad_conn peeraddr]
+    
+    set item_name "${content_type}_${item_id}"
+    
+    set revision_id [db_nextval acs_object_id_seq]
+    set revision_name "${content_type}_${revision_id}"
+    
+    if { $new_item_p } {
+	db_exec_plsql content_item_new { *SQL* }
+	
+    }
+    
+    db_exec_plsql content_revision_new { *SQL* }
+    
+    return $revision_id
+} 
+
+
+ad_proc -public evaluation::set_relative_weight {
+} {
+    Proc called in after upgrade callback from version 0.4d5 to 0.4d6
+    Sets relative_weight field in table evaluation_tasks
+    
+} {
+    set tasks [db_list_of_lists get_tasks {}]
+    set relative_weight 1
+    
+    foreach task_id $tasks {
+	db_transaction {
+	    db_dml update_task {}
+	}
+    }
+
+}
+
+ad_proc -public evaluation::set_forums_related {
+} {
+    Proc called in after upgrade callback from version 0.4d7 to 0.4d8
+    Sets forums_related_p field in table evaluation_tasks
+    
+} {
+    set tasks [db_list_of_lists get_tasks {}]
+    set forums_related_p "f"
+    
+    foreach task_id $tasks {
+	db_transaction {
+	    db_dml update_task {}
+	}
+    }
+
+}
+
 
 ad_register_proc GET /grades-sheet-csv* evaluation::generate_grades_sheet 
 ad_register_proc POST /grades-sheet-csv* evaluation::generate_grades_sheet

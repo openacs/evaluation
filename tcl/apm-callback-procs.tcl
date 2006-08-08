@@ -75,6 +75,14 @@ ad_proc -public evaluation::apm::package_install {
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name online_p -datatype string -pretty_name online_p -column_spec "varchar(1)"
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name late_submit_p -datatype string -pretty_name late_submit_p -column_spec "varchar(1)"
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name requires_grade_p -datatype string -pretty_name requires_grade_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name points -datatype number -pretty_name points -column_spec "numeric"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name perfect_score -datatype number -pretty_name perfect_score -column_spec "numeric"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name relative_weight -datatype number -pretty_name relative_weight -column_spec "numeric"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name forums_related_p -datatype string -pretty_name forums_related_p -column_spec "varchar(1)"
+
+	
+
+
 
 		#Create content type attributes for content type evaluation_tasks_sols
 		content::type::attribute::new -content_type evaluation_tasks_sols -attribute_name solution_item_id -datatype number -pretty_name solution_item_id -column_spec integer
@@ -84,6 +92,8 @@ ad_proc -public evaluation::apm::package_install {
 		content::type::attribute::new -content_type evaluation_answers -attribute_name answer_item_id -datatype number -pretty_name answer_item_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_answers -attribute_name party_id -datatype number -pretty_name party_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_answers -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_answers -attribute_name comments -datatype string -pretty_name comments -column_spec text
+
 
 		#Create content type attributes for content type evaluation_student_evals
 		content::type::attribute::new -content_type evaluation_student_evals -attribute_name evaluation_item_id -datatype number -pretty_name evaluation_item_id -column_spec integer
@@ -137,6 +147,7 @@ ad_proc -public evaluation::apm::package_before_upgrade {
 		content::type::attribute::new -content_type evaluation_answers -attribute_name answer_item_id -datatype number -pretty_name answer_item_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_answers -attribute_name party_id -datatype number -pretty_name party_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_answers -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
+		content::type::attribute::new -content_type evaluation_answers -attribute_name comments -datatype string -pretty_name comments -column_spec text
 
 		#Create content type attributes for content type evaluation_student_evals
 		content::type::attribute::new -content_type evaluation_student_evals -attribute_name evaluation_item_id -datatype number -pretty_name evaluation_item_id -column_spec integer
@@ -148,6 +159,29 @@ ad_proc -public evaluation::apm::package_before_upgrade {
 		#Create content type attributes for content type evaluation_grades_sheets
 		content::type::attribute::new -content_type evaluation_grades_sheets -attribute_name grades_sheet_item_id -datatype number -pretty_name grades_sheet_item_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_grades_sheets -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
+		
+	    }
+	    
+	    2.0.3d1 2.0.3d2 {
+		
+		#Fixing i18n issues with grade names
+		set exams_singular_name "[_ evaluation.Exam]"
+		db_dml updagra_exams_name {
+		    update evaluation_grades set grade_name = '\#evaluation.Exam\#',
+		    grade_plural_name = '\#evaluation.Exams_\#' where grade_name = :exams_singular_name
+		}
+		
+		set tasks_singular_name "[_ evaluation.Task]"
+		db_dml updagra_exams_name {
+		    update evaluation_grades set grade_name = '\#evaluation.Task\#',
+		    grade_plural_name = '\#evaluation.Tasks_\#' where grade_name = :tasks_singular_name
+		}
+		
+		set projects_singular_name "[_ evaluation.Project]"
+		db_dml updagra_exams_name {
+		    update evaluation_grades set grade_name = '\#evaluation.Project\#',
+		    grade_plural_name = '\#evaluation.Projects_\#' where grade_name = :projects_singular_name
+		}
 		
 	    }
 	}
@@ -192,6 +226,7 @@ ad_proc -public evaluation::apm::package_uninstall {
 		content::type::attribute::delete -content_type evaluation_answers -attribute_name answer_item_id 
 		content::type::attribute::delete -content_type evaluation_answers -attribute_name party_id 
 		content::type::attribute::delete -content_type evaluation_answers -attribute_name task_item_id 
+		content::type::attribute::delete -content_type evaluation_answers -attribute_name comments
 		content::type::attribute::delete -content_type evaluation_student_evals -attribute_name evaluation_item_id 
 		content::type::attribute::delete -content_type evaluation_student_evals -attribute_name task_item_id 
 		content::type::attribute::delete -content_type evaluation_student_evals -attribute_name party_id 
@@ -230,15 +265,15 @@ ad_proc -public evaluation::apm::package_instantiate {
 
     set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
-    set exams_name "[_ evaluation.Exams_]"
-    set exams_singular_name "[_ evaluation.Exam]"
-    set exams_desc "[_ evaluation.Exams_for_students_]"
-    set tasks_name "[_ evaluation.Tasks_]"
-    set tasks_singular_name "[_ evaluation.Task]"
-    set tasks_desc "[_ evaluation.Tasks_for_students_]"
-    set projects_name "[_ evaluation.Projects_]"
-    set projects_singular_name "[_ evaluation.Project]"
-    set projects_desc "[_ evaluation.lt_Projects_for_students]"
+    set exams_name "\#evaluation.Exams_\#"
+    set exams_singular_name "\#evaluation.Exam\#"
+    set exams_desc "\#evaluation.Exams_for_students_\#"
+    set tasks_name "\#evaluation.Tasks_\#"
+    set tasks_singular_name "\#evaluation.Task\#"
+    set tasks_desc "\#evaluation.Tasks_for_students_\#"
+    set projects_name "\#evaluation.Projects_\#"
+    set projects_singular_name "\#evaluation.Project\#"
+    set projects_desc "\#evaluation.lt_Projects_for_students\#"
 
     db_transaction {
 		set folder_id [content::folder::new -name "evaluation_grades_$package_id" -label "evaluation_grades_$package_id" -package_id $package_id ]
@@ -452,5 +487,27 @@ ad_proc -public evaluation::apm::package_uninstantiate {
 		and context_id = :package_id
 	} {
 		relation_remove $rel_id
+	}
+}
+
+ad_proc -public evaluation::apm::after_upgrade { 
+    {-from_version_name:required}
+    {-to_version_name:required}
+} {
+    
+
+} {
+    apm_upgrade_logic \
+	-from_version_name $from_version_name \
+	-to_version_name $to_version_name \
+	-spec {
+	    2.0 2.0.1 {
+		evaluation::set_points
+		evaluation::set_perfect_score
+		evaluation::set_relative_weight 
+		evaluation::set_forums_related 
+	    }
+	    
+	    
 	}
 }

@@ -9,12 +9,13 @@
 	select ev.party_id,
 	evaluation.party_name(ev.party_id,et.task_id) as party_name,
 	round(ev.grade,2) as grade,
-	to_char(ev.last_modified,'YYYY-MM-DD HH24:MI:SS') as evaluation_date_ansi,
 	ev.last_modified as evaluation_date,
 	to_char(ev.last_modified, 'YYYY-MM-DD HH24:MI:SS') as evaluation_date_ansi,
 	et.online_p,
 	et.due_date,
-	ev.evaluation_id
+	ev.evaluation_id,
+	et.forums_related_p,
+	(select description from evaluation_student_evalsx where evaluation_id=ev.evaluation_id) as comments
 	from evaluation_tasks et,
 	     evaluation_student_evalsi ev,
 	     $roles_table	

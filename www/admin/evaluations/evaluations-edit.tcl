@@ -9,10 +9,14 @@ ad_page_contract {
 } {
     task_id:integer,notnull
     {return_url "student-list?[export_vars -url { task_id }]"}
+    grade_id:optional
 } 
 
 set page_title "[_ evaluation.Edit_Evaluations_]"
 set context [list [list "[export_vars -base student-list { task_id }]" "[_ evaluation.Studen_List_]"] "[_ evaluation.Edit_Evaluations_]"]
+set simple_p [parameter::get -parameter "SimpleVersion"]
+set max_grade [db_string get_task_weight {}]
+
 
 set elements [list party_name \
 		  [list label "[_ evaluation.Name_]" \
@@ -28,8 +32,9 @@ set elements [list party_name \
 		       orderby_asc {submission_date asc} \
 		       orderby_desc {submission_date desc}] \
 		  grade \
-		  [list label "[_ evaluation.Maximun_Grade_] <input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"100\">" \
-		       display_template { <input type=text name=grades.@evaluated_students.party_id@ value=\"@evaluated_students.grade@\" maxlength=\"6\" size=\"3\"> } ] \
+		  [list label "[_ evaluation.Maximun_Grade_] <if $simple_p eq 0><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"></if><else>$max_grade<input type=hidden name=max_grade value=$max_grade></else>" \
+		       display_template { 
+			   <input type=text name=grades.@evaluated_students.party_id@ value=\"@evaluated_students.grade@\" maxlength=\"6\" size=\"4\"> } ] \
 		  edit_reason \
 		  [list label "[_ evaluation.Edit_Reason_]" \
 		       display_template { <textarea rows="3" cols="15" wrap name=reasons.@evaluated_students.party_id@></textarea> } \
@@ -54,8 +59,9 @@ if {[string equal $orderby ""]} {
 } 
 
 db_multirow -extend { answer answer_url radio_yes_checked radio_no_checked submission_date_pretty } evaluated_students get_evaluated_students { *SQL* } {
-
-    set grade [lc_numeric $grade]
+    
+    set grade [format %0.2f [expr $grade*$max_grade/100]]
+    
     if { [string eq $online_p "t"] } {
 	if { [db_0or1row get_answer_info { *SQL* }] } {
 	    

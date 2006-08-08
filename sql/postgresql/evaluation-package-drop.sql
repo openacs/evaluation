@@ -26,6 +26,8 @@ drop function evaluation__grade_total_grade (integer, integer);
 
 drop function evaluation__class_total_grade (integer, integer);
 
+drop function evaluation__clone_task(integer,integer);
+
 ---------------------------------------
 -- OTHER FUNCIONS
 ---------------------------------------
