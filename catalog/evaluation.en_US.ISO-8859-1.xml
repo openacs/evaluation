@@ -288,7 +288,8 @@ is referred to as the weight. You have three choices.
   <msg key="lt_Currently_content_is_">Currently %content% is associated to this task solution, but you can associate a different url/file just by adding it here </msg>
   <msg key="lt_Currently_content_is__1">Currently %content% is associated to this task, but you can associate a different url/file just by adding it here </msg>
   <msg key="lt_Currently_title_is_at">Currently %title% is attached to this task solution, but you can attach a different file/url just by adding it here </msg>
-  <msg key="lt_Currently_title_is_at_1">Currently $title is attached to this task, but you can attach a different file/url just by adding it here </msg>
+  <msg key="lt_Currently_title_is_at_1">Currently %title% is attached to this task solution, but you can attach a different file/url just by adding it here </msg>
+  <msg key="lt_Currently_title_is_at_2">Currently %title% is attached to this task, but you can attach a different file/url just by adding it here</msg>
   <msg key="lt_Delete_Assignment_Typ">Delete Assignment Type </msg>
   <msg key="lt_Delete_assignment_typ">Delete assignment type </msg>
   <msg key="lt_Distribution_for_grad">Distribution for grade &quot;%grade_plural_name%&quot;</msg>

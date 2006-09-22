@@ -460,7 +460,6 @@ ad_proc -public evaluation::new_task {
 			 -storage_type $storage_type]
     }
 
-
     set revision_id [content::revision::new \
 			 -item_id $item_id \
 			 -content_type $content_type \

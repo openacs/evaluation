@@ -52,7 +52,7 @@ if { ![ad_form_new_p -key solution_id] } {
 		{upload_file:file,optional
 		    {label "[_ evaluation.File_]"} 
 		    {html "size 30"}
-		    {help_text "[_ evaluation.lt_Currently_title_is_at_2]"}
+		    {help_text "[_ evaluation.lt_Currently_title_is_at_1]"}
 		}
 		{unattach_p:text(checkbox),optional 
 		    {label "[_ evaluation.Unattach_file_]"} 

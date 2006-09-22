@@ -454,11 +454,8 @@ ad_form -extend -name task -form {
 	
 	# by the moment, since I'm having a date problem with oracle10g, I have to do this in order 
 	# to store the entire date
-	
-	db_dml update_date {
-	    update evaluation_tasks set due_date = (select to_date(:due_date,'YYYY-MM-DD HH24:MI:SS') from dual)
-	    where task_id = :revision_id
-	}
+
+	db_dml update_date { *SQL* }
 
 	# initialize content_length in order to prevent wrong values
 	set content_length 0

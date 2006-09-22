@@ -93,6 +93,15 @@
       </querytext>
 </fullquery>
 
+<fullquery name="update_date">      
+      <querytext>
+
+	    update evaluation_tasks set due_date = (select to_date(:due_date,'YYYY-MM-DD HH24:MI:SS') from dual)
+	    where task_id = :revision_id
+
+     </querytext>
+</fullquery>
+
 </queryset>
 
 
