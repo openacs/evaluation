@@ -58,6 +58,15 @@
      </querytext>
 </fullquery>
 
+<fullquery name="update_date">      
+      <querytext>
+
+	    update evaluation_tasks set due_date = :due_date_ansi
+	    where task_id = :revision_id
+
+     </querytext>
+</fullquery>
+
 <fullquery name="copy_content">      
       <querytext>
 

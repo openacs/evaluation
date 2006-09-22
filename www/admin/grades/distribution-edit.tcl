@@ -28,7 +28,6 @@ if { ![empty_string_p $set_task_id_live] } {
     evaluation::set_live_task -task_item_id $set_task_id_live
 }
 
-ns_log notice "el grade es $grade_item_id !!"
 set elements [list task_name \
 		  [list label "[_ evaluation.name]" \
 		       display_template {<a href="../evaluations/student-list?task_id=@grades.task_id@">@grades.task_name@</a>}\
