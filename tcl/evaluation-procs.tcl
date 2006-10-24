@@ -201,6 +201,7 @@ ad_proc -public evaluation::notification::do_notification {
     -notif_type:required
     {-evaluation_id ""}
     {-edit_p 0}
+    {-subset {}}
 } {  
 
     db_1row select_names { *SQL* } 
@@ -241,12 +242,13 @@ ad_proc -public evaluation::notification::do_notification {
     # Notifies the users that requested notification for the specific object
     
     notification::new \
-	-type_id [notification::type::get_type_id -short_name $notif_type] \
-	-object_id $package_id \
-	-response_id $response_id \
-	-notif_subject $notif_subject \
-	-notif_text $notif_text 
-
+        -type_id [notification::type::get_type_id -short_name $notif_type] \
+        -object_id $package_id \
+        -response_id $response_id \
+        -notif_subject $notif_subject \
+        -notif_text $notif_text \
+        -subset $subset \
+        -action_id $response_id
 } 
 
 ad_proc -public evaluation::package_key {} {

@@ -80,7 +80,7 @@ ad_form -name evaluation -cancel_url $return_url -export { task_id item_id party
     }
     
     # send the notification to everyone suscribed
-    evaluation::notification::do_notification -task_id $task_id -evaluation_id $revision_id -package_id [ad_conn package_id] -notif_type one_evaluation_notif
+    evaluation::notification::do_notification -task_id $task_id -evaluation_id $revision_id -package_id [ad_conn package_id] -notif_type one_evaluation_notif -subset [list $party_id]
     
     ad_returnredirect "$return_url"
     ad_script_abort
