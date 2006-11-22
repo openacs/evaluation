@@ -316,7 +316,7 @@
   <msg key="lt_Weight_over_grade_wei">Gewichtung innerhalb der &lt;br /&gt; gesamt zu erreichenden %grade_weight%% &lt;br /&gt; für &quot;%grade_plural_name%&quot;  </msg>
   <msg key="lt_Weight_over_grade_wei_1">Die Gewichtung übersteigt %grade_weight%% von %grade_plural_name%&quot;} {html {size 5}} {help_text &quot;&lt;#_ Sie können die Gewichtung über %grade_weight%% von %grade_plural_name% angeben. Sie können aber auch den Nettowert in dem Feld darunter angeben.</msg>
   <msg key="lt_Weight_over_grade_wei_2">Gewichtung in den %grade_weight%% von %grade_plural_name%</msg>
-  <msg key="lt_Weight_used_in_grade_">Die Gewichtung die in %grade_plural_name%: %category_weight%% (von 100% von %grade_plural_name%) &lt;br /&gt; %grade_plural_name% genutzt wird macht %grade_weight%% von 100% der gesamten Klassenleistung aus.</msg>
+  <msg key="lt_Weight_used_in_grade_">Die Gewichtung die in $grade_plural_name: ${category_weight}% (of 100% of $grade_plural_name) &lt;br /&gt; $grade_plural_name genutzt wird macht ${grade_weight}% von  100% der gesamten Klassenleistung aus.</msg>
   <msg key="lt_Weight_used_in_grade__1">Die Gewichtung die in $grade_plural_name: ${category_weight}% (of 100% of $grade_plural_name) &lt;br /&gt; $grade_plural_name genutzt wird macht ${grade_weight}% von  100% der gesamten Klassenleistung aus.</msg>
   <msg key="lt_Weight_used_in_grade__2">Die Gewichtung die in %grade_plural_name%: %category_weight%% (of 100% of %grade_plural_name%) &lt;br /&gt; %grade_plural_name% genutzt wird macht %grade_weight%% von  100% der gesamten Klassenleistung aus.</msg>
   <msg key="lt_Will_the_student_be_a">Soll der Student dazu in der Lage sein, die Benotung einzusehen? (1 = JA, 2 = NEIN)</msg>
