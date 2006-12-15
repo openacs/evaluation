@@ -3,24 +3,26 @@
 
   <msg key="1__Individual_">Individual = 1 </msg>
   <msg key="Activities_">Actividades</msg>
-  <msg key="Activities_for_students_">Actividades para Alumnos</msg>
+  <msg key="Activities_for_students_">Actividades para Estudiantes</msg>
   <msg key="Activity">Actividad</msg>
-  <msg key="Add_Assignment_">Agregar Asignación </msg>
-  <msg key="Add_Assignment_Type_">Agregar Tipo de Asignación</msg>
-  <msg key="Add_assignment_type_">Agregar tipo de asignación </msg>
-  <msg key="Add_grade_name_">Agregar</msg>
-  <msg key="Add_Member_to_group_">Agregar Miembro al grupo </msg>
-  <msg key="Add_Task_">Agregar Tarea</msg>
-  <msg key="Add_Task_Solution_">Agregar Solución de la Tarea </msg>
-  <msg key="Addedit_answer_">Agregar/Editar respuesta </msg>
-  <msg key="Addedit_solution_">Agregar/Editar solución</msg>
+  <msg key="Add_Assignment_">Añadir Asignación </msg>
+  <msg key="Add_Assignment_Type_">Añadir Tipo de Asignación</msg>
+  <msg key="Add_assignment_type_">Añadir tipo de asignación </msg>
+  <msg key="Add_grade_name">Añadir $grade_name</msg>
+  <msg key="Add_grade_name_">Añadir</msg>
+  <msg key="Add_Member_to_group_">Añadir Miembro al grupo </msg>
+  <msg key="Add_Task_">Añadir Tarea</msg>
+  <msg key="Add_Task_Solution_">Añadir Solución de la Tarea </msg>
+  <msg key="Addedit_answer_">Añadir/Editar respuesta </msg>
+  <msg key="Addedit_solution_">Añadir/Editar solución</msg>
   <msg key="again_">otra vez </msg>
-  <msg key="Already_answered_">Ya respondido</msg>
+  <msg key="Already_answered_">Ya ha respondido</msg>
   <msg key="Answer">RESPUESTA</msg>
+  <msg key="answer">ENTREGA</msg>
   <msg key="Answer_">Respuesta</msg>
   <msg key="answer_">Respuesta</msg>
   <msg key="Answer_1">OK</msg>
-  <msg key="answer_choice_">Formato de la respuesta: </msg>
+  <msg key="answer_choice_">¿Cómo se responderá esta tarea?: </msg>
   <msg key="Answer_Date">Fecha de Respuesta</msg>
   <msg key="answers_">RESPUESTAS</msg>
   <msg key="Assignment_Group_">Grupo de Asignación</msg>
@@ -37,20 +39,66 @@
   <msg key="Audit_info_">Historial de notas </msg>
   <msg key="Audit_Info__1">Historial de Notas </msg>
   <msg key="Audit_info_for_task_">Historial de notas para tareas </msg>
-  <msg key="Bad_input_">Datos no validos</msg>
+  <msg key="Back">#&amp;gt;&amp;quot; onClick=&amp;quot;history.go(-1)&amp;quot;&amp;gt;
+    &amp;lt;/form&amp;gt;
+&amp;lt;/if&amp;gt;
+
+&amp;lt;if %evaluations_na:rowcount% gt 0&amp;gt;
+   &amp;lt;form action=&amp;quot;evaluate-students-2&amp;quot; method+&amp;quot;post&amp;quot;&amp;gt;
+	@export_vars;noquote@
+      &amp;lt;input type=hidden name=task_id value=&amp;quot;%task_id%&amp;quot;&amp;gt;
+      &amp;lt;input type=hidden name=max_grade value=&amp;quot;%max_grade%&amp;quot;&amp;gt;
+		&amp;lt;blockquote&amp;gt;
+        &amp;lt;table&amp;gt;
+          &amp;lt;multiple name=&amp;quot;evaluations_na&amp;quot;&amp;gt;
+                &amp;lt;if %evaluations_na.rownum% odd&amp;gt;&amp;lt;table bgcolor=&amp;quot;#EAF2FF&amp;quot;&amp;gt;&amp;lt;/if&amp;gt;&amp;lt;else&amp;gt;&amp;lt;table bgcolor=&amp;quot;white&amp;quot;&amp;gt;&amp;lt;/else&amp;gt;
+						&amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Name#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.party_name%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;
+					 	&amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Grade#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.grade% / %max_grade%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;
+                     	&amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Comments#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.comment%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;
+                     	&amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Will_the_studens_be# &amp;lt;br /&amp;gt; #evaluation.lt_able_to_see_the_grade#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.show_student%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;
+                    &amp;lt;/tr&amp;gt;
+					&amp;lt;/table&amp;gt;
+          &amp;lt;/multiple&amp;gt;
+        &amp;lt;/table&amp;gt;
+		&amp;lt;/blockquote&amp;gt;
+        &amp;lt;input type=submit value=&amp;quot;&amp;lt;# Notas de Estudiantes</msg>
+  <msg key="Back_1">#&amp;gt;&amp;quot; onClick=&amp;quot;history.go(-1)&amp;quot;&amp;gt; 
+    &amp;lt;/form&amp;gt; 
+&amp;lt;/if&amp;gt; 
+&amp;lt;if %evaluations_na:rowcount% gt 0&amp;gt; 
+  &amp;lt;form action=&amp;quot;evaluate-students-2&amp;quot; method+&amp;quot;post&amp;quot;&amp;gt; 
+  @export_vars;noquote@ 
+  &amp;lt;input type=hidden name=task_id value=&amp;quot;%task_id%&amp;quot;&amp;gt; 
+  &amp;lt;input type=hidden name=max_grade value=&amp;quot;%max_grade%&amp;quot;&amp;gt; 
+  &amp;lt;blockquote&amp;gt; 
+  &amp;lt;table&amp;gt; 
+    &amp;lt;multiple name=&amp;quot;evaluations_na&amp;quot;&amp;gt; 
+    &amp;lt;if %evaluations_na.rownum% odd&amp;gt; &amp;lt;table bgcolor=&amp;quot;#EAF2FF&amp;quot;&amp;gt; &amp;lt;/if&amp;gt;
+    &amp;lt;else&amp;gt;&amp;lt;table bgcolor=&amp;quot;white&amp;quot;&amp;gt;&amp;lt;/else&amp;gt; 
+      &amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Name#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.party_name%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt; 
+      &amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Grade#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.grade% / %max_grade%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt; 
+      &amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Comments#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.comment%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt; 
+      &amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Will_the_studens_be# &amp;lt;br /&amp;gt; #evaluation.lt_able_to_see_the_grade#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.show_student%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt; &amp;lt;/tr&amp;gt; 
+    &amp;lt;/table&amp;gt; 
+    &amp;lt;/multiple&amp;gt; 
+  &amp;lt;/table&amp;gt; 
+  &amp;lt;/blockquote&amp;gt; 
+  &amp;lt;input type=submit value=&amp;quot;&amp;lt;# Notas de Estudiantes</msg>
+  <msg key="Bad_input_">Registro incorrecto</msg>
   <msg key="Change_Answer_">Cambiar Respuesta </msg>
   <msg key="Class_Students">ALUMNOS SIN EVALUAR</msg>
-  <msg key="class_students">Alumnos sin evaluar</msg>
+  <msg key="class_students">Estudiantes sin evaluar</msg>
   <msg key="Click">Click</msg>
-  <msg key="click_on_this_link_">haga click en este link: </msg>
+  <msg key="click_on_this_link_">Pulsar sobre este enlace: </msg>
   <msg key="Comment">Comentario</msg>
-  <msg key="Comments">Comentarios:</msg>
+  <msg key="Comments">COMENTARIOS</msg>
   <msg key="Comments_">Comentarios</msg>
   <msg key="Comments_1">Comentarios</msg>
-  <msg key="CommentsEdit_reason">Cometar/Editar razón:</msg>
-  <msg key="CommentsEdit_reason_">Cometar/Editar razón: </msg>
+  <msg key="CommentsEdit_reason">Comentar/Editar razón:</msg>
+  <msg key="CommentsEdit_reason_">Comentar/Editar razón: </msg>
   <msg key="Confirm">Confirmar</msg>
   <msg key="Confirm_Evaluation_">Confirmar Evaluación </msg>
+  <msg key="Continue">Continuar</msg>
   <msg key="Create">Grupo </msg>
   <msg key="Create_Group_">Crear Grupo  </msg>
   <msg key="creation_date_">FECHA DE CREACION</msg>
@@ -62,129 +110,180 @@
   <msg key="Delete_task_">Eliminar tarea </msg>
   <msg key="Deleted">Borrado</msg>
   <msg key="Description">Descripción </msg>
-  <msg key="description">Descripción</msg>
+  <msg key="description">DESCRIPCIÓN</msg>
   <msg key="Description_">Descripción </msg>
+  <msg key="Discussion">Discusión</msg>
+  <msg key="Discussions_">Discusiones</msg>
   <msg key="download">Descargar</msg>
-  <msg key="Due_Date">Fecha:</msg>
-  <msg key="due_date">Plazo de entrega:</msg>
-  <msg key="Due_Date_">Fecha:</msg>
-  <msg key="Due_date_">Fecha:</msg>
-  <msg key="Due_Date_1">Fecha:</msg>
-  <msg key="Due_Date_help_text">Dejar en blanco si no hay plazo.</msg>
-  <msg key="Due_date_task_name">Plazo para %task_name%</msg>
+  <msg key="Due_Date">FECHA DE ENTREGA</msg>
+  <msg key="due_date">Fecha de Entrega:</msg>
+  <msg key="Due_Date_">Fecha de entrega:</msg>
+  <msg key="Due_date_">Fecha de Entrega</msg>
+  <msg key="Due_Date_1">Fecha de Entrega</msg>
+  <msg key="Due_Date_help_text">Dejar en blanco si no hay fecha tope.</msg>
+  <msg key="Due_date_task_name">Fecha de entrega para %task_name%</msg>
+  <msg key="Edit">Editar notas</msg>
   <msg key="edit">Editar</msg>
   <msg key="edit_all_evaluations">Editar todas las evaluaciones</msg>
   <msg key="Edit_evaluation_">Editar evaluación</msg>
-  <msg key="Edit_Evaluations_">Editar Evaluaciones </msg>
-  <msg key="Edit_grade_name_">Editar</msg>
-  <msg key="Edit_Reason">Razón de Modificación:</msg>
-  <msg key="Edit_Reason_">Razón de Modificación</msg>
+  <msg key="Edit_Evaluations_">Editar todas las Evaluaciones </msg>
+  <msg key="Edit_grade_name_">Editar %grade_name%</msg>
+  <msg key="Edit_Reason">Motivos de la modificación:</msg>
+  <msg key="Edit_Reason_">Editar Motivos</msg>
   <msg key="Edit_Task_">Editar Tarea </msg>
   <msg key="Edit_task_">Editar tarea </msg>
   <msg key="Email">Correo Electrónico</msg>
+  <msg key="equal_value">Valor equivalente</msg>
   <msg key="Evaluated_">Evaluado</msg>
   <msg key="Evaluation_Date">Fecha de Evaluación</msg>
-  <msg key="Evaluation_Index_">Indice de Evaluaciones</msg>
+  <msg key="Evaluation_Index_">Índice de Evaluaciones</msg>
   <msg key="Evaluation_Modified_">Evaluación Modificada </msg>
+  <msg key="evaluation_score">Parámetros de la Evaluación</msg>
   <msg key="evaluationpagename">Material de Clase</msg>
   <msg key="Evaluations">Evaluaciones</msg>
   <msg key="Evaluations_">Evaluaciones </msg>
   <msg key="Evaluations_Admin">Administración de Evaluaciones</msg>
+  <msg key="Evaluations_gradebook">Acta de Notas</msg>
   <msg key="Evaluations_List_">Lista de Evaluaciones</msg>
   <msg key="Exam">Examen</msg>
   <msg key="Examns_">Exámenes</msg>
   <msg key="Exams_">Exámenes</msg>
   <msg key="Exams_for_students_">Exámenes para estudiantes</msg>
-  <msg key="File_">Nombre del archivo:</msg>
-  <msg key="Fileurl_associated">Archivo/url asociado</msg>
+  <msg key="File_">Fichero:</msg>
+  <msg key="Fileurl_associated">Fichero/url asociado</msg>
+  <msg key="Final_Project">Proyecto final</msg>
+  <msg key="Final_Projects_">Proyecto final</msg>
   <msg key="forum_r_">Asociar a los foros</msg>
   <msg key="forums_related_field">¿Asociar con los foros?</msg>
-  <msg key="forums_related_help_text">Puede asociar este trabajo a un foro</msg>
-  <msg key="Generate_file">Generar Archivo</msg>
-  <msg key="Go">Regresar</msg>
-  <msg key="Go_Back">Regresar</msg>
-  <msg key="Grade">Nota:</msg>
+  <msg key="forums_related_help_text">Puede asociar esta tarea a un foro</msg>
+  <msg key="Generate_file">Generar fichero</msg>
+  <msg key="Go">Volver</msg>
+  <msg key="Go_Back">Atrás</msg>
+  <msg key="Grade">NOTA</msg>
   <msg key="Grade_">Nota </msg>
-  <msg key="Grade_1">Evaluar Estudiantes</msg>
+  <msg key="Grade_1">Enviar Notas</msg>
   <msg key="Grade_2">Nota</msg>
   <msg key="Grade_Distribution_">Distribución de Notas</msg>
   <msg key="Grade_in_Net_value_">Valor Neto de la Nota</msg>
   <msg key="grade_max">%max_grade% max.</msg>
-  <msg key="Grade_over_">Nota sobre </msg>
-  <msg key="Grade_over_100_">Nota sobre 100 </msg>
-  <msg key="grade_weight_zero">El peso de %grade_plural_name% es 0% por lo que afectará la nota total.</msg>
-  <msg key="Grader_">Calificado por</msg>
+  <msg key="Grade_over_">NOTA SOBRE </msg>
+  <msg key="Grade_over_100_">%NOTA &lt;br&gt;(sobre 100%) </msg>
+  <msg key="grade_weight_zero">El porcentaje de %grade_plural_name% es 0% por lo que afectará la nota total.</msg>
+  <msg key="Grader">Evaluador</msg>
+  <msg key="Grader_">Evaluador</msg>
   <msg key="Grades_">Notas </msg>
   <msg key="Grades_Category">Categoría de Notas</msg>
-  <msg key="Grades_Report_">Reporte de Notas </msg>
+  <msg key="Grades_Report_">Informe de Notas </msg>
   <msg key="Grades_Reports">Informes de Notas</msg>
-  <msg key="Grades_Sheet_Name_">Nombre del Cuadro de Notas </msg>
-  <msg key="Grades_Sheets_">Cuadro de Notas</msg>
+  <msg key="Grades_Sheet_Name_">Nombre del Acta de Notas </msg>
+  <msg key="Grades_Sheets_">Actas de Notas</msg>
+  <msg key="Group">#&amp;gt; %current_groups_plus_one%&amp;quot; size=20&amp;gt;&amp;lt;/td&amp;gt;
+&amp;lt;/tr&amp;gt;
+&amp;lt;tr&amp;gt;
+      &amp;lt;input type=hidden name=task_id value=&amp;quot;%task_id%&amp;quot;&amp;gt;
+      &amp;lt;input type=hidden name=evaluation_group_id value=&amp;quot;%evaluation_group_id%&amp;quot;&amp;gt;
+		&amp;lt;blockquote&amp;gt;
+	 	&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;
+		&amp;lt;td&amp;gt;
+        &amp;lt;table&amp;gt;
+          &amp;lt;multiple name=&amp;quot;students&amp;quot;&amp;gt;
+                &amp;lt;if %students.rownum% odd&amp;gt;&amp;lt;tr class=&amp;quot;list-odd&amp;quot;&amp;gt;&amp;lt;/if&amp;gt;&amp;lt;else&amp;gt;&amp;lt;tr class=&amp;quot;list-even&amp;quot;&amp;gt;&amp;lt;/else&amp;gt;
+						&amp;lt;td&amp;gt;%students.rownum%.&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;%students.student_name%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;
+                    &amp;lt;/tr&amp;gt;
+          &amp;lt;/multiple&amp;gt;
+        &amp;lt;/table&amp;gt;
+		&amp;lt;/td&amp;gt;
+		&amp;lt;/tr&amp;gt;
+		&amp;lt;tr&amp;gt;
+        &amp;lt;td&amp;gt;&amp;lt;input type=submit value=&amp;quot;&amp;lt;# Crear Grupo</msg>
   <msg key="Group_Members">Miembros del grupo</msg>
   <msg key="Group_Name">Nombre del grupo</msg>
   <msg key="Group_name">Nombre del grupo</msg>
   <msg key="Group_Name_">Nombre del Grupo</msg>
-  <msg key="Groups_Admin_">Administración de Groupos. </msg>
+  <msg key="Groups_Admin_">Administración de Grupos. </msg>
   <msg key="here">aquí</msg>
   <msg key="How_does_this_work">¿Cómo funciona esto?</msg>
   <msg key="Id_">Id </msg>
-  <msg key="If">si desea ver los miembros del grupo, haga click en el nombre del grupo</msg>
+  <msg key="If">si desea ver los miembros del grupo, pulse sobre el nombre del grupo</msg>
   <msg key="Individual_">Individual</msg>
-  <msg key="Insert_Failed_">No se pudo insertar </msg>
+  <msg key="Insert_Failed_">No se pudo registrar</msg>
   <msg key="inst">Instrucciones</msg>
+  <msg key="inst_options">&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;
+
+&amp;lt;ul&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;text class=&amp;quot;blue&amp;quot;&amp;gt;&amp;lt;b&amp;gt;Opción 1&amp;lt;/b&amp;gt; Si quiere que cada  %grade_name% tenga la misma carga para el total para %grade_plural_name% pulse sobre &amp;lt;b&amp;gt;&amp;quot;Establecer por defecto&amp;quot;&amp;lt;/b&amp;gt;.&amp;lt;/text&amp;gt;
+&amp;lt;br&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;text class=&amp;quot;blue&amp;quot;&amp;gt;&amp;lt;b&amp;gt;Opción 2.&amp;lt;/b&amp;gt; Puede indicarle al sistema qué porcentaje de cada %grade_name% 
+debería tener para el total de %grade_plural_name%. En este caso, añada el valor correspondiente en la primera columna, teniendo en cuenta que el total debe sumar el 100%. Luego pulse sobre 
+&amp;lt;b&amp;gt;&amp;quot;Enviar&amp;quot;&amp;lt;/b&amp;gt;.&amp;lt;/text&amp;gt;
+&amp;lt;br&amp;gt;
+&amp;lt;/ul&amp;gt;
+</msg>
+  <msg key="inst_step_1">&amp;lt;h1 class=&amp;quot;blue&amp;quot;&amp;gt;Cómo configurar la evaluación:&amp;lt;/h1&amp;gt;
+&amp;lt;br&amp;gt;
+&amp;lt;text class=&amp;quot;blue&amp;quot;&amp;gt;
+&amp;lt;b&amp;gt;Step 1:&amp;lt;/b&amp;gt; Establezca el porcentaje que quiere para cada tipo de tarea hasta completar el total de la evaluación. Ahora tiene un &amp;lt;b&amp;gt;%grade_plural_name% as %grade_weight%%&amp;lt;/b&amp;gt; de la nota final.&amp;lt;a href=&amp;quot;%link_1%&amp;quot;&amp;gt;Puede cambiarlo desde aquí&amp;lt;/a&amp;gt;.
+&amp;lt;/text&amp;gt;
+&amp;lt;br&amp;gt;
+&amp;lt;br&amp;gt;
+&amp;lt;text class=&amp;quot;blue&amp;quot;&amp;gt;
+&amp;lt;b&amp;gt;Step 2:&amp;lt;/b&amp;gt; Añada tareas específicas por cada tipo de asignación. Ahora tiene %counter% %grade_plural_name% las que aparecen en la tabla superior.&amp;lt;a href=%link_2%&amp;gt;Pulse aquí para añadir otra&amp;lt;/a&amp;gt;.
+&amp;lt;/text&amp;gt;
+&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;
+
+&amp;lt;text class=&amp;quot;blue&amp;quot;&amp;gt;
+&amp;lt;b&amp;gt;Step 3:&amp;lt;/b&amp;gt; Determine lo que aporta cada tarea a la nota final. Esto será el valor. Tiene tres opciones.
+%options%&amp;lt;/text&amp;gt;</msg>
   <msg key="Is_live_">¿Esta disponible? </msg>
+  <msg key="Journal">Actas</msg>
+  <msg key="Journals_">Actas</msg>
+  <msg key="Journals_for_students_">Actas para estudiantes</msg>
   <msg key="Last_Modified_">Ultima Modificación</msg>
   <msg key="late_">tarde</msg>
   <msg key="late__1">(tarde) </msg>
-  <msg key="lt_A_new_assignment_was_">Una nueva asignación se ha subido, si usted desea ver mas detalles
- </msg>
+  <msg key="lt_A_new_assignment_was_">Se ha añadido una nueva asignación en -%community_name%-</msg>
   <msg key="lt_able_to_see_the_grade">¿podrán ver sus notas?</msg>
   <msg key="lt_Add_a_member_to_a_gro">Agregar miembro al grupo </msg>
   <msg key="lt_Add_Assignment_to_Com">Agregar Asignación a Comunidades 
  </msg>
-  <msg key="lt_Add_this_assignment_t">Agregar asignación %grade_name% en varias clases o secciones</msg>
-  <msg key="lt_Admin_Assignment_Type">Administración de Tipos de Asignaciones</msg>
+  <msg key="lt_Add_this_assignment_t">Agregar esta %grade_name% a otra(s) clase(s)</msg>
+  <msg key="lt_Admin_Assignment_Type">Modificar un Tipo de Asignación</msg>
   <msg key="lt_Admin_my_Assignment_T">Administrar mis Tipos de Asignaciones</msg>
   <msg key="lt_Allow_the_students_br">¿Permitir a los estudiantes &lt;br&gt; ver sus notas? </msg>
   <msg key="lt_Already_created_group">Grupos ya creados</msg>
-  <msg key="lt_Also_you_will_see_the">También, vera la lista de los grupos ya creados (si hubiera algún grupo creado). Haga click en el link de &quot;Administración del Grupo&quot; para administrar el grupo. En estas paginas de administración usted será capaz de desasociar miembros de un grupo dado, renombrar el grupo y/o eliminar el grupo.</msg>
-  <msg key="lt_An_assignment_was_mod">Una asignación ha sido modificada, si desea ver mas detalles</msg>
+  <msg key="lt_Also_you_will_see_the">También, vera la lista de los grupos ya creados (si hubiera algún grupo creado). Pulse sobre el enlace de &quot;Administración del Grupo&quot; para administrar el grupo. En estas paginas de administración usted será capaz de desvincular miembros de un grupo determinado, renombrar el grupo y/o eliminar el grupo.</msg>
+  <msg key="lt_An_assignment_was_mod">Se ha modificado una asignación en -%community_name%-.</msg>
   <msg key="lt_Are_you_sure_remove">¿Esta seguro de querer eliminar la evaluación en  &quot;%party_name%&quot;?
 </msg>
-  <msg key="lt_Are_you_sure_you_want">¿Esta seguro de querer eliminar la asignación de tipo &quot;%grade_plural_name%&quot;?
-(Si su respuesta es si, todas las evaluaciones, tareas, soluciones y respuestas asociadas a este tipo de asignación serán eliminados también)
+  <msg key="lt_Are_you_sure_you_want">¿Esta seguro de querer eliminar el tipo de asignación &quot;%grade_plural_name%&quot;?
+(Si su respuesta es sí, todas las evaluaciones, tareas, soluciones y respuestas asociadas a este tipo de asignación también se eliminarán)
 </msg>
-  <msg key="lt_Are_you_sure_you_want_1">¿Esta seguro de querer eliminar el grupo &quot;%group_name%&quot;? (Si el grupo tiene una evaluación/respuesta asociada, esta será eliminada también)</msg>
-  <msg key="lt_Are_you_sure_you_want_2">¿Esta seguro de querer eliminar la tarea &quot;%task_name%&quot;? (Si usted elimina esta tarea, toda la información asociada a la tarea, como respuestas, soluciones, entre otros, serán eliminados también) </msg>
-  <msg key="lt_Assignment_Attachment">Adjunto de la Asignación </msg>
+  <msg key="lt_Are_you_sure_you_want_1">¿Esta seguro de querer eliminar el grupo &quot;%group_name%&quot;? (Si el grupo tiene una evaluación/respuesta asociada, también se eliminará)</msg>
+  <msg key="lt_Are_you_sure_you_want_2">¿Esta seguro de querer eliminar la tarea &quot;%task_name%&quot;? (Si usted elimina esta tarea, toda la información asociada a la misma (respuestas, soluciones, etc.) también se eliminarán) </msg>
+  <msg key="lt_Assignment_Attachment">Adjunto para la Tarea</msg>
   <msg key="lt_Assignment_Edited_gra">Asignación Editada (%grade_name% %community_name%)</msg>
-  <msg key="lt_Assignment_Groups_for">Grupos para %task_name%</msg>
-  <msg key="lt_Assignment_Plural_Typ">Plural del Nombre del Tipo de Asignación
+  <msg key="lt_Assignment_Groups_for">Asignación de Grupos para %task_name%</msg>
+  <msg key="lt_Assignment_Plural_Typ">Nombre del Tipo de Asignación (Plural)
  </msg>
   <msg key="lt_Assignment_Type_Name_">Nombre del Tipo de Asignación
  </msg>
-  <msg key="lt_Assignment_Types_Comm">Comentarios de los Tipos de Asignación
+  <msg key="lt_Assignment_Types_Comm">Comentarios
  </msg>
-  <msg key="lt_Assignment_Types_Dist">Distribución de los Tipos de Asignación
-
-
-
- </msg>
-  <msg key="lt_Assignments_Descripti">Descripción: 	 </msg>
+  <msg key="lt_Assignment_Types_Dist">Distribución de los Tipos de Asignación </msg>
+  <msg key="lt_Assignments_Descripti">Descripción de %grade_name% 	 </msg>
   <msg key="lt_Associate_to_this_gro">Asociar a este grupo
 </msg>
-  <msg key="lt_Audit_info_for_task_t">Historial de notas de la tarea &quot;%task_name%&quot;</msg>
-  <msg key="lt_Can_the_student_submi">¿Podrá entregarse tarde esta tarea?</msg>
-  <msg key="lt_Change_Answer_for_tas">Cambiar Respuesta de &quot;%task_name%&quot;</msg>
+  <msg key="lt_Audit_info_for_task_t">Historial de notas para la tarea &quot;%task_name%&quot;</msg>
+  <msg key="lt_Can_the_student_submi">¿EL estudiante podrá entregar la tarea después de la fecha tope?</msg>
+  <msg key="lt_Change_Answer_for_tas">Cambiar Respuesta para &quot;%task_name%&quot;</msg>
   <msg key="lt_Check_the_rest_of_com">Verificar el resto de las comunidades donde usted desea subir la asignación también</msg>
-  <msg key="lt_Check_this_if_you_wan">Haga click aquí para desadjuntar el archivo  
-</msg>
-  <msg key="lt_Check_this_if_you_wan_1">Haga click aquí si desea ir a la pagina de administración de grupos después de subir la tarea</msg>
-  <msg key="lt_Check_this_if_you_wan_2">Haga click aquí si desea agregar esta asignación a varias clases o secciones </msg>
+  <msg key="lt_Check_this_if_you_wan">Pulse aquí para quite el fichero adjunto</msg>
+  <msg key="lt_Check_this_if_you_wan_1">Pulse aquí si desea ir a la pagina de administración de grupos tras enviar la tarea</msg>
+  <msg key="lt_Check_this_if_you_wan_2">Pulse aquí si desea añadir esta asignación a otra(s) clase(s)</msg>
   <msg key="lt_Click_here_to_go_to_t">Pulse aquí para ir a la página de Asignaciones</msg>
-  <msg key="lt_Click_on_the_task_tha">Haga click en la tarea que desea ser copiada por los grupos 
+  <msg key="lt_Click_on_the_task_tha">Pulse sobre la tarea que desea copiar para los grupos
 </msg>
-  <msg key="lt_Commentedit_reason_on">El numero de caracteres en la razón del comentario/edición en %party_id% es mayor a  4,000, nuestra longitud máxima. Por favor haga la razón del comentario / edición mas corta.
+  <msg key="lt_Commentedit_reason_on">El numero de caracteres del comentario/edición en %party_id% es mayor a  4,000, nuestra longitud máxima. Por favor reduzca el comentario/edición.
 </msg>
   <msg key="lt_Confirm_Your_Evaluati">Confirmar su Evaluación </msg>
   <msg key="lt_Confirm_your_evaluati">Confirmar su(s) evaluacion(es) en &quot;%task_name%&quot; 
@@ -194,6 +293,7 @@
   <msg key="lt_Currently_content_is__1">Actualmente este $content esta asociado a esta tarea, pero puede asociarlo a un url/archivo diferente solo con agregarlo aquí </msg>
   <msg key="lt_Currently_title_is_at">Actualmente este $content esta asociado a esta solución, pero puede adjuntar un url/archivo diferente solo con agregarlo aquí</msg>
   <msg key="lt_Currently_title_is_at_1">Actualmente este $content esta asociado a esta tarea, pero puede adjuntar un url/archivo diferente solo con agregarlo aquí</msg>
+  <msg key="lt_Currently_title_is_at_2">%title% está adjuntado a esta tarea, pero puede adjuntar otro fichero o un enlace desde aquí</msg>
   <msg key="lt_Delete_Assignment_Typ">Eliminar el Tipo de Asignación  
  </msg>
   <msg key="lt_Delete_assignment_typ">Eliminar el tipo de asignación </msg>
@@ -217,6 +317,7 @@
   <msg key="lt_Error_while_storing_f">Error al guardar el archivo </msg>
   <msg key="lt_Evaluated_Students_to">Estudiantes Evaluados (%total_evaluated%)</msg>
   <msg key="lt_Evaluation_Modified_c">Evaluaci&amp;oacute;n Modificada %community_name%</msg>
+  <msg key="lt_Final_Projects_for_students">Proyectos finales para alumnos</msg>
   <msg key="lt_First_unattach_the_fi">Primero debe de quitar el archio/url adjunto, luego subir otro o solo subir un nuevo archivo/url y dejar este en blanco  
 </msg>
   <msg key="lt_First_you_will_see_th">Primero, usted encontrara una lista de estudiantes sin grupo (si hubieran estudiantes sin grupo) y puede crear un grupo seleccionando los miembros del grupo y haciendo click en el botón &quot;Crear Grupo&quot;.</msg>
@@ -238,6 +339,7 @@
   <msg key="lt_Grades_report_of_stud">Informe de notas para %student_name%</msg>
   <msg key="lt_Grades_Sheet_Explanat">Hoja de Explicación de Notas
  </msg>
+  <msg key="lt_Grades_sheet_for_assi">Notas para %task_name%</msg>
   <msg key="lt_Group_administration_">Administración de grupo</msg>
   <msg key="lt_Groups_administration">Administración de grupos</msg>
   <msg key="lt_Groups_for_task_task_">Grupos para la tarea %task_name% </msg>
@@ -291,6 +393,7 @@ y haga click en OK.</msg>
 
 </msg>
   <msg key="lt_smallTotal_points_in_">&lt;small&gt;Total de puntos en esta categoria: ${total_grade}/${max_grade} &lt;br /&gt;  $grade_plural_name representan el ${grade_weight}% del 100% de la clase&lt;/small&gt;</msg>
+  <msg key="lt_span_stylefont-style_">&amp;lt;span style=\&amp;quot;font-style: italic; color: red; font-size: 9pt;\&amp;quot;&amp;gt;Borrado&amp;lt;/span&amp;gt;</msg>
   <msg key="lt_Students_List_for_tas">Notas de los alumnos para &quot;%task_name%&quot;</msg>
   <msg key="lt_Students_who_have_not">Estudiantes que NO han respondido: (%not_evaluated_with_no_answer%) 
 </msg>
@@ -298,13 +401,50 @@ y haga click en OK.</msg>
   <msg key="lt_submission_date_prett">%submission_date_pretty% (tarde) </msg>
   <msg key="lt_submission_date_prett_1">%submission_date_pretty% &lt;span style=\&quot;color:red;\&quot;&gt;(entreg&amp;oacute; tarde)&lt;/span&gt; </msg>
   <msg key="lt_task_name_administrat">Administración de %task_name%</msg>
+  <msg key="lt_task_name_is_in_group">%task_name% es una tarea de grupo. Es posible que no haya definido los grupos aún. Ir a la página de administración de grupos: %groups_admin;noquote%</msg>
   <msg key="lt_The_assignment_task_n">La asignación &quot;%task_name%&quot; ha sido subida en esta comunidad.
 </msg>
   <msg key="lt_The_commentsedit_reas">La razón de comentarios/edición es una cadena de caracteres de no mas de 4,000 caracteres. </msg>
   <msg key="lt_The_edit_reason_must_">La razón de edición debe de ser menor a los 4,000 caracteres de largo
 </msg>
   <msg key="lt_The_estimated_time_mu">El tiempo estimado debe ser superior a 0</msg>
+  <msg key="lt_The_file_extension_of">La extensión del fichero es &amp;quot;%file_extension&amp;quot; y debería ser .CSV. Lo sentimos, no se puede procesar&amp;quot;
+	} 
+    } 
+}  
+
+set page_title &amp;quot;&amp;lt;#_ Confirm Evaluation </msg>
   <msg key="lt_The_file_extension_of_1">La extensión del archivo \&quot;$file_extension\&quot; debe de ser .CSV, lo sentimos, no podemos procesarlo </msg>
+  <msg key="lt_The_file_is_too_large">El fichero es demasiado grande. (El tamaño máximo del fichero es %pretty_maxnbytes% bytes)&amp;quot; 
+        return 0 
+    }
+    
+    set errors 0 
+    set errors_text &amp;quot;&amp;quot; 
+    set counter 0
+    set line_number 0 
+    
+    set file_handler [open $tmp_filename {RDWR}] 
+	
+	while { ![eof $file_handler] } { 
+		incr line_number 
+		set one_line [gets $file_handler] 
+		
+		# jump first two lines 
+		if { $line_number &amp;lt;= 2 } { 
+			continue 
+		} 
+		
+		# replace enters (&amp;lt;-|) with semicolons (;)
+		regsub -all {(,[\r\n])} $one_line &amp;quot;&amp;quot; clean_line 
+		regsub -all {[\r\n]} $clean_line &amp;quot;&amp;quot; clean_line 
+		
+		set evaluation [split $clean_line &amp;quot;,&amp;quot;] 
+
+		if { $line_number == 3 } {
+			set max_grade [string trim [lindex $evaluation 1]] 
+			if { ![ad_var_type_check_number_p $max_grade] } {
+				ad_return_error &amp;quot;&amp;lt;#_ Invalid Max Grade </msg>
   <msg key="lt_The_file_is_too_large_1">El archivo es muy grande. (El tamaño máximo es de %pretty_maxnbytes% bytes)</msg>
   <msg key="lt_The_file_should_have_">El archivo debe de tener un formato predefinido para que el sistema pueda leerlo y obtener la información. Si usted desea utilizar esta herramienta debe de seguir los siguientes pasos:</msg>
   <msg key="lt_The_grade_most_be_a_v">La nota debe de ser un NUMERO VALIDO: %wrong_grade% </msg>
@@ -360,6 +500,7 @@ y haga click en OK.</msg>
   <msg key="lt_There_is_no_info_for_">No hay historial de notas para este estudiante.</msg>
   <msg key="lt_There_is_no_informati">No hay información para esta tarea.
 </msg>
+  <msg key="lt_There_must_be_a_task_">Debe especificar un identificador para la tarea. Por favor, compruebe que haya dado toda la información necesaria.</msg>
   <msg key="lt_There_must_be_an_edit">Debe de haber una razón de edición si desea editar la nota del usuario/grupo %party_id%. 
 </msg>
   <msg key="lt_There_must_be_at_leas">Debe de haber al menos una nota para poder trabajar</msg>
@@ -417,6 +558,7 @@ one_assignment_notif and one_evaluation_notif.
   <msg key="lt_Upload_Answer_for_tas">Enviar respuesta para &quot;%task_name%&quot;</msg>
   <msg key="lt_user_name_has_modifie">user_name ha modificado el %party_name%. \n La razón de edición dada por %user_name% fue: %edit_reason% \n La nota actual es: %current_grade% \n\n Haga click en este link para ver los detalles de la evaluación: %url_link% \n 
 </msg>
+  <msg key="lt_View_evaluation_detai">Ver detalles de la evaluación \</msg>
   <msg key="lt_ViewEdit_Task_Solutio">Ver/Editar Solución de la Tarea</msg>
   <msg key="lt_We_got_the_following_">Hubo un error al tratar de eliminar la evaluación: 
 &lt;pre&gt;%errmsg%&lt;/pre&gt;</msg>
@@ -426,8 +568,13 @@ one_assignment_notif and one_evaluation_notif.
 &lt;pre&gt;%errmsg%&lt;/pre&gt;</msg>
   <msg key="lt_Weight_must_be_a_real">La ponderación debe de ser un numero real entre 0 y 100</msg>
   <msg key="lt_Weight_of_grade_plura">Peso de %grade_plural_name% sobre el 100% del curso</msg>
+  <msg key="lt_Weight_of_this_grade_">Peso de %grade_name% sobre %grade_plural_name%</msg>
   <msg key="lt_Weight_over_100_br__o">Ponderación sobre el 100% &lt;br /&gt; del Curso</msg>
+  <msg key="lt_Weight_over_grade">PESO SOBRE %grade_weight% DE %grade_plural_name_up%</msg>
   <msg key="lt_Weight_over_grade_wei">Ponderación sobre %grade_weight%% &lt;br /&gt; de %grade_plural_name%</msg>
+  <msg key="lt_Weight_over_grade_wei_1">Valor sobre %grade_weight%% of %grade_plural_name%&amp;quot;}
+	{html {size 5}}
+	{help_text &amp;quot;&amp;lt;#_ Puede añadir el valor sobre %grade_weight%% de %grade_plural_name% o puede añadir el valor neto en el campo inferior.</msg>
   <msg key="lt_Weight_over_grade_wei_2">Nota sobre el %grade_weight%% de %grade_plural_name%</msg>
   <msg key="lt_Weight_used_in_grade_">La ponderación utilizada en %low_name% es: %category_weight%% (del 100% de %low_name%) &lt;br /&gt;
                        %low_name% representan el %grade_weight%% del 100% de la clase</msg>
@@ -460,12 +607,16 @@ esta tarea?</msg>
 </msg>
   <msg key="lt_You_can_upload_a_file">Usted puede subir un archivo asociado a esta tarea utilizando el botón browse (opcional)</msg>
   <msg key="lt_You_can_upload_a_file_1">Utilice el botón &quot;Browse...&quot; para localizar su archivo explorando, luego haga click en &quot;Abrir&quot;. (opcional)</msg>
+  <msg key="lt_You_cant_leave_the_du">No puede dejar la fecha tope vacía si los estudiantes tienen que enviar sus respuestas online. La Fecha es ($due_date y online es $online_p )</msg>
   <msg key="lt_You_must_give_an_edit">Usted debe de dar una razón de edición (%old_grade% --&gt; %grade_wo_reason%  
 </msg>
+  <msg key="lt_Your_answer_has_been_">Su respuesta ha sido enviada con éxito.</msg>
   <msg key="lt_Your_total_grade_in_t">El total de su nota es de:
 </msg>
+  <msg key="make_it_live">(¡activar!)</msg>
   <msg key="Max_Grade_">Nota Máxima: </msg>
   <msg key="Maximun_Grade_">Nota Máxima: </msg>
+  <msg key="MaxNumberOfBytes">Tamaño de fichero</msg>
   <msg key="Members_">Miembros</msg>
   <msg key="Modifying_User_">Por</msg>
   <msg key="na_">n/a</msg>
@@ -476,6 +627,7 @@ esta tarea?</msg>
   <msg key="Net_Grade">Nota neta</msg>
   <msg key="Net_Value_">Valor Neto</msg>
   <msg key="Net_value_">Valor neto</msg>
+  <msg key="Net_value_over">Valor neto sobre</msg>
   <msg key="NEW_answer_">(NUEVA respuesta) </msg>
   <msg key="New_Assignment_">Nueva Asignación</msg>
   <msg key="New_Group_">Nuevo Grupo </msg>
@@ -485,6 +637,7 @@ esta tarea?</msg>
   <msg key="No_assignments_">No hay asignaciones</msg>
   <msg key="No_data_">(No hay datos) </msg>
   <msg key="No_group_for_task_">No hay grupo para la tarea</msg>
+  <msg key="no_more_rel_weights">No puedo dar más de un peso relativo</msg>
   <msg key="No_of_Members_">Numero de Miembros</msg>
   <msg key="No_of_members_">Numero de Miembros</msg>
   <msg key="No_parties_to_grade_">No hay ususarios/grupos para evaluar</msg>
@@ -502,12 +655,16 @@ esta tarea?</msg>
   <msg key="One_Evaluation_">Una evaluación</msg>
   <msg key="One_Grade_Type_">Un Tipo de Nota</msg>
   <msg key="One_Group_">Un Grupo</msg>
+  <msg key="online">¿Entregar en línea?</msg>
   <msg key="Online_Submit_">Enviar Electrónicamente</msg>
+  <msg key="Over_category">Sobre %grade_plural_name%</msg>
+  <msg key="Over_total_grade">Sobre el total</msg>
   <msg key="Perfect_Score">NOTA MAXIMA</msg>
   <msg key="perfect_score">Puntuación máxima:</msg>
   <msg key="perfect_score_help">Puntuación utilizada para evaluar los alumnos.</msg>
   <msg key="pero">y entonces </msg>
   <msg key="points">PUNTOS</msg>
+  <msg key="points_over_base_grade">Nota en %base_grade%</msg>
   <msg key="Project">Proyecto</msg>
   <msg key="Project_">Proyectos</msg>
   <msg key="Projects_">Proyectos</msg>
@@ -515,19 +672,25 @@ esta tarea?</msg>
   <msg key="rel_weights">Pesos Relativos</msg>
   <msg key="Remove_Grade">Eliminar Nota</msg>
   <msg key="Rename">Renombrar Grupo</msg>
+  <msg key="requires_grade">¿REQUIERE EVALUACIÓN?</msg>
   <msg key="Requires_Grade_">Hacer &quot;sin punteo&quot;</msg>
   <msg key="Reuse_Groups_">Bloquear Grupos</msg>
   <msg key="see_grades">¿Mostrar a los alumnos?</msg>
   <msg key="Send">Enviar Archivo</msg>
   <msg key="Solution_Attachment_">Adjunto de la Solución</msg>
+  <msg key="spreadsheet">como hoja de evaluación.</msg>
   <msg key="Studen_List_">Lista de Estudiantes  </msg>
   <msg key="Student_List_">Lista de Estudiantes </msg>
   <msg key="Student_Name_">Nombre del Estudiante</msg>
   <msg key="Students_List_">Lista de Estudiantes</msg>
   <msg key="Students_Portrait_">Foto del Estudiante</msg>
+  <msg key="students_ready">fichero &amp;quot;Sin Evaluar todavía&amp;quot;</msg>
+  <msg key="students_without_subm">fichero &amp;quot;Sin enviar todavía&amp;quot; </msg>
+  <msg key="Submission">ENTREGA</msg>
   <msg key="Submission_Date_">Fecha de Entrega </msg>
   <msg key="submit_answer_">entregar</msg>
   <msg key="submit_answer_again_">re-entregar</msg>
+  <msg key="submitted">ENTREGADO</msg>
   <msg key="Submitted_by">Remitido por</msg>
   <msg key="submitted_online_">Enviar fichero</msg>
   <msg key="Sumission_Date_">Fecha de Entrega  </msg>
@@ -546,18 +709,24 @@ esta tarea?</msg>
   <msg key="total">TOTAL %grade_plural_name_up%:</msg>
   <msg key="Total_">Total </msg>
   <msg key="Total_current_grade_">Nota total actual: </msg>
+  <msg key="Total_d">&amp;lt;div align=right&amp;gt;Total:&amp;lt;/div&amp;gt;</msg>
   <msg key="Total_Grade_">Nota Total</msg>
+  <msg key="Total_Grade_over_base_grade">Nota total sobre %base_grade%</msg>
+  <msg key="total_of_course">&amp;lt;div align=left&amp;gt;&amp;lt;text class=&amp;quot;blue&amp;quot;&amp;gt;(por encima de un posible 100% del curso)&amp;lt;/text&amp;gt;&amp;lt;/div&amp;gt;</msg>
   <msg key="Total_of_Members_">Total de Miembros</msg>
+  <msg key="total_percentage">Porcentaje de la nota total</msg>
   <msg key="Unassociate_member_">Desasociar miembro </msg>
   <msg key="Unassociate_url_">¿Desasociar url? </msg>
   <msg key="Unattach_file_">¿Remover el archivo adjunto? </msg>
   <msg key="Upload_Answer_">Enviar Respuesta</msg>
   <msg key="Upload_Date_">Fecha de Envío</msg>
+  <msg key="upload_graded">Cargar hoja de evaluación en</msg>
   <msg key="Upload_Solution_">Enviar Solución
 </msg>
   <msg key="Uploaded_by_">Subido por</msg>
   <msg key="URL_">(URL) </msg>
   <msg key="URL__1">o URL: </msg>
+  <msg key="veamos">pues, esto esta interesante </msg>
   <msg key="view">Ver</msg>
   <msg key="View_answer_">Ver respuesta</msg>
   <msg key="view_answers_">Ver mis Respuestas</msg>
@@ -569,13 +738,16 @@ esta tarea?</msg>
   <msg key="View_NEW_answer_">Ver NUEVA respuesta</msg>
   <msg key="View_Portraits">¿VER FOTOS DE LOS ALUMNOS?</msg>
   <msg key="view_portraits">VER FOTOS DE LOS ALUMNOS:</msg>
+  <msg key="view_post">Ver mensaje</msg>
   <msg key="View_Task_">Ver Tarea </msg>
   <msg key="View_task_">Ver tarea</msg>
   <msg key="ViewEdit_Evaluation_">Ver/Editar Evaluación</msg>
   <msg key="ViewEdit_Solution_">Ver/Editar Solución </msg>
   <msg key="Weight">Fracción de nota:</msg>
   <msg key="Weight_">Fracción de nota: </msg>
+  <msg key="Weight_change">Cambiar peso</msg>
   <msg key="Will_the_studens_be">Podrá(n) el estudiante(s)</msg>
+  <msg key="Y">upi, pero no yupin</msg>
   <msg key="Yes">Sí</msg>
   <msg key="Yes_">Sí</msg>
   <msg key="yes_">SI</msg>

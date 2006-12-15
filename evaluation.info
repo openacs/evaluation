@@ -7,7 +7,7 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
     
-    <version name="2.0.3d2" url="http://openacs.org/repository/download/apm/evaluation-2.0.3d2.apm">
+    <version name="2.2.1a1" url="http://openacs.org/repository/download/apm/evaluation-2.2.1a1.apm">
 
         <owner url="mailto:jopez@galileo.edu">Jose Pablo Escobedo Del Cid</owner>
         <summary>This package allows the users (professors and students) to use  the system to submit and grade the tasks.</summary>
@@ -15,9 +15,9 @@
 
         <description format="text/html">This package allows the professors and TAs to assign tasks to the students and to grade them, and to the students to upload their answers and see their grades.</description>
 
-        <provides url="evaluation" version="2.0.3d2"/>
-        <requires url="dotlrn" version="2.2.0a3"/>
-        <requires url="notifications" version="5.0.0b4"/>
+        <provides url="evaluation" version="2.2.1a1"/>
+        <requires url="dotlrn" version="2.2.1a1"/>
+        <requires url="notifications" version="5.2.0"/>
         <requires url="calendar" version="2.1.0b3"/>
 
         <callbacks>

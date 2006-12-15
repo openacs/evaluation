@@ -486,7 +486,10 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_Upload_a_file_OR_a_va">Upload a file OR a valid url, and not both </msg>
   <msg key="lt_Upload_a_solution_for">Upload a solution for this assignment so the students can see it and learn from it.</msg>
   <msg key="lt_Upload_Answer_for_tas">Upload Answer for \&quot;%task_name%\&quot;</msg>
-  <msg key="lt_user_name_has_modifie">$user_name has modified the grade of %party_name%. \n The edit reason given by %user_name% was: %edit_reason% \n The current grade is: %current_grade% \n\n Click on this link to see the evaluation details: %url_link% \n </msg>
+  <msg key="lt_user_name_has_modifie">%user_name% has modified the grade of %party_name%. 
+            The comments(edit reason) given by %user_name% was: %edit_reason% 
+            The current grade is: %current_grade% 
+            Click on this link to see the evaluation details: %url_link% </msg>
   <msg key="lt_View_evaluation_detai">View evaluation details \</msg>
   <msg key="lt_ViewEdit_Task_Solutio">View/Edit Task Solution </msg>
   <msg key="lt_We_got_the_following_">We got the following error while trying to remove the evaluation: &lt;pre&gt;%errmsg%&lt;/pre&gt; </msg>

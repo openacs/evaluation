@@ -178,7 +178,6 @@ if { ![empty_string_p $tmp_filename] } {
 	    # Unfortunately, we can only calculate the file size after the lob is uploaded 
 	    db_dml lob_size { *SQL* }
 	}
-	
 	foreach party_id [array names grades_gs] {
 	    if { ![info exists comments_gs($party_id)] } {
 		set comments_gs($party_id) ""
@@ -201,10 +200,10 @@ if { ![empty_string_p $tmp_filename] } {
 		
 		content::item::set_live_revision -revision_id $revision_id
 		
-		if { [string eq $new_p_gs($party_id) 0] } {
-		    # if editing the grade and suscribed, send the notification
-		    evaluation::notification::do_notification -task_id $task_id -evaluation_id $revision_id -package_id [ad_conn package_id] -notif_type one_evaluation_notif -subset [list $party_id]
-		}
+			if { [string eq $new_p_gs($party_id) 0] } {
+				# notify the user if suscribed
+				evaluation::notification::do_notification -task_id $task_id -evaluation_id $revision_id -package_id [ad_conn package_id] -notif_type one_evaluation_notif -subset [list $party_id]
+			}
 		
 	    }
 	}
@@ -274,8 +273,8 @@ db_transaction {
 	    
 	    content::item::set_live_revision -revision_id $revision_id
 
-	    # notify the user if suscribed
-	    evaluation::notification::do_notification -task_id $task_id -evaluation_id $revision_id -package_id [ad_conn package_id] -notif_type one_evaluation_notif -subset [list $party_id]
+	    # notify the user (if suscribed)
+        evaluation::notification::do_notification -task_id $task_id -evaluation_id $revision_id -package_id [ad_conn package_id] -notif_type one_evaluation_notif -subset [list $party_id]
 
 	}
     }
