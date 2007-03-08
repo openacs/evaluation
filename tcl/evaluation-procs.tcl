@@ -33,7 +33,7 @@ ad_proc -public evaluation::notification::get_url {
 	} 
 	"one_evaluation_notif" {
 	    set evaluation_mode display
-	    return [export_vars -base "${base_url}admin/evaluations/one-evaluation-edit" { task_id evaluation_id evaluation_mode }]
+	    return [export_vars -base "${base_url}" { task_id evaluation_id evaluation_mode }]
 	} 
 	default {
 	    error "[_ evaluation.lt_Unrecognized_value_fo]" 
@@ -390,12 +390,17 @@ ad_proc -public evaluation::clone_task {
 			 -attributes [list [list weight $weight] \
 					  [list task_name $task_name] \
 					  [list task_item_id  $item_id] \
+					  [list number_of_members $number_of_members] \
 					  [list online_p $online_p] \
 					  [list grade_item_id $to_grade_item_id] \
 					  [list due_date $due_date] \
 					  [list late_submit_p $late_submit_p] \
 					  [list requires_grade_p $requires_grade_p] \
-					  [list number_of_members $number_of_members]]]
+					  [list estimated_time $estimated_time] \
+					  [list points $points] \
+					  [list perfect_score $perfect_score] \
+					  [list relative_weight $relative_weight] \
+					  [list forums_related_p $forums_related_p]]]
 
     db_exec_plsql clone_content { *SQL* }
 
