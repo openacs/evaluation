@@ -7,16 +7,16 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
     
-    <version name="2.3.0a2" url="http://openacs.org/repository/download/apm/evaluation-2.3.0a2.apm">
+    <version name="2.3.0b1" url="http://openacs.org/repository/download/apm/evaluation-2.3.0b1.apm">
 
         <owner url="mailto:jopez@galileo.edu">Jose Pablo Escobedo Del Cid</owner>
         <summary>This package allows the users (professors and students) to use  the system to submit and grade the tasks.</summary>
-        <release-date>2007-04-02</release-date>
+        <release-date>2007-04-15</release-date>
 
         <description format="text/html">This package allows the professors and TAs to assign tasks to the students and to grade them, and to the students to upload their answers and see their grades.</description>
 
-        <provides url="evaluation" version="2.3.0a2"/>
-        <requires url="dotlrn" version="2.3.0a2"/>
+        <provides url="evaluation" version="2.3.0b1"/>
+        <requires url="dotlrn" version="2.3.0b1"/>
         <requires url="notifications" version="5.3.0d1"/>
         <requires url="calendar" version="2.1.0b7"/>
 
