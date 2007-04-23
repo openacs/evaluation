@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<message_catalog package_key="evaluation" package_version="2.3.0d1" locale="en_US" charset="ISO-8859-1">
+<message_catalog package_key="evaluation" package_version="2.3.0" locale="en_US" charset="ISO-8859-1">
 
   <msg key="1__Individual_">1 = Individual </msg>
   <msg key="Activities_">Activities</msg>
@@ -583,7 +583,6 @@ To see the assignment type details, click on the view icon at the left of the as
   <msg key="Perfect_Score">PERFECT SCORE</msg>
   <msg key="perfect_score">Perfect Score:</msg>
   <msg key="perfect_score_help">This is the score used to evaluate the students.</msg>
-  <msg key="pero">y entonces </msg>
   <msg key="points">POINTS</msg>
   <msg key="points_over_base_grade">Grade in %base_grade%</msg>
   <msg key="Project">Project</msg>
@@ -647,7 +646,6 @@ To see the assignment type details, click on the view icon at the left of the as
   <msg key="Uploaded_by_">Uploaded by </msg>
   <msg key="URL_">(URL) </msg>
   <msg key="URL__1">URL </msg>
-  <msg key="veamos">pues, esto esta interesante </msg>
   <msg key="view">View</msg>
   <msg key="View_answer_">View submission </msg>
   <msg key="view_answers_">View my Answers</msg>
@@ -668,7 +666,6 @@ To see the assignment type details, click on the view icon at the left of the as
   <msg key="Weight_">Weight </msg>
   <msg key="Weight_change">Weight change</msg>
   <msg key="Will_the_studens_be">Will the studen(s) be</msg>
-  <msg key="Y">upi , pero no yupin</msg>
   <msg key="Yes">Yes</msg>
   <msg key="Yes_">Yes </msg>
   <msg key="yes_">YES</msg>
