@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<message_catalog package_key="evaluation" package_version="2.0.3d2" locale="pt_BR" charset="ISO-8859-1">
+<message_catalog package_key="evaluation" package_version="2.3.0" locale="pt_BR" charset="ISO-8859-1">
 
   <msg key="1__Individual_">1 = Individual</msg>
   <msg key="Activities_">Atividades</msg>
@@ -424,7 +424,6 @@
   <msg key="Perfect_Score">PONTUAÇÃO PERFEITA</msg>
   <msg key="perfect_score">Pontuação Perfeita</msg>
   <msg key="perfect_score_help">Esta é a pontuação utilizada para avaliar os estudantes.</msg>
-  <msg key="pero">e então</msg>
   <msg key="points">PONTUAÇÃO</msg>
   <msg key="points_over_base_grade">Nota em %base_grade%</msg>
   <msg key="Project">Projeto</msg>
@@ -485,7 +484,6 @@
   <msg key="Uploaded_by_">Enviado por</msg>
   <msg key="URL_">(URL)</msg>
   <msg key="URL__1">URL</msg>
-  <msg key="veamos">pois, isto está interessante</msg>
   <msg key="view">Visualizar</msg>
   <msg key="View_answer_">Visualizar envio</msg>
   <msg key="view_answers_">Visualizar minhas Respostas</msg>
@@ -506,7 +504,6 @@
   <msg key="Weight_">Peso</msg>
   <msg key="Weight_change">Mudar peso</msg>
   <msg key="Will_the_studens_be">Os estudantes serão</msg>
-  <msg key="Y">upi, mas não yupin</msg>
   <msg key="Yes">Sim</msg>
   <msg key="Yes_">Sim</msg>
   <msg key="yes_">SIM</msg>

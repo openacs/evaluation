@@ -2,7 +2,7 @@
 
 <queryset>
 
-  <fullquery name="callback::MergeShowUserInfo::impl::evaluation.sel_answers">
+  <fullquery name="callback::merge::MergeShowUserInfo::impl::evaluation.sel_answers">
     <querytext>	
       select answer_id
       from evaluation_answers
@@ -10,7 +10,7 @@
     </querytext>
   </fullquery>
   
-  <fullquery name="callback::MergeShowUserInfo::impl::evaluation.sel_evals">
+  <fullquery name="callback::merge::MergeShowUserInfo::impl::evaluation.sel_evals">
     <querytext>	
       select evaluation_id, grade 
       from evaluation_student_evals
@@ -18,7 +18,7 @@
     </querytext>
   </fullquery>
 	
-  <fullquery name="callback::MergePackageUser::impl::evaluation.upd_from_answers">
+  <fullquery name="callback::merge::MergePackageUser::impl::evaluation.upd_from_answers">
     <querytext>	
       update evaluation_answers
       set party_id = :to_user_id
@@ -26,7 +26,7 @@
     </querytext>
   </fullquery>
   
-  <fullquery name="callback::MergePackageUser::impl::evaluation.upd_from_stud_evals">
+  <fullquery name="callback::merge::MergePackageUser::impl::evaluation.upd_from_stud_evals">
     <querytext>	
       update evaluation_student_evals
       set party_id = :to_user_id

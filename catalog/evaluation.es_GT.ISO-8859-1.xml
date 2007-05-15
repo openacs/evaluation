@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<message_catalog package_key="evaluation" package_version="2.0.3d2" locale="es_GT" charset="ISO-8859-1">
+<message_catalog package_key="evaluation" package_version="2.3.0" locale="es_GT" charset="ISO-8859-1">
 
   <msg key="1__Individual_">Individual = 1 </msg>
   <msg key="Add_Assignment_">Agregar Asignación </msg>
@@ -478,7 +478,6 @@ esta tarea?</msg>
   <msg key="One_Grade_Type_">Un Tipo de Nota</msg>
   <msg key="One_Group_">Un Grupo</msg>
   <msg key="Online_Submit_">Enviar Electrónicamente</msg>
-  <msg key="pero">y entonces </msg>
   <msg key="Project">Proyecto</msg>
   <msg key="Projects_">Proyectos</msg>
   <msg key="Remove_Grade">Eliminar Nota</msg>
@@ -523,7 +522,6 @@ esta tarea?</msg>
   <msg key="Uploaded_by_">Subido por</msg>
   <msg key="URL_">(URL) </msg>
   <msg key="URL__1">o URL: </msg>
-  <msg key="veamos">pues, esto esta interesante</msg>
   <msg key="View_answer_">Ver respuesta</msg>
   <msg key="View_comments_">Ver comentarios</msg>
   <msg key="View_Evaluation">Ver evaluaci&amp;oacute;n</msg>
@@ -539,7 +537,6 @@ esta tarea?</msg>
   <msg key="Weight_">Fracción de nota: </msg>
   <msg key="Weight_change">Cambio en ponderación</msg>
   <msg key="Will_the_studens_be">Podrá(n) el estudiante(s)</msg>
-  <msg key="Y">upi , pero no yupin</msg>
   <msg key="Yes">Sí</msg>
   <msg key="Yes_">Sí</msg>
 </message_catalog>
