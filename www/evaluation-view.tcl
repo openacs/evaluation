@@ -116,7 +116,7 @@ ad_form -extend -name evaluation -form {
     }
     {comments:text(textarea)
 	{label "[_ evaluation.Comments_1]"}
-	{html {rows 4 cols 40 wrap soft}}
+	{html {rows 4 cols 40}}
 	{value $comments}
     }
     {evaluation_date:date,to_sql(linear_date),from_sql(sql_date)

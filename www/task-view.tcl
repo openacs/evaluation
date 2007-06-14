@@ -79,7 +79,7 @@ ad_form -extend -name task -form {
 
     {description:richtext,optional  
 	{label "[_ evaluation.lt_Assignments_Descripti]"}
-	{html {rows 4 cols 40 wrap soft}}
+	{html {rows 4 cols 40}}
     }
 
     {due_date:date,to_sql(linear_date),from_sql(sql_date)
