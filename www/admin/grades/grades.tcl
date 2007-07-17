@@ -105,7 +105,9 @@ if {[string equal $orderby ""]} {
 
 db_multirow  -extend { delete_template } grades  get_class_grades { *SQL* } {
     if { $simple_p } {
-	set total [expr $total + $weight]
+	if { ![empty_string_p $live_revision] } {	
+	  set total [expr $total + $weight]
+        }
     }
     if { [empty_string_p $live_revision] } {
 	set delete_template "<span style=\"font-style: italic; color: red; font-size: 9pt;\">[_ evaluation.Deleted]</span> <a href=[export_vars -base "grades" { {set_grade_id_live $item_id} }]>[_ evaluation.make_it_live]</a>"
