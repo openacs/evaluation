@@ -51,7 +51,7 @@
         dotlrn_member_rels_approved app
     where app.community_id = :community_id
       and app.user_id = cu.person_id
-      and app.role = 'student'		
+      and app.role in ('student','member')
     $orderby
 
       </querytext>
