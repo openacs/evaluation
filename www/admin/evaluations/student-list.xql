@@ -21,7 +21,7 @@
 
       and app.community_id = :community_id
       and app.user_id = ev.party_id
-      and app.role='student'
+      and app.role in ('student','member')
 
 	  </querytext>
 </partialquery>
@@ -63,7 +63,7 @@
             $not_in_clause
 	      and app.community_id = :community_id
 	      and app.user_id = p.person_id
-	      and app.role = 'student'
+	      and app.role in ('student','member')
 
 	  </querytext>
 </partialquery>
