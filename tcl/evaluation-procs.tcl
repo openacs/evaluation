@@ -156,10 +156,10 @@ ad_proc -public evaluation::set_live_task {
     }
 
     db_foreach evaluation_deleted_task_sol { select solution_item_id from evaluation_tasks_sols, cr_items where task_item_id = :task_item_id and (live_revision = solution_id or latest_revision = solution_id) and solution_item_id = item_id } {
-	evaluation::set_live_item -revision_id $solution_item_id
+	evaluation::set_live_item -item_id $solution_item_id
     }
     db_foreach evaluation_deleted_grades_sheet { select grades_sheet_item_id from evaluation_grades_sheets, cr_items where task_item_id = :task_item_id and (live_revision = grades_sheet_id or latest_revision = grades_sheet_id) and grades_sheet_item_id = item_id } {
-	evaluation::set_live_item -revision_id $grades_sheet_item_id
+	evaluation::set_live_item -item_id $grades_sheet_item_id
     }
 
     evaluation::set_live_item -item_id $task_item_id
