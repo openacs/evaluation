@@ -257,7 +257,7 @@ lappend elements grade \
 	 display_template {<center> <input type=text name=grades_wa.@not_evaluated_wa.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p@ eq 1> <br> $max_grade max</if></center>} ] 
 lappend elements comments \
     [list label "[_ evaluation.Comments]" \
-	 display_template { <textarea rows="3" cols="15" wrap name=comments_wa.@not_evaluated_wa.party_id@></textarea> } \
+	 display_template { <textarea rows="3" cols="15" name=comments_wa.@not_evaluated_wa.party_id@></textarea> } \
 	] 
 lappend elements show_answer \
     [list label "[_ evaluation.see_grades]" \
@@ -347,7 +347,7 @@ lappend elements grade \
 	 display_template { <center><input type=text name=grades_na.@not_evaluated_na.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p@ eq 1><br>$max_grade max.</if></center>}]
 lappend elements comments \
     [list label "[_ evaluation.Comments]" \
-	 display_template { <textarea rows="3" cols="15" wrap name=comments_na.@not_evaluated_na.party_id@></textarea> } \
+	 display_template { <textarea rows="3" cols="15" name=comments_na.@not_evaluated_na.party_id@></textarea> } \
 	]
 lappend elements show_answer \
     [list label "[_ evaluation.see_grades]" \
@@ -447,7 +447,7 @@ lappend elements grade \
 	 display_template {<center> <input type=text name=grades_na.@class_students.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p@ eq 1><br>$max_grade max.</if></center>}]
 lappend elements comments \
     [list label "[_ evaluation.Comments]" \
-	 display_template { <textarea rows="3" cols="15" wrap name=comments_na.@class_students.party_id@></textarea> } \
+	 display_template { <textarea rows="3" cols="15" name=comments_na.@class_students.party_id@></textarea> } \
 	]
 lappend elements show_answer \
     [list label "[_ evaluation.see_grades]" \

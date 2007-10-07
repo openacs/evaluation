@@ -37,7 +37,7 @@ set elements [list party_name \
 			   <input type=text name=grades.@evaluated_students.party_id@ value=\"@evaluated_students.grade@\" maxlength=\"6\" size=\"4\"> } ] \
 		  edit_reason \
 		  [list label "[_ evaluation.Edit_Reason_]" \
-		       display_template { <textarea rows="3" cols="15" wrap name=reasons.@evaluated_students.party_id@></textarea> } \
+		       display_template { <textarea rows="3" cols="15" name=reasons.@evaluated_students.party_id@></textarea> } \
 		      ] \
 		  show_student_p \
 		  [list label "[_ evaluation.lt_Allow_the_students_br]" \
