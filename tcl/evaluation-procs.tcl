@@ -209,34 +209,34 @@ ad_proc -public evaluation::notification::do_notification {
     set community_name ""
     set community_id [dotlrn_community::get_community_id]
     if { ![empty_string_p $community_id] } {
-	set community_name [db_string get_community_name "select pretty_name from dotlrn_communities_all where community_id = :community_id"]
+        set community_name [db_string get_community_name "select pretty_name from dotlrn_communities_all where community_id = :community_id"]
     } 
 
     switch $notif_type {
-	"one_assignment_notif" { 	    
-	    if { [string eq $edit_p 0] } {
-		set notif_subject "[_ evaluation.lt_New_Assignment_grade_]"
-		set notif_text "[_ evaluation.lt_A_new_assignment_was_] \n"
-	    } else {
-		set notif_subject "[_ evaluation.lt_Assignment_Edited_gra]"
-		set notif_text "[_ evaluation.lt_An_assignment_was_mod] \n"
-	    }
-	    append notif_text "[_ evaluation.click_on_this_link_] [evaluation::notification::get_url -task_id $task_id -notif_type one_assignment_notif] \n"
-	    set response_id $task_id
-	    
-	}
-	"one_evaluation_notif" {
-	    db_1row get_eval_info { *SQL* }
-	    set user_name [person::name -person_id [ad_conn user_id]]
-	    set notif_subject "[_ evaluation.lt_Evaluation_Modified_c]"
-	    set url_link [evaluation::notification::get_url -task_id $task_id -evaluation_id $evaluation_id -notif_type one_evaluation_notif]
-	    set notif_text "[_ evaluation.lt_user_name_has_modifie]"
-	    set response_id $evaluation_id
-	}
-	default {
-	    error "[_ evaluation.lt_Unrecognized_value_fo]" 
-	    ad_script_abort
-	}
+        "one_assignment_notif" {        
+            if { [string eq $edit_p 0] } {
+                set notif_subject "[_ evaluation.lt_New_Assignment_grade_]"
+                set notif_text "[_ evaluation.lt_A_new_assignment_was_] \n"
+            } else {
+                set notif_subject "[_ evaluation.lt_Assignment_Edited_gra]"
+                set notif_text "[_ evaluation.lt_An_assignment_was_mod] \n"
+            }
+            append notif_text "[_ evaluation.click_on_this_link_] [evaluation::notification::get_url -task_id $task_id -notif_type one_assignment_notif] \n"
+            set response_id $task_id
+            
+        }
+        "one_evaluation_notif" {
+            db_1row get_eval_info { *SQL* }
+            set user_name [person::name -person_id [ad_conn user_id]]
+            set notif_subject "[_ evaluation.lt_Evaluation_Modified_c]"
+            set url_link [evaluation::notification::get_url -task_id $task_id -evaluation_id $evaluation_id -notif_type one_evaluation_notif]
+            set notif_text "[_ evaluation.lt_user_name_has_modifie]"
+            set response_id $evaluation_id
+        }
+        default {
+            error "[_ evaluation.lt_Unrecognized_value_fo]" 
+            ad_script_abort
+        }
     }
     
     # Notifies the users that requested notification for the specific object
@@ -245,7 +245,7 @@ ad_proc -public evaluation::notification::do_notification {
         -type_id [notification::type::get_type_id -short_name $notif_type] \
         -object_id $package_id \
         -response_id $response_id \
-        -notif_subject $notif_subject \
+        -notif_subject [lang::util::localize $notif_subject] \
         -notif_text $notif_text \
         -subset $subset \
         -action_id $response_id
