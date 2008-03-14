@@ -17,14 +17,19 @@ namespace eval evaluation::apm {}
 #####
 
 ad_proc -public evaluation::notification::get_url { 
-    -task_id:required
-    -notif_type:required
+    {-task_id ""}
+    {-notif_type ""}
     {-evaluation_id ""}
+    {object_id ""}
 } { 
     returns a full url to the object_id. 
     handles assignments and evaluations. 
 } {  
     
+    if {[exists_and_not_null object_id]} {
+        return "[ad_url][apm_package_url_from_id $object_id]"
+    }
+
     set base_url "[ad_url][ad_conn package_url]" 
     switch $notif_type {
 	"one_assignment_notif" {
