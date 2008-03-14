@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" media="all" href="/resources/evaluation/evaluation.css" />
 <if @simple_p@ eq 1>
 <div id="evaluations">
 <table class="title" width=100%>
