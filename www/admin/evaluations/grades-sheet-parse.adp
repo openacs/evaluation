@@ -14,7 +14,7 @@
 						<tr><th align="right">#evaluation.Name#</th><td>@evaluations_gs.party_name@</td></tr>
 					 	<tr><th align="right">#evaluation.Grade#</th><td>@evaluations_gs.grade@ / @max_grade@</td></tr>
                      	<tr><th align="right">#evaluation.CommentsEdit_reason#</th><td>@evaluations_gs.comment@</td></tr>
-                     	<tr><th align="right">#evaluation.Will_the_studens_be# <br /> #evaluation.lt_able_to_see_the_grade#</th><td>@evaluations_gs.show_student@</td></tr>
+                     	<tr><th align="right">#evaluation.Will_the_studens_be#<br> #evaluation.lt_able_to_see_the_grade#</th><td>@evaluations_gs.show_student@</td></tr>
                     </tr>
 					</table>
           </multiple>

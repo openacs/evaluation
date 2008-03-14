@@ -80,7 +80,7 @@ if { ![empty_string_p $community_id] && $number_of_members == 1 } {
 #
 
 
-set actions "<a class=\"tlmidnav\" href=evaluations-edit?task_id=$task_id&grade_id=$grade_id\><img src=\"/resources/evaluation/cross.gif\" width=\"10\" height=\"9\" hspace=\"5\" vspace=\"1\" border=\"0\" align=\"absmiddle\">[_ evaluation.Edit_Evaluations_]</a>"
+set actions "<a class=\"tlmidnav\" href=evaluations-edit?task_id=$task_id&grade_id=$grade_id\><img src=\"/resources/evaluation/cross.gif\" width=\"10\" height=\"9\" hspace=\"5\" vspace=\"1\" style=\"border:0px\" alt=\"\" align=\"absmiddle\">[_ evaluation.Edit_Evaluations_]</a>"
 
 if { !$simple_p } {
     set bulk_actions [list "[_ evaluation.Edit_Evaluations_]" [export_vars -base "evaluations-edit" { task_id }]]  
@@ -114,7 +114,7 @@ lappend elements  grade \
 	]\
     points \
     [list label "[_ evaluation.points]" \
-	 display_template {<center>@evaluated_students.points@</center>} \
+	 display_template {<div style="text-align:center;">@evaluated_students.points@</div>} \
 	 orderby_asc {grade asc} \
 	 orderby_desc {grade desc} \
 	] \
@@ -124,14 +124,14 @@ lappend elements  grade \
 	] \
     comments \
     [list label "[_ evaluation.Comments]" \
-	 display_template { <center>@evaluated_students.comments@</center> } \
+	 display_template { <div style="text-align:center;">@evaluated_students.comments@</div> } \
 	]\
    
 if { !$simple_p } {
     lappend elements view \
 	[list label "" \
 	     sub_class narrow \
-	     display_template {<img src="/resources/acs-subsite/Zoom16.gif" width="16" height="16" border="0">} \
+	     display_template {<img src="/resources/acs-subsite/Zoom16.gif" width="16" height="16" style="border:0px" alt="">} \
 	     link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id evaluation_mode }]} \
 	     link_html { title "[_ evaluation.View_evaluation_]" } \
 	]
@@ -139,14 +139,14 @@ if { !$simple_p } {
 lappend elements edit \
     [list label "" \
 	 sub_class narrow \
-	 display_template {<if @simple_p@ eq 1>#evaluation.edit#</if><else><img src="/resources/acs-subsite/Edit16.gif" width="16" height="16" border="0"></else>} \
+	 display_template {<if @simple_p@ eq 1>#evaluation.edit#</if><else><img src="/resources/acs-subsite/Edit16.gif" width="16" height="16" style="border:0px" alt=""></else>} \
 	 link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id }]} \
 	 link_html { title "[_ evaluation.Edit_evaluation_]" } \
 	] 
 lappend elements delete \
     [list label {} \
 	 sub_class narrow \
-	 display_template {<if @simple_p@ eq 1>#evaluation.delete# </if><else><img src="/resources/acs-subsite/Delete16.gif" width="16" height="16" border="0"></else>} \
+	 display_template {<if @simple_p@ eq 1>#evaluation.delete# </if><else><img src="/resources/acs-subsite/Delete16.gif" width="16" height="16" style="border:0px" alt=""></else>} \
 	 link_url_eval {[export_vars -base "evaluation-delete" { evaluation_id return_url task_id }]} \
 	 link_html { title "[_ evaluation.Delete_evaluation_]" } \
 	] 
@@ -254,7 +254,7 @@ lappend elements answer \
 	 link_html { title "[_ evaluation.View_answer_]"}] 
 lappend elements grade \
     [list label "[_ evaluation.Grade] <if @simple_p@ eq 0><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"><\/if><else><input type=hidden name=max_grade value=$max_grade></else>" \
-	 display_template {<center> <input type=text name=grades_wa.@not_evaluated_wa.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p@ eq 1> <br> $max_grade max</if></center>} ] 
+	 display_template {<div style="text-align:center;"> <input type=text name=grades_wa.@not_evaluated_wa.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p@ eq 1> <br> $max_grade max</if></div>} ] 
 lappend elements comments \
     [list label "[_ evaluation.Comments]" \
 	 display_template { <textarea rows="3" cols="15" name=comments_wa.@not_evaluated_wa.party_id@></textarea> } \
@@ -344,7 +344,7 @@ if {[string eq $forums_related_p "t"] && $number_of_members <= 1} {
 
 lappend elements grade \
     [list label "[_ evaluation.Grade] <if @simple_p@ eq 0><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"><\/if><else><input type=hidden name=max_grade value=$max_grade></else>" \
-	 display_template { <center><input type=text name=grades_na.@not_evaluated_na.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p@ eq 1><br>$max_grade max.</if></center>}]
+	 display_template { <div style="text-align:center;"><input type=text name=grades_na.@not_evaluated_na.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p@ eq 1><br>$max_grade max.</if></div>}]
 lappend elements comments \
     [list label "[_ evaluation.Comments]" \
 	 display_template { <textarea rows="3" cols="15" name=comments_na.@not_evaluated_na.party_id@></textarea> } \
@@ -444,7 +444,7 @@ if {[string eq $forums_related_p "t"] && $number_of_members <= 1} {
 
 lappend elements grade \
     [list label "[_ evaluation.Grade] <if @simple_p@ eq 0><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"><\/if><else><input type=hidden name=max_grade value=$max_grade></else>" \
-	 display_template {<center> <input type=text name=grades_na.@class_students.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p@ eq 1><br>$max_grade max.</if></center>}]
+	 display_template {<div style="text-align:center;"> <input type=text name=grades_na.@class_students.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p@ eq 1><br>$max_grade max.</if></div>}]
 lappend elements comments \
     [list label "[_ evaluation.Comments]" \
 	 display_template { <textarea rows="3" cols="15" name=comments_na.@class_students.party_id@></textarea> } \
@@ -515,3 +515,6 @@ db_multirow -extend { party_url portrait } class_students class_students { *SQL*
 set total_processed [llength $done_students]
 
 set grades_sheet_item_id [db_nextval acs_object_id_seq]
+
+template::head::add_css -href "/resources/evaluation/evaluation.css"
+ad_return_template

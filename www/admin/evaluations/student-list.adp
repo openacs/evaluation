@@ -2,7 +2,6 @@
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 
-<link rel="stylesheet" type="text/css" media="all" href="/resources/evaluation/evaluation.css" />
 <if @simple_p@ eq 1>
 <h1 class="blue">@page_title;noquote@</h1>
 <br>
@@ -51,7 +50,7 @@
 <br>
 
 <div id="evaluations">
-<table width="100%" border="0" cellpadding="0" cellspacing="0" height="40">
+<table width="100%" style="border:0px" alt="" cellpadding="0" cellspacing="0" height="40">
   <tr>
     <td valign="middle" width="30%" style="padding-left: 10px;"><text class="blue"><b>#evaluation.lt_Evaluated_Students_to#</b></text></td>
     <td valign="middle" width="67%" align="right" style="font-size: 10px; color: #354785; font-weight: bold;">  
@@ -94,11 +93,11 @@
 <p>#evaluation.Theese#</p>
 </else>
 <blockquote><listtemplate name="evaluated_students"></listtemplate></blockquote>
-<br />
+<br>
 <if @forums_related_p@ eq f>
 <if @simple_p@ eq 1>
 <div id="evaluations">
-<table width="100%" border="0" cellpadding="0" cellspacing="0" height="40">
+<table width="100%" style="border:0" alt="" cellpadding="0" cellspacing="0" height="40">
   <tr>
     <td valign="middle" width="30%" style="padding-left: 10px;"><text class="blue"><b>#evaluation.lt_Students_with_answers#</b></text></td>
   </tr>
@@ -187,10 +186,10 @@
 <p>#evaluation.lt_There_are_no_students#</p>
 </else>
 
-<br />
+<br>
 <if @simple_p@ eq 1>
 <div id="evaluations">
-<table width="100%" border="0" cellpadding="0" cellspacing="0" height="40">
+<table width="100%" style="border:0px" alt="" cellpadding="0" cellspacing="0" height="40">
   <tr>
     <td valign="middle" width="30%" style="padding-left: 10px;"><text class="blue"><b>#evaluation.lt_Students_who_have_not#</b></text></td>
   </tr>
@@ -230,7 +229,7 @@
 	</table>
 	</blockquote>
 </form>
-<br />
+<br>
 <blockquote>
 <if @simple_p@ eq 0>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
@@ -255,7 +254,7 @@
 <li class="arrow"><text class="blue">#evaluation.download#<b><a href="grades-sheet-csv-@task_id@.csv">#evaluation.students_without_subm#</a></b>#evaluation.spreadsheet#</text><br>
 <li class="arrow"><text class="blue">#evaluation.upload_graded##evaluation.students_without_subm#</text>
 </ul>
-<br />
+<br>
 <blockquote>
 
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
@@ -284,7 +283,7 @@
 <else>
 <if @simple_p@ eq 1>
 <div id="evaluations">
-<table width="100%" border="0" cellpadding="0" cellspacing="0" height="40">
+<table width="100%" style="border:0px" alt="" cellpadding="0" cellspacing="0" height="40">
   <tr>
     <td valign="middle" width="30%" style="padding-left: 10px;"><text class="blue"><b>#evaluation.Class_Students#</b></text></td>
   </tr>
@@ -367,7 +366,7 @@
 </if><else>
 <p><text class="blue">#evaluation.lt_There_are_no_students#</text></p>
 </else>
-<br />
+<br>
 </else>
 
 

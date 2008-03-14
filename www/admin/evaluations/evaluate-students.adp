@@ -17,7 +17,7 @@
 						<tr><th align="right">#evaluation.Name#</th><td>@evaluations_wa.party_name@</td></tr>
 					 	<tr><th align="right">#evaluation.Grade#</th><td>@evaluations_wa.grade@ / @max_grade@</td></tr>
                      	<tr><th align="right">#evaluation.Comments#</th><td>@evaluations_wa.comment@</td></tr>
-                     	<tr><th align="right">#evaluation.Will_the_studens_be# <br /> #evaluation.lt_able_to_see_the_grade#</th><td>@evaluations_wa.show_student@</td></tr>
+                     	<tr><th align="right">#evaluation.Will_the_studens_be# <br> #evaluation.lt_able_to_see_the_grade#</th><td>@evaluations_wa.show_student@</td></tr>
                     </tr>
 					</table>
           </multiple>
@@ -40,7 +40,7 @@
 	 <tr><th align="right">#evaluation.Name#</th><td>@evaluations_na.party_name@</td></tr>
 	 <tr><th align="right">#evaluation.Grade#</th><td>@evaluations_na.grade@ / @max_grade@</td></tr>
 	 <tr><th align="right">#evaluation.Comments#</th><td>@evaluations_na.comment@</td></tr>
-	 <tr><th align="right">#evaluation.Will_the_studens_be# <br /> #evaluation.lt_able_to_see_the_grade#</th><td>@evaluations_na.show_student@</td></tr>
+	 <tr><th align="right">#evaluation.Will_the_studens_be# <br> #evaluation.lt_able_to_see_the_grade#</th><td>@evaluations_na.show_student@</td></tr>
 	 </tr> 
         </table> 
        </multiple> 
@@ -64,7 +64,7 @@
 						<tr><th align="right">#evaluation.Name#</th><td>@evaluations.party_name@</td></tr>
 					 	<tr><th align="right">#evaluation.Grade#</th><td>@evaluations.grade@ / @max_grade@</td></tr>
                      	<tr><th align="right">#evaluation.Edit_Reason#</th><td>@evaluations.reason@</td></tr>
-                     	<tr><th align="right">#evaluation.Will_the_studens_be# <br /> #evaluation.lt_able_to_see_the_grade#</th><td>@evaluations.show_student@</td></tr>
+                     	<tr><th align="right">#evaluation.Will_the_studens_be# <br> #evaluation.lt_able_to_see_the_grade#</th><td>@evaluations.show_student@</td></tr>
                     </tr>
 					</table>
           </multiple>

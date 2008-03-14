@@ -52,7 +52,7 @@ template::list::create \
             label {}
             sub_class narrow
             display_template {
-                <img src="/resources/acs-subsite/Zoom16.gif" width="16" height="16" border="0">
+                <img src="/resources/acs-subsite/Zoom16.gif" width="16" height="16" alt="" style="border:0px">
             } 
             link_url_col view_url
             link_html { title "[_ evaluation.View_grades_sheet_]" }

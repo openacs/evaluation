@@ -4,9 +4,9 @@
 
 <p style="text-align:justify">
 
-	#evaluation.lt_This_funcionallity_al# <br />
+	#evaluation.lt_This_funcionallity_al# <br>
 
-	#evaluation.lt_The_file_should_have_# <br />
+	#evaluation.lt_The_file_should_have_# <br>
 
 	<ol>
 	 <li>
@@ -25,7 +25,7 @@
 			#evaluation.lt_Do_NOT_change_the_par#
 		 </li>
 		</ul>
-		#evaluation.lt_If_you_do_not_want_to# <br />
+		#evaluation.lt_If_you_do_not_want_to# <br>
 		#evaluation.lt_The_system_assumes_th#
 	 </li>
 	 <li>
