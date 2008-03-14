@@ -36,4 +36,5 @@ set notification_chunk [notification::display::request_widget \
 							-url [ad_conn url] \
 						   ]
 
+template::head::add_css -href "/resources/evaluation/evaluation.css"
 ad_return_template

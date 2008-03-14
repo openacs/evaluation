@@ -29,4 +29,5 @@ set context "[_ evaluation.Evaluations_List_]"
 db_multirow grades get_grades { *SQL* } {	
 }
 
-
+template::head::add_css -href "/resources/evaluation/evaluation.css"
+ad_return_template

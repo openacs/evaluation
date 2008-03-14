@@ -2,7 +2,7 @@
   <property name="title">@page_title;noquote@</property>
   <property name="context">@context;noquote@</property>
 
-<script langauge="javascript">
+<script type="text/javascript">
 	var browserType;
 
 	if (document.layers) {browserType = "nn4"}
@@ -37,8 +37,8 @@
 
 <if @more_communities_option@ eq 1>
   <p align="right">
-    #evaluation.lt_To_add_this_assignmen#  <br /> #evaluation.lt_please_check_the_last#
+    #evaluation.lt_To_add_this_assignmen#  <br> #evaluation.lt_please_check_the_last#
   </p>
 </if>
-<p><formtemplate id="task"></formtemplate></p>
+<formtemplate id="task"></formtemplate>
 

@@ -107,7 +107,7 @@ if { [string equal $orderby_groups ""] } {
 db_multirow -extend { group_administration_url group_administration members } task_groups get_task_groups { *SQL* } {
 	set group_administration_url [export_vars -base "one-group" -url { task_id evaluation_group_id }]
 	set group_administration "[_ evaluation.lt_Group_administration_]"
-	set members [join [db_list get_group_members { *SQL* }] "<br />"]
+	set members [join [db_list get_group_members { *SQL* }] "<br>"]
 }
 
 if { [db_string get_groups_for_task { *SQL* }] > 0 } {

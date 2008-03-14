@@ -33,14 +33,14 @@
 <li>#evaluation.lt_There_are_no_tasks_fo#</li>
 </if><else>
 <multiple name="grades">
-	<li><strong>@grades.grade_plural_name;noquote@</strong> <br />
-	<include src="../../lib/tasks-chunk" grade_item_id=@grades.grade_item_id@ grade_id=@grades.grade_id@ assignments_orderby=@assignments_orderby@>
-        <br /><br />
+	<li><strong>@grades.grade_plural_name;noquote@</strong> <br>
+	<include src="/packages/evaluation/lib/tasks-chunk" grade_item_id=@grades.grade_item_id@ grade_id=@grades.grade_id@ assignments_orderby=@assignments_orderby@>
+        <br><br>
 	</li>
 </multiple>
 </else>
 </ul>
-<br />
+<br>
 <h2>#evaluation.Evaluations#</h2>
 <p>@evaluations_notification_chunk;noquote@</p>
 </else>
@@ -50,10 +50,10 @@
 </if><else>
 <multiple name="grades">
 	<if @simple_p@ eq 0>
-	<li><strong>@grades.grade_plural_name;noquote@</strong> <br />
+	<li><strong>@grades.grade_plural_name;noquote@</strong> <br>
 	</if>
-	<include src="../../lib/evaluations-chunk" grade_item_id=@grades.grade_item_id@ grade_id=@grades.grade_id@ evaluations_orderby=@evaluations_orderby@>
-        <br /><br />
+	<include src="/packages/evaluation/lib/evaluations-chunk" grade_item_id=@grades.grade_item_id@ grade_id=@grades.grade_id@ evaluations_orderby=@evaluations_orderby@>
+        <br><br>
 	</li>
 </multiple>
 </else>

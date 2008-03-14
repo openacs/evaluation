@@ -10,7 +10,7 @@
 	<td><input type="text" name="group_name" value="@group_name@" size=20></td>
 </tr>
 <tr>
-<td><br /><input type=submit value="#evaluation.Rename#"></td>
+<td><br><input type=submit value="#evaluation.Rename#"></td>
 <td></td>
 </tr>
 </table>

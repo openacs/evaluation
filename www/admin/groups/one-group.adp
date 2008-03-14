@@ -22,7 +22,7 @@
   	 <tr>
   	 <td><listtemplate name="one_group"></listtemplate></td>
   	 <td>
-  	 <h2>#evaluation.lt_Number_of_members_of_# <br /> 
+  	 <h2>#evaluation.lt_Number_of_members_of_# <br> 
   	 @number_of_members@</h2>
   	 </td>
 	 <td></td>
