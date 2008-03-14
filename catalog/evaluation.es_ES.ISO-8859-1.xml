@@ -367,7 +367,7 @@ las respuestas electrónicamente?</msg>
   <msg key="lt_No_I_want_to_cancel_m">No, quiero cancelar mi solicitud
 </msg>
   <msg key="lt_No_portrait_for_party">No hay foto para $party_name</msg>
-  <msg key="lt_No_portrait_for_stude">No hay foto para $student_name</msg>
+  <msg key="lt_No_portrait_for_stude">No hay foto para %student_name%</msg>
   <msg key="lt_Notification_for_assi">Notificación para asignaciones </msg>
   <msg key="lt_Notification_for_eval">Notificación para evaluaciones   </msg>
   <msg key="lt_Number_of_members_for">Numero de miembros para esta tarea:

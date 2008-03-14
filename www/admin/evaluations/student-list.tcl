@@ -57,13 +57,13 @@ if { [string eq $show_portrait_p "t"] } {
 set due_date_pretty  [lc_time_fmt $due_date_ansi "%q %r"]
 
 if { $number_of_members > 1 } {
-    set groups_admin "<a href=[export_vars -base ../groups/one-task { task_id }]>[_ evaluation.lt_Groups_administration]</a>"
+    set groups_admin "<a href=\"[export_vars -base ../groups/one-task { task_id }]\">[_ evaluation.lt_Groups_administration]</a>"
 } else {
     set groups_admin ""
 }
 set task_admin_url "[export_vars -base ../tasks/task-add-edit { task_id grade_id return_url }]"
 
-set task_admin "<a href=[export_vars -base ../tasks/task-add-edit { task_id grade_id return_url }]>[_ evaluation.lt_task_name_administrat]</a>"
+set task_admin "<a href=\"[export_vars -base ../tasks/task-add-edit { task_id grade_id return_url }]\">[_ evaluation.lt_task_name_administrat]</a>"
 
 set done_students [list]
 set evaluation_mode "display"
@@ -80,7 +80,7 @@ if { ![empty_string_p $community_id] && $number_of_members == 1 } {
 #
 
 
-set actions "<a class=\"tlmidnav\" href=evaluations-edit?task_id=$task_id&grade_id=$grade_id\><img src=\"/resources/evaluation/cross.gif\" width=\"10\" height=\"9\" hspace=\"5\" vspace=\"1\" style=\"border:0px\" alt=\"\" align=\"absmiddle\">[_ evaluation.Edit_Evaluations_]</a>"
+set actions "<a class=\"tlmidnav\" href=\"evaluations-edit?task_id=$task_id&grade_id=$grade_id\"><img src=\"/resources/evaluation/cross.gif\" width=\"10\" height=\"9\" hspace=\"5\" vspace=\"1\" style=\"border:0px\" alt=\"\" align=\"absmiddle\">[_ evaluation.Edit_Evaluations_]</a>"
 
 if { !$simple_p } {
     set bulk_actions [list "[_ evaluation.Edit_Evaluations_]" [export_vars -base "evaluations-edit" { task_id }]]  
@@ -193,11 +193,11 @@ db_multirow -extend { action action_url submission_date_pretty count points} eva
 	    } else {
 		# we assume it's a file
 		set action_url "[export_vars -base "../../view/$answer_title" { revision_id }]"
-		set action "<a href=$action_url target=new>[_ evaluation.View_answer_]</a>"
+		set action "<a href=\"$action_url\">[_ evaluation.View_answer_]</a>"
 	    }
 
 	    if { [string eq $action "[_ evaluation.View_answer_]"] && ([db_string compare_evaluation_date { *SQL* } -default 0] ) } {
-		set action "<a href=$action_url target=new><span style=\"color:red;\"> [_ evaluation.View_NEW_answer_]</span></a>"
+		set action "<a href=\"$action_url\"><span style=\"color:red;\"> [_ evaluation.View_NEW_answer_]</span></a>"
 	    }
 	    set submission_date_pretty [lc_time_fmt $submission_date_ansi "%q %r"]
 	    if { [db_string compare_submission_date { *SQL* } -default 0] } {
@@ -211,7 +211,7 @@ db_multirow -extend { action action_url submission_date_pretty count points} eva
     if {[string eq $forums_related_p "t"]} {
 
 	set action_url [export_vars -base "../../../forums/user-history" {{user_id $party_id} {view "forum"}}]
-	set action "<a href=$action_url target=new>[_ evaluation.view_post]</a>"
+	set action "<a href=\"$action_url\">[_ evaluation.view_post]</a>"
     }
     
 } 
@@ -250,7 +250,7 @@ lappend elements submission_date_pretty \
 	 orderby_desc {submission_date_ansi desc}]
 lappend elements answer \
     [list label "[_ evaluation.answer]" \
-	 display_template {<a href=@not_evaluated_wa.answer_url@ target=new>@not_evaluated_wa.answer@</a>} \
+	 display_template {<a href="@not_evaluated_wa.answer_url@">@not_evaluated_wa.answer@</a>} \
 	 link_html { title "[_ evaluation.View_answer_]"}] 
 lappend elements grade \
     [list label "[_ evaluation.Grade] <if @simple_p@ eq 0><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"><\/if><else><input type=hidden name=max_grade value=$max_grade></else>" \

@@ -9,7 +9,7 @@
 <table>
 <tr>
 	<td class="blue"><b>#evaluation.name#:</b></td>
-	<td class="blue">@task_name@&nbsp;<a class="tlmidnav" href=@task_admin_url@><b>(#evaluation.edit#)</b></a></td>
+	<td class="blue">@task_name@&nbsp;<a class="tlmidnav" href="@task_admin_url@"><b>(#evaluation.edit#)</b></a></td>
 </tr>
 <tr>
 	<td class="blue"><b>#evaluation.Due_Date#:</b></td>
@@ -35,7 +35,7 @@
 <if @number_of_members@ eq "1">
 
  < if @show_portrait_p@ eq "f">
-	<td class="blue"><b>#evaluation.view_portraits#</b></td><td class="blue"><b>(<a href=@this_url@>#evaluation.yes_#</b></a>/#evaluation.no_#<b>)</b></td>
+	<td class="blue"><b>#evaluation.view_portraits#</b></td><td class="blue"><b>(<a href="@this_url@">#evaluation.yes_#</b></a>/#evaluation.no_#<b>)</b></td>
 < /if><else>
 	<td class="blue"><b>#evaluation.view_portraits#</b></td><td class="blue"><b>(</b>#evaluation.yes_#/<b><a href=@this_url@>#evaluation.no_#</a>)</b></td>
  < /else >
@@ -62,7 +62,7 @@
 </if>
 <else>
 
-<table align="center">
+<table style="text-align:center">
 <tr>
 	<th>#evaluation.Task_Name#</th>
 	<td>@task_name@</td>
@@ -111,38 +111,38 @@
 </else>
 <if @not_evaluated_wa:rowcount@ gt 0>
 <if @simple_p@ eq 0>
-<p>#evaluation.Click# <a href=download-archive/?task_id=@task_id@>#evaluation.here#</a> #evaluation.lt_if_you_want_to_downlo#</p>
+<p>#evaluation.Click# <a href="download-archive/?task_id=@task_id@">#evaluation.here#</a> #evaluation.lt_if_you_want_to_downlo#</p>
 <if @number_of_members@ eq "1">
  <if @show_portrait_p@ eq "t">
-	<p>#evaluation.Click# <a href=@this_url@> #evaluation.here# </a> #evaluation.lt_if_you_do_not_want_to#</p>
+	<p>#evaluation.Click# <a href="@this_url@"> #evaluation.here# </a> #evaluation.lt_if_you_do_not_want_to#</p>
  </if><else>
-	<p>#evaluation.Click# <a href=@this_url@> #evaluation.here# </a> #evaluation.lt_if_you_want_to_see_th#</p>
+	<p>#evaluation.Click# <a href="@this_url@"> #evaluation.here# </a> #evaluation.lt_if_you_want_to_see_th#</p>
  </else>
 </if><else>
 <p>#evaluation.If#</p>
 </else>
 </if>
 <form action="evaluate-students" method="post">
-    <input type=hidden name=task_id value="@task_id@">
-    <input type=hidden name=grade_id value="@grade_id@">
+    <div><input type=hidden name=task_id value="@task_id@"></div>
+    <div><input type=hidden name=grade_id value="@grade_id@"></div>
 	<blockquote>
 	<listtemplate name="not_evaluated_wa"></listtemplate>
     <if @simple_p@ eq 1>
 	<br>
-    	<input type=image src="/resources/evaluation/submit.gif">
+    	<div><input type=image src="/resources/evaluation/submit.gif"></div>
     </if>
     <else>
-    <input type=submit value="#evaluation.Grade_1#">
+    <div><input type=submit value="#evaluation.Grade_1#"></div>
     </else>
-    <input type=submit value="#evaluation.Grade_1#">
+    <div><input type=submit value="#evaluation.Grade_1#"></div>
     </else>
     </blockquote>
 </form>
 <blockquote>
 <if @simple_p@ eq 0>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
-    <input type="hidden" name="grades_sheet_item_id" value=@grades_sheet_item_id@> 
-    <input type="hidden" name="task_id" value=@task_id@> 
+    <div><input type="hidden" name="grades_sheet_item_id" value=@grades_sheet_item_id@></div>
+    <div><input type="hidden" name="task_id" value=@task_id@></div>
        <table> 
           <tr> 
           <th style="text-align:right;">#evaluation.lt_Grade_students_using_#</th> 
@@ -163,8 +163,8 @@
 <li class="arrow"><text class="blue">#evaluation.upload_graded##evaluation.students_ready#</text>
 <blockquote>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
-    <input type="hidden" name="grades_sheet_item_id" value=@grades_sheet_item_id@> 
-    <input type="hidden" name="task_id" value=@task_id@> 
+    <div><input type="hidden" name="grades_sheet_item_id" value=@grades_sheet_item_id@></div>
+    <div><input type="hidden" name="task_id" value=@task_id@></div>
        <table> 
           <tr> 
           <th style="text-align:right;"><text class="blue">#evaluation.lt_Grade_students_using_#</text></th> 
@@ -215,7 +215,7 @@
 </else>
 </if>
 <form action="evaluate-students" method="post">
-    <input type=hidden name=task_id value=@task_id@>
+    <div><input type=hidden name=task_id value=@task_id@></div>
 	<blockquote>
 	<listtemplate name="not_evaluated_na"></listtemplate>
 	<table width="100%">
@@ -233,8 +233,8 @@
 <blockquote>
 <if @simple_p@ eq 0>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
-    <input type="hidden" name="grades_sheet_item_id" value="@grades_sheet_item_id@"> 
-    <input type="hidden" name="task_id" value=@task_id@> 
+    <div><input type="hidden" name="grades_sheet_item_id" value="@grades_sheet_item_id@"></div>
+    <div><input type="hidden" name="task_id" value=@task_id@></div>
        <table> 
           <tr> 
           <th style="text-align:right;">#evaluation.lt_Grade_students_using_#</th> 
@@ -258,8 +258,8 @@
 <blockquote>
 
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
-    <input type="hidden" name="grades_sheet_item_id" value="@grades_sheet_item_id@"> 
-    <input type="hidden" name="task_id" value=@task_id@> 
+    <div><input type="hidden" name="grades_sheet_item_id" value="@grades_sheet_item_id@"></div>
+    <div><input type="hidden" name="task_id" value=@task_id@></div>
        <table> 
           <tr> 
           <th style="text-align:right;"><text class="blue">#evaluation.lt_Grade_students_using_#</text></th> 
@@ -301,8 +301,8 @@
 </else>
 
 <form action="evaluate-students" method="post">
-    <input type=hidden name=task_id value="@task_id@">
-    <input type=hidden name=grade_id value="@grade_id@">
+    <div><input type=hidden name=task_id value="@task_id@"></div>
+    <div><input type=hidden name=grade_id value="@grade_id@"></div>
 	<blockquote>
 	<listtemplate name="class_students"></listtemplate>
 	<if @simple_p@ eq 1>
@@ -315,15 +315,15 @@
 	</table>
         </if>
 	<else>
-	    <input type=submit value="#evaluation.Grade_1#">
-            <input type=checkbox name="grade_all">#evaluation.lt_Grade_students_with_0#
+	    <div><input type=submit value="#evaluation.Grade_1#"></div>
+        <div><input type=checkbox name="grade_all">#evaluation.lt_Grade_students_with_0#</div>
 	</else>
     </blockquote>
 </form>
 <if @simple_p@ eq 0>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
-    <input type="hidden" name="grades_sheet_item_id" value=@grades_sheet_item_id@> 
-    <input type="hidden" name="task_id" value=@task_id@> 
+    <div><input type="hidden" name="grades_sheet_item_id" value=@grades_sheet_item_id@></div>
+    <div><input type="hidden" name="task_id" value=@task_id@></div>
        <table> 
           <tr> 
           <th style="text-align:right;">#evaluation.lt_Grade_students_using_#</th> 
@@ -368,6 +368,3 @@
 </else>
 <br>
 </else>
-
-
-

@@ -21,6 +21,6 @@ set context [list [list "grades" "[_ evaluation.Assignment_Types_]"] "[_ evaluat
 
 db_1row get_grade_info { *SQL* }
 
-set export_vars [export_form_vars grade_id return_url]
+set export_vars [export_vars -form -- {grade_id return_url}]
 
 ad_return_template

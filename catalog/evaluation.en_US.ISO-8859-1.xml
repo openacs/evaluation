@@ -320,7 +320,7 @@ is referred to as the weight. You have three choices.
   <msg key="lt_Grade_students_using_">Grade students using generated file:</msg>
   <msg key="lt_Grade_students_using_file">Grade students using generated file:</msg>
   <msg key="lt_Grade_students_with_0">Grade students with 0</msg>
-  <msg key="lt_Grades_Report_for_stu">Grades Report for $student_name </msg>
+  <msg key="lt_Grades_Report_for_stu">Grades Report for %student_name%</msg>
   <msg key="lt_Grades_report_of_stud">Grade report for &quot;%student_name%&quot;</msg>
   <msg key="lt_Grades_Sheet_Explanat">Grades Sheet Explanation </msg>
   <msg key="lt_Grades_sheet_for_assi">Grades sheet for assighment &quot;%task_name%&quot;</msg>
@@ -345,7 +345,7 @@ is referred to as the weight. You have three choices.
   <msg key="lt_No_group_for_student_">No group for student </msg>
   <msg key="lt_No_I_want_to_cancel_m">No, I want to cancel my request </msg>
   <msg key="lt_No_portrait_for_party">No portrait for $party_name </msg>
-  <msg key="lt_No_portrait_for_stude">No portrait for $student_name </msg>
+  <msg key="lt_No_portrait_for_stude">No portrait for %student_name%</msg>
   <msg key="lt_Notification_for_assi">Notification for assignments </msg>
   <msg key="lt_Notification_for_eval">Notification for evaluations </msg>
   <msg key="lt_Number_of_members_for">Number of members for this task:</msg>

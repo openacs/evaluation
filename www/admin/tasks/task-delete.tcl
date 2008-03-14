@@ -19,6 +19,6 @@ set context [list [list [export_vars -base ../grades/grades { }] "[_ evaluation.
 
 db_1row get_task_info { *SQL* }
 
-set export_vars [export_form_vars task_id grade_id return_url]
+set export_vars [export_vars -form -- {task_id grade_id return_url}]
 
 ad_return_template

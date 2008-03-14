@@ -3,7 +3,7 @@
 <property name="context">@context;noquote@</property>
 
 <if @admin_p@ eq 1>
-	<a href=admin/index>#evaluation.Evaluations_Admin#</a>
+	<a href="admin/index">#evaluation.Evaluations_Admin#</a>
 </if>
 
 <h2>#evaluation.Assignments#</h2><br>

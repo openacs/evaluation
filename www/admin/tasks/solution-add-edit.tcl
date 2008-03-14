@@ -108,7 +108,7 @@ if { ![ad_form_new_p -key solution_id] } {
 		{url:text(text),optional
 		    {label "[_ evaluation.URL__1]"} 
 		    {value "$content"}
-		    {after_html "<a href=$content>$content</a>"}
+		    {after_html "<a href=\"$content\">$content</a>"}
 		}			
 		{unattach_p:text(hidden)
 		}
