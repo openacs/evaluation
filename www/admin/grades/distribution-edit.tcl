@@ -35,13 +35,13 @@ set elements [list task_name \
 		       orderby_desc {task_name desc}] \
 		  task_weight \
 		  [list label "[_ evaluation.lt_Weight_over_grade]" \
-		       display_template { <center><input size=5 maxlength=6 type=text name=weights.@grades.task_id@ value=@grades.task_weight@> </ center>} \
+		       display_template { <div style="text-align:center"><input size=5 maxlength=6 type=text name=weights.@grades.task_id@ value=@grades.task_weight@> </div>} \
 		       aggregate sum \
 		       aggregate_label { [_ evaluation.total]}
 		  ] \
 		  relative_weight \
 		  [list label "[_ evaluation.rel_weight]" \
-		       display_template { <center>@grades.relative_weight@</center> } \
+		       display_template { <div style="text-align:center">@grades.relative_weight@</div> } \
 		       aggregate sum \
 		      ]\
 		  requires_grade \
@@ -98,13 +98,10 @@ db_multirow -extend { radio_yes_checked radio_no_checked delete_template } grade
     } elseif { $simple_p } {
 	set delete_template "<a href=\"[export_vars -base "../tasks/task-delete" { task_id grade_id return_url }]\">[_ evaluation-portlet.Delete]</a>"
     } else {
-	set delete_template "<a href=\"[export_vars -base "../tasks/task-delete" { task_id grade_id return_url }]\"><img src=\"/resources/acs-subsite/Delete16.gif\" width=\"16\" height=\"16\" border=\"0\"></a>"
+	set delete_template "<a href=\"[export_vars -base "../tasks/task-delete" { task_id grade_id return_url }]\"><img src=\"/resources/acs-subsite/Delete16.gif\" width=\"16\" height=\"16\" style=\"border:0px\" alt=\"\"></a>"
     }
     
-} 	
+}
 
-
-
-
-
-
+template::head::add_css -href "/resources/evaluation/evaluation.css"
+ad_return_template

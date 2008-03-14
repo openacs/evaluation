@@ -47,7 +47,7 @@ set elements [list student_name \
 
 db_foreach grade_type { *SQL* } {
     set weight [lc_numeric $weight]
-    set grade_label_${grade_id} "${grade_plural_name} ($weight%) <a href=[export_vars -base "grades-type-reports" { grade_id }]><img src=\"/resources/acs-subsite/Zoom16.gif\" width=\"16\" height=\"16\" border=\"0\"></a>"
+    set grade_label_${grade_id} "${grade_plural_name} ($weight%) <a href=[export_vars -base "grades-type-reports" { grade_id }]><img src=\"/resources/acs-subsite/Zoom16.gif\" width=\"16\" height=\"16\" style=\"border:0px;\" alt=\"\"></a>"
     append pass_grades " grade_label_${grade_id} "
     lappend elements grade_$grade_id \
 	[list label "@grade_label_${grade_id};noquote@" \
