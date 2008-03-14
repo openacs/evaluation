@@ -56,7 +56,7 @@
 						&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Name#&lt;/th&gt;&lt;td&gt;%evaluations_na.party_name%&lt;/td&gt;&lt;/tr&gt;
 					 	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.grade% / %max_grade%&lt;/td&gt;&lt;/tr&gt;
                      	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Comments#&lt;/th&gt;&lt;td&gt;%evaluations_na.comment%&lt;/td&gt;&lt;/tr&gt;
-                     	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Will_the_studens_be# &lt;br /&gt; #evaluation.lt_able_to_see_the_grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.show_student%&lt;/td&gt;&lt;/tr&gt;
+                     	&lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Will_the_studens_be# &lt;br&gt; #evaluation.lt_able_to_see_the_grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.show_student%&lt;/td&gt;&lt;/tr&gt;
                     &lt;/tr&gt;
 					&lt;/table&gt;
           &lt;/multiple&gt;
@@ -79,7 +79,7 @@
       &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Name#&lt;/th&gt;&lt;td&gt;%evaluations_na.party_name%&lt;/td&gt;&lt;/tr&gt; 
       &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.grade% / %max_grade%&lt;/td&gt;&lt;/tr&gt; 
       &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Comments#&lt;/th&gt;&lt;td&gt;%evaluations_na.comment%&lt;/td&gt;&lt;/tr&gt; 
-      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Will_the_studens_be# &lt;br /&gt; #evaluation.lt_able_to_see_the_grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.show_student%&lt;/td&gt;&lt;/tr&gt; &lt;/tr&gt; 
+      &lt;tr&gt;&lt;th align=&quot;right&quot;&gt;#evaluation.Will_the_studens_be# &lt;br&gt; #evaluation.lt_able_to_see_the_grade#&lt;/th&gt;&lt;td&gt;%evaluations_na.show_student%&lt;/td&gt;&lt;/tr&gt; &lt;/tr&gt; 
     &lt;/table&gt; 
     &lt;/multiple&gt; 
   &lt;/table&gt; 
@@ -331,7 +331,7 @@ is referred to as the weight. You have three choices.
   <msg key="lt_If_you_click_on_the_s">Click on a student's name to see their detailed grade report.</msg>
   <msg key="lt_If_you_do_not_want_to">If you do not want to grade or edit the grade of a student/group, just leave intact the fields of that row, or you can delete the whole row.</msg>
   <msg key="lt_if_you_do_not_want_to">if you do not want to see the portraits of the students</msg>
-  <msg key="lt_If_you_enter_the_net_">If you enter the net value, it must be less than %grade_weight%, which is the net value of %grade_plural_name% over the 100 points of the class. &lt;br /&gt; After uploading the %grade_name%, the system will do the convertion and the net value will be represented as a percentage. </msg>
+  <msg key="lt_If_you_enter_the_net_">If you enter the net value, it must be less than %grade_weight%, which is the net value of %grade_plural_name% over the 100 points of the class. &lt;br&gt; After uploading the %grade_name%, the system will do the convertion and the net value will be represented as a percentage. </msg>
   <msg key="lt_if_you_want_to_downlo">to download all submissions in one file.</msg>
   <msg key="lt_if_you_want_to_see_th">if you want to see the portraits of the students</msg>
   <msg key="lt_In_order_to_generate_">In order to generate this file there must be some parties assigned to this task. </msg>
@@ -361,7 +361,7 @@ is referred to as the weight. You have three choices.
   <msg key="lt_Save_the_csv_file_and">Save the csv file and KEEP THE CSV FORMAT. The CSV file can be edited with any text editor (and MS Excell) but you have to save it keeping the CSV format. If you do not keep the format, the system will not be able to parse the file.</msg>
   <msg key="lt_See_grades_sheets_ass">See grade sheets associated with this task</msg>
   <msg key="lt_Send_the_file_using_t">Send the file using the &quot;Send file&quot; botton. The system will parse the file and you will be asked for a confirmation (if everything is ok with the file) for the grades.</msg>
-  <msg key="lt_smallTotal_points_in_">&lt;small&gt;Total points in this category: ${total_grade}/${max_grade} &lt;br /&gt;
+  <msg key="lt_smallTotal_points_in_">&lt;small&gt;Total points in this category: ${total_grade}/${max_grade} &lt;br&gt;
     $grade_plural_name represents the ${grade_weight}% of the 100% of the class&lt;/small&gt; </msg>
   <msg key="lt_span_stylefont-style_">&lt;span style=\&quot;font-style: italic; color: red; font-size: 9pt;\&quot;&gt;Deleted&lt;/span&gt;</msg>
   <msg key="lt_Students_List_for_tas">Student Scores for &quot;%task_name%&quot;</msg>
@@ -474,11 +474,11 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_to_submit_their_answe">to submit their answers after due date?</msg>
   <msg key="lt_To_unassociate_a_memb">To unassociate a member of the group, click on the &quot;Unassociate member&quot; link.</msg>
   <msg key="lt_TOTAL_GRADE_total_cla">TOTAL GRADE: %total_class_grade%</msg>
-  <msg key="lt_Total_points_in_this_">Total points in this category: %total_grade% / $max_grade&lt;br /&gt;
+  <msg key="lt_Total_points_in_this_">Total points in this category: %total_grade% / $max_grade&lt;br&gt;
                      This grade category represents the ${grade_weight}% of the 100% of the class </msg>
-  <msg key="lt_Total_points_in_this__1">Total points in this category: %total_grade% / %max_grade%&lt;br /&gt;
+  <msg key="lt_Total_points_in_this__1">Total points in this category: %total_grade% / %max_grade%&lt;br&gt;
                      This grade category represents the %grade_weight%% of the 100% of the class </msg>
-  <msg key="lt_Total_points_in_this__2">Total points in this category: %total_grade%/%max_grade% </msg>
+  <msg key="lt_Total_points_in_this__2">Total points in this category: %total_grade%/%max_grade%</msg>
   <msg key="lt_Unassociate_student_f">Unassociate student for this group </msg>
   <msg key="lt_Unrecognized_value_fo">Unrecognized value for notif type: $notif_type. Possible values are one_assignment_notif and one_evaluation_notif. </msg>
   <msg key="lt_Upload_a_file_OR_a_ur">Upload a file OR a url, and not both </msg>
@@ -499,17 +499,17 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_Weight_of_grade_plura">Weight of %grade_plural_name% over 100% of the class</msg>
   <msg key="lt_Weight_of_this_grade_">Weight of this %grade_name% over %grade_plural_name%</msg>
   <msg key="lt_Weight_over_100_br__o">WEIGHT &lt;br&gt;(out of 100% ) </msg>
-  <msg key="lt_Weight_over_grade">WEIGHT OVER %grade_weight%% &lt;br /&gt; OF %grade_plural_name_up% </msg>
-  <msg key="lt_Weight_over_grade_wei">Weight over %grade_weight%% &lt;br /&gt; of %grade_plural_name% </msg>
+  <msg key="lt_Weight_over_grade">WEIGHT OVER %grade_weight%% &lt;br&gt; OF %grade_plural_name_up% </msg>
+  <msg key="lt_Weight_over_grade_wei">Weight over %grade_weight%% &lt;br&gt; of %grade_plural_name% </msg>
   <msg key="lt_Weight_over_grade_wei_1">Weight over %grade_weight%% of %grade_plural_name%&quot;}
 	{html {size 5}}
 	{help_text &quot;&lt;#_ You can enter the weight over %grade_weight%% of %grade_plural_name% or you can enter the net value of it in the field below. </msg>
   <msg key="lt_Weight_over_grade_wei_2">Weight over %grade_weight%% of %grade_plural_name% </msg>
-  <msg key="lt_Weight_used_in_grade_">&lt;small&gt;Weight used in %low_name%: %category_weight%% (over 100% of %low_name%) &lt;br /&gt;
+  <msg key="lt_Weight_used_in_grade_">&lt;small&gt;Weight used in %low_name%: %category_weight%% (over 100% of %low_name%) &lt;br&gt;
                       %low_name% represents %grade_weight%% of the 100% of the class&lt;/small&gt; </msg>
-  <msg key="lt_Weight_used_in_grade__1">Weight used in %grade_plural_name%: ${category_weight}% (of 100% of $grade_plural_name) &lt;br /&gt;
+  <msg key="lt_Weight_used_in_grade__1">Weight used in %grade_plural_name%: ${category_weight}% (of 100% of $grade_plural_name) &lt;br&gt;
                     $grade_plural_name represents ${grade_weight}% of the 100% of the class </msg>
-  <msg key="lt_Weight_used_in_grade__2">Weight used in %grade_plural_name%: %category_weight%% (of 100% of %grade_plural_name%) &lt;br /&gt;
+  <msg key="lt_Weight_used_in_grade__2">Weight used in %grade_plural_name%: %category_weight%% (of 100% of %grade_plural_name%) &lt;br&gt;
                     %grade_plural_name% represents %grade_weight%% of the 100% of the class </msg>
   <msg key="lt_Will_the_student_be_a">Will the student be able to see the grade? (1 = Yes / 0 = No): </msg>
   <msg key="lt_Will_the_student_be_a_1">Will the student be able to see the grade? </msg>

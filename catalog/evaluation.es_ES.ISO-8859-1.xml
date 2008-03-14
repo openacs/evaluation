@@ -55,7 +55,7 @@
 						&amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Name#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.party_name%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;
 					 	&amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Grade#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.grade% / %max_grade%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;
                      	&amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Comments#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.comment%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;
-                     	&amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Will_the_studens_be# &amp;lt;br /&amp;gt; #evaluation.lt_able_to_see_the_grade#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.show_student%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;
+                     	&amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Will_the_studens_be# &amp;lt;br&amp;gt; #evaluation.lt_able_to_see_the_grade#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.show_student%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;
                     &amp;lt;/tr&amp;gt;
 					&amp;lt;/table&amp;gt;
           &amp;lt;/multiple&amp;gt;
@@ -78,7 +78,7 @@
       &amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Name#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.party_name%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt; 
       &amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Grade#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.grade% / %max_grade%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt; 
       &amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Comments#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.comment%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt; 
-      &amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Will_the_studens_be# &amp;lt;br /&amp;gt; #evaluation.lt_able_to_see_the_grade#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.show_student%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt; &amp;lt;/tr&amp;gt; 
+      &amp;lt;tr&amp;gt;&amp;lt;th align=&amp;quot;right&amp;quot;&amp;gt;#evaluation.Will_the_studens_be# &amp;lt;br&amp;gt; #evaluation.lt_able_to_see_the_grade#&amp;lt;/th&amp;gt;&amp;lt;td&amp;gt;%evaluations_na.show_student%&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt; &amp;lt;/tr&amp;gt; 
     &amp;lt;/table&amp;gt; 
     &amp;lt;/multiple&amp;gt; 
   &amp;lt;/table&amp;gt; 
@@ -347,7 +347,7 @@ debería tener para el total de %grade_plural_name%. En este caso, añada el valor
   <msg key="lt_If_you_click_on_the_s">Si usted hace click sobre el nombre del estudiante, usted vera el reporte de notas del estudiante.</msg>
   <msg key="lt_If_you_do_not_want_to">Si usted no quiere evaluar o editar la nota de un estudiante o grupo, solo deje intacto los campos de esa fila, o puede eliminar la fila entera.</msg>
   <msg key="lt_if_you_do_not_want_to">si usted no quiere ver las fotos de los estudiantes</msg>
-  <msg key="lt_If_you_enter_the_net_">Si usted ingresa el valor neto, debe de ser menor a %grade_weight%, que es el valor neto de %grade_plural_name% sobre los 100 puntos de la clase. &lt;br /&gt; Después de subir la %grade_name%, el sistema hará la conversión y el valor neto será representado como un porcentaje.</msg>
+  <msg key="lt_If_you_enter_the_net_">Si usted ingresa el valor neto, debe de ser menor a %grade_weight%, que es el valor neto de %grade_plural_name% sobre los 100 puntos de la clase. &lt;br&gt; Después de subir la %grade_name%, el sistema hará la conversión y el valor neto será representado como un porcentaje.</msg>
   <msg key="lt_if_you_want_to_downlo">si usted quiere bajar todas las respuestas en un solo archivo </msg>
   <msg key="lt_if_you_want_to_see_th">si usted quiere ver las fotos de los estudiantes</msg>
   <msg key="lt_In_order_to_generate_">Para generar este archivo deben de haber varios grupos\usuarios asignados a esta tarea. </msg>
@@ -392,7 +392,7 @@ y haga click en OK.</msg>
   <msg key="lt_Send_the_file_using_t">Envíe el archivo utilizando el botón &quot;Enviar archivo&quot;. El sistema leerá el archivo y preguntara por una confirmación (si todo esta bien con el archivo) para las notas.
 
 </msg>
-  <msg key="lt_smallTotal_points_in_">&lt;small&gt;Total de puntos en esta categoria: ${total_grade}/${max_grade} &lt;br /&gt;  $grade_plural_name representan el ${grade_weight}% del 100% de la clase&lt;/small&gt;</msg>
+  <msg key="lt_smallTotal_points_in_">&lt;small&gt;Total de puntos en esta categoria: ${total_grade}/${max_grade} &lt;br&gt;  $grade_plural_name representan el ${grade_weight}% del 100% de la clase&lt;/small&gt;</msg>
   <msg key="lt_span_stylefont-style_">&amp;lt;span style=\&amp;quot;font-style: italic; color: red; font-size: 9pt;\&amp;quot;&amp;gt;Borrado&amp;lt;/span&amp;gt;</msg>
   <msg key="lt_Students_List_for_tas">Notas de los alumnos para &quot;%task_name%&quot;</msg>
   <msg key="lt_Students_who_have_not">Estudiantes que NO han respondido: (%not_evaluated_with_no_answer%) 
@@ -539,9 +539,9 @@ set page_title &amp;quot;&amp;lt;#_ Confirm Evaluation </msg>
   <msg key="lt_To_unassociate_a_memb">Para desasociar a un miembro del grupo, haga click en el link de &quot;Desasociar miembro&quot;
 </msg>
   <msg key="lt_TOTAL_GRADE_total_cla">NOTA TOTAL: %total_class_grade%</msg>
-  <msg key="lt_Total_points_in_this_">Total de puntos en esta categoría: %total_grade% / $max_grade&lt;br /&gt;
+  <msg key="lt_Total_points_in_this_">Total de puntos en esta categoría: %total_grade% / $max_grade&lt;br&gt;
                         Esta categoría de nota representa el ${grade_weight}% del 100% de la clase</msg>
-  <msg key="lt_Total_points_in_this__1">Total de puntos en esta categoría: %total_grade% / $max_grade&lt;br /&gt;
+  <msg key="lt_Total_points_in_this__1">Total de puntos en esta categoría: %total_grade% / $max_grade&lt;br&gt;
                         Esta categoría de nota representa el %grade_weight%% del 100% de la clase</msg>
   <msg key="lt_Total_points_in_this__2">Total de puntos en esta categoría:  %total_grade%/%max_grade%</msg>
   <msg key="lt_Unassociate_student_f">Desasociar estudiante de este grupo
@@ -569,18 +569,18 @@ one_assignment_notif and one_evaluation_notif.
   <msg key="lt_Weight_must_be_a_real">La ponderación debe de ser un numero real entre 0 y 100</msg>
   <msg key="lt_Weight_of_grade_plura">Peso de %grade_plural_name% sobre el 100% del curso</msg>
   <msg key="lt_Weight_of_this_grade_">Peso de %grade_name% sobre %grade_plural_name%</msg>
-  <msg key="lt_Weight_over_100_br__o">Ponderación sobre el 100% &lt;br /&gt; del Curso</msg>
+  <msg key="lt_Weight_over_100_br__o">Ponderación sobre el 100% &lt;br&gt; del Curso</msg>
   <msg key="lt_Weight_over_grade">PESO SOBRE %grade_weight% DE %grade_plural_name_up%</msg>
-  <msg key="lt_Weight_over_grade_wei">Ponderación sobre %grade_weight%% &lt;br /&gt; de %grade_plural_name%</msg>
+  <msg key="lt_Weight_over_grade_wei">Ponderación sobre %grade_weight%% &lt;br&gt; de %grade_plural_name%</msg>
   <msg key="lt_Weight_over_grade_wei_1">Valor sobre %grade_weight%% of %grade_plural_name%&amp;quot;}
 	{html {size 5}}
 	{help_text &amp;quot;&amp;lt;#_ Puede añadir el valor sobre %grade_weight%% de %grade_plural_name% o puede añadir el valor neto en el campo inferior.</msg>
   <msg key="lt_Weight_over_grade_wei_2">Nota sobre el %grade_weight%% de %grade_plural_name%</msg>
-  <msg key="lt_Weight_used_in_grade_">La ponderación utilizada en %low_name% es: %category_weight%% (del 100% de %low_name%) &lt;br /&gt;
+  <msg key="lt_Weight_used_in_grade_">La ponderación utilizada en %low_name% es: %category_weight%% (del 100% de %low_name%) &lt;br&gt;
                        %low_name% representan el %grade_weight%% del 100% de la clase</msg>
-  <msg key="lt_Weight_used_in_grade__1">La ponderación utilizada en $grade_plural_name es: ${category_weight}% (del 100% de $grade_plural_name) &lt;br /&gt;
+  <msg key="lt_Weight_used_in_grade__1">La ponderación utilizada en $grade_plural_name es: ${category_weight}% (del 100% de $grade_plural_name) &lt;br&gt;
                        $grade_plural_name representan el ${grade_weight}% del 100% de la clase</msg>
-  <msg key="lt_Weight_used_in_grade__2">La ponderación utilizada en $grade_plural_name es: ${category_weight}% (del 100% de $grade_plural_name) &lt;br /&gt;
+  <msg key="lt_Weight_used_in_grade__2">La ponderación utilizada en $grade_plural_name es: ${category_weight}% (del 100% de $grade_plural_name) &lt;br&gt;
                        $grade_plural_name representan el ${grade_weight}% del 100% de la clase</msg>
   <msg key="lt_Will_the_student_be_a">¿Podrá el estudiante ver su nota? (1 = Si / 0 = No): </msg>
   <msg key="lt_Will_the_student_be_a_1">¿Podrá el estudiante ver su nota? </msg>
