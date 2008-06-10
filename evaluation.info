@@ -19,7 +19,7 @@
         <provides url="evaluation" version="2.4.0b1"/>
         <requires url="calendar" version="2.1.0b7"/>
         <requires url="dotlrn" version="2.4.0b1"/>
-        <requires url="notifications" version="5.3.0d1"/>
+        <requires url="notifications" version="5.4.2"/>
 
         <callbacks>
             <callback type="after-install"  proc="evaluation::apm::package_install"/>
