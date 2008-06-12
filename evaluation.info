@@ -17,7 +17,7 @@
         <package_instance_name>#evaluation.Evaluations#</package_instance_name>
 
         <provides url="evaluation" version="2.4.0b1"/>
-        <requires url="calendar" version="2.1.0b7"/>
+        <requires url="calendar" version="2.4.0b1"/>
         <requires url="dotlrn" version="2.4.0b1"/>
         <requires url="notifications" version="5.4.2"/>
 
