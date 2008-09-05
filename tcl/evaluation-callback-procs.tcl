@@ -1,5 +1,5 @@
 ad_library {
-    Library of callbacks implementations for photo-album
+    Library of callbacks implementations for evaluation
 }
 
 ad_proc -callback application-track::getApplicationName -impl evaluation {} { 
