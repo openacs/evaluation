@@ -16,8 +16,8 @@
 		</tr>
 	</table>
 	<form action="group-new">
-	<input type=hidden name=task_id value="@task_id@">
-	<blockquote>
+	<div><input type=hidden name=task_id value="@task_id@"></div>
+
 	<table>
 		<tr>
 		<td><input type=submit value="#evaluation.Create_Group_#"></td>
@@ -28,19 +28,19 @@
 		</td>
 		</tr>
 	</table>
-	</blockquote>
+
 	</form>
 </if>
 
 <if @task_groups:rowcount@ gt 0>
 	<a name="groups">
 	<h2>#evaluation.lt_Already_created_group#</h2>
-	<blockquote>
+
 	<listtemplate name="task_groups"></listtemplate>
-	</blockquote>
+
 </if>
 
 <if @return_url@ not nil>
-<a href="@return_url@">#evaluation.Go#</a>
+<p><a href="@return_url@">#evaluation.Go#</a></p>
 </if>
 

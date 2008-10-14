@@ -92,7 +92,7 @@
 <h2>#evaluation.lt_Evaluated_Students_to#</h2>
 <p>#evaluation.Theese#</p>
 </else>
-<blockquote><listtemplate name="evaluated_students"></listtemplate></blockquote>
+<listtemplate name="evaluated_students"></listtemplate>
 <br>
 <if @forums_related_p@ eq f>
 <if @simple_p@ eq 1>
@@ -125,7 +125,7 @@
 <form action="evaluate-students" method="post">
     <div><input type=hidden name=task_id value="@task_id@"></div>
     <div><input type=hidden name=grade_id value="@grade_id@"></div>
-	<blockquote>
+
 	<listtemplate name="not_evaluated_wa"></listtemplate>
     <if @simple_p@ eq 1>
 	<br>
@@ -136,9 +136,9 @@
     </else>
     <div><input type=submit value="#evaluation.Grade_1#"></div>
     </else>
-    </blockquote>
+
 </form>
-<blockquote>
+
 <if @simple_p@ eq 0>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
     <div><input type="hidden" name="grades_sheet_item_id" value=@grades_sheet_item_id@></div>
@@ -161,7 +161,7 @@
 <ul>
 <li class="arrow"><text class="blue">#evaluation.download#<b><a href="grades-sheet-csv-@task_id@.csv">#evaluation.students_ready#</a></b>#evaluation.spreadsheet#<br></text>
 <li class="arrow"><text class="blue">#evaluation.upload_graded##evaluation.students_ready#</text>
-<blockquote>
+
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
     <div><input type="hidden" name="grades_sheet_item_id" value=@grades_sheet_item_id@></div>
     <div><input type="hidden" name="task_id" value=@task_id@></div>
@@ -175,13 +175,13 @@
           
           
   </form> 
-</blockquote>
+
 <li class="arrow"><a href="grades-sheets?task_id=@task_id@"><text class="blue">#evaluation.lt_See_grades_sheets_ass#</text></a>
 <li class="arrow"><a href="grades-sheet-explanation?task_id=@task_id@"><text class="blue">#evaluation.How_does_this_work#</text></a>
 </ul>
 
 </else>
-</blockquote>
+
 </if><else>
 <p>#evaluation.lt_There_are_no_students#</p>
 </else>
@@ -216,7 +216,7 @@
 </if>
 <form action="evaluate-students" method="post">
     <div><input type=hidden name=task_id value=@task_id@></div>
-	<blockquote>
+
 	<listtemplate name="not_evaluated_na"></listtemplate>
 	<table width="100%">
 	<tr>
@@ -227,10 +227,10 @@
 	</else></td><td align=left><input type=checkbox name="grade_all"><text class=blue>#evaluation.lt_Grade_students_with_0#</text></td>
 	</tr>
 	</table>
-	</blockquote>
+
 </form>
 <br>
-<blockquote>
+
 <if @simple_p@ eq 0>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
     <div><input type="hidden" name="grades_sheet_item_id" value="@grades_sheet_item_id@"></div>
@@ -255,7 +255,7 @@
 <li class="arrow"><text class="blue">#evaluation.upload_graded##evaluation.students_without_subm#</text>
 </ul>
 <br>
-<blockquote>
+
 
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
     <div><input type="hidden" name="grades_sheet_item_id" value="@grades_sheet_item_id@"></div>
@@ -272,7 +272,7 @@
 <li class="arrow"><a href="grades-sheet-explanation?task_id=@task_id@"><text class="blue">#evaluation.How_does_this_work#</text></a>
 </ul>
 </else>
-</blockquote>
+
 </if><else>
 <p>#evaluation.lt_There_are_no_students_1#</p>
 <if @number_of_members@ gt 0 and @total_processed@ eq 0>
@@ -303,7 +303,7 @@
 <form action="evaluate-students" method="post">
     <div><input type=hidden name=task_id value="@task_id@"></div>
     <div><input type=hidden name=grade_id value="@grade_id@"></div>
-	<blockquote>
+
 	<listtemplate name="class_students"></listtemplate>
 	<if @simple_p@ eq 1>
 	<br>
@@ -318,7 +318,7 @@
 	    <div><input type=submit value="#evaluation.Grade_1#"></div>
         <div><input type=checkbox name="grade_all">#evaluation.lt_Grade_students_with_0#</div>
 	</else>
-    </blockquote>
+
 </form>
 <if @simple_p@ eq 0>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
@@ -343,10 +343,12 @@
 <ul>
 <li class="arrow"><text class="blue">#evaluation.download# <b><a href="grades-sheet-csv-@task_id@.csv">#evaluation.class_students#</a></b>#evaluation.spreadsheet#<br></text>
 <li class="arrow"><text class="blue">#evaluation.upload_graded# #evaluation.class_students#</text>
-<blockquote>
+
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
+    <div>
     <input type="hidden" name="grades_sheet_item_id" value=@grades_sheet_item_id@> 
     <input type="hidden" name="task_id" value=@task_id@> 
+    </div>
        <table> 
           <tr> 
           <th style="text-align:right;"><text class="blue">#evaluation.lt_Grade_students_using_#</text></th> 
@@ -358,7 +360,7 @@
           
           
   </form> 
-</blockquote>
+
 <li class="arrow"><a href="grades-sheets?task_id=@task_id@"><text class="blue">#evaluation.lt_See_grades_sheets_ass#</text></a>
 <li class="arrow"><a href="grades-sheet-explanation?task_id=@task_id@"><text class="blue">#evaluation.How_does_this_work#</text></a>
 </ul>

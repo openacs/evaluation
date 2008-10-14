@@ -19,6 +19,6 @@
 </div>
 </if>
 
-<blockquote><listtemplate name="grades"></listtemplate></blockquote>
+<listtemplate name="grades"></listtemplate>
 <p>@notice;noquote@</p>
 

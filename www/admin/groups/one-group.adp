@@ -12,7 +12,7 @@
 
    <form action="group-rename">
    @export_vars;noquote@
-   <blockquote>
+
    	<table>
 	<tr><th align="right">#evaluation.Group_name#</th>
 	<td><input type="text" name="group_name" value="@group_name@" size=20></td>
@@ -28,7 +28,7 @@
 	 <td></td>
   	 </tr>
      </table>
-   </blockquote>
+
 </if>
 <else>
   #evaluation.lt_There_are_no_studens_#

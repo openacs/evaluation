@@ -7,7 +7,7 @@
 <if @evaluations_gs:rowcount@ gt 0>
    <form enctype="multipart/form-data" action="evaluate-students-2" method="post">
 	@export_vars;noquote@
-		<blockquote>
+
         <table>
           <multiple name="evaluations_gs">
                 <if @evaluations_gs.rownum@ odd><table bgcolor="#EAF2FF"></if><else><table bgcolor="white"></else>
@@ -19,8 +19,9 @@
 					</table>
           </multiple>
         </table>
-		</blockquote>
+        <div>
         <input type=submit value="#evaluation.Grade_1#"> <input type=button value="#evaluation.Go_Back#" onClick="history.go(-1)">
+        </div>
     </form>
 </if><else>
 #evaluation.lt_There_is_no_info_#

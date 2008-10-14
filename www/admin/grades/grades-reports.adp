@@ -5,7 +5,8 @@
 #evaluation.lt_You_can_order_the_gra# <br>
 #evaluation.lt_If_you_click_on_the_s#
 </p>
-<blockquote><listtemplate name="grades_report"></listtemplate></blockquote>
+
+<listtemplate name="grades_report"></listtemplate>
 
 
 

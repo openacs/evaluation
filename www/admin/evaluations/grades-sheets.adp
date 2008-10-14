@@ -4,7 +4,8 @@
 
 <p>#evaluation.lt_These_are_the_grades_#</p>
 
-<blockquote><listtemplate name="grades_sheets"></listtemplate></blockquote>
+<listtemplate name="grades_sheets"></listtemplate>
 
+<p>
 <a href=@return_url;noquote@?task_id=@task_id@>Go Back</a>
-
+</p>
