@@ -13,7 +13,7 @@
 <tr>
       <input type=hidden name=task_id value="@task_id@">
       <input type=hidden name=evaluation_group_id value="@evaluation_group_id@">
-		<blockquote>
+
 	 	<td></td>
 		<td>
         <table>

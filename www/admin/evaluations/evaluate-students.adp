@@ -7,10 +7,11 @@
 <if @evaluations_wa:rowcount@ gt 0>
    <form action="evaluate-students-2" method="post">
 	@export_vars;noquote@
+      <div>
       <input type=hidden name=task_id value="@task_id@">
       <input type=hidden name=max_grade value="@max_grade@">
       <input type=submit value="#evaluation.Grade_1#" > <input type=button value="#evaluation.Go#" onClick="history.go(-1)"> 
-		<blockquote>
+      </div>
         <table>
           <multiple name="evaluations_wa">
                 <if @evaluations_wa.rownum@ odd><table bgcolor="#EAF2FF"></if><else><table bgcolor="white"></else>
@@ -22,17 +23,20 @@
 					</table>
           </multiple>
         </table>
-		</blockquote>
+        <div>
         <input type=submit value="#evaluation.Grade_1#" > <input type=button value="#evaluation.Go#" onClick="history.go(-1)"> 
+        </div>
    </form> 
 </if> 
 <if @evaluations_na:rowcount@ gt 0> 
   <form action="evaluate-students-2" method="post"> 
   @export_vars;noquote@ 
+  <div>
   <input type=hidden name=task_id value="@task_id@"> 
   <input type=hidden name=max_grade value="@max_grade@"> 
   <input type=submit value="#evaluation.Grade_1#" >
-  <blockquote> 
+  </div>
+
     <table> 
 	<multiple name="evaluations_na"> 
 	<if @evaluations_na.rownum@ odd> <table bgcolor="#EAF2FF"> </if> 
@@ -45,19 +49,22 @@
         </table> 
        </multiple> 
     </table> 
-  </blockquote> 
+  <div>
   <input type=submit value="#evaluation.Grade_1#" >
   <input type=button value="#evaluation.Go#" onClick="history.go(-1)">
+  </div>
   </form>
 </if>
 
 <if @evaluations:rowcount@ gt 0>
    <form action="evaluate-students-2" method="post">
 	@export_vars;noquote@
+      <div>
       <input type=hidden name=task_id value="@task_id@">
       <input type=hidden name=max_grade value="@max_grade@">
       <input type=submit value="#evaluation.Confirm#">
-		<blockquote>
+      </div>
+
         <table>
           <multiple name="evaluations">
                 <if @evaluations.rownum@ odd><table bgcolor="#EAF2FF"></if><else><table bgcolor="white"></else>
@@ -69,8 +76,9 @@
 					</table>
           </multiple>
         </table>
-		</blockquote>
+        <div>
         <input type=submit value="#evaluation.Confirm#">
+        </div>
     </form>
 </if>
 

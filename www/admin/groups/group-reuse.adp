@@ -4,5 +4,4 @@
 
 <p>#evaluation.lt_Click_on_the_task_tha#</p>
 
-<blockquote><listtemplate name="groups"></listtemplate></blockquote>
-
+<listtemplate name="groups"></listtemplate>

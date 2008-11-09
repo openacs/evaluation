@@ -6,7 +6,4 @@
 #evaluation.lt_If_you_click_on_the_s#
 </p>
 
-
-<blockquote><listtemplate name="grade_tasks"></listtemplate></blockquote>
-
-
+<listtemplate name="grade_tasks"></listtemplate>
