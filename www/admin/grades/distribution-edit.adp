@@ -16,12 +16,11 @@
 </div>
 </if>
 <else>
-<p>#evaluation.lt_Distribution_for_grad#
+<p>#evaluation.lt_Distribution_for_grad#</p>
 <if @grade_comments@ not nil>
-<p>@grade_comments@
+<p>@grade_comments@</p>
 </if>
 </else>
-<br>
 <if @grade_weight@ gt 0>
 <if @grades:rowcount@ gt 0>
 <if @simple_p@ eq 0>
