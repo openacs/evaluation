@@ -15,6 +15,17 @@ set class "list"
 set bulk_actions ""
 db_1row get_grade_info { *SQL* }
 
+if {[string match "#*#" $grade_plural_name]} {
+    set grade_plural_name [lang::message::lookup \
+                [ad_conn locale] [string trim $grade_plural_name "#"]]
+}
+if {[string match "#*#" $grade_name]} {
+    set grade_plural_name [lang::message::lookup \
+                [ad_conn locale] [string trim $grade_name "#"]]
+}
+set low_name $grade_plural_name
+set grade_plural_name [string toupper $grade_plural_name]
+
 set submitted_label "<div style='text-align:center'>[_ evaluation-portlet.lt_smallTotal_points_in__1]</div>"
 
 if { $admin_p } {

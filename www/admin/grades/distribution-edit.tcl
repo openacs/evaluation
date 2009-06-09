@@ -24,6 +24,12 @@ if { $simple_p } {
 
 db_1row grade_info { *SQL* }
 
+if {[string match "#*#" $grade_plural_name]} {
+    set grade_plural_name [lang::message::lookup \
+                [ad_conn locale] [string trim $grade_plural_name "#"]]
+}
+set grade_plural_name_up [string toupper $grade_plural_name]
+
 if { ![empty_string_p $set_task_id_live] } {
     evaluation::set_live_task -task_item_id $set_task_id_live
 }
