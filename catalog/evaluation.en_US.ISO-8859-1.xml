@@ -292,7 +292,7 @@ is referred to as the weight. You have three choices.
   <msg key="lt_Currently_title_is_at_2">Currently %title% is attached to this task, but you can attach a different file/url just by adding it here</msg>
   <msg key="lt_Delete_Assignment_Typ">Delete Assignment Type </msg>
   <msg key="lt_Delete_assignment_typ">Delete assignment type </msg>
-  <msg key="lt_Distribution_for_grad">Distribution for grade &quot;%grade_plural_name%&quot;</msg>
+  <msg key="lt_Distribution_for_grad">Distribution for grade %grade_plural_name% </msg>
   <msg key="lt_Do_NOT_change_the_par">Do NOT change the &quot;party id&quot; field because with this file we associate the grade with the student or group.</msg>
   <msg key="lt_Due_date_must_be_in_t">Due date must be in the future </msg>
   <msg key="lt_Due_Date_of_task_name">Due Date of %task_name% &lt;br&gt; (24 hr format)</msg>
@@ -418,7 +418,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_The_grade_must_be_a_R">The grade must be a REAL NUMBER.</msg>
   <msg key="lt_The_grade_must_be_a_v">The grade must be a valid number: %wrong_grade% </msg>
   <msg key="lt_The_grade_must_be_a_v_1">The grade must be a valid number </msg>
-  <msg key="lt_The_net_value_must_be">The net value must be grather than 0 and less than $grade_weight, and you can not enter Net Value AND Weight. </msg>
+  <msg key="lt_The_net_value_must_be">The net value must be grather than 0 and less than %grade_weight%, and you can not enter Net Value AND Weight. </msg>
   <msg key="lt_The_number_of_members">The number of members must be grather than 1.</msg>
   <msg key="lt_The_sum_of_the_weight">The sum of the weight of all the assignment types is %total_weight% and it should be 100 by the end of the term(supposedly). </msg>
   <msg key="lt_The_system_assumes_th">The system assumes that the grades start at the 7th line of the file.</msg>
@@ -624,7 +624,7 @@ To see the assignment type details, click on the view icon at the left of the as
   <msg key="Tasks_">Tasks </msg>
   <msg key="Tasks_for_students_">Tasks for students </msg>
   <msg key="Tasks_List_">Tasks List </msg>
-  <msg key="Theese">are the evaluated students. Note that if you evaluated them over a grad different from 100, the system automatically did the conversion so the grade will be shown over 100 points. </msg>
+  <msg key="Theese">These are the evaluated students. Note that if you evaluated them over a grade different from 100, the system automatically did the conversion so the grade will be shown over 100 points. </msg>
   <msg key="There">are no groups for this assignment yet. </msg>
   <msg key="total">%grade_plural_name_up% TOTAL:</msg>
   <msg key="Total_">Total </msg>

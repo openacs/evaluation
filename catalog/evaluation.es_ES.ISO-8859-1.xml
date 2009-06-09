@@ -297,8 +297,7 @@ debería tener para el total de %grade_plural_name%. En este caso, añada el valor
   <msg key="lt_Delete_Assignment_Typ">Eliminar el Tipo de Asignación  
  </msg>
   <msg key="lt_Delete_assignment_typ">Eliminar el tipo de asignación </msg>
-  <msg key="lt_Distribution_for_grad">Distribución de Notas 
-%grade_plural_name%</msg>
+  <msg key="lt_Distribution_for_grad">Distribución de Notas %grade_plural_name%</msg>
   <msg key="lt_Do_NOT_change_the_par">No cambie el campo &quot;id&quot; porque con este archivo se asocia la nota con el estudiante o grupo.
 </msg>
   <msg key="lt_Due_date_must_be_in_t">La fecha de entrega debe de estar en el futuro</msg>
@@ -451,7 +450,7 @@ set page_title &amp;quot;&amp;lt;#_ Confirm Evaluation </msg>
   <msg key="lt_The_grade_must_be_a_R">La nota debe de ser un NUMERO REAL.</msg>
   <msg key="lt_The_grade_must_be_a_v">La nota debe de ser un NUMERO VALIDO: %wrong_grade% </msg>
   <msg key="lt_The_grade_must_be_a_v_1">La nota debe de ser un numero valido </msg>
-  <msg key="lt_The_net_value_must_be">El valor neto debe de ser mayor a 0 o menor que $grade_weight, y no puede ingresar Valor Neto Y Ponderación.</msg>
+  <msg key="lt_The_net_value_must_be">El valor neto debe de ser mayor a 0 o menor que %grade_weight%, y no puede ingresar Valor Neto Y Ponderación.</msg>
   <msg key="lt_The_number_of_members">El número de miembro debe ser superior a 1.</msg>
   <msg key="lt_The_sum_of_the_weight">La suma de todos las asignaciones es %total_weight% y debería de ser 100 al final del curso (generalmente).
 
@@ -703,7 +702,7 @@ esta tarea?</msg>
   <msg key="Tasks_">Tareas</msg>
   <msg key="Tasks_for_students_">Tareas para los estudiantes</msg>
   <msg key="Tasks_List_">Lista de Tareas</msg>
-  <msg key="Theese">son los estudiantes evaluados. Note que si ha evaluado a los estudiantes sobre una nota diferente de 100, el sistema automáticamente hará la conversión y la nota aparecerá sobre 100 puntos.</msg>
+  <msg key="Theese">Estos son los estudiantes evaluados. Note que si ha evaluado a los estudiantes sobre una nota diferente de 100, el sistema automáticamente hará la conversión y la nota aparecerá sobre 100 puntos.</msg>
   <msg key="There">todavía no hay grupos para esta asignación.</msg>
   <msg key="total">TOTAL %grade_plural_name_up%:</msg>
   <msg key="Total_">Total </msg>
