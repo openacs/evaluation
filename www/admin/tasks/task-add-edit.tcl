@@ -69,10 +69,7 @@ ad_form -html { enctype multipart/form-data } -name task -cancel_url $return_url
 if { !$new_p } {
 
     db_foreach select_grade_types { *SQL* } {
-        if {[string match "#*#" $grade_name]} {
-            set grade_name [lang::message::lookup [ad_conn locale] \
-                            [string trim $grade_name "#"]]
-        }
+        set grade_name [lang::util::localize $grade_name]
         lappend grade_type_options [list $grade_name $grade_item_id]
     }
     ad_form -extend -name task -form {
