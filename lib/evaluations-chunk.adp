@@ -11,14 +11,15 @@
 </table>
 </div>
 </if>
-<br>
+
 <listtemplate name="grade_tasks"></listtemplate>
+
 <if @simple_p@ eq 0>
  <if @admin_p@ eq 1>
-   #evaluation.lt_Weight_used_in_grade_#
+   <p>#evaluation.lt_Weight_used_in_grade_#</p>
  </if>
  <else>
- #evaluation-portlet.lt_smallTotal_points_in_#
+   <p>#evaluation-portlet.lt_smallTotal_points_in_#</p>
  </else>
 </if>
 

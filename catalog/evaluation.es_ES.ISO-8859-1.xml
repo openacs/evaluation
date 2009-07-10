@@ -575,8 +575,7 @@ one_assignment_notif and one_evaluation_notif.
 	{html {size 5}}
 	{help_text &amp;quot;&amp;lt;#_ Puede añadir el valor sobre %grade_weight%% de %grade_plural_name% o puede añadir el valor neto en el campo inferior.</msg>
   <msg key="lt_Weight_over_grade_wei_2">Nota sobre el %grade_weight%% de %grade_plural_name%</msg>
-  <msg key="lt_Weight_used_in_grade_">La ponderación utilizada en %low_name% es: %category_weight%% (del 100% de %low_name%) &lt;br&gt;
-                       %low_name% representan el %grade_weight%% del 100% de la clase</msg>
+  <msg key="lt_Weight_used_in_grade_">La ponderación utilizada en %low_name% es: %category_weight%% (del 100% de %low_name%). %low_name% representan el %grade_weight%% del 100% de la clase</msg>
   <msg key="lt_Weight_used_in_grade__1">La ponderación utilizada en $grade_plural_name es: ${category_weight}% (del 100% de $grade_plural_name) &lt;br&gt;
                        $grade_plural_name representan el ${grade_weight}% del 100% de la clase</msg>
   <msg key="lt_Weight_used_in_grade__2">La ponderación utilizada en $grade_plural_name es: ${category_weight}% (del 100% de $grade_plural_name) &lt;br&gt;

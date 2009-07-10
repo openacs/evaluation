@@ -505,8 +505,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
 	{html {size 5}}
 	{help_text &quot;&lt;#_ You can enter the weight over %grade_weight%% of %grade_plural_name% or you can enter the net value of it in the field below. </msg>
   <msg key="lt_Weight_over_grade_wei_2">Weight over %grade_weight%% of %grade_plural_name% </msg>
-  <msg key="lt_Weight_used_in_grade_">&lt;small&gt;Weight used in %low_name%: %category_weight%% (over 100% of %low_name%) &lt;br&gt;
-                      %low_name% represents %grade_weight%% of the 100% of the class&lt;/small&gt; </msg>
+  <msg key="lt_Weight_used_in_grade_">Weight used in %low_name%: %category_weight%% (over 100% of %low_name%). %low_name% represents %grade_weight%% of the 100% of the class </msg>
   <msg key="lt_Weight_used_in_grade__1">Weight used in %grade_plural_name%: ${category_weight}% (of 100% of $grade_plural_name) &lt;br&gt;
                     $grade_plural_name represents ${grade_weight}% of the 100% of the class </msg>
   <msg key="lt_Weight_used_in_grade__2">Weight used in %grade_plural_name%: %category_weight%% (of 100% of %grade_plural_name%) &lt;br&gt;
