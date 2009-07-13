@@ -1,3 +1,3 @@
 
-<listtemplate name="tasks"></listtemplate>
+<listtemplate name="@list_name;noquote@"></listtemplate>
 

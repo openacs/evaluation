@@ -79,7 +79,7 @@ if { $admin_p } {
 	lappend elements edit \
 	    [list label "" \
 		 sub_class narrow \
-		 display_template {<div style="text-align:center"><a href=${base_url}admin/tasks/task-add-edit?grade_id=$grade_id&return_url=$return_url&task_id=@grade_tasks_admin.task_id@>[_ evaluation-portlet.edit]</a><br><a href=${base_url}admin/tasks/task-delete?grade_id=$grade_id&return_url=$return_url&task_id=@grade_tasks_admin.task_id@>[_ evaluation-portlet.delete]</a></div>}]
+		 display_template {<div style="text-align:center"><a href="${base_url}admin/tasks/task-add-edit?grade_id=$grade_id&return_url=$return_url&task_id=@grade_tasks_admin.task_id@">[_ evaluation-portlet.edit]</a><br><a href="${base_url}admin/tasks/task-delete?grade_id=$grade_id&return_url=$return_url&task_id=@grade_tasks_admin.task_id@">[_ evaluation-portlet.delete]</a></div>}]
     } else {
 	lappend elements audit_info \
 	    [list label "" \
@@ -135,7 +135,7 @@ if { $admin_p } {
     }
     lappend elements answer \
 	[list label "" \
-	     display_template {<a href=@grade_tasks.answer_url@ target=new>@grade_tasks.answer;noquote@</a>} \
+	     display_template {<a href="@grade_tasks.answer_url@">@grade_tasks.answer;noquote@</a>} \
 	     link_html { title "[_ evaluation-portlet.View_my_answer_]" }]
     
     set multirow_name grade_tasks
@@ -151,8 +151,10 @@ set max_weight_label ""
 set solution_label ""
 
 
+set suffix [ad_generate_random_string 4]
+set list_name "grade_tasks_${suffix}"
 template::list::create \
-    -name grade_tasks \
+    -name $list_name \
     -multirow $multirow_name \
     -key task_id \
     -pass_properties { return_url mode base_url bottom_line max_grade_label max_weight_label solution_label submitted_label grade_of_label} \
@@ -165,7 +167,7 @@ template::list::create \
     -sub_class narrow \
     -orderby { default_value task_name }
 
-set evaluations_orderby [template::list::orderby_clause -orderby -name grade_tasks]
+set evaluations_orderby [template::list::orderby_clause -orderby -name $list_name]
 
 if { [string equal $evaluations_orderby ""] } {
     set evaluations_orderby " order by task_name asc"
