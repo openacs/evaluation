@@ -13,7 +13,7 @@
         <release-date>2011-10-30</release-date>
 
         <description format="text/html">This package allows the professors and TAs to assign tasks to the students and to grade them, and to the students to upload their answers and see their grades.</description>
-        <maturity>0</maturity>
+        <maturity>2</maturity>
         <package_instance_name>#evaluation.Evaluations#</package_instance_name>
 
         <provides url="evaluation" version="2.8.1a1"/>
