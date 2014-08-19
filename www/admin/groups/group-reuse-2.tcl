@@ -7,8 +7,8 @@ ad_page_contract {
 	@creation-date Apr 2004
 	@cvs-id $Id$
 } {
-	task_id:integer,notnull
-	from_task_id:integer,notnull
+	task_id:naturalnum,notnull
+	from_task_id:naturalnum,notnull
 } -validate {
 	no_groups {
 	    if { [db_string get_groups_for_task { *SQL* }] > 0 } {

@@ -8,7 +8,7 @@ ad_page_contract {
 	@cvs-id $Id$
 } {
 	student_ids:array,integer,notnull
-	task_id:integer,notnull
+	task_id:naturalnum,notnull
 	{return_url "one-task?[export_vars -url { task_id }]"}
 } -validate {
 	students_to_work_with {

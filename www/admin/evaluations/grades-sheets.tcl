@@ -10,7 +10,7 @@ ad_page_contract {
 
 } -query {
 	{orderby:optional}
-	task_id:integer,notnull
+	task_id:naturalnum,notnull
 	return_url
 } -validate {
 	grades_sheets {

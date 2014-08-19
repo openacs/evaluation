@@ -10,13 +10,13 @@ ad_page_contract {
     @cvs-id $Id$
 
 } {
-    {task_id:integer,optional ""}
-    {task_item_id:integer,optional ""}
+    {task_id:naturalnum,optional ""}
+    {task_item_id:naturalnum,optional ""}
     {show_portrait_p ""}
     {orderby_wa:optional}
     {orderby_na:optional}
     {orderby:optional}
-    {grade_id ""}
+    {grade_id:naturalnum ""}
     {class "list"}
     {bulk_actions ""}
 } -validate {

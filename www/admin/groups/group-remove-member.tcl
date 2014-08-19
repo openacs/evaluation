@@ -7,9 +7,9 @@ ad_page_contract {
 	@creation-date Mar 2004
 	@cvs-id $Id$
 } {
-	rel_id:integer,notnull
-	task_id:integer,notnull
-	evaluation_group_id:integer,notnull
+	rel_id:naturalnum,notnull
+	task_id:naturalnum,notnull
+	evaluation_group_id:naturalnum,notnull
 }
 
 db_exec_plsql delete_relationship { *SQL* }		

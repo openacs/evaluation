@@ -8,7 +8,7 @@ ad_page_contract {
     @cvs-id $Id$
 
 } {
-    grade_id:integer,notnull
+    grade_id:naturalnum,notnull
     {set_task_id_live:optional ""}
 } 
 

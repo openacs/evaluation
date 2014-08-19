@@ -7,7 +7,7 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 } { 
-    task_id:integer,notnull
+    task_id:naturalnum,notnull
     max_grade:integer,notnull
     item_ids:array,integer,optional
     item_to_edit_ids:array,integer,optional

@@ -9,8 +9,8 @@ ad_page_contract {
     @cvs-id $Id$
 
 } {
-	evaluation_id:integer,notnull
-	task_id:integer,notnull
+	evaluation_id:naturalnum,notnull
+	task_id:naturalnum,notnull
 }
 
 set page_title "[_ evaluation.Delete_Evaluation_]"

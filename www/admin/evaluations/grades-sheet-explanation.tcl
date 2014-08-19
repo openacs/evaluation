@@ -7,7 +7,7 @@ ad_page_contract {
     @cvs-id $Id$
 
 } {
-	task_id:integer,notnull
+	task_id:naturalnum,notnull
 }
 
 set page_title "[_ evaluation.lt_Grades_Sheet_Explanat]"

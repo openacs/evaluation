@@ -9,7 +9,7 @@ ad_page_contract {
     @cvs-id $Id$
 
 } {
-	grade_id:integer,notnull
+	grade_id:naturalnum,notnull
 	{return_url "index"}
 }
 

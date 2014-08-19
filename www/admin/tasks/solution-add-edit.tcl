@@ -8,13 +8,13 @@ ad_page_contract {
 
     @cvs-id $Id$
 } {
-    task_id:integer,notnull
-    solution_id:integer,notnull,optional
-    item_id:integer,notnull,optional
+    task_id:naturalnum,notnull
+    solution_id:naturalnum,notnull,optional
+    item_id:naturalnum,notnull,optional
     upload_file:trim,optional
     upload_file.tmpfile:tmpfile,optional
     {solution_mode "edit"}
-    grade_id:integer,notnull
+    grade_id:naturalnum,notnull
     return_url
     {attached_p "f"}
 }

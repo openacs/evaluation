@@ -10,7 +10,7 @@ ad_page_contract {
 
 } {
 	{orderby ""}
-	grade_id:integer,notnull
+	grade_id:naturalnum,notnull
 } -validate {
 	tasks_for_grade {
 		if {[db_string get_tasks { *SQL* }] eq "0"} {

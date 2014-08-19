@@ -1,8 +1,8 @@
 ad_page_contract {
 } {
-    grade_id:integer
-    task_id:integer
-    {answer_id ""}
+    grade_id:naturalnum,notnull
+    task_id:naturalnum,notnull
+    {answer_id:naturalnum ""}
 } 
 
 set user_id [ad_conn user_id]

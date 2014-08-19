@@ -7,7 +7,7 @@ ad_page_contract {
 	@creation-date Mar 2004
 	@cvs-id $Id$
 } {
-	task_id:integer,notnull
+	task_id:naturalnum,notnull
 	{orderby:optional}
 	{orderby_groups:optional}
 	{return_url ""}

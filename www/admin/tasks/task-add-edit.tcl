@@ -7,9 +7,9 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 } {
-    grade_id:integer,notnull
-    task_id:integer,notnull,optional
-    item_id:integer,notnull,optional
+    grade_id:naturalnum,notnull
+    task_id:naturalnum,notnull,optional
+    item_id:naturalnum,notnull,optional
     upload_file:trim,optional
     upload_file.tmpfile:tmpfile,optional
     {mode "edit"}

@@ -3,7 +3,7 @@
 ad_page_contract { 
     Bulk edit a set tasks
 } { 
-    grade_id:integer,notnull
+    grade_id:naturalnum,notnull
     {equal_grade 0}
     {grade_sum 0}
     {diff 0}

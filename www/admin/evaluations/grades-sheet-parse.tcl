@@ -10,8 +10,8 @@ ad_page_contract {
 } { 
     upload_file:notnull 
     upload_file.tmpfile:notnull
-    task_id:integer,notnull
-    grades_sheet_item_id:integer,notnull
+    task_id:naturalnum,notnull
+    grades_sheet_item_id:naturalnum,notnull
 } -validate { 
     csv_type_p -requires { upload_file } {
 	if { [info exists upload_file] } {

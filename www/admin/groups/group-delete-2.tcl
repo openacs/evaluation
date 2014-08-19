@@ -7,8 +7,8 @@ ad_page_contract {
 	@creation-date Mar 2004
 	@cvs-id $Id$
 } {
-	evaluation_group_id:integer
-	task_id:integer
+	evaluation_group_id:naturalnum,notnull
+	task_id:naturalnum,notnull
 	operation
 	return_url
 }

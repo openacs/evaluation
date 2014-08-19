@@ -7,8 +7,8 @@ ad_page_contract {
 	@creation-date Mar 2004
 	@cvs-id $Id$
 } {
-	student_id:integer,notnull
-	task_id:integer,notnull
+	student_id:naturalnum,notnull
+	task_id:naturalnum,notnull
 	{orderby:optional}
 } -validate {
 	target_exists {

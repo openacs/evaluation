@@ -1,6 +1,6 @@
 ad_page_contract {
 } {
-    grade_id:integer,notnull
+    grade_id:naturalnum,notnull
 }
 
 db_1row grade_info {}

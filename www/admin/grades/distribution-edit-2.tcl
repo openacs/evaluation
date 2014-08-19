@@ -3,7 +3,7 @@
 ad_page_contract { 
     Bulk edit a set tasks
 } { 
-    grade_id:integer,notnull
+    grade_id:naturalnum,notnull
     no_grade:array
     weights:array
     {weight_sum "0"}

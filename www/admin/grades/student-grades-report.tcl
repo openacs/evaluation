@@ -9,7 +9,7 @@ ad_page_contract {
     @cvs-id $Id$
     
 } {
-    student_id:integer,notnull
+    student_id:naturalnum,notnull
     {orderby:optional ""}
 }
 

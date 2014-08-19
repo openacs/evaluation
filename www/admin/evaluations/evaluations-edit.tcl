@@ -7,9 +7,9 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 } {
-    task_id:integer,notnull
+    task_id:naturalnum,notnull
     {return_url "student-list?[export_vars -url { task_id }]"}
-    grade_id:optional
+    grade_id:naturalnum,optional
 } 
 
 set page_title "[_ evaluation.Edit_Evaluations_]"

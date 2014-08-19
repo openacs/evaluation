@@ -7,7 +7,7 @@ ad_page_contract {
     @creation-date Sept 2004
     @cvs-id $Id$
 } {
-    evaluation_id:integer,notnull
+    evaluation_id:naturalnum,notnull
     {return_url ""}
 }
 

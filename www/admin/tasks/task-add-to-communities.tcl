@@ -8,7 +8,7 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     return_url:notnull
-    task_id:integer,notnull
+    task_id:naturalnum,notnull
     communities_packages_ids:array,optional
     item_ids:array,optional
     {redirect_to_groups_p 0}

@@ -7,7 +7,7 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs_id $Id$
 } { 
-    task_id:integer,notnull
+    task_id:naturalnum,notnull
     max_grade:integer,notnull,optional
     item_ids:array,integer,optional
     item_to_edit_ids:array,optional
@@ -28,7 +28,7 @@ ad_page_contract {
     comments_gs:array,optional
     show_student_gs:array,optional
     new_p_gs:array,optional
-    grades_sheet_item_id:integer,optional
+    grades_sheet_item_id:naturalnum,optional
     upload_file:optional
     {tmp_filename:optional ""}
     
