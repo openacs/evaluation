@@ -6,7 +6,7 @@ ad_page_contract {
 
 set package_id [ad_conn package_id]
 set evaluation_id [evaluation_evaluations_portlet::get_package_id_from_key -package_key "evaluation"]
-set user_id [ad_verify_and_get_user_id]
+set user_id [ad_conn user_id]
 set admin_p [permission::permission_p -party_id $user_id -object_id $package_id -privilege admin]
 set simple_p  [parameter::get -parameter "SimpleVersion" -package_id $evaluation_id]
 set base_url "[ad_conn package_url]/"

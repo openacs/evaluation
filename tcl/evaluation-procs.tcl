@@ -1204,7 +1204,7 @@ ad_proc -public evaluation::clone_grade {
     
 } {
     
-    set creation_user [ad_verify_and_get_user_id]
+    set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
     
     set item_name "${content_type}_${item_id}"
