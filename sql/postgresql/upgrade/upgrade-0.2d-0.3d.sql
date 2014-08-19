@@ -4,33 +4,42 @@ comment on column evaluation_tasks.estimated_time is '
        Estimated time to complete the assignment 
 '; 
  
-create or replace function evaluation__new_task (integer, integer, varchar, integer, integer, varchar, numeric, timestamptz, char, char, char, decimal, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar) 
-returns integer as ' 
-declare   
-        p_item_id                       alias for $1; 
-        p_revision_id           alias for $2; 
-        p_task_name             alias for $3; 
-        p_number_of_members alias for $4; 
-        p_grade_item_id         alias for $5; 
-        p_description           alias for $6; 
-        p_weight                        alias for $7; 
-        p_due_date              alias for $8; 
-        p_late_submit_p         alias for $9; 
-        p_online_p              alias for $10; 
-        p_requires_grade_p  alias for $11; 
-        estimated_time          alias for $12; 
-        p_object_type           alias for $13; 
-        p_creation_date         alias for $14; 
-        p_creation_user         alias for $15; 
-        p_creation_ip           alias for $16; 
-        p_title                         alias for $17; -- default null 
-        p_publish_date          alias for $18; 
-        p_nls_language          alias for $19; -- default null 
-        p_mime_type             alias for $20; -- default null 
+
+
+-- added
+select define_function_args('evaluation__new_task','item_id,revision_id,task_name,number_of_members,grade_item_id,description,weight,due_date,late_submit_p,online_p,requires_grade_p,estimated_time,object_type,creation_date,creation_user,creation_ip,title;null,publish_date,nls_language;null,mime_type;null');
+
+--
+-- procedure evaluation__new_task/20
+--
+CREATE OR REPLACE FUNCTION evaluation__new_task(
+   p_item_id integer,
+   p_revision_id integer,
+   p_task_name varchar,
+   p_number_of_members integer,
+   p_grade_item_id integer,
+   p_description varchar,
+   p_weight numeric,
+   p_due_date timestamptz,
+   p_late_submit_p char,
+   p_online_p char,
+   p_requires_grade_p char,
+   estimated_time decimal,
+   p_object_type varchar,
+   p_creation_date timestamptz,
+   p_creation_user integer,
+   p_creation_ip varchar,
+   p_title varchar,        -- default null
+   p_publish_date timestamptz,
+   p_nls_language varchar, -- default null
+   p_mime_type varchar     -- default null
+
+) RETURNS integer AS $$
+DECLARE   
  
         v_revision_id           integer; 
  
-begin 
+BEGIN 
  
     v_revision_id := content_revision__new( 
         p_title,                -- title 
@@ -71,6 +80,7 @@ begin
                         p_requires_grade_p); 
  
         return v_revision_id; 
-end; 
-' language 'plpgsql'; 
+END; 
+
+$$ LANGUAGE plpgsql; 
  

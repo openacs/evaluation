@@ -2,30 +2,39 @@ alter table evaluation_answers add column comment text;
 
 drop function evaluation__new_answer (integer, integer, integer, integer, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar);
 
-create function evaluation__new_answer (integer, integer, integer, integer, varchar, timestamptz, integer, varchar, varchar, timestamptz, varchar, varchar,text)
-returns integer as '
-declare
-	p_item_id			alias for $1;
-	p_revision_id		alias for $2;
-	p_task_item_id		alias for $3;
-    p_party_id  	   	alias for $4;	
-	p_object_type		alias for $5;
-	p_creation_date		alias for $6;
-	p_creation_user 	alias for $7;
-	p_creation_ip		alias for $8;
-	p_title				alias for $9; -- default null
-	p_publish_date		alias for $10;
-	p_nls_language   	alias for $11; -- default null
-	p_mime_type   		alias for $12; -- default null
-	p_comment   		alias for $13; 
+
+
+-- added
+select define_function_args('evaluation__new_answer','item_id,revision_id,task_item_id,party_id,object_type,creation_date,creation_user,creation_ip,title;null,publish_date,nls_language;null,mime_type;null,comment');
+
+--
+-- procedure evaluation__new_answer/13
+--
+CREATE OR REPLACE FUNCTION evaluation__new_answer(
+   p_item_id integer,
+   p_revision_id integer,
+   p_task_item_id integer,
+   p_party_id integer,
+   p_object_type varchar,
+   p_creation_date timestamptz,
+   p_creation_user integer,
+   p_creation_ip varchar,
+   p_title varchar,        -- default null
+   p_publish_date timestamptz,
+   p_nls_language varchar, -- default null
+   p_mime_type varchar,    -- default null
+   p_comment text
+
+) RETURNS integer AS $$
+DECLARE
 
 	v_revision_id		integer;
 
-begin
+BEGIN
 
     v_revision_id := content_revision__new(
         p_title,               	-- title
-		''evaluation answer'',	 	-- description
+		'evaluation answer',	 	-- description
 		p_publish_date,			-- publish_date
 		p_mime_type,			-- mime_type
 		p_nls_language,			-- nls_language
@@ -50,7 +59,8 @@ begin
     		p_party_id,p_comment);
 
 	return v_revision_id;
-end;
-' language 'plpgsql';
+END;
+
+$$ LANGUAGE plpgsql;
 
 

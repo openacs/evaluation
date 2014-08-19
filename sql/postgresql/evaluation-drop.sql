@@ -8,12 +8,13 @@ declare
   del_rec record;
 begin
   for del_rec in select item_id from cr_items 
-	where content_type in (''evaluation_grades'', ''evaluation_tasks'', ''evaluation_tasks_sols'', ''evaluation_answers'', ''evaluation_student_evals'', ''evaluation_grades_sheets'')
+	where content_type in ('evaluation_grades', 'evaluation_tasks', 'evaluation_tasks_sols', 'evaluation_answers', 'evaluation_student_evals', 'evaluation_grades_sheets')
   loop 
     PERFORM content_item__delete(del_rec.item_id);
   end loop;
 return 0;
-end;' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 select inline_0 ();
 drop function inline_0 ();
 
@@ -23,12 +24,13 @@ declare
   del_rec record;
 begin
   for del_rec in select item_id from cr_items 
-	where content_type in (''evaluation_grades'', ''evaluation_tasks'', ''evaluation_tasks_sols'', ''evaluation_answers'', ''evaluation_student_evals'', ''evaluation_grades_sheets'')
+	where content_type in ('evaluation_grades', 'evaluation_tasks', 'evaluation_tasks_sols', 'evaluation_answers', 'evaluation_student_evals', 'evaluation_grades_sheets')
   loop 
     PERFORM content_item__delete(del_rec.item_id);
   end loop;
 return 0;
-end;' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 select inline_0 ();
 drop function inline_0 ();
 
@@ -51,16 +53,17 @@ select acs_rel_type__drop_type('evaluation_task_group_rel','t');
 create function inline_1 ()
 returns integer as'
 begin
-PERFORM acs_object_type__drop_type(''evaluation_grades'',''f'');
-PERFORM acs_object_type__drop_type(''evaluation_tasks'',''f'');
-PERFORM acs_object_type__drop_type(''evaluation_tasks_sols'',''f'');
-PERFORM acs_object_type__drop_type(''evaluation_answers'',''f'');
-PERFORM acs_object_type__drop_type(''evaluation_grades_sheets'',''f'');
-PERFORM acs_object_type__drop_type(''evaluation_student_evals'',''f'');
-PERFORM acs_object_type__drop_type(''evaluation_task_groups'',''f'');
+PERFORM acs_object_type__drop_type('evaluation_grades','f');
+PERFORM acs_object_type__drop_type('evaluation_tasks','f');
+PERFORM acs_object_type__drop_type('evaluation_tasks_sols','f');
+PERFORM acs_object_type__drop_type('evaluation_answers','f');
+PERFORM acs_object_type__drop_type('evaluation_grades_sheets','f');
+PERFORM acs_object_type__drop_type('evaluation_student_evals','f');
+PERFORM acs_object_type__drop_type('evaluation_task_groups','f');
 
 return 0;
-end;' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 select inline_1 ();
 drop function inline_1 ();
 

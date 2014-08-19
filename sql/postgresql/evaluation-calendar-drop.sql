@@ -1,12 +1,18 @@
 
 
 -- deleting calendar mappings
-create function inline_0 ()
-returns integer as '
-declare
+
+
+--
+-- procedure inline_0/0
+--
+CREATE OR REPLACE FUNCTION inline_0(
+
+) RETURNS integer AS $$
+DECLARE
     v_cal_item_cursor RECORD;
         
-begin
+BEGIN
 
     FOR v_cal_item_cursor IN
         select map.cal_item_id
@@ -19,8 +25,9 @@ begin
     END LOOP;
 
     return 0;
-end;
-' language 'plpgsql';
+END;
+
+$$ LANGUAGE plpgsql;
 
 
 select inline_0 ();
