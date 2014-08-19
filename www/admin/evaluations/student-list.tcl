@@ -21,7 +21,7 @@ ad_page_contract {
     {bulk_actions ""}
 } -validate {
     empty_task_id_and_task_item_id {
-	if { [empty_string_p $task_id] && [empty_string_p $task_item_id] } {
+	if { $task_id eq "" && $task_item_id eq "" } {
 	    ad_complain "[_ evaluation.lt_There_must_be_a_task_]"
 	}
     }
@@ -34,7 +34,7 @@ if { $simple_p } {
 
 set user_id [ad_conn user_id]
 
-if { [empty_string_p $task_id] } {
+if { $task_id eq "" } {
     db_1row get_task_live_revision {select et.task_id from evaluation_tasks et, cr_items cri where et.task_id = cri.live_revision and et.task_item_id = :task_item_id}
 }
 
@@ -48,7 +48,7 @@ set max_grade $perfect_score
 set page_title "[_ evaluation.lt_Students_List_for_tas]"
 set context [list "[_ evaluation.lt_Students_List_for_tas]"]
 
-if { [string eq $show_portrait_p "t"] } {
+if {$show_portrait_p == "t"} {
     set this_url "student-list?[export_vars -entire_form -url { { show_portrait_p f } }]"
 } else {
     set this_url "student-list?[export_vars -entire_form -url { { show_portrait_p t } }]"
@@ -70,7 +70,7 @@ set evaluation_mode "display"
 
 set roles_table ""
 set roles_clause ""
-if { ![empty_string_p $community_id] && $number_of_members == 1 } {
+if { $community_id ne "" && $number_of_members == 1 } {
     set roles_table [db_map roles_table_query]
     set roles_clause [db_map roles_clause_query]
 }
@@ -98,7 +98,7 @@ set elements [list count \
 		       link_html { title "[_ evaluation.View_evaluation_]" } \
 		      ] \
 		 ]
-if { [string eq $online_p "t"] } {
+if {$online_p == "t"} {
     lappend elements submitted \
 	[list label "[_ evaluation.submitted]" \
 	     display_template { @evaluated_students.submission_date_pretty;noquote@ }]
@@ -165,7 +165,7 @@ template::list::create \
 
 set orderby [template::list::orderby_clause -orderby -name evaluated_students]
 
-if {[string equal $orderby ""]} {
+if {$orderby eq ""} {
     set orderby " order by party_name asc"
 } 
 
@@ -182,12 +182,12 @@ db_multirow -extend { action action_url submission_date_pretty count points} eva
     
 
     
-    if { [string eq $online_p "t"] } {
+    if {$online_p == "t"} {
 	if { [db_0or1row get_answer_info { *SQL* }] } {
 	    # working with answer stuff (if it has a file/url attached)
-	    if { [empty_string_p $answer_data] } {
+	    if { $answer_data eq "" } {
 		set action "[_ evaluation.No_response_]"
-	    } elseif { [string eq $answer_title "link"] } {
+	    } elseif {$answer_title eq "link"} {
 		set action_url "[export_vars -base "$answer_data" { }]"
 		set action "[_ evaluation.View_answer_]"
 	    } else {
@@ -196,7 +196,7 @@ db_multirow -extend { action action_url submission_date_pretty count points} eva
 		set action "<a href=\"$action_url\">[_ evaluation.View_answer_]</a>"
 	    }
 
-	    if { [string eq $action "[_ evaluation.View_answer_]"] && ([db_string compare_evaluation_date { *SQL* } -default 0] ) } {
+	    if { $action eq "[_ evaluation.View_answer_]" && ([db_string compare_evaluation_date { *SQL* } -default 0] ) } {
 		set action "<a href=\"$action_url\"><span style=\"color:red;\"> [_ evaluation.View_NEW_answer_]</span></a>"
 	    }
 	    set submission_date_pretty [lc_time_fmt $submission_date_ansi "%q %r"]
@@ -208,7 +208,7 @@ db_multirow -extend { action action_url submission_date_pretty count points} eva
 
 	}
     }
-    if {[string eq $forums_related_p "t"]} {
+    if {$forums_related_p == "t"} {
 
 	set action_url [export_vars -base "../../../forums/user-history" {{user_id $party_id} {view "forum"}}]
 	set action "<a href=\"$action_url\">[_ evaluation.view_post]</a>"
@@ -236,7 +236,7 @@ set elements [list party_name \
 		      ] \
 		 ]
 
-if { [string eq $show_portrait_p "t"] && [string eq $number_of_members "1"] } {
+if { $show_portrait_p == "t" && $number_of_members eq "1" } {
     lappend elements portrait \
 	[list label "[_ evaluation.Students_Portrait_]" \
 	     display_template { @not_evaluated_wa.portrait;noquote@ }
@@ -278,7 +278,7 @@ template::list::create \
 
 set orderby_wa [template::list::orderby_clause -orderby -name not_evaluated_wa]
 
-if { [string equal $orderby_wa ""] } {
+if {$orderby_wa eq ""} {
     set orderby_wa " order by party_name asc"
 }
 
@@ -304,13 +304,13 @@ db_multirow -extend { party_url answer answer_url submission_date_pretty portrai
     set answer "[_ evaluation.View_answer_]"
     }
     # working with answer stuff (if it has a file/url attached)
-    if { [string eq $answer_title "link"] } {
+    if {$answer_title eq "link"} {
 	set answer_url [export_vars -base "$answer_data" { }]
     } else {
 	# we assume it's a file
 	set answer_url [export_vars -base "../../view/$answer_title" { revision_id }]
     }
-    if {[string eq $forums_related_p "t"]} {
+    if {$forums_related_p == "t"} {
 	set answer "[_ evaluation.view_post]"
 	set answer_url [export_vars -base "../../../forums/user-history" {{user_id $party_id} {view "forum"}}]
     }
@@ -329,13 +329,13 @@ set elements [list party_name \
 		      ] \
 		 ]
 
-if { [string eq $show_portrait_p "t"] && [string eq $number_of_members "1"] } {
+if { $show_portrait_p == "t" && $number_of_members eq "1" } {
     lappend elements portrait \
 	[list label "[_ evaluation.Students_Portrait_]" \
 	     display_template { @not_evaluated_na.portrait;noquote@ }
 	]
 } 
-if {[string eq $forums_related_p "t"] && $number_of_members <= 1} {
+if {$forums_related_p == "t" && $number_of_members <= 1} {
     lappend elements  answer \
 	[list label "[_ evaluation.answer]" \
 	     display_template {<a href="../../../forums/user-history?user_id=@not_evaluated_na.party_id@&view=forum">[_ evaluation.view_post]</a>}
@@ -367,7 +367,7 @@ template::list::create \
 
 set orderby_na [template::list::orderby_clause -orderby -name not_evaluated_na]
 
-if { [string equal $orderby_na ""] } {
+if {$orderby_na eq ""} {
     set orderby_na " order by party_name asc"
 }
 
@@ -387,7 +387,7 @@ if { $number_of_members > 1 } {
 
     # if this page is called from within a community (dotlrn) we have to show only the students
 
-    if { [empty_string_p $community_id] } {
+    if { $community_id eq "" } {
 	set sql_query [db_map sql_query_individual]
     } else {
 	set sql_query [db_map sql_query_community_individual]
@@ -429,13 +429,13 @@ set elements [list party_name \
 		      ] \
 		 ]
 
-if { [string eq $show_portrait_p "t"] && [string eq $number_of_members "1"] } {
+if { $show_portrait_p == "t" && $number_of_members eq "1" } {
     lappend elements portrait \
 	[list label "[_ evaluation.Students_Portrait_]" \
 	     display_template { @class_students.portrait;noquote@ }
 	]
 } 
-if {[string eq $forums_related_p "t"] && $number_of_members <= 1} {
+if {$forums_related_p == "t" && $number_of_members <= 1} {
     lappend elements  answer \
 	[list label "[_ evaluation.answer]" \
 	     display_template {<a href="../../../forums/user-history?user_id=@class_students.party_id@&view=forum">[_ evaluation.view_post]</a>}
@@ -467,7 +467,7 @@ template::list::create \
 
 set orderby_cs [template::list::orderby_clause -orderby -name class_students]
 
-if { [string equal $orderby_cs ""] } {
+if {$orderby_cs eq ""} {
     set orderby_cs " order by party_name asc"
 }
 
@@ -487,7 +487,7 @@ if { $number_of_members > 1 } {
 
     # if this page is called from within a community (dotlrn) we have to show only the students
 
-    if { [empty_string_p $community_id] } {
+    if { $community_id eq "" } {
 	set sql_query [db_map sql_query_individual]
     } else {
 	set sql_query [db_map sql_query_community_individual]

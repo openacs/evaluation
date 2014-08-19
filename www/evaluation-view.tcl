@@ -41,9 +41,9 @@ set task_weight [lc_numeric %.2f $task_weight]
 set grade_weight [lc_numeric %.2f $grade_weight]
 set net_grade [lc_numeric %.2f $net_grade]
 
-if { ![empty_string_p $answer_data] } {
+if { $answer_data ne "" } {
     
-    if { [string eq $answer_title "link"] } {
+    if {$answer_title eq "link"} {
  	set answer_url "<a href=\"$answer_data\">$answer_data</a>"
     } else {
 	# we assume it's a file

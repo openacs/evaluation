@@ -88,7 +88,7 @@ template::list::create \
 
 set assignments_orderby [template::list::orderby_clause -orderby -name $list_name]
 
-if {[string equal $assignments_orderby ""]} {
+if {$assignments_orderby eq ""} {
     set assignments_orderby " order by task_name asc"
 }
 
@@ -99,10 +99,10 @@ if { $admin_p } {
         set due_date_pretty [lc_time_fmt $due_date_ansi "%q %X"]
 
         # working with task stuff (if it has a file/url attached)
-        if { [empty_string_p $task_data] } {
+        if { $task_data eq "" } {
             set task_url "[export_vars -base "${base_url}task-view" { grade_id task_id return_url }]"
             set task_name "[_ evaluation-portlet.task_name_No_data_]"
-        } elseif { [string eq $task_title "link"] } {
+        } elseif {$task_title eq "link"} {
 
             # there is a bug in the template::list, if the url does not has a http://, ftp://, the url is not absolute,
             # so we have to deal with this case
@@ -129,7 +129,7 @@ if { $admin_p } {
             set solution "[_ evaluation-portlet.Upload_Solution_]"
         }
 
-        if { ![string eq $number_of_members 1] } {
+        if { $number_of_members ne "1" } {
             set groups_admin_url "[export_vars -base "${base_url}admin/groups/one-task" { grade_id task_id }]"
             set groups_admin "[_ evaluation-portlet.Groups_Admin_]"     
         }
@@ -141,10 +141,10 @@ if { $admin_p } {
         set answer_mode display
         set due_date_pretty [lc_time_fmt $due_date_ansi "%q %r"]
         # working with task stuff (if it has a file/url attached)
-        if { [empty_string_p $task_data] } {
+        if { $task_data eq "" } {
             set task_url "[export_vars -base "${base_url}task-view" { grade_id task_id return_url }]"
             set task_name "[_ evaluation-portlet.task_name_No_data_]"
-        } elseif { [string eq $task_title "link"] } {
+        } elseif {$task_title eq "link"} {
 
             # there is a bug in the template::list, if the url does not has a http://, ftp://, the url is not absolute,
             # so we have to deal with this case
@@ -161,7 +161,7 @@ if { $admin_p } {
             set task_name "$task_name ([lc_numeric $content_length] Kb - ${pretty_mime_type})"
         }
 
-        if { [string eq $online_p "t"] } {
+        if {$online_p == "t"} {
             if { [db_string compare_due_date { *SQL* } -default 0] } {
                 if { ![db_0or1row answer_info { *SQL* }] } {
                     set answer "[_ evaluation-portlet.submit_answer_]"
@@ -172,7 +172,7 @@ if { $admin_p } {
                     set answer_mode display
                     set answer_url "[export_vars -base "${base_url}answer-add-edit" { grade_id task_id answer_id return_url answer_mode }]"
                 }
-            } elseif { [string eq $late_submit_p "t"] } {
+            } elseif {$late_submit_p == "t"} {
                 if { ![db_0or1row answer_info { *SQL* }] } {
                     set answer "[_ evaluation.lt_Submit_answer_span_st]"
                     set answer_mode edit
@@ -183,7 +183,7 @@ if { $admin_p } {
                     set answer_url "[export_vars -base "${base_url}answer-add-edit" { grade_id task_id answer_id return_url answer_mode }]"
                 }
             }
-            if { $number_of_members > 1 && [string eq [db_string get_group_id { *SQL* }] 0] } {
+            if { $number_of_members > 1 && [string equal [db_string get_group_id { *SQL* }] "0"] } {
                 set answer "[_ evaluation-portlet.No_group_for_task_]"
                 set answer_url ""
             }

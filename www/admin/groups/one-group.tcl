@@ -47,7 +47,7 @@ template::list::create \
 
 set orderby [template::list::orderby_clause -orderby -name one_group]
 
-if { [string equal $orderby ""] } {
+if {$orderby eq ""} {
     set orderby " order by student_name asc"
 }
 

@@ -32,7 +32,7 @@ set simple_p [parameter::get -parameter SimpleVersion ]
 
 
 set more_communities_option 0
-if { $new_p && ![empty_string_p $community_id] && [db_string get_user_comunities { *SQL* }] } {
+if { $new_p && $community_id ne "" && [db_string get_user_comunities { *SQL* }] } {
     set more_communities_option 1
 }
 
@@ -83,8 +83,8 @@ if { !$new_p } {
 
     db_1row get_task_info { *SQL* }
     
-    if { ![string eq $title "link"] && $content_length > 0 } {
-	if { [string eq $mode "edit"] } {
+    if { $title ne "link" && $content_length > 0 } {
+	if {$mode eq "edit"} {
 	    set attached_p "t"
 	    ad_form -extend -name task -form {			
 		{upload_file:file,optional
@@ -115,9 +115,9 @@ if { !$new_p } {
 		}			
 	    }
 	}
-    } elseif { [string eq $title "link"] } {
+    } elseif {$title eq "link"} {
 
-	if { [string eq $mode "edit"] } {
+	if {$mode eq "edit"} {
 
 	    set attached_p "t"
 	    
@@ -323,12 +323,12 @@ ad_form -extend -name task -form {
 } -edit_request {
     
     db_1row task_info { *SQL* }
-    if {[string eq $online_p t]} {
+    if {$online_p == "t"} {
 	set answer_choice "ol"
     } else {
 	set answer_choice "ns"
     }
-    if {[string eq $forums_related_p t]} {
+    if {$forums_related_p == "t"} {
 	set answer_choice "fr"
     }
     
@@ -339,23 +339,23 @@ ad_form -extend -name task -form {
     
 } -validate {
     {url
-	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || ([string eq $url "http://"] && [empty_string_p $upload_file]) || (![string eq $url "http://"] && [util_url_valid_p $url]) }
+	{ ($url eq "http://" && $upload_file ne "") || ($url ne "http://" && $upload_file eq "") || ($url eq "http://" && $upload_file eq "") || ($url ne "http://" && [util_url_valid_p $url]) }
 	{[_ evaluation.lt_Upload_a_file_OR_a_ur_1] }
     }
     {upload_file
-	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || ([string eq $url "http://"] && [empty_string_p $upload_file]) }
+	{ ($url eq "http://" && $upload_file ne "") || ($url ne "http://" && $upload_file eq "") || ($url eq "http://" && $upload_file eq "") }
 	{ [_ evaluation.lt_Upload_a_file_OR_a_ur_1] }
     }
     {unattach_p 
-	{ ([string eq $unattach_p "t"] && [empty_string_p $upload_file] && [string eq $url "http://"]) || [empty_string_p $unattach_p] }
+	{ ($unattach_p == "t" && $upload_file eq "" && $url eq "http://") || $unattach_p eq "" }
 	{ [_ evaluation.lt_First_unattach_the_fi] }
     }
     {net_value 
-	{ !$net_value || ([empty_string_p $net_value] && [string eq $requires_grade_p f]) || (($net_value > 0) && ($net_value <= $grade_weight) && (!$weight || [empty_string_p $weight])) }
+	{ !$net_value || ($net_value eq "" && $requires_grade_p == "f") || (($net_value > 0) && ($net_value <= $grade_weight) && (!$weight || $weight eq "")) }
 	{ [_ evaluation.lt_The_net_value_must_be] }
     }
     {weight
-	{ !$weight || ([empty_string_p $weight] && [string eq $requires_grade_p f]) || (($weight > 0) && (!$net_value || [empty_string_p $net_value])) }
+	{ !$weight || ($weight eq "" && $requires_grade_p == "f") || (($weight > 0) && (!$net_value || $net_value eq "")) }
 	{ [_ evaluation.lt_The_weight_must_be_gr] }
     }
     {number_of_members
@@ -376,9 +376,9 @@ ad_form -extend -name task -form {
     
 } -on_submit {
     
-    if { [string eq $requires_grade_p t] } {
+    if {$requires_grade_p == "t"} {
 	if { [info exists net_value] && ($net_value > 0) } {
-	    set weight [expr $net_value*100.000/$grade_weight]
+	    set weight [expr {$net_value*100.000/$grade_weight}]
 	}
     } else {
 	set weight 0
@@ -388,18 +388,18 @@ ad_form -extend -name task -form {
     set forums_related_p "f"
     set online_p "f"
     
-    if {[string eq $answer_choice "ol"]} {
+    if {$answer_choice eq "ol"} {
 	set online_p "t"
     }
     
-    if {[string eq $answer_choice "fr"]} {
+    if {$answer_choice eq "fr"} {
 	set forums_related_p "t"
     } 
     
     
     db_transaction {
 		
-	if { ![empty_string_p $upload_file] } {
+	if { $upload_file ne "" } {
 	    
 	    # Get the filename part of the upload file
 	    if { ![regexp {[^//\\]+$} $upload_file filename] } {
@@ -413,10 +413,10 @@ ad_form -extend -name task -form {
 	    if { ![parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
 		set storage_type file
 	    }
-	} elseif { ![string eq $url "http://"] } {
+	} elseif { $url ne "http://" } {
 	    set mime_type "text/plain"
 	    set title "link"
-	} elseif { [string eq $attached_p "f"] } {
+	} elseif {$attached_p == "f"} {
 	    set mime_type "text/plain"
 	    set title ""
 	}
@@ -426,7 +426,7 @@ ad_form -extend -name task -form {
 	set cal_due_date [calendar::to_sql_datetime -date $due_date -time $due_date -time_p 1]
 	set due_date_ansi [db_string set_date " *SQL* "]
 	
-	if { [string equal $cal_due_date  "-- :"]} {
+	if {$cal_due_date eq "-- :"} {
 	    set due_date_p 0
 	    set due_date ""
 	}
@@ -466,7 +466,7 @@ ad_form -extend -name task -form {
 	db_dml lob_size { *SQL* }
 
 
-	if { ![empty_string_p $upload_file] }  {
+	if { $upload_file ne "" }  {
 	    set tmp_file [template::util::file::get_property tmp_filename $upload_file]
 	    set content_length [file size $tmp_file]
 	    
@@ -483,7 +483,7 @@ ad_form -extend -name task -form {
 		
 	    }
 	    
-	} elseif { ![string eq $url "http://"] } {
+	} elseif { $url ne "http://" } {
 	    
 	    db_dml link_content { *SQL* }
 	    # in order to support oracle and postgres and still using only the cr_items table to store the task
@@ -491,7 +491,7 @@ ad_form -extend -name task -form {
 	    set content_length [string length $url]
 	    db_dml content_size { *SQL* }
 
-	} elseif { [string eq $attached_p "t"] && ![string eq $unattach_p "t"] } {
+	} elseif { $attached_p == "t" && $unattach_p != "t" } {
 	    
 	    # just copy the old content to the new revision
 	    db_exec_plsql copy_content { *SQL* }
@@ -547,7 +547,7 @@ ad_form -extend -name task -form {
     if { [info exists admin_groups_p] && $number_of_members > 1 } {
 	set redirect_to_groups_p 1
     }
-    if { ![empty_string_p $add_to_more_classes_p] } {
+    if { $add_to_more_classes_p ne "" } {
 	ad_returnredirect [export_vars -base "task-add-to-communities" { redirect_to_groups_p {task_id $revision_id} return_url }]
     } elseif { $redirect_to_groups_p } {
 	ad_returnredirect [export_vars -base "../groups/one-task" { {task_id $revision_id} }]

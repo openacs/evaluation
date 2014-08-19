@@ -61,7 +61,7 @@ template::list::create \
 
 set orderby [template::list::orderby_clause -orderby -name grades_sheets]
 
-if {[string equal $orderby ""]} {
+if {$orderby eq ""} {
     set orderby " order by grades_sheet_name asc"
 }
 

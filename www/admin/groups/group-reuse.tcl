@@ -39,7 +39,7 @@ template::list::create \
 	
 set orderby [template::list::orderby_clause -orderby -name groups]
 	
-if { [string equal $orderby ""] } {
+if {$orderby eq ""} {
 	set orderby " order by et.task_name asc"
 }
 

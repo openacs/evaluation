@@ -12,7 +12,7 @@ ad_page_contract {
 	{orderby:optional}
 } -validate {
 	target_exists {
-		if { [string eq "select count(group_id) from evaluation_task_groups where task_id = :task_id" 0] } {
+		if { [string equal "select count(group_id) from evaluation_task_groups where task_id = :task_id" 0] } {
 			ad_complain "[_ evaluation.lt_There_are_no_groups_f]"
 		}
 	}
@@ -45,7 +45,7 @@ template::list::create \
 
 set orderby [template::list::orderby_clause -orderby -name evaluation_groups]
 
-if { [string equal $orderby ""] } {
+if {$orderby eq ""} {
     set orderby " order by group_name asc"
 }
 

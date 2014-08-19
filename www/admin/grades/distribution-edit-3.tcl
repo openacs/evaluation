@@ -15,15 +15,15 @@ set tasks_counter [llength $tasks]
 set i 0
 
 if { $tasks_counter > 0} {
-    set equal_grade [format %0.2f [expr 100.00/$tasks_counter]]
+    set equal_grade [format %0.2f [expr {100.00/$tasks_counter}]]
 }
 
 
 foreach task $tasks { 
     incr i
-    set grade_sum [expr $grade_sum + $equal_grade]
-    if { [string equal $tasks_counter $i] } {
-	set diff [expr 100-$grade_sum]
+    set grade_sum [expr {$grade_sum + $equal_grade}]
+    if {$tasks_counter eq $i} {
+	set diff [expr {100-$grade_sum}]
     }
     set aweight [format %0.2f [expr ($equal_grade + $diff)]]
     set apoints [format %0.2f [expr ($aweight*$grade_weight)/100.0]]

@@ -33,9 +33,9 @@ ad_form -name task -has_submit 1 -has_edit 1 -export { return_url item_id storag
 }
 db_1row get_task_info { *SQL* }
 
-if { ![empty_string_p $task_data] } {
+if { $task_data ne "" } {
 
-    if { [string eq $task_title "link"] } {
+    if {$task_title eq "link"} {
  	set task_url "<a href=\"$task_data\">$task_data</a>"
     } else {
 	# we assume it's a file
@@ -51,9 +51,9 @@ if { ![empty_string_p $task_data] } {
     }
 }
 
-if { ![empty_string_p $solution_data] } {
+if { $solution_data ne "" } {
 
-    if { [string eq $solution_title "link"] } {
+    if {$solution_title eq "link"} {
 	# there is a bug in the template::list, if the url does not has a http://, ftp://, the url is not absolute,
 	# so we have to deal with this case
 	array set community_info [site_node::get -url "[dotlrn_community::get_community_url [dotlrn_community::get_community_id]][evaluation::package_key]"]

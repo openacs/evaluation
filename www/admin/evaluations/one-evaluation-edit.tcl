@@ -18,7 +18,7 @@ set page_title "[_ evaluation.ViewEdit_Evaluation_]"
 
 set context [list [list [export_vars -base student-list { task_id }] "[_ evaluation.Students_List_]"] $page_title]
 
-if { [ad_form_new_p -key evaluation_id] || [string eq $evaluation_mode "display"] } {
+if { [ad_form_new_p -key evaluation_id] || $evaluation_mode eq "display" } {
 	set comment_label "[_ evaluation.Comments_]"
 } else {
 	set comment_label "[_ evaluation.Edit_Reason_]"

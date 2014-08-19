@@ -14,7 +14,7 @@ ad_page_contract {
 
 db_exec_plsql delete_relationship { *SQL* }		
 
-if { [string eq [db_string get_members { *SQL* }] 0] } {
+if {[db_string get_members { *SQL* }] eq "0"} {
     db_exec_plsql delete_group { *SQL* }
     ad_returnredirect "one-task?[export_vars -url { task_id }]"
 }

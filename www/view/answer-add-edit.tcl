@@ -17,7 +17,7 @@ ad_page_contract {
     {comment ""}
 } -validate {
     late_submit -requires { task_id:integer } {
-	if { [string eq [db_string late_turn_in { *SQL* }] "f"] && [db_string compare_dates { *SQL* } -default 0] } {
+	if { [string equal [db_string late_turn_in { *SQL* }] "f"] && [db_string compare_dates { *SQL* } -default 0] } {
 	    ad_complain "[_ evaluation.lt_This_task_can_not_be_]"
 	}
     }
@@ -74,11 +74,11 @@ ad_form -extend -name answer -form {
 
 } -validate {
     {url
-	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || (![string eq $url "http://"] && [util_url_valid_p $url]) }
+	{ ($url eq "http://" && $upload_file ne "") || ($url ne "http://" && $upload_file eq "") || ($url ne "http://" && [util_url_valid_p $url]) }
 	{ [_ evaluation.lt_Upload_a_file_OR_a_va] }
     }
     {upload_file
-	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) }
+	{ ($url eq "http://" && $upload_file ne "") || ($url ne "http://" && $upload_file eq "") }
 	{ [_ evaluation.lt_Upload_a_file_OR_a_ur] }
     }
 } -on_submit {
@@ -89,7 +89,7 @@ ad_form -extend -name answer -form {
 		set title ""
 		# set storage_type to its default value according to a db constraint
 		set storage_type "lob"
-		if { ![empty_string_p $upload_file] } {
+		if { $upload_file ne "" } {
 			
 			# Get the filename part of the upload file
 			if { ![regexp {[^//\\]+$} $upload_file filename] } {
@@ -103,7 +103,7 @@ ad_form -extend -name answer -form {
 			if { ![parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
 			    set storage_type file
 			}
-		}  elseif { ![string eq $url "http://"] } {
+		}  elseif { $url ne "http://" } {
 			set mime_type "text/plain"
 			set title "link"
 		}
@@ -126,7 +126,7 @@ ad_form -extend -name answer -form {
 		
 		content::item::set_live_revision -revision_id $revision_id
 
-		if { ![empty_string_p $upload_file] }  {
+		if { $upload_file ne "" }  {
 
 			set tmp_file [template::util::file::get_property tmp_filename $upload_file]
 			set content_length [file size $tmp_file]
@@ -148,7 +148,7 @@ ad_form -extend -name answer -form {
 
 			}
 
-		} elseif { ![string eq $url "http://"] } {
+		} elseif { $url ne "http://" } {
 			
 			db_dml link_content { *SQL* }
 			set content_length 0

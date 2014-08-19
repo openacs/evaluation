@@ -25,7 +25,7 @@ set total 0
 set a_label [_ evaluation.total_of_course]
 set actions "<a href=[export_vars -base "grades-add-edit" { }] class=\"tlmidnav\"><img src=\"/resources/evaluation/cross.gif\" width=\"10\" height=\"9\" hspace=\"5\" vspace=\"1\" style=\"border:0px\" alt=\"\" align=\"absmiddle\">[_ evaluation.Add_assignment_type_]</a>"
 
-if { ![empty_string_p $set_grade_id_live] } {
+if { $set_grade_id_live ne "" } {
     evaluation::set_live_grade -grade_item_id $set_grade_id_live
 }
 
@@ -98,18 +98,18 @@ template::list::create \
 
 set orderby [template::list::orderby_clause -orderby -name grades]
 
-if {[string equal $orderby ""]} {
+if {$orderby eq ""} {
     set orderby " order by grade_plural_name asc"
 }
 
 
 db_multirow  -extend { delete_template } grades  get_class_grades { *SQL* } {
     if { $simple_p } {
-	if { ![empty_string_p $live_revision] } {	
-	  set total [expr $total + $weight]
+	if { $live_revision ne "" } {	
+	  set total [expr {$total + $weight}]
         }
     }
-    if { [empty_string_p $live_revision] } {
+    if { $live_revision eq "" } {
 	set delete_template "<span style=\"font-style: italic; color: red; font-size: 9pt;\">[_ evaluation.Deleted]</span> <a href=[export_vars -base "grades" { {set_grade_id_live $item_id} }]>[_ evaluation.make_it_live]</a>"
     } elseif { $simple_p } {
 	set delete_template "<a href=\"[export_vars -base "grades-delete" { grade_id return_url }]\">[_ evaluation.delete]</a>"

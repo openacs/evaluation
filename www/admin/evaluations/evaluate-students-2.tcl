@@ -36,7 +36,7 @@ ad_page_contract {
     valid_grades_gs {
 	set counter 0
 	foreach party_id [array names grades_gs] {
-	    if { [info exists grades_gs($party_id)] && ![empty_string_p $grades_gs($party_id)] } {
+	    if { [info exists grades_gs($party_id)] && $grades_gs($party_id) ne "" } {
 		incr counter
 		set grades_gs($party_id) [template::util::leadingTrim $grades_gs($party_id)]
 		if { ![ad_var_type_check_number_p $grades_gs($party_id)] } {
@@ -52,7 +52,7 @@ ad_page_contract {
     valid_grades_wa {
 	set counter 0
 	foreach party_id [array names grades_wa] {
-	    if { [info exists grades_wa($party_id)] && ![empty_string_p $grades_wa($party_id)] } {
+	    if { [info exists grades_wa($party_id)] && $grades_wa($party_id) ne "" } {
 		incr counter
 		set grades_wa($party_id) [template::util::leadingTrim $grades_wa($party_id)]
 		if { ![ad_var_type_check_number_p $grades_wa($party_id)] } {
@@ -68,7 +68,7 @@ ad_page_contract {
     valid_grades_na {
 	set counter 0
 	foreach party_id [array names grades_na] {
-	    if { [info exists grades_na($party_id)] && ![empty_string_p $grades_na($party_id)]} {
+	    if { [info exists grades_na($party_id)] && $grades_na($party_id) ne ""} {
 		incr counter
 		set grades_na($party_id) [template::util::leadingTrim $grades_na($party_id)]
 		if { ![ad_var_type_check_number_p $grades_na($party_id)] } {
@@ -84,7 +84,7 @@ ad_page_contract {
     valid_grades {
 	set counter 0
 	foreach party_id [array names grades_to_edit] {
-	    if { [info exists grades_to_edit($party_id)] && ![empty_string_p $grades_to_edit($party_id)] } {
+	    if { [info exists grades_to_edit($party_id)] && $grades_to_edit($party_id) ne "" } {
 		incr counter
 		set grades_to_edit($party_id) [template::util::leadingTrim $grades_to_edit($party_id)]
 		if { ![ad_var_type_check_number_p $grades_to_edit($party_id)] } {
@@ -143,7 +143,7 @@ ad_page_contract {
 
 db_1row task_info { *SQL* }
 
-if { ![empty_string_p $tmp_filename] } {
+if { $tmp_filename ne "" } {
 
     set tmp_filename "${tmp_filename}_grades_sheet"
 
@@ -185,7 +185,7 @@ if { ![empty_string_p $tmp_filename] } {
 		set comments_gs($party_id) [DoubleApos $comments_gs($party_id)]
 	    }
 	    
-	    if { [info exists grades_gs($party_id)] && ![empty_string_p $grades_gs($party_id)] } {
+	    if { [info exists grades_gs($party_id)] && $grades_gs($party_id) ne "" } {
 		set grades_gs($party_id) [expr ($grades_gs($party_id)*$perfect_score)/[format %0.3f $max_grade]]
 		set revision_id [evaluation::new_evaluation -new_item_p $new_p_gs($party_id) \
 							 -item_id $item_ids($party_id) \
@@ -200,7 +200,7 @@ if { ![empty_string_p $tmp_filename] } {
 		
 		content::item::set_live_revision -revision_id $revision_id
 		
-			if { [string eq $new_p_gs($party_id) 0] } {
+			if {$new_p_gs($party_id) eq "0"} {
 				# notify the user if suscribed
 				evaluation::notification::do_notification -task_id $task_id -evaluation_id $revision_id -package_id [ad_conn package_id] -notif_type one_evaluation_notif -subset [list $party_id]
 			}
@@ -218,7 +218,7 @@ db_transaction {
 	    set comments_wa($party_id) [DoubleApos $comments_wa($party_id)]
 	}
 	
-	if { [info exists grades_wa($party_id)] && ![empty_string_p $grades_wa($party_id)] } {
+	if { [info exists grades_wa($party_id)] && $grades_wa($party_id) ne "" } {
 	    # new file?
 	    if { [db_string grades_wa_new { *SQL* }] } {
 		set new_item_p 0
@@ -244,7 +244,7 @@ db_transaction {
 	} else {
 	    set comments_na($party_id) [DoubleApos $comments_na($party_id)]
 	}
-	if { [info exists grades_na($party_id)] && ![empty_string_p $grades_na($party_id)] } {
+	if { [info exists grades_na($party_id)] && $grades_na($party_id) ne "" } {
 	    # new file?
 	    if { [db_string grades_na_new { *SQL* }] } {
 		set new_item_p 0
@@ -265,7 +265,7 @@ db_transaction {
 
 db_transaction {
     foreach party_id [array names grades_to_edit] {
-	if { [info exists grades_to_edit($party_id)] && ![empty_string_p $grades_to_edit($party_id)] } { 
+	if { [info exists grades_to_edit($party_id)] && $grades_to_edit($party_id) ne "" } { 
 	    set grades_to_edit($party_id) [expr ($grades_to_edit($party_id)*100)/[format %0.3f $max_grade]]
 	    set revision_id [evaluation::new_evaluation -new_item_p 0 -item_id $item_to_edit_ids($party_id) -content_type evaluation_student_evals \
 				 -content_table evaluation_student_evals -content_id evaluation_id -description $reasons_to_edit($party_id) \

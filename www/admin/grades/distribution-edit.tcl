@@ -27,7 +27,7 @@ db_1row grade_info { *SQL* }
 set grade_plural_name [lang::util::localize $grade_plural_name]
 set grade_plural_name_up [string toupper $grade_plural_name]
 
-if { ![empty_string_p $set_task_id_live] } {
+if { $set_task_id_live ne "" } {
     evaluation::set_live_task -task_item_id $set_task_id_live
 }
 
@@ -78,7 +78,7 @@ template::list::create \
 
 set orderby [template::list::orderby_clause -orderby -name grades]
 
-if { [string equal $orderby ""] } {
+if {$orderby eq ""} {
     set orderby " order by task_name asc"
 }
 
@@ -88,7 +88,7 @@ db_multirow -extend { radio_yes_checked radio_no_checked delete_template } grade
     
     set task_weight [format  %0.2f $task_weight]
     
-    if { [string eq $requires_grade_p "t"] } {
+    if {$requires_grade_p == "t"} {
 	set radio_yes_checked "checked"
 	set radio_no_checked ""
     } else {
@@ -96,7 +96,7 @@ db_multirow -extend { radio_yes_checked radio_no_checked delete_template } grade
 	set radio_no_checked "checked"
     }    
 
-    if { [empty_string_p $live_revision] } {
+    if { $live_revision eq "" } {
 	set delete_template "<span style=\"font-style: italic; color: red; font-size: 9pt;\">[_ evaluation.Deleted]</span> <a href=[export_vars -base "distribution-edit" { grade_id {set_task_id_live $task_item_id} }]>[_ evaluation.make_it_live]</a>"
     } elseif { $simple_p } {
 	set delete_template "<a href=\"[export_vars -base "../tasks/task-delete" { task_id grade_id return_url }]\">[_ evaluation-portlet.Delete]</a>"

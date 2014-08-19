@@ -13,7 +13,7 @@ ad_page_contract {
 	grade_id:integer,notnull
 } -validate {
 	tasks_for_grade {
-		if { [string eq [db_string get_tasks { *SQL* }] 0] } {
+		if {[db_string get_tasks { *SQL* }] eq "0"} {
 			ad_complain "[_ evaluation.lt_There_are_no_tasks_fo_1]"
 		}
 	}
@@ -29,7 +29,7 @@ set package_id [ad_conn package_id]
 # in order to create the groups
 
 set community_id [dotlrn_community::get_community_id]
-if { [empty_string_p $community_id] } {
+if { $community_id eq "" } {
     set query_name get_grades
 } else {
     set query_name community_get_grades
@@ -71,7 +71,7 @@ template::list::create \
 
 set orderby [template::list::orderby_clause -orderby -name grade_tasks]
 
-if { [string equal $orderby ""] } {
+if {$orderby eq ""} {
     set task_order " order by student_name asc"
 }
 

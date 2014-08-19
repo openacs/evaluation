@@ -13,7 +13,7 @@ ad_page_contract {
     {orderby ""}
 } -validate {
     grades_for_package {
-	if { [string eq [db_string package_grades { *SQL* }] 0] } {
+	if {[db_string package_grades { *SQL* }] eq "0"} {
 	    ad_complain "[_ evaluation.lt_There_are_no_grades_f]"
 	}
     }
@@ -32,7 +32,7 @@ if { $simple_p } {
     set class "pbs_list"
 }
 set community_id [dotlrn_community::get_community_id]
-if { [empty_string_p $community_id] } {
+if { $community_id eq "" } {
     set query_name grades_report
 } else {
     set query_name community_grades_report
@@ -78,7 +78,7 @@ template::list::create \
     -pass_properties " $pass_grades " \
     -orderby { default_value student_name } 
 
-if { ![empty_string_p $orderby] } {
+if { $orderby ne "" } {
     set orderby "[template::list::orderby_clause -orderby -name grades_report]"
 } else {
     set orderby " order by student_name asc"
