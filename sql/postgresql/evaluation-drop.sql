@@ -2,11 +2,11 @@
 
 \i evaluation-calendar-drop.sql
 
-create function inline_0 ()
-returns integer as'
-declare
+CREATE FUNCTION inline_0 ()
+RETURNS integer AS $$
+DECLARE
   del_rec record;
-begin
+BEGIN
   for del_rec in select item_id from cr_items 
 	where content_type in ('evaluation_grades', 'evaluation_tasks', 'evaluation_tasks_sols', 'evaluation_answers', 'evaluation_student_evals', 'evaluation_grades_sheets')
   loop 
@@ -15,14 +15,16 @@ begin
 return 0;
 END;
 $$ LANGUAGE plpgsql;
+
 select inline_0 ();
 drop function inline_0 ();
 
-create function inline_0 ()
-returns integer as'
-declare
+
+CREATE FUNCTION inline_0 ()
+RETURNS integer AS $$
+DECLARE
   del_rec record;
-begin
+BEGIN
   for del_rec in select item_id from cr_items 
 	where content_type in ('evaluation_grades', 'evaluation_tasks', 'evaluation_tasks_sols', 'evaluation_answers', 'evaluation_student_evals', 'evaluation_grades_sheets')
   loop 
@@ -31,6 +33,7 @@ begin
 return 0;
 END;
 $$ LANGUAGE plpgsql;
+
 select inline_0 ();
 drop function inline_0 ();
 
@@ -50,9 +53,10 @@ delete from group_types where group_type = 'evaluation_task_groups';
 select acs_object_type__drop_type('evaluation_task_group','f');
 select acs_rel_type__drop_type('evaluation_task_group_rel','t');
 
-create function inline_1 ()
-returns integer as'
-begin
+CREATE FUNCTION inline_1 ()
+RETURNS integer AS $$
+DECLARE
+BEGIN
 PERFORM acs_object_type__drop_type('evaluation_grades','f');
 PERFORM acs_object_type__drop_type('evaluation_tasks','f');
 PERFORM acs_object_type__drop_type('evaluation_tasks_sols','f');
@@ -60,10 +64,10 @@ PERFORM acs_object_type__drop_type('evaluation_answers','f');
 PERFORM acs_object_type__drop_type('evaluation_grades_sheets','f');
 PERFORM acs_object_type__drop_type('evaluation_student_evals','f');
 PERFORM acs_object_type__drop_type('evaluation_task_groups','f');
-
 return 0;
 END;
 $$ LANGUAGE plpgsql;
+
 select inline_1 ();
 drop function inline_1 ();
 
