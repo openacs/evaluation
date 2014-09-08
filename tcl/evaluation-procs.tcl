@@ -445,13 +445,13 @@ ad_proc -public evaluation::new_task {
     @param new_item_p If true make a new item using item_id
     @param grade_item_id Grade type where the task belongs
     @param name The name of the task
-    @number_of_members If the task is in groups this parameter must be > 1
+    @param number_of_members If the task is in groups this parameter must be > 1
     @param online_p If the task will be submited online
-    @due_date Due date of the task
-    @weight Weight of the task in the grade type
-    @late_submit_p If the students will be able to submit the task after due date
-    @description Description of the task
-    @storage_type File or text, depending on what are we going to store
+    @param due_date Due date of the task
+    @param weight Weight of the task in the grade type
+    @param late_submit_p If the students will be able to submit the task after due date
+    @param description Description of the task
+    @param storage_type File or text, depending on what are we going to store
 } {
     if { $creation_user eq "" } {
 	set creation_user [ad_conn user_id]
