@@ -10,13 +10,13 @@ ad_page_contract {
 } { 
     upload_file:notnull 
     upload_file.tmpfile:notnull
-    task_id:integer,notnull
-    grades_sheet_item_id:integer,notnull
+    task_id:naturalnum,notnull
+    grades_sheet_item_id:naturalnum,notnull
 } -validate { 
     csv_type_p -requires { upload_file } {
 	if { [info exists upload_file] } {
 	    set file_extension [file extension $upload_file]
-	    if { [string compare [string tolower $file_extension] ".csv"] } { 
+	    if {[string tolower $file_extension] ne ".csv"  } { 
 		ad_complain "[_ evaluation.lt_The_file_extension_of_1]"
 	    } 
 	}
@@ -28,7 +28,7 @@ set page_title "[_ evaluation.Confirm_Evaluation_]"
 set context [list [list "[export_vars -base student-list { task_id }]" "[_ evaluation.Studen_List_]"] "[_ evaluation.Confirm_Evaluation_]"]
 
 # Getting some info from the db about the task
-if ![db_0or1row get_task_info { *SQL* }] { 
+if {![db_0or1row get_task_info { *SQL* }]} { 
     # This should never happen. 
     ad_return_complaint 1 "<li>[_ evaluation.lt_There_is_no_informati]</li>" 
     return 
@@ -43,7 +43,7 @@ if { ![db_string file_exists { *SQL* }] } {
     
     set tmp_filename [ns_queryget upload_file.tmpfile] 
     
-    if { ![empty_string_p $max_n_bytes] && ([file size "$tmp_filename"] > $max_n_bytes) } { 
+    if { $max_n_bytes ne "" && ([file size "$tmp_filename"] > $max_n_bytes) } { 
 	set pretty_maxnbytes [lc_numeric $max_n_bytes]
 	ad_return_complaint 1 "[_ evaluation.lt_The_file_is_too_large_1]"
 	return 0 
@@ -84,10 +84,10 @@ if { ![db_string file_exists { *SQL* }] } {
 	    # removing the first and last " that comes from the csv format
 	    regsub  ^\" $see_comments_p "" see_comments_p
 	    regsub  \"\$ $see_comments_p "" see_comments_p
-	    if { ![string eq $see_comments_p 1] && ![string eq $see_comments_p 0] } {
+	    if { $see_comments_p ne "1" && $see_comments_p ne "0" } {
 		ad_return_error "[_ evaluation.Bad_input_]" "[_ evaluation.lt_Input_Will_the_studen]"
 		return 
-	    } elseif { [string eq $see_comments_p 1] } {
+	    } elseif {$see_comments_p eq "1"} {
 		set comments_p "t"
 	    } else {
 		set comments_p "f"
@@ -109,12 +109,12 @@ if { ![db_string file_exists { *SQL* }] } {
 	regsub  ^\" $comments "" comments
 	regsub  \"\$ $comments "" comments
 	
-	if { [empty_string_p $party_id] && [empty_string_p $grade] && [empty_string_p $comments] } { 
+	if { $party_id eq "" && $grade eq "" && $comments eq "" } { 
 	    # "blank" line, skip it
 	    continue 
 	} 
 	
-	if { ![empty_string_p $grade] } { 
+	if { $grade ne "" } { 
 	    # start validations
 	    if { ![ad_var_type_check_integer_p $party_id] } { 
 		incr errors 
@@ -132,7 +132,7 @@ if { ![db_string file_exists { *SQL* }] } {
 	    } 
 
 	    # editing without reason
-	    if { ![string eq [format %.2f [db_string check_evaluated { *SQL* } -default $grade]] [format %.2f $grade]] && [empty_string_p $comments] } { 
+	    if { ![string equal [format %.2f [db_string check_evaluated { *SQL* } -default $grade]] [format %.2f $grade]] && $comments eq "" } { 
 		incr errors
 		append errors_text "<li> [_ evaluation.lt_There_must_be_an_edit]</li>"
 	    } 
@@ -146,7 +146,7 @@ if { ![db_string file_exists { *SQL* }] } {
 
 	    } else {
 		set community_id [dotlrn_community::get_community_id]
-		if { [empty_string_p $community_id] } {
+		if { $community_id eq "" } {
 		    if { ![db_string valid_user { *SQL* }] } {
 			incr errors
 			append errors_text "<li> [_ evaluation.lt_There_is_at_least_one_1] </li>"
@@ -163,7 +163,7 @@ if { ![db_string file_exists { *SQL* }] } {
 		return 
 	    } 
 	    
-	    if { ![empty_string_p $comments] } {
+	    if { $comments ne "" } {
 		if { [db_string verify_grade_change { *SQL* } -default 0] } { 
 		    # there is no change, skip it
 		    continue 
@@ -186,7 +186,7 @@ if { ![db_string file_exists { *SQL* }] } {
 	    set evaluations_gs:${counter}(party_name) $party_name
 	    set evaluations_gs:${counter}(grade) $grade
 	    set evaluations_gs:${counter}(comment) $comments
-	    if { [string eq $comments_p "t"] } {
+	    if {$comments_p == "t"} {
 		set evaluations_gs:${counter}(show_student) "[_ evaluation.Yes_]"
 	    } else {
 		set evaluations_gs:${counter}(show_student) "[_ evaluation.No_]"
@@ -210,7 +210,7 @@ if { ![db_string file_exists { *SQL* }] } {
     flush $file_handler
     close $file_handler
 
-    if [catch {exec mv $tmp_filename "${tmp_filename}_grades_sheet"} errmsg] { 
+    if {[catch {exec mv $tmp_filename "${tmp_filename}_grades_sheet"} errmsg]} { 
 	ad_return_error "[_ evaluation.lt_Error_while_storing_f]" "[_ evaluation.lt_There_was_a_problem_s]" 
 	ad_script_abort
     } 

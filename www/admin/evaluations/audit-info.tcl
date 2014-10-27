@@ -9,7 +9,7 @@ ad_page_contract {
 	@cvs-id $Id$
 
 } {
-    task_id:integer,notnull
+    task_id:naturalnum,notnull
     {orderby:optional ""}
 }
 

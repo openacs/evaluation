@@ -3,7 +3,7 @@
 ad_page_contract { 
     Bulk edit a set tasks
 } { 
-    grade_id:integer,notnull
+    grade_id:naturalnum,notnull
     no_grade:array
     weights:array
     {weight_sum "0"}
@@ -29,7 +29,7 @@ ad_page_contract {
     weights_sum {
 	set count 0
 	foreach id [array names weights] { 
-	    set count [expr $count+$weights($id)]
+	    set count [expr {$count+$weights($id)}]
 	}
 	if { $count > 100} {
 	    ad_complain "[_ evaluation.not_equal_100]"
@@ -37,11 +37,11 @@ ad_page_contract {
     }
 }
 
-if {[string equal $info "[_ evaluation.Over_total_grade]"]} {
+if {$info eq "[_ evaluation.Over_total_grade]"} {
     set points_p 1
 }
 
-if {[string equal $info "[_ evaluation.rel_weight]"]} {
+if {$info eq "[_ evaluation.rel_weight]"} {
     set relative_p 1
 }
 
@@ -54,7 +54,7 @@ foreach id [array names weights] {
 }
 foreach id [array names weights] { 
     # create a list of tasks that requieres/not requires grade
-    if { [string eq $no_grade($id) "t"] } { 
+    if {$no_grade($id) == "t"} { 
 	lappend with_grade $id
     } else { 
         lappend without_grade $id

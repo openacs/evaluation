@@ -7,8 +7,8 @@ ad_page_contract {
     @creation-date Feb 2004
     @cvs-id $Id$
 } {
-	grade_id:integer,notnull,optional
-	item_id:integer,notnull,optional
+	grade_id:naturalnum,notnull,optional
+	item_id:naturalnum,notnull,optional
 }
 
 set user_id [ad_conn user_id]

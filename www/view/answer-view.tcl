@@ -1,8 +1,8 @@
 ad_page_contract {
 } {
-    grade_id:integer
-    task_id:integer
-    {answer_id ""}
+    grade_id:naturalnum,notnull
+    task_id:naturalnum,notnull
+    {answer_id:naturalnum ""}
 } 
 
 set user_id [ad_conn user_id]
@@ -34,7 +34,7 @@ db_multirow -extend {created_date answer answer_url title} answers answers {} {
     if { [db_0or1row get_answer_info { *SQL* }] } {
     
 	# working with answer stuff (if it has a file/url attached)
-	if { [string eq $answer_title "link"] } {
+	if {$answer_title eq "link"} {
 	    # there is a bug in the template::list, if the url does not has a http://, ftp://, the url is not absolute,
 	    # so we have to deal with this case
 	    array set community_info [site_node::get -url "[dotlrn_community::get_community_url [dotlrn_community::get_community_id]][evaluation::package_key]"]
@@ -49,7 +49,7 @@ db_multirow -extend {created_date answer answer_url title} answers answers {} {
 	    set answer "[_ evaluation-portlet.View_my_answer_]"
 	}
 	
-	if { $number_of_members > 1 && [string eq [db_string get_group_id { *SQL* }] 0] } {
+	if { $number_of_members > 1 && [string equal [db_string get_group_id { *SQL* }] "0"] } {
 	    set answer ""
 	    set answer_url ""
 	    set grade "[_ evaluation-portlet.No_group_for_task_]"
@@ -73,7 +73,7 @@ if { [db_string compare_due_date { *SQL* } -default 0] } {
 	set submitted_date_mode display
 			set submitted_date_url "[export_vars -base "${base_url}answer-add-edit" { grade_id task_id answer_id return_url answer_mode }]"
     }
-} elseif { [string eq $late_submit_p "t"] } {
+} elseif {$late_submit_p == "t"} {
     if { ![db_0or1row get_answer_info { *SQL* }] } {
 	set submitted_date "[_ evaluation-portlet.lt_submit_answer_style_f]"
 	set submitted_date_mode edit

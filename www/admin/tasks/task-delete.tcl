@@ -7,8 +7,8 @@ ad_page_contract {
     @cvs-id $Id$
 
 } {
-	task_id:integer,notnull
-	grade_id:integer,notnull
+	task_id:naturalnum,notnull
+	grade_id:naturalnum,notnull
 	return_url
 }
 

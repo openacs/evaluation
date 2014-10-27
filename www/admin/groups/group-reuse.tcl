@@ -7,7 +7,7 @@ ad_page_contract {
 	@creation-date Apr 2004
 	@cvs-id $Id$
 } {
-	task_id:integer,notnull
+	task_id:naturalnum,notnull
 	{orderby:optional}
 }
 
@@ -39,7 +39,7 @@ template::list::create \
 	
 set orderby [template::list::orderby_clause -orderby -name groups]
 	
-if { [string equal $orderby ""] } {
+if {$orderby eq ""} {
 	set orderby " order by et.task_name asc"
 }
 

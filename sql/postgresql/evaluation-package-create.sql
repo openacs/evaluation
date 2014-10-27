@@ -3,47 +3,73 @@
 ---------------------------------------
 -- GRADES
 ---------------------------------------
-create function grade__name(integer)
-returns varchar as '
-declare 
-    p_grade_id      alias for $1;
+
+
+-- added
+select define_function_args('grade__name','grade_id');
+
+--
+-- procedure grade__name/1
+--
+CREATE OR REPLACE FUNCTION grade__name(
+   p_grade_id integer
+) RETURNS varchar AS $$
+DECLARE 
     v_grade_name    evaluation_grades.grade_name%TYPE;
-begin
+BEGIN
 	select grade_name into v_grade_name
 		from evaluation_grades
 		where grade_id = p_grade_id;
 
     return v_grade_name;
-end;
-' language 'plpgsql';
+END;
+
+$$ LANGUAGE plpgsql;
 
 ---------------------------------------
 -- TASKS
 ---------------------------------------
 
-create function task__name(integer)
-returns varchar as '
-declare 
-    p_task_id      alias for $1;
+
+
+-- added
+select define_function_args('task__name','task_id');
+
+--
+-- procedure task__name/1
+--
+CREATE OR REPLACE FUNCTION task__name(
+   p_task_id integer
+) RETURNS varchar AS $$
+DECLARE 
     v_task_name    evaluation_tasks.task_name%TYPE;
-begin
+BEGIN
 	select task_name into v_task_name
 		from evaluation_tasks
 		where task_id = p_task_id;
 
     return v_task_name;
-end;
-' language 'plpgsql';
+END;
 
-create function evaluation__clone_task(integer,integer)
-returns integer as '
-declare 
-    p_from_revision_id      alias for $1;
-    p_to_revision_id 	    alias for $2;
+$$ LANGUAGE plpgsql;
+
+
+
+-- added
+select define_function_args('evaluation__clone_task','from_revision_id,to_revision_id');
+
+--
+-- procedure evaluation__clone_task/2
+--
+CREATE OR REPLACE FUNCTION evaluation__clone_task(
+   p_from_revision_id integer,
+   p_to_revision_id integer
+) RETURNS integer AS $$
+DECLARE 
     v_content_length	    cr_revisions.content_length%TYPE;
     v_lob 	            cr_revisions.lob%TYPE;
     v_content 		    cr_revisions.content%TYPE;
-begin
+BEGIN
     select content, 
 	content_length,
 	lob
@@ -61,31 +87,40 @@ begin
     where revision_id = p_to_revision_id;
 
     return p_to_revision_id;
-end;
-' language 'plpgsql';
+END;
+
+$$ LANGUAGE plpgsql;
 
 ---------------------------------------
 -- EVALUATION TASK GROUPS
 ---------------------------------------
-create function evaluation__new_evaluation_task_group(integer,varchar,varchar,timestamptz,integer,varchar,integer,integer)
-returns integer as '
-declare
-        p_task_group_id                 alias for $1;
-        p_task_group_name               alias for $2;
-        p_join_policy                   alias for $3;
-        p_creation_date                 alias for $4;
-        p_creation_user                 alias for $5;
-        p_creation_ip                   alias for $6;
-        p_context_id                    alias for $7;
-  	p_task_item_id     		alias for $8;
+
+
+-- added
+select define_function_args('evaluation__new_evaluation_task_group','task_group_id,task_group_name,join_policy,creation_date,creation_user,creation_ip,context_id,task_item_id');
+
+--
+-- procedure evaluation__new_evaluation_task_group/8
+--
+CREATE OR REPLACE FUNCTION evaluation__new_evaluation_task_group(
+   p_task_group_id integer,
+   p_task_group_name varchar,
+   p_join_policy varchar,
+   p_creation_date timestamptz,
+   p_creation_user integer,
+   p_creation_ip varchar,
+   p_context_id integer,
+   p_task_item_id integer
+) RETURNS integer AS $$
+DECLARE
 
         v_group_id                      integer;
 
-begin
+BEGIN
 
         v_group_id := acs_group__new (
             p_task_group_id,
-            ''evaluation_task_groups'',
+            'evaluation_task_groups',
             p_creation_date,
             p_creation_user,
             p_creation_ip,
@@ -104,16 +139,25 @@ begin
 		  	p_task_item_id);
 
         return v_group_id;        
-end;
-' language 'plpgsql';
+END;
+
+$$ LANGUAGE plpgsql;
 
 
-create function evaluation__delete_evaluation_task_group(integer)
-returns integer as '
-declare
-	  	p_task_group_id	  	alias for $1;
+
+
+-- added
+select define_function_args('evaluation__delete_evaluation_task_group','task_group_id');
+
+--
+-- procedure evaluation__delete_evaluation_task_group/1
+--
+CREATE OR REPLACE FUNCTION evaluation__delete_evaluation_task_group(
+   p_task_group_id integer
+) RETURNS integer AS $$
+DECLARE
  		del_rec record;
-begin
+BEGIN
 
  	for del_rec in select evaluation_id from evaluation_student_evals where party_id = p_task_group_id
   	loop 
@@ -140,23 +184,32 @@ begin
 	PERFORM acs_group__delete(p_task_group_id);
 
 	return 0;
-end;
-' language 'plpgsql';
+END;
+
+$$ LANGUAGE plpgsql;
 
 ---------------------------------------
 -- GRADE FUNCTIONS
 ---------------------------------------
 
-create function evaluation__task_grade (integer, integer)
-returns numeric as '
-declare
 
-	p_user_id  	alias for $1;
-	p_task_id 	alias for $2;
+
+-- added
+select define_function_args('evaluation__task_grade','user_id,task_id');
+
+--
+-- procedure evaluation__task_grade/2
+--
+CREATE OR REPLACE FUNCTION evaluation__task_grade(
+   p_user_id integer,
+   p_task_id integer
+) RETURNS numeric AS $$
+DECLARE
+
 
 	v_grade	 	evaluation_student_evals.grade%TYPE;
 
-begin
+BEGIN
 
 	select (ese.grade*et.weight*eg.weight)/10000 into v_grade
 	from evaluation_student_evals ese, evaluation_tasks et, evaluation_grades eg
@@ -172,19 +225,28 @@ begin
   	else
 	  	return v_grade;
 	end if;	
-end;' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 
-create function evaluation__grade_total_grade (integer, integer)
-returns numeric as '
-declare
 
-	p_user_id  	alias for $1;
-	p_grade_id 	alias for $2;
+
+-- added
+select define_function_args('evaluation__grade_total_grade','user_id,grade_id');
+
+--
+-- procedure evaluation__grade_total_grade/2
+--
+CREATE OR REPLACE FUNCTION evaluation__grade_total_grade(
+   p_user_id integer,
+   p_grade_id integer
+) RETURNS numeric AS $$
+DECLARE
+
 
 	v_grade     evaluation_student_evals.grade%TYPE;
     v_grades_cursor RECORD;
         
-begin
+BEGIN
 
 	v_grade := 0;
     FOR v_grades_cursor IN
@@ -201,19 +263,28 @@ begin
     END LOOP;
 
 	return v_grade;
-end;' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 
-create function evaluation__class_total_grade (integer, integer)
-returns numeric as '
-declare
 
-	p_user_id  	 	alias for $1;
- 	p_package_id 	alias for $2;
+
+-- added
+select define_function_args('evaluation__class_total_grade','user_id,package_id');
+
+--
+-- procedure evaluation__class_total_grade/2
+--
+CREATE OR REPLACE FUNCTION evaluation__class_total_grade(
+   p_user_id integer,
+   p_package_id integer
+) RETURNS numeric AS $$
+DECLARE
+
 
 	v_grade     evaluation_student_evals.grade%TYPE;
     v_grades_cursor RECORD;
         
-begin
+BEGIN
 
 	v_grade := 0;
     FOR v_grades_cursor IN
@@ -232,41 +303,59 @@ begin
     END LOOP;
 
 	return v_grade;
-end;' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 
 ---------------------------------------
 -- OTHER FUNCTIONS
 ---------------------------------------
 
-create function evaluation__party_name (integer,integer)
-returns varchar as '
-declare
-	p_party_id 	alias for $1;
-  	p_task_id  	alias for $2;
+
+
+-- added
+select define_function_args('evaluation__party_name','party_id,task_id');
+
+--
+-- procedure evaluation__party_name/2
+--
+CREATE OR REPLACE FUNCTION evaluation__party_name(
+   p_party_id integer,
+   p_task_id integer
+) RETURNS varchar AS $$
+DECLARE
 
  	v_number_of_members evaluation_tasks.number_of_members%TYPE;
-begin
+BEGIN
 	
 	select number_of_members into v_number_of_members
 	from evaluation_tasks
 	where task_id = p_task_id;
 
 	if v_number_of_members = 1 then
-	  	return person__last_name(p_party_id)||'', ''||person__first_names(p_party_id);
+	  	return person__last_name(p_party_id)||', '||person__first_names(p_party_id);
 	else
 	  	return acs_group__name(p_party_id);
 	end if;
 
-end;' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 
-create function evaluation__party_id (integer,integer)
-returns varchar as '
-declare
-	p_user_id 	alias for $1;
-  	p_task_id  	alias for $2;
+
+
+-- added
+select define_function_args('evaluation__party_id','user_id,task_id');
+
+--
+-- procedure evaluation__party_id/2
+--
+CREATE OR REPLACE FUNCTION evaluation__party_id(
+   p_user_id integer,
+   p_task_id integer
+) RETURNS varchar AS $$
+DECLARE
 
  	v_number_of_members evaluation_tasks.number_of_members%TYPE;
-begin
+BEGIN
 	
 	select number_of_members into v_number_of_members
 	from evaluation_tasks
@@ -284,18 +373,27 @@ begin
 						  and et.task_id = p_task_id),0);
 	end if;
 
-end;' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 
-create function evaluation__delete_contents (integer)
-returns integer as '
-declare
 
-	p_package_id  	alias for $1;
+
+-- added
+select define_function_args('evaluation__delete_contents','package_id');
+
+--
+-- procedure evaluation__delete_contents/1
+--
+CREATE OR REPLACE FUNCTION evaluation__delete_contents(
+   p_package_id integer
+) RETURNS integer AS $$
+DECLARE
+
 
 	v_item_id     cr_items.item_id%TYPE;
     v_item_cursor RECORD;
         
-begin
+BEGIN
     FOR v_item_cursor IN
         select etg.group_id
         from   evaluation_tasksi et, acs_objects ao, evaluation_task_groups etg
@@ -306,13 +404,23 @@ begin
        	PERFORM evaluation__delete_evaluation_task_group(v_item_cursor.group_id);
     END LOOP;
 return 0;
-end;' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 
-create function evaluation__clone (integer,integer)
-returns integer as '
-declare
- p_new_package_id  	alias for $1;   --default null,
- p_old_package_id 	alias for $2;   --default null
+
+
+-- added
+select define_function_args('evaluation__clone','new_package_id,old_package_id');
+
+--
+-- procedure evaluation__clone/2
+--
+CREATE OR REPLACE FUNCTION evaluation__clone(
+   p_new_package_id integer, --default null,
+   p_old_package_id integer  --default null
+
+) RETURNS integer AS $$
+DECLARE
  v_grade_id 	        evaluation_grades.grade_id%TYPE;
  v_item_id		acs_objects.object_id%TYPE;	
  v_revision_id		acs_objects.object_id%TYPE;	
@@ -321,7 +429,7 @@ declare
  one_grade		record;
  entry			record;
 
-begin
+BEGIN
             -- get all the grades belonging to the old package,
             -- and create new grades for the new package
 	    delete from evaluation_grades where grade_id in (select eg.grade_id from acs_objects o, evaluation_grades eg,cr_items ci,cr_revisions cr  where o.object_id = ci.item_id and cr.revision_id=eg.grade_id  and ci.item_id=cr.item_id  and cr.revision_id=ci.live_revision and o.context_id = p_new_package_id);
@@ -348,18 +456,18 @@ begin
 						   one_grade.mime_type,
 						   null,
 						   null,
-						   ''text'',
-						   ''content_item'',
-						   ''evaluation_grades''
+						   'text',
+						   'content_item',
+						   'evaluation_grades'
 						);
 	       
-       	       v_revision_id := nextval(''t_acs_object_id_seq'');
+       	       v_revision_id := nextval('t_acs_object_id_seq');
                v_grade_id := evaluation__new_grade (	v_item_id,
 							v_revision_id,
 							one_grade.grade_name,
 							one_grade.grade_plural_name,
 							one_grade.weight,
-							''evaluation_grades'',
+							'evaluation_grades',
 							one_grade.creation_date,
 							one_grade.creation_user,
 							one_grade.creation_ip,
@@ -367,7 +475,7 @@ begin
 							one_grade.description,
 							one_grade.publish_date,
 							null,
-							''text/plain''
+							'text/plain'
 							);
 
            	for entry in select *, (ci.live_revision = cr.revision_id) as live_p from evaluation_tasks et,cr_revisions cr,cr_items ci, acs_objects o where grade_item_id = one_grade.grade_item_id and cr.revision_id=task_id and cr.item_id=ci.item_id and object_id=ci.item_id order by task_item_id
@@ -388,12 +496,12 @@ begin
 					     null, 
 					     null, 
 					     entry.storage_type, --storage_type
-					     ''content_item'', -- item_subtype
-					     ''evaluation_tasks'' -- content_type
+					     'content_item', -- item_subtype
+					     'evaluation_tasks' -- content_type
 					     );
 				
 
-      	                v_task_revision_id := nextval(''t_acs_object_id_seq'');
+      	                v_task_revision_id := nextval('t_acs_object_id_seq');
          		perform  evaluation__new_task (		v_task_item_id,
 						    	  	v_task_revision_id,
 								entry.task_name,
@@ -430,5 +538,6 @@ begin
 
            end loop;
  return 0;
- end;
-' language 'plpgsql';
+ END;
+
+$$ LANGUAGE plpgsql;

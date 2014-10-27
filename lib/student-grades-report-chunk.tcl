@@ -62,7 +62,7 @@ template::list::create \
 
 set orderby [template::list::orderby_clause -orderby -name student_grades]
 
-if {[string equal $orderby ""]} {
+if {$orderby eq ""} {
     set assignments_orderby " order by task_name asc"
 }
 
@@ -86,7 +86,7 @@ db_multirow -extend { task_status due_date_pretty assignment_group grade net_gra
     set answer_id ""
     db_0or1row get_answer_data { *SQL* }
 
-    if { [empty_string_p $answer_id] } {
+    if { $answer_id eq "" } {
 	append task_status " [_ evaluation.Not_answered_] "
     } else {
 	append task_status " [_ evaluation.Already_answered_] "
@@ -97,11 +97,11 @@ db_multirow -extend { task_status due_date_pretty assignment_group grade net_gra
     set comments ""
     db_0or1row get_grade_info { *SQL* }
 
-    if { ![empty_string_p $grade] } {
+    if { $grade ne "" } {
 
 	set grade [lc_numeric $grade]
 	set over_weight "[lc_numeric $net_grade]/"
-	set total_grade [expr $total_grade + $net_grade]
+	set total_grade [expr {$total_grade + $net_grade}]
 	set net_grade [lc_numeric $net_grade]
 	set task_status "[_ evaluation.Evaluated_]"
     } else {
@@ -111,17 +111,17 @@ db_multirow -extend { task_status due_date_pretty assignment_group grade net_gra
 	append task_status " [_ evaluation.Not_evaluated_] "
     }
 	    
-    if { [empty_string_p $comments] } {
+    if { $comments eq "" } {
 	set comments "[_ evaluation.na_]"
     }
 
-    set max_grade [expr $task_weight + $max_grade] 
+    set max_grade [expr {$task_weight + $max_grade}] 
 
     set task_weight "${over_weight}[lc_numeric $task_weight]"
     
     set group_id [db_string get_group_id { *SQL* }]
     if { $number_of_members > 1 } {
-	if { [string eq $group_id 0] } {
+	if {$group_id eq "0"} {
 	    set task_status "[_ evaluation.lt_No_group_for_student_]"
 	    set assignment_group " [_ evaluation.na_] "
 	} else {
@@ -133,6 +133,6 @@ db_multirow -extend { task_status due_date_pretty assignment_group grade net_gra
     
 }
 
-set total_grade [lc_numeric [expr $total_grade]]
+set total_grade [lc_numeric [expr {$total_grade}]]
 set max_grade [lc_numeric $max_grade]
 set grade_weight [lc_numeric $grade_weight]

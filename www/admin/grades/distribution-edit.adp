@@ -7,7 +7,7 @@
 <br>
 <br>
 <div id="evaluations">
-<table class="title" width=100%>
+<table class="title" width="100%">
 <table width="100%" style="border:0px" alt="" cellpadding="0" cellspacing="0" height="40">
   <tr>
     <td valign="middle" width="30%" style="padding-left: 10px;"><text class="blue"><b>@grade_plural_name_up@</b> (@grade_weight@% #evaluation-portlet.total_grade#)</text></td>

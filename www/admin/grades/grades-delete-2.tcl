@@ -7,12 +7,12 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 } {
-    grade_id:integer,notnull
+    grade_id:naturalnum,notnull
     return_url
     operation
 } 
 
-if { [string eq $operation "[_ evaluation.lt_Yes_I_really_want_to__1]"] } {
+if {$operation eq "[_ evaluation.lt_Yes_I_really_want_to__1]"} {
     db_transaction {
 
 	# calendar integration (begin)
@@ -28,7 +28,7 @@ if { [string eq $operation "[_ evaluation.lt_Yes_I_really_want_to__1]"] } {
 	ad_script_abort
     }
 } else {
-    if { [empty_string_p $return_url] } {
+    if { $return_url eq "" } {
 	# redirect to the index page by default
 	set return_url "grades"
     }

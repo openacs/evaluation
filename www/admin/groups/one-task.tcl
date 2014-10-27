@@ -7,13 +7,13 @@ ad_page_contract {
 	@creation-date Mar 2004
 	@cvs-id $Id$
 } {
-	task_id:integer,notnull
+	task_id:naturalnum,notnull
 	{orderby:optional}
 	{orderby_groups:optional}
 	{return_url ""}
 } -validate {
 	group_task {
-		if { [string eq [db_string get_number_of_members { *SQL* }] 1] } {
+		if {[db_string get_number_of_members { *SQL* }] eq "1"} {
 			ad_complain "[_ evaluation.lt_This_task_is_not_in_g]"
 		}
 	}
@@ -29,7 +29,7 @@ set context [list "[_ evaluation.lt_Assignment_Groups_for]"]
 # in order to create the groups
 
 set community_id [dotlrn_community::get_community_id]
-if { [empty_string_p $community_id] } {
+if { $community_id eq "" } {
     set query_name get_students_without_group
 } else {
     set query_name community_get_students_without_group
@@ -60,7 +60,7 @@ template::list::create \
 
 set orderby [template::list::orderby_clause -orderby -name students_without_group]
 
-if { [string equal $orderby ""] } {
+if {$orderby eq ""} {
     set orderby " order by student_name asc"
 }
 
@@ -100,7 +100,7 @@ template::list::create \
 
 set orderby_groups [template::list::orderby_clause -orderby -name task_groups]
 
-if { [string equal $orderby_groups ""] } {
+if {$orderby_groups eq ""} {
     set orderby_groups " order by group_name asc"
 }
 

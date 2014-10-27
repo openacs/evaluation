@@ -7,7 +7,7 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 } { 
-    task_id:integer,notnull
+    task_id:naturalnum,notnull
     max_grade:integer,notnull
     item_ids:array,integer,optional
     item_to_edit_ids:array,integer,optional
@@ -30,7 +30,7 @@ ad_page_contract {
     valid_grades_wa {
 	set counter 0
 	foreach party_id [array names grades_wa] {
-	    if { [info exists grades_wa($party_id)] && ![empty_string_p $grades_wa($party_id)] } {
+	    if { [info exists grades_wa($party_id)] && $grades_wa($party_id) ne "" } {
 		incr counter
 		set grades_wa($party_id) [template::util::leadingTrim $grades_wa($party_id)]
 		if { ![ad_var_type_check_number_p $grades_wa($party_id)] } {
@@ -46,8 +46,8 @@ ad_page_contract {
     valid_grades_na {
 	set counter 0
 	foreach party_id [array names grades_na] {
-	    if { [empty_string_p $grade_all] } {
-		if { [info exists grades_na($party_id)] && ![empty_string_p $grades_na($party_id)] } {
+	    if { $grade_all eq "" } {
+		if { [info exists grades_na($party_id)] && $grades_na($party_id) ne "" } {
 		    incr counter
 		    set grades_na($party_id) [template::util::leadingTrim $grades_na($party_id)]
 		    if { ![ad_var_type_check_number_p $grades_na($party_id)] } {
@@ -59,26 +59,26 @@ ad_page_contract {
 		set grades_na($party_id) 0
 	    }
 	}
-	if { !$counter && ([array size show_student_na] > 0) && [empty_string_p $grade_all] } {
+	if { !$counter && ([array size show_student_na] > 0) && $grade_all eq "" } {
 	    ad_complain "[_ evaluation.lt_There_must_be_at_leas]"
 	}
     }
     valid_grades {
 	set counter 0
 	foreach party_id [array names grades] {
-	    if { [info exists grades($party_id)] && ![empty_string_p $grades($party_id)] } {
+	    if { [info exists grades($party_id)] && $grades($party_id) ne "" } {
 		set grades($party_id) [template::util::leadingTrim $grades($party_id)]
 		if { ![ad_var_type_check_number_p $grades($party_id)] } {
 		    set wrong_grade $grades($party_id)
 		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
 		} else {			
 		    set old_grade [format %.2f [db_string get_old_grade { *SQL* }]]
-		    if { ![string eq $old_grade [format %.2f [expr $grades($party_id)*100/$max_grade]]] } {
+		    if { ![string equal $old_grade [format %.2f [expr {$grades($party_id)*100/$max_grade}]]] } {
 			incr counter
 			if { $max_grade != 100  } {
 			    append reasons($party_id) "[_ evaluation.Weight_change]"
 			}
-			if { ![info exists reasons($party_id)] || [empty_string_p $reasons($party_id)] } {
+			if { ![info exists reasons($party_id)] || $reasons($party_id) eq "" } {
 			    set grade_wo_reason $grades($party_id)
 			    ad_complain "[_ evaluation.lt_You_must_give_an_edit]"
 			}
@@ -137,14 +137,14 @@ db_1row get_task_info { *SQL* }
 # if the structure of the multirow datasource ever changes, this needs to be rewritten    
 set counter 0
 foreach party_id [array names show_student_wa] {
-    if { [info exists grades_wa($party_id)] && ![empty_string_p $grades_wa($party_id)] } { 
+    if { [info exists grades_wa($party_id)] && $grades_wa($party_id) ne "" } { 
 	incr counter 
 	set party_name [db_string get_party_name { *SQL* }]
 	set evaluations_wa:${counter}(rownum) $counter
 	set evaluations_wa:${counter}(party_name) $party_name
 	set evaluations_wa:${counter}(grade) $grades_wa($party_id)
 	set evaluations_wa:${counter}(comment) " $comments_wa($party_id)"
-	if { [string eq $show_student_wa($party_id) "t"] } {
+	if {$show_student_wa($party_id) == "t"} {
 	    set evaluations_wa:${counter}(show_student) "[_ evaluation.Yes_]"
 	} else {
 	    set evaluations_wa:${counter}(show_student) "[_ evaluation.No_]"
@@ -160,14 +160,14 @@ set evaluations_wa:rowcount $counter
 # if the structure of the multirow datasource ever changes, this needs to be rewritten    
 set counter 0
 foreach party_id [array names show_student_na] {
-    if { [info exists grades_na($party_id)] && ![empty_string_p $grades_na($party_id)] } { 
+    if { [info exists grades_na($party_id)] && $grades_na($party_id) ne "" } { 
 	incr counter 
 	set party_name [db_string get_party_name { *SQL* }]
 	set evaluations_na:${counter}(rownum) $counter
 	set evaluations_na:${counter}(party_name) $party_name
 	set evaluations_na:${counter}(grade) $grades_na($party_id)
 	set evaluations_na:${counter}(comment) " $comments_na($party_id)"
-	if { [string eq $show_student_na($party_id) "t"] } {
+	if {$show_student_na($party_id) == "t"} {
 	    set evaluations_na:${counter}(show_student) "[_ evaluation.Yes_]"
 	} else {
 	    set evaluations_na:${counter}(show_student) "[_ evaluation.No_]"
@@ -183,14 +183,14 @@ set evaluations_na:rowcount $counter
 # if the structure of the multirow datasource ever changes, this needs to be rewritten    
 set counter 0
 foreach party_id [array names show_student] {
-    if { [info exists grades_to_edit($party_id)] && ![empty_string_p $grades_to_edit($party_id)] } { 
+    if { [info exists grades_to_edit($party_id)] && $grades_to_edit($party_id) ne "" } { 
 	incr counter 
 	set party_name [db_string get_party_name { *SQL* }]
 	set evaluations:${counter}(rownum) $counter
 	set evaluations:${counter}(party_name) $party_name
 	set evaluations:${counter}(grade) $grades_to_edit($party_id)
 	set evaluations:${counter}(reason) $reasons_to_edit($party_id)
-	if { [string eq  $show_student_to_edit($party_id) "t"] } {
+	if {$show_student_to_edit($party_id) == "t"} {
 	    set evaluations:${counter}(show_student) "[_ evaluation.Yes_]"
 	} else {
 	    set evaluations:${counter}(show_student) "[_ evaluation.No_]"

@@ -26,7 +26,7 @@ ad_proc -public evaluation::notification::get_url {
     handles assignments and evaluations. 
 } {  
     
-    if {[exists_and_not_null object_id]} {
+    if {([info exists object_id] && $object_id ne "")} {
         return "[ad_url][apm_package_url_from_id $object_id]"
     }
 
@@ -60,12 +60,12 @@ ad_proc -public evaluation::get_user_portrait {
 	set output "<img src=\"[lindex [site_node::get_url_from_object_id -object_id [ad_conn package_id]] 0]resources/photo_na.gif\" "
     }
 
-    if { ![empty_string_p $tag_attributes] } {
+    if { $tag_attributes ne "" } {
 	for {set i 0} { $i < [ns_set size $tag_attributes] } { incr i } {
 	    set attribute_name [ns_set key $tag_attributes $i]
 	    set attribute_value [ns_set value $tag_attributes $i]
 	    
-	    if { [string equal $attribute_name {}] } {
+	    if {$attribute_name eq {}} {
 		append output " $attribute_name"
 	    } else {
 		append output " $attribute_name=\"$attribute_value\""
@@ -213,13 +213,13 @@ ad_proc -public evaluation::notification::do_notification {
     
     set community_name ""
     set community_id [dotlrn_community::get_community_id]
-    if { ![empty_string_p $community_id] } {
+    if { $community_id ne "" } {
         set community_name [db_string get_community_name "select pretty_name from dotlrn_communities_all where community_id = :community_id"]
     } 
 
     switch $notif_type {
         "one_assignment_notif" {        
-            if { [string eq $edit_p 0] } {
+            if {$edit_p eq "0"} {
                 set notif_subject "[_ evaluation.lt_New_Assignment_grade_]"
                 set notif_text "[_ evaluation.lt_A_new_assignment_was_] \n"
             } else {
@@ -282,7 +282,7 @@ ad_proc -public evaluation::new_grade {
     @param new_item_p If true make a new item using item_id 
 } {
 
-    if { [empty_string_p $package_id] } {
+    if { $package_id eq "" } {
 	set package_id [ad_conn package_id]
     }
 
@@ -327,7 +327,7 @@ ad_proc -private evaluation::now_plus_days { -ndays } {
     set interval_def [template::util::date::defaultInterval day]
     for { set i [lindex $interval_def 0] }  { $i <= 15 }  { incr i 1 } {
 	incr day
-	if { [expr $day + $i] >= [lindex $interval_def 1] } {
+	if { [expr {$day + $i}] >= [lindex $interval_def 1] } {
 	    incr month 1
 	    set day 1
 	}
@@ -362,10 +362,10 @@ ad_proc -public evaluation::clone_task {
 
     db_1row from_task_info { *SQL* }
 
-    if { [empty_string_p $creation_user] } {
+    if { $creation_user eq "" } {
 	set creation_user [ad_conn user_id]
     }
-    if { [empty_string_p $creation_ip] } {
+    if { $creation_ip eq "" } {
 	set creation_ip [ad_conn peeraddr]
     }
 
@@ -445,26 +445,26 @@ ad_proc -public evaluation::new_task {
     @param new_item_p If true make a new item using item_id
     @param grade_item_id Grade type where the task belongs
     @param name The name of the task
-    @number_of_members If the task is in groups this parameter must be > 1
+    @param number_of_members If the task is in groups this parameter must be > 1
     @param online_p If the task will be submited online
-    @due_date Due date of the task
-    @weight Weight of the task in the grade type
-    @late_submit_p If the students will be able to submit the task after due date
-    @description Description of the task
-    @storage_type File or text, depending on what are we going to store
+    @param due_date Due date of the task
+    @param weight Weight of the task in the grade type
+    @param late_submit_p If the students will be able to submit the task after due date
+    @param description Description of the task
+    @param storage_type File or text, depending on what are we going to store
 } {
-    if { [empty_string_p $creation_user] } {
+    if { $creation_user eq "" } {
 	set creation_user [ad_conn user_id]
     }
-    if { [empty_string_p $creation_ip] } {
+    if { $creation_ip eq "" } {
 	set creation_ip [ad_conn peeraddr]
     }
 
-    if {[empty_string_p $package_id]} {
+    if {$package_id eq ""} {
 	set package_id [ad_conn package_id]
     }
     set folder_id [content::item::get_id -item_path "${content_type}_${package_id}" -resolve_index f]
-    if { [empty_string_p $item_name] } {
+    if { $item_name eq "" } {
 	set item_name "${item_id}_${title}"
     }
 
@@ -531,10 +531,10 @@ ad_proc -public evaluation::new_solution {
 
 } {
 
-    if { [empty_string_p $creation_user] } {
+    if { $creation_user eq "" } {
 	set creation_user [ad_conn user_id]
     }
-    if { [empty_string_p $creation_ip] } {
+    if { $creation_ip eq "" } {
 	set creation_ip [ad_conn peeraddr]
     }
 
@@ -544,11 +544,11 @@ ad_proc -public evaluation::new_solution {
 
     set revision_id [db_nextval acs_object_id_seq]
 
-    if { [empty_string_p $publish_date] } {
+    if { $publish_date eq "" } {
 	set publish_date [db_string get_date { *SQL* }]
     }
 
-    if { [empty_string_p $creation_date] } {
+    if { $creation_date eq "" } {
 	set creation_date [db_string get_date { *SQL* }]
     }
 
@@ -614,10 +614,10 @@ ad_proc -public evaluation::new_answer {
     @param party_id Group or user_id thaw owns the anser
 } {
 
-    if { [empty_string_p $creation_user] } {
+    if { $creation_user eq "" } {
 	set creation_user [ad_conn user_id]
     }
-    if { [empty_string_p $creation_ip] } {
+    if { $creation_ip eq "" } {
 	set creation_ip [ad_conn peeraddr]
     }
 
@@ -627,11 +627,11 @@ ad_proc -public evaluation::new_answer {
 
     set revision_id [db_nextval acs_object_id_seq]
 
-    if { [empty_string_p $publish_date] } {
+    if { $publish_date eq "" } {
 		set publish_date [db_string get_date { *SQL* }]
     }
 	
-    if { [empty_string_p $creation_date] } {
+    if { $creation_date eq "" } {
 		set creation_date [db_string get_date { *SQL* }]
     }
     if { $new_item_p && ![db_string double_click { *SQL* }] } {
@@ -701,10 +701,10 @@ ad_proc -public evaluation::new_evaluation {
     @param mime_type Mime type of the evaluation.
 } {
 
-    if { [empty_string_p $creation_user] } {
+    if { $creation_user eq "" } {
 	set creation_user [ad_conn user_id]
     }
-    if { [empty_string_p $creation_ip] } {
+    if { $creation_ip eq "" } {
 	set creation_ip [ad_conn peeraddr]
     }
 
@@ -714,11 +714,11 @@ ad_proc -public evaluation::new_evaluation {
 
     set revision_id [db_nextval acs_object_id_seq]
 
-    if { [empty_string_p $publish_date] } {
+    if { $publish_date eq "" } {
 	set publish_date [db_string get_date { *SQL* }]
     }
 
-    if { [empty_string_p $creation_date] } {
+    if { $creation_date eq "" } {
 	set creation_date [db_string get_date { *SQL* }]
     }
 
@@ -774,17 +774,17 @@ ad_proc -public evaluation::new_evaluation_group {
 
 } {
 
-    if { [empty_string_p $creation_user] } {
+    if { $creation_user eq "" } {
 	set creation_user [ad_conn user_id]
     }
-    if { [empty_string_p $creation_ip] } {
+    if { $creation_ip eq "" } {
 	set creation_ip [ad_conn peeraddr]
     }
-    if { [empty_string_p $context] } {
+    if { $context eq "" } {
 	set context [ad_conn package_id]
     }
 
-    if { [empty_string_p $creation_date] } {
+    if { $creation_date eq "" } {
 	set creation_date [db_string get_date { *SQL* }]
     }
 
@@ -848,10 +848,10 @@ ad_proc -public evaluation::new_grades_sheet {
 
 } {
 
-    if { [empty_string_p $creation_user] } {
+    if { $creation_user eq "" } {
 	set creation_user [ad_conn user_id]
     }
-    if { [empty_string_p $creation_ip] } {
+    if { $creation_ip eq "" } {
 	set creation_ip [ad_conn peeraddr]
     }
     set package_id [ad_conn package_id]
@@ -860,11 +860,11 @@ ad_proc -public evaluation::new_grades_sheet {
 
     set revision_id [db_nextval acs_object_id_seq]
 
-    if { [empty_string_p $publish_date] } {
+    if { $publish_date eq "" } {
 	set publish_date [db_string get_date { *SQL* }]
     }
 
-    if { [empty_string_p $creation_date] } {
+    if { $creation_date eq "" } {
 	set creation_date [db_string get_date { *SQL* }]
     }
 
@@ -922,7 +922,7 @@ ad_proc -public evaluation::generate_grades_sheet {} {
 	# the task is individual
 
 	set community_id [dotlrn_community::get_community_id]
-	if { [empty_string_p $community_id] } {
+	if { $community_id eq "" } {
 	    set sql_query [db_map sql_query_individual] 
 	} else {
 	    set sql_query [db_map sql_qyery_comm_ind]
@@ -935,7 +935,7 @@ ad_proc -public evaluation::generate_grades_sheet {} {
     }
     
     db_foreach parties_with_to_grade { *SQL* } {
-	if { ![empty_string_p $grade] } {
+	if { $grade ne "" } {
 	    set grade [lc_numeric $grade]
 	}
 	lappend csv_content "\n$party_id" 
@@ -1085,13 +1085,13 @@ ad_proc -public evaluation::public_answers_to_file_system {
     file mkdir $dir
 
     db_foreach get_answers_for_task { *SQL* } {
-	if { [string eq $storage_type "lob"] || [string eq $storage_type "file"] } {
+	if { $storage_type eq "lob" || $storage_type eq "file" } {
 	    # it is a file
 	    
 	    regsub -all {[<>:\"|/@\\\#%&+\\ ,]} $party_name {_} file_name
 	    append file_name [file extension $answer_title]
 	    
-	    if { [string eq $storage_type "file"] } {
+	    if {$storage_type eq "file"} {
 		# its a file
 		
 		file copy -- "[cr_fs_path $cr_path]${cr_file_name}" [file join ${dir} ${file_name}]
@@ -1204,7 +1204,7 @@ ad_proc -public evaluation::clone_grade {
     
 } {
     
-    set creation_user [ad_verify_and_get_user_id]
+    set creation_user [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
     
     set item_name "${content_type}_${item_id}"

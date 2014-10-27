@@ -7,9 +7,9 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 } {
-    task_id:integer,notnull
+    task_id:naturalnum,notnull
     {return_url "student-list?[export_vars -url { task_id }]"}
-    grade_id:optional
+    grade_id:naturalnum,optional
 } 
 
 set page_title "[_ evaluation.Edit_Evaluations_]"
@@ -54,21 +54,21 @@ template::list::create \
 
 set orderby [template::list::orderby_clause -orderby -name evaluated_students]
 
-if {[string equal $orderby ""]} {
+if {$orderby eq ""} {
     set orderby " order by party_name asc"
 } 
 
 db_multirow -extend { answer answer_url radio_yes_checked radio_no_checked submission_date_pretty } evaluated_students get_evaluated_students { *SQL* } {
     
-    set grade [format %0.2f [expr $grade*$max_grade/100]]
+    set grade [format %0.2f [expr {$grade*$max_grade/100}]]
     
-    if { [string eq $online_p "t"] } {
+    if {$online_p == "t"} {
 	if { [db_0or1row get_answer_info { *SQL* }] } {
 	    
 	    # working with answer stuff (if it has a file/url attached)
-	    if { [empty_string_p $answer_data] } {
+	    if { $answer_data eq "" } {
 		set answer "[_ evaluation.No_response_]"
-	    } elseif { [string eq $answer_title "link"] } {
+	    } elseif {$answer_title eq "link"} {
 		set answer_url "[export_vars -base "$answer_data" { }]"
 		set answer "[_ evaluation.View_answer_]"
 	    } else {
@@ -76,7 +76,7 @@ db_multirow -extend { answer answer_url radio_yes_checked radio_no_checked submi
 		set answer_url "[export_vars -base "[ad_conn package_url]view/$answer_title" { revision_id }]"
 		set answer "[_ evaluation.View_answer_]"
 	    }
-	    if { ![string eq $answer "[_ evaluation.No_response_]"] && [db_string compare_evaluation_date { *SQL* } -default 0] } {
+	    if { $answer ne "[_ evaluation.No_response_]" && [db_string compare_evaluation_date { *SQL* } -default 0] } {
 		set answer "<span style=\"color:red;\"> [_ evaluation.View_NEW_answer_]</span>"
 	    }
 	    set submission_date_pretty [lc_time_fmt $submission_date_ansi "%q %r"]
@@ -86,7 +86,7 @@ db_multirow -extend { answer answer_url radio_yes_checked radio_no_checked submi
 	}
     }
     
-    if { [string eq $show_student_p "t"] } {
+    if {$show_student_p == "t"} {
 	set radio_yes_checked "checked"
 	set radio_no_checked ""
     } else {

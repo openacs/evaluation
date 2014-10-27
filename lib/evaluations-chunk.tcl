@@ -6,7 +6,7 @@ ad_page_contract {
 
 set package_id [ad_conn package_id]
 set evaluation_id [evaluation_evaluations_portlet::get_package_id_from_key -package_key "evaluation"]
-set user_id [ad_verify_and_get_user_id]
+set user_id [ad_conn user_id]
 set admin_p [permission::permission_p -party_id $user_id -object_id $package_id -privilege admin]
 set simple_p  [parameter::get -parameter "SimpleVersion" -package_id $evaluation_id]
 set base_url "[ad_conn package_url]/"
@@ -161,7 +161,7 @@ template::list::create \
 
 set evaluations_orderby [template::list::orderby_clause -orderby -name $list_name]
 
-if { [string equal $evaluations_orderby ""] } {
+if {$evaluations_orderby eq ""} {
     set evaluations_orderby " order by task_name asc"
 }
 
@@ -173,11 +173,11 @@ if { $admin_p } {
         } else {
             set task_url [export_vars -base "${base_url}admin/evaluations/student-list" { grade_id task_id return_url }] 
         }
-        set category_weight [expr $category_weight + $task_weight]
+        set category_weight [expr {$category_weight + $task_weight}]
         set grade_url  [export_vars -base "${base_url}admin/evaluations/student-list" { grade_id task_id return_url }] 
-        set max_weight [format %0.2f [expr $max_weight + $task_weight]]
+        set max_weight [format %0.2f [expr {$max_weight + $task_weight}]]
         set task_weight [format %0.2f $task_weight]
-        set max_grade  [expr $max_grade + $perfect_score]
+        set max_grade  [expr {$max_grade + $perfect_score}]
         set max_grade_label "<div style='text-align:center;'><text class=blue>$max_grade pts.</text></div>"
         set solution_label "[_ evaluation-portlet.weight_possible_of_grade_] <text class=blue>$low_name )</text>"
         
@@ -213,7 +213,7 @@ if { $admin_p } {
         set grade_url  [export_vars -base "${base_url}admin/evaluations/student-list" { grade_id task_id return_url }] 
         if { [db_0or1row get_evaluation_info { *SQL* }] } {
             
-            if { ![empty_string_p $comments] } {
+            if { $comments ne "" } {
                 set comments "[_ evaluation-portlet.View_comments_]"
                 set comments_url "[export_vars -base "${base_url}evaluation-view" { evaluation_id return_url }]"
             } else {
@@ -224,18 +224,18 @@ if { $admin_p } {
 
             
             set over_weight ""
-            if { [string eq $show_student_p "t"] } {
-                if { ![empty_string_p $grade] } {
+            if {$show_student_p == "t"} {
+                if { $grade ne "" } {
                     set grade [lc_numeric $grade]
                     set over_weight "[lc_numeric $task_grade]/"
                     if { $simple_p } {
                         set task_grade [format %0.2f [expr ($grade*$perfect_score/100.0)]]
                     } 
-                    set total_grade [expr $total_grade + $task_grade] 
+                    set total_grade [expr {$total_grade + $task_grade}] 
                     if { $simple_p } {
-                        set max_grade [expr $task_grade + $max_grade] 
+                        set max_grade [expr {$task_grade + $max_grade}] 
                     } else {
-                        set max_grade [expr $task_weight + $max_grade] 
+                        set max_grade [expr {$task_weight + $max_grade}] 
                     }
                 } else {
                     set grade "[_ evaluation-portlet.Not_evaluated_]"
@@ -260,7 +260,7 @@ if { $admin_p } {
         if { [db_0or1row get_answer_info { *SQL* }] } {
             set submitted_date $creation_date
             # working with answer stuff (if it has a file/url attached)
-            if { [string eq $answer_title "link"] } {
+            if {$answer_title eq "link"} {
                 # there is a bug in the template::list, if the url does not has a http://, ftp://, the url is not absolute,
                 # so we have to deal with this case
                 array set community_info [site_node::get -url "[dotlrn_community::get_community_url [dotlrn_community::get_community_id]][evaluation::package_key]"]
@@ -275,7 +275,7 @@ if { $admin_p } {
                 set answer "[_ evaluation-portlet.View_my_answer_]"
             }
             
-            if { $number_of_members > 1 && [string eq [db_string get_group_id { *SQL* }] 0] } {
+            if { $number_of_members > 1 && [string equal [db_string get_group_id { *SQL* }] "0"] } {
                 set answer ""
                 set answer_url ""
                 set grade "[_ evaluation-portlet.No_group_for_task_]"
@@ -284,12 +284,12 @@ if { $admin_p } {
             set answer_url ""
             set answer ""
         }
-        set max_weight [expr $max_weight + $perfect_score]
+        set max_weight [expr {$max_weight + $perfect_score}]
         set max_grade_label "<div style='text-align:center'><text class=blue>$max_grade pts.</text></div>"
         set max_weight_label "<div style='text-align:center'><text class=blue>$max_weight %</text></div>"
-        if { [empty_string_p $submitted_date]} {
+        if { $submitted_date eq ""} {
             
-            if { [string eq $online_p "t"] } {
+            if {$online_p == "t"} {
                 if { [db_string compare_due_date { *SQL* } -default 0] } {
                     if { ![db_0or1row answer_info { *SQL* }] } {
                         set submitted_date "[_ evaluation-portlet.submit_answer_]"
@@ -300,7 +300,7 @@ if { $admin_p } {
                         set submitted_date_mode display
                         set submitted_date_url "[export_vars -base "${base_url}answer-add-edit" { grade_id task_id answer_id return_url answer_mode }]"
                     }
-                } elseif { [string eq $late_submit_p "t"] } {
+                } elseif {$late_submit_p == "t"} {
                     if { ![db_0or1row answer_info { *SQL* }] } {
                         set submitted_date "[_ evaluation-portlet.lt_submit_answer_style_f]"
                         set submitted_date_mode edit
@@ -311,14 +311,14 @@ if { $admin_p } {
                         set submitted_date_url "[export_vars -base "${base_url}answer-add-edit" { grade_id task_id answer_id return_url answer_mode }]"
                     }
                 }
-                if { $number_of_members > 1 && [string eq [db_string get_group_id { *SQL* }] 0] } {
+                if { $number_of_members > 1 && [string equal [db_string get_group_id { *SQL* }] "0"] } {
                     set submitted_date "[_ evaluation-portlet.No_group_for_task_]"
                     set submitted_date_url ""
                 }
             }
         } else {
             set submitted_date_url "[export_vars -base "${base_url}answer-view" { grade_id task_id return_url answer_mode {answer_id}}]"
-            if { $number_of_members > 1 && [string eq [db_string get_group_id { *SQL* }] 0] } {
+            if { $number_of_members > 1 && [string equal [db_string get_group_id { *SQL* }] "0"] } {
                 
                 set submitted_date "[_ evaluation-portlet.No_group_for_task_]"
                 set submitted_date_url ""

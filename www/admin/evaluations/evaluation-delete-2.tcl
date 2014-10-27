@@ -7,12 +7,12 @@ ad_page_contract {
     @creation-date Mar 2004
     @cvs-id $Id$
 } {
-    evaluation_id:integer,notnull
-	task_id:integer,notnull
+    evaluation_id:naturalnum,notnull
+	task_id:naturalnum,notnull
 	operation
 } 
 
-if { [string eq $operation [_ evaluation.lt_Yes_I_really_want_to_]] } {
+if {$operation eq [_ evaluation.lt_Yes_I_really_want_to_]} {
     db_transaction {
         evaluation::delete_student_eval -evaluation_id $evaluation_id
     } on_error {

@@ -8,13 +8,13 @@ ad_page_contract {
 
     @cvs-id $Id$
 } {
-    task_id:integer,notnull
-    solution_id:integer,notnull,optional
-    item_id:integer,notnull,optional
+    task_id:naturalnum,notnull
+    solution_id:naturalnum,notnull,optional
+    item_id:naturalnum,notnull,optional
     upload_file:trim,optional
     upload_file.tmpfile:tmpfile,optional
     {solution_mode "edit"}
-    grade_id:integer,notnull
+    grade_id:naturalnum,notnull
     return_url
     {attached_p "f"}
 }
@@ -43,9 +43,9 @@ if { ![ad_form_new_p -key solution_id] } {
 
     db_1row get_sol_info { *SQL* }
     
-    if { ![string eq $title "link"] && $content_length > 0 } {
+    if { $title ne "link" && $content_length > 0 } {
 
-	if { [string eq $solution_mode "edit"] } {
+	if {$solution_mode eq "edit"} {
 	    set attached_p "t"
 	    
 	    ad_form -extend -name solution -form {			
@@ -77,9 +77,9 @@ if { ![ad_form_new_p -key solution_id] } {
 		}			
 	    }
 	}
-    } elseif { [string eq $title "link"] } {
+    } elseif {$title eq "link"} {
 
-	if { [string eq $solution_mode "edit"] } {
+	if {$solution_mode eq "edit"} {
 
 	    set attached_p "t"
 	    
@@ -156,27 +156,27 @@ ad_form -extend -name solution -form {
 
 } -validate {
     {url
-	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || (![string eq $url "http://"] && [util_url_valid_p $url]) || ([string eq $url "http://"] && [empty_string_p $upload_file] && [string eq $unattach_p "t"]) }
+	{ ($url eq "http://" && $upload_file ne "") || ($url ne "http://" && $upload_file eq "") || ($url ne "http://" && [util_url_valid_p $url]) || ($url eq "http://" && $upload_file eq "" && $unattach_p == "t") }
 	{ [_ evaluation.lt_Upload_a_file_OR_a_va] }
     }
     {upload_file
-	{ ([string eq $url "http://"] && ![empty_string_p $upload_file]) || (![string eq $url "http://"] && [empty_string_p $upload_file]) || ([string eq $url "http://"] && [empty_string_p $upload_file] && [string eq $unattach_p "t"]) }
+	{ ($url eq "http://" && $upload_file ne "") || ($url ne "http://" && $upload_file eq "") || ($url eq "http://" && $upload_file eq "" && $unattach_p == "t") }
 	{ [_ evaluation.lt_Upload_a_file_OR_a_ur] }
     }
     {unattach_p 
-	{ ([string eq $unattach_p "t"] && [empty_string_p $upload_file] && [string eq $url "http://"]) || [empty_string_p $unattach_p] }
+	{ ($unattach_p == "t" && $upload_file eq "" && $url eq "http://") || $unattach_p eq "" }
 	{ [_ evaluation.lt_First_unattach_the_fi] }
     }
 } -on_submit {
     
     db_transaction {
 
-	if { [string eq $unattach_p "t"] } {
+	if {$unattach_p == "t"} {
 	    evaluation::revision_delete -revision_id $solution_id
 	} else {
 	    # set storage_type to its default value according to a db constraint
 	    set storage_type "lob"
-	    if { ![empty_string_p $upload_file] } {
+	    if { $upload_file ne "" } {
 		
 	    # Get the filename part of the upload file
 		if { ![regexp {[^//\\]+$} $upload_file filename] } {
@@ -190,10 +190,10 @@ ad_form -extend -name solution -form {
 		if { ![parameter::get -parameter "StoreFilesInDatabaseP" -package_id [ad_conn package_id]] } {
 		    set storage_type file
 		}
-	    }  elseif { ![string eq $url "http://"] } {
+	    }  elseif { $url ne "http://" } {
 		set mime_type "text/plain"
 		set title "link"
-	    } elseif { [string eq $attached_p "f"] } { 
+	    } elseif {$attached_p == "f"} { 
 		set mime_type "text/plain"
 		set title ""
 	    }
@@ -215,7 +215,7 @@ ad_form -extend -name solution -form {
 	    
 	    content::item::set_live_revision -revision_id $revision_id
 	    
-	    if { ![empty_string_p $upload_file] }  {
+	    if { $upload_file ne "" }  {
 		
 		set tmp_file [template::util::file::get_property tmp_filename $upload_file]
 		set content_length [file size $tmp_file]
@@ -237,7 +237,7 @@ ad_form -extend -name solution -form {
 		    
 		}
 		
-	    } elseif { ![string eq $url "http://"] } {
+	    } elseif { $url ne "http://" } {
 		
 			db_dml link_content { *SQL* }
 			set content_length [string length $url] 
@@ -245,7 +245,7 @@ ad_form -extend -name solution -form {
 			db_dml set_storage_type { *SQL* }
 			db_dml content_size { *SQL* }
 		
-	    } elseif { [string eq $attached_p "t"] && ![string eq $unattach_p "t"] } {
+	    } elseif { $attached_p == "t" && $unattach_p != "t" } {
 		# just copy the old content to the new revision
 		db_exec_plsql copy_content { *SQL* }
 	    } 

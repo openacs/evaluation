@@ -7,8 +7,8 @@ ad_page_contract {
 	@creation-date Mar 2004
 	@cvs-id $Id$
 } {
-	task_id:integer
-	evaluation_group_id:integer
+	task_id:naturalnum,notnull
+	evaluation_group_id:naturalnum,notnull
 	{orderby:optional}
 }
 
@@ -47,7 +47,7 @@ template::list::create \
 
 set orderby [template::list::orderby_clause -orderby -name one_group]
 
-if { [string equal $orderby ""] } {
+if {$orderby eq ""} {
     set orderby " order by student_name asc"
 }
 
