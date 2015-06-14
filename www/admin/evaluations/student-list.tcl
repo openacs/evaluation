@@ -12,7 +12,7 @@ ad_page_contract {
 } {
     {task_id:naturalnum,optional ""}
     {task_item_id:naturalnum,optional ""}
-    {show_portrait_p ""}
+    {show_portrait_p:boolean ""}
     {orderby_wa:optional}
     {orderby_na:optional}
     {orderby:optional}

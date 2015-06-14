@@ -14,12 +14,12 @@ ad_page_contract {
     upload_file.tmpfile:tmpfile,optional
     {mode "edit"}
     return_url
-    admin_groups_p:optional
-    {add_to_more_classes_p ""}
-    {attached_p "f"}
+    admin_groups_p:boolean,optional
+    {add_to_more_classes_p:boolean ""}
+    {attached_p:boolean "f"}
     {enable 1}
-    {return_p ""}
-    {simple_p ""}
+    {return_p:boolean ""}
+    {simple_p:boolean ""}
 
 }
 

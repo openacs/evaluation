@@ -7,9 +7,9 @@ ad_page_contract {
     no_grade:array
     weights:array
     {weight_sum "0"}
-    {points_p "0"}
+    {points_p:boolean "0"}
     {info ""}
-    {relative_p 0}
+    {relative_p:boolean 0}
 } -validate {
     valid_weights {
 	db_1row grade_info { *SQL* }
