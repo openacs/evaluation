@@ -3,7 +3,7 @@
 <property name="context">@context;noquote@</property>
 <if @simple_p@ eq 0>
 <if @admin_p@ eq 1>
-	<a href=admin/index>#evaluation.Evaluations_Admin#</a>
+	<a href="admin/index">#evaluation.Evaluations_Admin#</a>
 </if>
 
 <h2>#evaluation.Assignments#</h2><br>
@@ -33,7 +33,7 @@
 <li>#evaluation.lt_There_are_no_tasks_to#</li>
 </if><else>
 <if @admin_p@ eq 1>
-	<a href=admin/index>#evaluation.Evaluations_Admin#</a>
+	<a href="admin/index">#evaluation.Evaluations_Admin#</a>
 	<br>
 	<br>
 </if>

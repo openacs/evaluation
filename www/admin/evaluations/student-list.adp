@@ -37,7 +37,7 @@
  < if @show_portrait_p@ eq "f">
 	<td class="blue"><b>#evaluation.view_portraits#</b></td><td class="blue"><b>(<a href="@this_url@">#evaluation.yes_#</b></a>/#evaluation.no_#<b>)</b></td>
 < /if><else>
-	<td class="blue"><b>#evaluation.view_portraits#</b></td><td class="blue"><b>(</b>#evaluation.yes_#/<b><a href=@this_url@>#evaluation.no_#</a>)</b></td>
+	<td class="blue"><b>#evaluation.view_portraits#</b></td><td class="blue"><b>(</b>#evaluation.yes_#/<b><a href="@this_url@">#evaluation.no_#</a>)</b></td>
  < /else >
 </if>
 </tr>
@@ -123,18 +123,18 @@
 </else>
 </if>
 <form action="evaluate-students" method="post">
-    <div><input type=hidden name=task_id value="@task_id@"></div>
-    <div><input type=hidden name=grade_id value="@grade_id@"></div>
+    <div><input type="hidden" name="task_id" value="@task_id@"></div>
+    <div><input type="hidden" name="grade_id" value="@grade_id@"></div>
 
 	<listtemplate name="not_evaluated_wa"></listtemplate>
     <if @simple_p@ eq 1>
 	<br>
-    	<div><input type=image src="/resources/evaluation/submit.gif"></div>
+    	<div><input type="image" src="/resources/evaluation/submit.gif"></div>
     </if>
     <else>
-    <div><input type=submit value="#evaluation.Grade_1#"></div>
+    <div><input type="submit" value="#evaluation.Grade_1#"></div>
     </else>
-    <div><input type=submit value="#evaluation.Grade_1#"></div>
+    <div><input type="submit" value="#evaluation.Grade_1#"></div>
     </else>
 
 </form>
@@ -147,12 +147,12 @@
           <tr> 
           <th style="text-align:right;">#evaluation.lt_Grade_students_using_#</th> 
           <td><input type="file" name="upload_file"></td> 
-          <td colspan=2 style="text-align:right;"><input type="submit" value="#evaluation.Send#"></td> 
+          <td colspan="2" style="text-align:right;"><input type="submit" value="#evaluation.Send#"></td> 
           </tr> 
           <tr> 
           <td><a href="grades-sheet-csv-@task_id@.csv">#evaluation.Generate_file#</a></td> 
-          <td><a href="grades-sheets?task_id=@task_id@&return_url=student-list">#evaluation.lt_See_grades_sheets_ass#</a></td> 
-          <td colspan=2><a href="grades-sheet-explanation?task_id=@task_id@">#evaluation.How_does_this_work#</a></td> 
+          <td><a href="grades-sheets?task_id=@task_id@&amp;return_url=student-list">#evaluation.lt_See_grades_sheets_ass#</a></td> 
+          <td colspan="2"><a href="grades-sheet-explanation?task_id=@task_id@">#evaluation.How_does_this_work#</a></td> 
           </tr> 
        </table> 
   </form> 
@@ -169,7 +169,7 @@
           <tr> 
           <th style="text-align:right;"><text class="blue">#evaluation.lt_Grade_students_using_#</text></th> 
           <td><input type="file" name="upload_file" src="/resources/evaluation/browse.gif"></td> 
-          <td colspan=2 style="text-align:right;"><input type="image" src="/resources/evaluation/upload.gif"></td> 
+          <td colspan="2" style="text-align:right;"><input type="image" src="/resources/evaluation/upload.gif"></td> 
           </tr> 
          </table>
           
@@ -206,25 +206,25 @@
 <if @simple_p@ eq 0>
 <if @number_of_members@ eq "1">
  <if @show_portrait_p@ eq "t">
-	<p>#evaluation.Click# <a href=@this_url@> #evaluation.here# </a> #evaluation.lt_if_you_do_not_want_to#</p>
+	<p>#evaluation.Click# <a href="@this_url@"> #evaluation.here# </a> #evaluation.lt_if_you_do_not_want_to#</p>
  </if><else>
-	<p>#evaluation.Click# <a href=@this_url@> #evaluation.here# </a> #evaluation.lt_if_you_want_to_see_th#</p>
+	<p>#evaluation.Click# <a href="@this_url@"> #evaluation.here# </a> #evaluation.lt_if_you_want_to_see_th#</p>
  </else>
 </if><else>
 <p>#evaluation.If#</p>
 </else>
 </if>
 <form action="evaluate-students" method="post">
-    <div><input type=hidden name=task_id value=@task_id@></div>
+    <div><input type="hidden" name="task_id" value=@task_id@></div>
 
 	<listtemplate name="not_evaluated_na"></listtemplate>
 	<table width="100%">
 	<tr>
-	        <td align=left><if @simple_p@ eq 0><input type=submit value="#evaluation.Grade_1#"></if>
+	        <td align="left"><if @simple_p@ eq 0><input type="submit" value="#evaluation.Grade_1#"></if>
 	<else>
 	<br>
-	<input type=image src="/resources/evaluation/submit.gif">
-	</else></td><td align=left><input type=checkbox name="grade_all"><text class=blue>#evaluation.lt_Grade_students_with_0#</text></td>
+	<input type="image" src="/resources/evaluation/submit.gif">
+	</else></td><td align="left"><input type="checkbox" name="grade_all"><text class=blue>#evaluation.lt_Grade_students_with_0#</text></td>
 	</tr>
 	</table>
 
@@ -239,12 +239,12 @@
           <tr> 
           <th style="text-align:right;">#evaluation.lt_Grade_students_using_#</th> 
           <td><input type="file" name="upload_file"></td> 
-          <td colspan=2 style="text-align:right;"><input type="submit" value="#evaluation.Send#"></td> 
+          <td colspan="2" style="text-align:right;"><input type="submit" value="#evaluation.Send#"></td> 
           </tr> 
           <tr> 
           <td><a href="grades-sheet-csv-@task_id@.csv">#evaluation.Generate_file#</a></td> 
-          <td><a href="grades-sheets?task_id=@task_id@&return_url=student-list">#evaluation.lt_See_grades_sheets_ass#</a></td> 
-          <td colspan=2><a href="grades-sheet-explanation?task_id=@task_id@">#evaluation.How_does_this_work#</a></td> 
+          <td><a href="grades-sheets?task_id=@task_id@&amp;return_url=student-list">#evaluation.lt_See_grades_sheets_ass#</a></td> 
+          <td colspan="2"><a href="grades-sheet-explanation?task_id=@task_id@">#evaluation.How_does_this_work#</a></td> 
           </tr> 
        </table> 
   </form> 
@@ -264,7 +264,7 @@
           <tr> 
           <th style="text-align:right;"><text class="blue">#evaluation.lt_Grade_students_using_#</text></th> 
           <td><input type="file" name="upload_file"></td> 
-          <td colspan=2 style="text-align:right;"><input type="image" src="/resources/evaluation/upload.gif"></td> 
+          <td colspan="2" style="text-align:right;"><input type="image" src="/resources/evaluation/upload.gif"></td> 
           </tr> 
        </table> 
   </form> 
@@ -301,22 +301,22 @@
 </else>
 
 <form action="evaluate-students" method="post">
-    <div><input type=hidden name=task_id value="@task_id@"></div>
-    <div><input type=hidden name=grade_id value="@grade_id@"></div>
+    <div><input type="hidden" name="task_id" value="@task_id@"></div>
+    <div><input type="hidden" name="grade_id" value="@grade_id@"></div>
 
 	<listtemplate name="class_students"></listtemplate>
 	<if @simple_p@ eq 1>
 	<br>
 	<table width="100%">
 	<tr>
-	<td align=left><input type=image src="/resources/evaluation/submit.gif"><td>
-	<td align=left><input type=checkbox name="grade_all"><text class="blue">#evaluation.lt_Grade_students_with_0#</text></td>
+	<td align="left"><input type="image" src="/resources/evaluation/submit.gif"><td>
+	<td align="left"><input type="checkbox" name="grade_all"><text class="blue">#evaluation.lt_Grade_students_with_0#</text></td>
 	</tr>
 	</table>
         </if>
 	<else>
-	    <div><input type=submit value="#evaluation.Grade_1#"></div>
-        <div><input type=checkbox name="grade_all">#evaluation.lt_Grade_students_with_0#</div>
+	    <div><input type="submit" value="#evaluation.Grade_1#"></div>
+        <div><input type="checkbox" name="grade_all">#evaluation.lt_Grade_students_with_0#</div>
 	</else>
 
 </form>
@@ -328,13 +328,13 @@
           <tr> 
           <th style="text-align:right;">#evaluation.lt_Grade_students_using_#</th> 
           <td><input type="file" name="upload_file"></td> 
-          <td colspan=2 style="text-align:right;"><input type="submit" value="#evaluation.Send#"></td> 
+          <td colspan="2" style="text-align:right;"><input type="submit" value="#evaluation.Send#"></td> 
 	  
           </tr> 
           <tr> 
           <td><a href="grades-sheet-csv-@task_id@.csv">#evaluation.Generate_file#</a></td> 
           <td><a href="grades-sheets?task_id=@task_id@">#evaluation.lt_See_grades_sheets_ass#</a></td> 
-          <td colspan=2><a href="grades-sheet-explanation?task_id=@task_id@">#evaluation.How_does_this_work#</a></td> 
+          <td colspan="2"><a href="grades-sheet-explanation?task_id=@task_id@">#evaluation.How_does_this_work#</a></td> 
           </tr> 
        </table> 
   </form> 
@@ -353,7 +353,7 @@
           <tr> 
           <th style="text-align:right;"><text class="blue">#evaluation.lt_Grade_students_using_#</text></th> 
           <td><input type="file" name="upload_file" src="/resources/evaluation/browse.gif"></td> 
-          <td colspan=2 style="text-align:right;"><input type="image" src="/resources/evaluation/upload.gif"></td> 
+          <td colspan="2" style="text-align:right;"><input type="image" src="/resources/evaluation/upload.gif"></td> 
 	  
           </tr> 
          </table>

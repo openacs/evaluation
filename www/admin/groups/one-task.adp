@@ -12,15 +12,15 @@
 <if @students_without_group:rowcount@ gt 0>
 	<table width="100%">
 		<tr>
-		<td align=right>@reuse_link;noquote@</td>
+		<td align="right">@reuse_link;noquote@</td>
 		</tr>
 	</table>
 	<form action="group-new">
-	<div><input type=hidden name=task_id value="@task_id@"></div>
+	<div><input type="hidden" name="task_id" value="@task_id@"></div>
 
 	<table>
 		<tr>
-		<td><input type=submit value="#evaluation.Create_Group_#"></td>
+		<td><input type="submit" value="#evaluation.Create_Group_#"></td>
 		<td><listtemplate name="students_without_group"></listtemplate></td>
 		<td>
 		<h2>#evaluation.lt_Number_of_members_for# <br> 

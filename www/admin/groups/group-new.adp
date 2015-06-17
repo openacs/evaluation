@@ -11,8 +11,8 @@
 	<td><input type="text" name="group_name" value="#evaluation.Create# @current_groups_plus_one@" size=20></td>
 </tr>
 <tr>
-      <input type=hidden name=task_id value="@task_id@">
-      <input type=hidden name=evaluation_group_id value="@evaluation_group_id@">
+      <input type="hidden" name="task_id" value="@task_id@">
+      <input type="hidden" name="evaluation_group_id" value="@evaluation_group_id@">
 
 	 	<td></td>
 		<td>
@@ -26,7 +26,7 @@
 		</td>
 		</tr>
 		<tr>
-        <td><input type=submit value="#evaluation.Create_Group_#"></td>
+        <td><input type="submit" value="#evaluation.Create_Group_#"></td>
 		<td></td>
 		</tr>
 </table>

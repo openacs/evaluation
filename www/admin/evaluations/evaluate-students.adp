@@ -8,9 +8,9 @@
    <form action="evaluate-students-2" method="post">
 	@export_vars;noquote@
       <div>
-      <input type=hidden name=task_id value="@task_id@">
-      <input type=hidden name=max_grade value="@max_grade@">
-      <input type=submit value="#evaluation.Grade_1#" > <input type=button value="#evaluation.Go#" onClick="history.go(-1)"> 
+      <input type="hidden" name="task_id" value="@task_id@">
+      <input type="hidden" name="max_grade" value="@max_grade@">
+      <input type="submit" value="#evaluation.Grade_1#" > <input type="button" value="#evaluation.Go#" onClick="history.go(-1)"> 
       </div>
         <table>
           <multiple name="evaluations_wa">
@@ -24,7 +24,7 @@
           </multiple>
         </table>
         <div>
-        <input type=submit value="#evaluation.Grade_1#" > <input type=button value="#evaluation.Go#" onClick="history.go(-1)"> 
+        <input type="submit" value="#evaluation.Grade_1#" > <input type="button" value="#evaluation.Go#" onClick="history.go(-1)"> 
         </div>
    </form> 
 </if> 
@@ -32,9 +32,9 @@
   <form action="evaluate-students-2" method="post"> 
   @export_vars;noquote@ 
   <div>
-  <input type=hidden name=task_id value="@task_id@"> 
-  <input type=hidden name=max_grade value="@max_grade@"> 
-  <input type=submit value="#evaluation.Grade_1#" >
+  <input type="hidden" name="task_id" value="@task_id@"> 
+  <input type="hidden" name="max_grade" value="@max_grade@"> 
+  <input type="submit" value="#evaluation.Grade_1#" >
   </div>
 
     <table> 
@@ -50,8 +50,8 @@
        </multiple> 
     </table> 
   <div>
-  <input type=submit value="#evaluation.Grade_1#" >
-  <input type=button value="#evaluation.Go#" onClick="history.go(-1)">
+  <input type="submit" value="#evaluation.Grade_1#" >
+  <input type="button" value="#evaluation.Go#" onClick="history.go(-1)">
   </div>
   </form>
 </if>
@@ -60,9 +60,9 @@
    <form action="evaluate-students-2" method="post">
 	@export_vars;noquote@
       <div>
-      <input type=hidden name=task_id value="@task_id@">
-      <input type=hidden name=max_grade value="@max_grade@">
-      <input type=submit value="#evaluation.Confirm#">
+      <input type="hidden" name="task_id" value="@task_id@">
+      <input type="hidden" name="max_grade" value="@max_grade@">
+      <input type="submit" value="#evaluation.Confirm#">
       </div>
 
         <table>
@@ -77,7 +77,7 @@
           </multiple>
         </table>
         <div>
-        <input type=submit value="#evaluation.Confirm#">
+        <input type="submit" value="#evaluation.Confirm#">
         </div>
     </form>
 </if>

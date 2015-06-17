@@ -7,5 +7,5 @@
 <listtemplate name="grades_sheets"></listtemplate>
 
 <p>
-<a href=@return_url;noquote@?task_id=@task_id@>Go Back</a>
+<a href="@return_url;noquote@?task_id=@task_id@">Go Back</a>
 </p>

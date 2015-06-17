@@ -14,4 +14,4 @@
 </div>
 <listtemplate name="answers"></listtemplate>
 <br>
-<a href=@submitted_date_url@ class=button>@submitted_date;noquote@</a>
+<a href="@submitted_date_url@" class=button>@submitted_date;noquote@</a>

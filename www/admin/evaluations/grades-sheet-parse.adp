@@ -20,7 +20,7 @@
           </multiple>
         </table>
         <div>
-        <input type=submit value="#evaluation.Grade_1#"> <input type=button value="#evaluation.Go_Back#" onClick="history.go(-1)">
+        <input type="submit" value="#evaluation.Grade_1#"> <input type="button" value="#evaluation.Go_Back#" onClick="history.go(-1)">
         </div>
     </form>
 </if><else>
