@@ -24,4 +24,4 @@ if {$operation eq [_ evaluation.lt_Yes_I_really_want_to_]} {
 db_release_unused_handles
 
 # redirect to the index page by default
-ad_returnredirect "student-list?[export_vars -url { task_id }]"
+ad_returnredirect [export_vars -base student-list { task_id }]

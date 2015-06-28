@@ -8,7 +8,7 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     task_id:naturalnum,notnull
-    {return_url "student-list?[export_vars -url { task_id }]"}
+    {return_url [export_vars -base student-list { task_id }]}
     grade_id:naturalnum,optional
 } 
 

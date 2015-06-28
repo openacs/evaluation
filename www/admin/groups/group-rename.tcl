@@ -14,5 +14,5 @@ ad_page_contract {
 
 db_dml rename_group { *SQL* }		
 
-ad_returnredirect "one-group?[export_vars -url { task_id evaluation_group_id }]"
+ad_returnredirect [export_vars -base one-group { task_id evaluation_group_id }]
 

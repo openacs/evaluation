@@ -15,7 +15,7 @@ ad_page_contract {
     {show_portrait_p:boolean ""}
     {orderby_wa:optional}
     {orderby_na:optional}
-    {orderby:optional}
+    {orderby:token,optional}
     {grade_id:naturalnum ""}
     {class "list"}
     {bulk_actions ""}
@@ -41,29 +41,31 @@ if { $task_id eq "" } {
 db_1row get_task_info { *SQL* }
 
 
-set return_url "[ad_conn url]?[export_vars -url { task_item_id }]"
+set return_url [export_vars -base [ad_conn url] -url { task_item_id }]
 
 set community_id [dotlrn_community::get_community_id]
 set max_grade $perfect_score
-set page_title "[_ evaluation.lt_Students_List_for_tas]"
-set context [list "[_ evaluation.lt_Students_List_for_tas]"]
+set page_title [_ evaluation.lt_Students_List_for_tas]
+set context [list [_ evaluation.lt_Students_List_for_tas]]
 
 if {$show_portrait_p == "t"} {
-    set this_url "student-list?[export_vars -entire_form -url { { show_portrait_p f } }]"
+    set this_url [export_vars -base student-list -entire_form -url { { show_portrait_p f } }]
 } else {
-    set this_url "student-list?[export_vars -entire_form -url { { show_portrait_p t } }]"
+    set this_url [export_vars -base student-list -entire_form -url { { show_portrait_p t } }]
 }
 
 set due_date_pretty  [lc_time_fmt $due_date_ansi "%q %r"]
 
 if { $number_of_members > 1 } {
-    set groups_admin "<a href=\"[export_vars -base ../groups/one-task { task_id }]\">[_ evaluation.lt_Groups_administration]</a>"
+    set href [export_vars -base ../groups/one-task { task_id }]
+    set groups_admin [subst {<a href="[ns_quotehtml $href]">[_ evaluation.lt_Groups_administration]</a>}]
 } else {
     set groups_admin ""
 }
-set task_admin_url "[export_vars -base ../tasks/task-add-edit { task_id grade_id return_url }]"
+set task_admin_url [export_vars -base ../tasks/task-add-edit { task_id grade_id return_url }]
 
-set task_admin "<a href=\"[export_vars -base ../tasks/task-add-edit { task_id grade_id return_url }]\">[_ evaluation.lt_task_name_administrat]</a>"
+set href [export_vars -base ../tasks/task-add-edit { task_id grade_id return_url }]
+set task_admin [subst {<a href="[ns_quotehtml $href]">[_ evaluation.lt_task_name_administrat]</a>}]
 
 set done_students [list]
 set evaluation_mode "display"
@@ -188,11 +190,11 @@ db_multirow -extend { action action_url submission_date_pretty count points} eva
 	    if { $answer_data eq "" } {
 		set action "[_ evaluation.No_response_]"
 	    } elseif {$answer_title eq "link"} {
-		set action_url "[export_vars -base "$answer_data" { }]"
+		set action_url [export_vars -base $answer_data { }]
 		set action "[_ evaluation.View_answer_]"
 	    } else {
 		# we assume it's a file
-		set action_url "[export_vars -base "../../view/$answer_title" { revision_id }]"
+		set action_url [export_vars -base "../../view/$answer_title" { revision_id }]
 		set action "<a href=\"$action_url\">[_ evaluation.View_answer_]</a>"
 	    }
 
@@ -261,7 +263,7 @@ lappend elements comments \
 	] 
 lappend elements show_answer \
     [list label "[_ evaluation.see_grades]" \
-	 display_template { <pre>[_ evaluation.Yes_]<input checked type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=t> [_ evaluation.No_]<input type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=f></pre> } \
+	 display_template { <pre>[_ evaluation.Yes_]<input checked type=radio name="show_student_wa.@not_evaluated_wa.party_id@" value=t> [_ evaluation.No_]<input type="radio" name="show_student_wa.@not_evaluated_wa.party_id@" value=f></pre> } \
 	] 
 
 template::list::create \
@@ -290,9 +292,10 @@ db_multirow -extend { party_url answer answer_url submission_date_pretty portrai
 	ns_set put $tag_attributes alt "[_ evaluation.lt_No_portrait_for_party]"
 	ns_set put $tag_attributes width 98
 	ns_set put $tag_attributes height 104
-	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id -tag_attributes $tag_attributes]</a>"
+	set href [export_vars -base ../grades/student-grades-report { { student_id $party_id } }]
+	set portrait [subst {<a href="[ns_quotehtml $href]">[evaluation::get_user_portrait -user_id $party_id -tag_attributes $tag_attributes]</a>]
     } else {
-	set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
+	set party_url [export_vars -base ../groups/one-task -anchor groups { task_id return_url }]
     }
 
     lappend done_students $party_id
@@ -406,9 +409,12 @@ db_multirow -extend { party_url portrait } not_evaluated_na get_not_evaluated_na
 	ns_set put $tag_attributes alt "[_ evaluation.lt_No_portrait_for_party]"
 	ns_set put $tag_attributes width 98
 	ns_set put $tag_attributes height 104
-	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id -tag_attributes $tag_attributes]</a>"
+	set href [export_vars -base ../grades/student-grades-report { { student_id $party_id } }]
+	set portrait [subst {<a href="[ns_quotehtml $href]">[evaluation::get_user_portrait \
+								 -user_id $party_id \
+								 -tag_attributes $tag_attributes]</a>}]
     } else {
-	set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
+	set party_url [export_vars -href ../groups/one-task -anchor groups { task_id return_url }]
     }
 }
 
@@ -506,9 +512,12 @@ db_multirow -extend { party_url portrait } class_students class_students { *SQL*
 	ns_set put $tag_attributes alt "[_ evaluation.lt_No_portrait_for_party]"
 	ns_set put $tag_attributes width 98
 	ns_set put $tag_attributes height 104
-	set portrait "<a href=\"../grades/student-grades-report?[export_vars -url { { student_id $party_id } }]\">[evaluation::get_user_portrait -user_id $party_id -tag_attributes $tag_attributes]</a>"
+	set href [export_vars -base ../grades/student-grades-report { { student_id $party_id } }]
+	set portrait [subst {<a href="[ns_quotehtml $href]">[evaluation::get_user_portrait \
+								 -user_id $party_id \
+								 -tag_attributes $tag_attributes]</a>}]
     } else {
-	set party_url "../groups/one-task?[export_vars -url { task_id return_url }]#groups"
+	set party_url [export_vars -base ../groups/one-task -anchor groups { task_id return_url }]
     }
 }
 

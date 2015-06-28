@@ -16,7 +16,7 @@ db_exec_plsql delete_relationship { *SQL* }
 
 if {[db_string get_members { *SQL* }] eq "0"} {
     db_exec_plsql delete_group { *SQL* }
-    ad_returnredirect "one-task?[export_vars -url { task_id }]"
+    ad_returnredirect [export_vars -base one-task { task_id }]
 }
 
-ad_returnredirect "one-group?[export_vars -url { evaluation_group_id task_id }]"
+ad_returnredirect [export_vars -base one-group { evaluation_group_id task_id }]

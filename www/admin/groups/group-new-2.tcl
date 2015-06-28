@@ -34,6 +34,6 @@ db_transaction {
 	}
 }
 
-ad_returnredirect "one-task?[export_vars -url { task_id }]"
+ad_returnredirect [export_vars -base one-task { task_id }]
 
 

@@ -9,7 +9,7 @@ ad_page_contract {
 } {
 	student_id:naturalnum,notnull
 	task_id:naturalnum,notnull
-	{orderby:optional}
+	{orderby:token,optional}
 } -validate {
 	target_exists {
 		if { [string equal "select count(group_id) from evaluation_task_groups where task_id = :task_id" 0] } {

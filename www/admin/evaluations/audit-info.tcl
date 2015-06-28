@@ -10,7 +10,7 @@ ad_page_contract {
 
 } {
     task_id:naturalnum,notnull
-    {orderby:optional ""}
+    {orderby:token,optional ""}
 }
 
 db_1row get_task_info { *SQL* }

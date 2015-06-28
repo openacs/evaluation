@@ -9,7 +9,7 @@ set package_id [ad_conn package_id]
 set base_url [ad_conn package_url]
 
 set mode display
-set return_url "[ad_conn url]?[export_vars { grade_id }]"
+set return_url [export_vars -base [ad_conn url] { grade_id }]
 
 db_1row grade_info { *SQL* }
 

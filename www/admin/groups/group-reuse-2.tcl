@@ -46,6 +46,6 @@ db_transaction {
 } 
 
 
-ad_returnredirect "one-task.tcl?[export_vars task_id]" 
+ad_returnredirect [export_vars -base one-task.tcl task_id] 
 
 

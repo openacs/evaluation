@@ -82,7 +82,7 @@ if {$orderby eq ""} {
     set orderby " order by task_name asc"
 }
 
-set return_url "../grades/distribution-edit?[export_vars { grade_id } ]"
+set return_url [export_vars -base ../grades/distribution-edit { grade_id } ]
 
 db_multirow -extend { radio_yes_checked radio_no_checked delete_template } grades get_grade_tasks { *SQL* } {
     

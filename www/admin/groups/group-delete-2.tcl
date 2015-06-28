@@ -29,4 +29,4 @@ if {$operation eq "[_ evaluation.lt_Yes_I_really_want_to__2]"} {
 
 db_release_unused_handles
 
-ad_returnredirect "one-task?[export_vars -url { task_id }]"
+ad_returnredirect [export_vars -base one-task { task_id }]

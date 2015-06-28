@@ -10,7 +10,7 @@ ad_page_contract {
     
 } {
     student_id:naturalnum,notnull
-    {orderby:optional ""}
+    {orderby:token,optional ""}
 }
 
 db_1row student_info { *SQL* } 

@@ -280,5 +280,5 @@ db_transaction {
     }
 }
 
-ad_returnredirect "student-list?[export_vars { task_id } ]"
+ad_returnredirect [export_vars -base student-list { task_id } ]
 

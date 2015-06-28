@@ -10,7 +10,7 @@ ad_page_contract {
 
 
 } {
-    {orderby ""}
+    {orderby:token ""}
 } -validate {
     grades_for_package {
 	if {[db_string package_grades { *SQL* }] eq "0"} {

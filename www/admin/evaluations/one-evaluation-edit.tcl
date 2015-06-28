@@ -12,7 +12,7 @@ ad_page_contract {
     {evaluation_mode "edit"}
 } 
 
-set return_url "student-list?[export_vars -url { task_id }]"
+set return_url [export_vars -base student-list { task_id }]
 
 set page_title "[_ evaluation.ViewEdit_Evaluation_]"
 

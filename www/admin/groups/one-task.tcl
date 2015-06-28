@@ -8,7 +8,7 @@ ad_page_contract {
 	@cvs-id $Id$
 } {
 	task_id:naturalnum,notnull
-	{orderby:optional}
+	{orderby:token,optional}
 	{orderby_groups:optional}
 	{return_url ""}
 } -validate {

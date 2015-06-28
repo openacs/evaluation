@@ -9,7 +9,7 @@ ad_page_contract {
 } {
 	task_id:naturalnum,notnull
 	evaluation_group_id:naturalnum,notnull
-	{orderby:optional}
+	{orderby:token,optional}
 }
 
 set number_of_members [db_string get_no_of_members { *SQL* }]
@@ -22,7 +22,7 @@ if { $number_of_members } {
 	append page_title ": $group_name"
 }
 
-set return_url "[ad_conn url]?[export_vars -url { evaluation_group_id task_id }]"
+set return_url [export_vars -base [ad_conn url] -url { evaluation_group_id task_id }]
 
 set actions [list "[_ evaluation.Delete_Group_]" [export_vars -base "group-delete" { evaluation_group_id task_id return_url }]  {}]
 

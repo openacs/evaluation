@@ -8,7 +8,7 @@ ad_page_contract {
 	@cvs-id $Id$
 } {
 	task_id:naturalnum,notnull
-	{orderby:optional}
+	{orderby:token,optional}
 }
 
 set package_id [ad_conn package_id]

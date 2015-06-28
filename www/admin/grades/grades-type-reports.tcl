@@ -9,7 +9,7 @@ ad_page_contract {
 	@cvs-id $Id$
 
 } {
-	{orderby ""}
+	{orderby:token ""}
 	grade_id:naturalnum,notnull
 } -validate {
 	tasks_for_grade {
