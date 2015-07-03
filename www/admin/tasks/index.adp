@@ -1,8 +1,8 @@
 <master>
-<property name="title">@page_title;noquote@</property>
-<property name="context">@context;noquote@</property>
+<property name="doc(title)">@page_title;literal@</property>
+<property name="context">@context;literal@</property>
 
-<property name="context">@context;noquote@</property>
+<property name="context">@context;literal@</property>
 <if @simple_p@ eq 1>
 <h1 class=blue>#evaluation.Evaluations#</h1>
 <br>

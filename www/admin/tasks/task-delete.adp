@@ -1,6 +1,6 @@
 <master>
-<property name="context">@context;noquote@</property>
-<property name="title">#evaluation.Remove_Grade#</property>
+<property name="context">@context;literal@</property>
+<property name="doc(title)">#evaluation.Remove_Grade#</property>
 
 <p>#evaluation.lt_Are_you_sure_you_want_2#</p>
 

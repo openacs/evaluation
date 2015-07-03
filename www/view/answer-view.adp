@@ -1,5 +1,5 @@
 <master>
-<property name=title>@page_title;noquote@</property>
+<property name="doc(title)">@page_title;literal@</property>
 <property name=context>@context;noquote@</property>
 <h1 class=blue>@page_title;noquote@</h1>
 <br>
