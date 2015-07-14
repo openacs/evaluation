@@ -18,7 +18,7 @@
 <ul>
 <multiple name="grades">
 	<li><strong>@grades.grade_plural_name@</strong> <br>
-	<include src="/packages/evaluation/lib/student-grades-report-chunk" grade_id=@grades.grade_id@ orderby=@orderby@ student_id=@student_id@>
+	<include src="/packages/evaluation/lib/student-grades-report-chunk" grade_id="@grades.grade_id;literal@" orderby="@orderby;literal@" student_id="@student_id;literal@">
 	</li>
 </multiple>
 </ul>

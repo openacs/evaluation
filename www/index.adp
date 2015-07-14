@@ -18,7 +18,7 @@
     <else>
       <multiple name="grades">
         <h2>@grades.grade_plural_name;noquote@</h2>
-        <include src="/packages/evaluation/lib/tasks-chunk" grade_item_id=@grades.grade_item_id@ grade_id=@grades.grade_id@ assignments_orderby=@assignments_orderby@>
+        <include src="/packages/evaluation/lib/tasks-chunk" grade_item_id="@grades.grade_item_id;literal@" grade_id="@grades.grade_id;literal@" assignments_orderby="@assignments_orderby;literal@">
       </multiple>
     </else>
 
@@ -30,7 +30,7 @@
     <else>
       <multiple name="grades">
         <h2>@grades.grade_plural_name;noquote@</h2>
-        <include src="/packages/evaluation/lib/evaluations-chunk" grade_item_id=@grades.grade_item_id@ grade_id=@grades.grade_id@ evaluations_orderby=@evaluations_orderby@>
+        <include src="/packages/evaluation/lib/evaluations-chunk" grade_item_id="@grades.grade_item_id;literal@" grade_id="@grades.grade_id;literal@" evaluations_orderby="@evaluations_orderby;literal@">
       </multiple>
       <if @admin_p@ eq "0">
         <p>

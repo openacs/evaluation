@@ -18,7 +18,7 @@
 </if><else>
 <multiple name="grades">
 	<li><strong>@grades.grade_plural_name;noquote@</strong> <br>
-	<include src="/packages/evaluation/lib/tasks-chunk" grade_item_id=@grades.grade_item_id@ grade_id=@grades.grade_id@ assignments_orderby=@assignments_orderby@>
+	<include src="/packages/evaluation/lib/tasks-chunk" grade_item_id="@grades.grade_item_id;literal@" grade_id="@grades.grade_id;literal@" assignments_orderby="@assignments_orderby;literal@">
         <br><br>
 	</li>
 </multiple>
@@ -33,7 +33,7 @@
 </if><else>
 <multiple name="grades">
 	<li><strong>@grades.grade_plural_name;noquote@</strong> <br>
-	<include src="/packages/evaluation/lib/evaluations-chunk" grade_item_id=@grades.grade_item_id@ grade_id=@grades.grade_id@ evaluations_orderby=@evaluations_orderby@>
+	<include src="/packages/evaluation/lib/evaluations-chunk" grade_item_id="@grades.grade_item_id;literal@" grade_id="@grades.grade_id;literal@" evaluations_orderby="@evaluations_orderby;literal@">
         <br><br>
 	</li>
 </multiple>
