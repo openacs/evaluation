@@ -205,3 +205,9 @@ set export_vars [export_vars -form { grades_wa comments_wa show_student_wa grade
 
 
 
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

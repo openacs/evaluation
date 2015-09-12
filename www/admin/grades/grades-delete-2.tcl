@@ -37,3 +37,9 @@ if {$operation eq "[_ evaluation.lt_Yes_I_really_want_to__1]"} {
 db_release_unused_handles
 
 ad_returnredirect $return_url
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

@@ -32,3 +32,9 @@ set total_class_grade [lc_numeric [db_string get_total_grade { *SQL* }]]
 set max_possible_grade [lc_numeric [db_string max_possible_grade { *SQL* }]]
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

@@ -20,3 +20,9 @@ if {[db_string get_members { *SQL* }] eq "0"} {
 }
 
 ad_returnredirect [export_vars -base one-group { evaluation_group_id task_id }]
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

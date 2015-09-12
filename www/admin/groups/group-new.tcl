@@ -40,3 +40,9 @@ set students:rowcount $counter
 set export_vars [export_vars -form { student_ids }]
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

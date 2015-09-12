@@ -108,3 +108,9 @@ db_multirow -extend { radio_yes_checked radio_no_checked delete_template } grade
 
 template::head::add_css -href "/resources/evaluation/evaluation.css"
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

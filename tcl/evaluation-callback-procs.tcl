@@ -72,3 +72,8 @@ ad_proc -callback application-track::getApplicationName -impl evaluation {} {
 	    
 	}
     }         
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

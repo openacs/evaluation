@@ -20,3 +20,9 @@ db_1row get_group_info { *SQL* }
 set export_vars [export_vars -form { evaluation_group_id task_id return_url }]
 
 
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

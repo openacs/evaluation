@@ -72,3 +72,9 @@ ad_form -name grade -cancel_url [export_vars -base grades { }] -export { } -form
 }
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

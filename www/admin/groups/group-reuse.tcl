@@ -48,3 +48,8 @@ db_multirow -extend { task_url } groups get_groups { *SQL* } {
 }
 
  
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

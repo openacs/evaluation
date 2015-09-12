@@ -78,3 +78,9 @@ if {$orderby eq ""} {
 db_multirow -extend { student_url } grade_tasks $query_name " *SQL* " {
     set student_url [export_vars -base "student-grades-report" -url { {student_id $user_id} }]
 }
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

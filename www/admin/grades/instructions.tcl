@@ -13,3 +13,9 @@ set equal_value "[_ evaluation.equal_value]"
 set options "[_ evaluation.inst_options]"
 set instructions "[_ evaluation.inst_step_1]"
 
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

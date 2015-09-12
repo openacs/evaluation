@@ -25,3 +25,9 @@ db_release_unused_handles
 
 # redirect to the index page by default
 ad_returnredirect [export_vars -base student-list { task_id }]
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

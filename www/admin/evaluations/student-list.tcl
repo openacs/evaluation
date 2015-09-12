@@ -532,3 +532,9 @@ set grades_sheet_item_id [db_nextval acs_object_id_seq]
 
 template::head::add_css -href "/resources/evaluation/evaluation.css"
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

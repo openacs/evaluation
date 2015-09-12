@@ -24,3 +24,9 @@ db_1row get_grade_info { *SQL* }
 set export_vars [export_vars -form -- {grade_id return_url}]
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

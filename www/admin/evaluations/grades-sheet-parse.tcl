@@ -216,3 +216,9 @@ if { ![db_string file_exists { *SQL* }] } {
     } 
 }
 
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

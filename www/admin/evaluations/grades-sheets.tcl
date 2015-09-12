@@ -71,3 +71,9 @@ db_multirow -extend { view_url upload_date_pretty } grades_sheets get_grades_she
 }
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

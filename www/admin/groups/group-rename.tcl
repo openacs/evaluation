@@ -16,3 +16,9 @@ db_dml rename_group { *SQL* }
 
 ad_returnredirect [export_vars -base one-group { task_id evaluation_group_id }]
 
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

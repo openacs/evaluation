@@ -42,3 +42,8 @@ set evaluations_notification_chunk [notification::display::request_widget \
 
 template::head::add_css -href "/resources/evaluation/evaluation.css"
 ad_return_template
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:
