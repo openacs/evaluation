@@ -45,24 +45,16 @@ create table evaluation_tasks (
 	-- percentage of the grade of the course
 	weight		numeric,
 	-- the task will be submitted on line
-	online_p    char(1)
-				constraint	evaluation_tasks_onp_ck
-				check(online_p in ('t','f')),
+	online_p        boolean,
 	-- will the students be able to submit late their answers?
-	late_submit_p	char(1)
-					constraint evaluations_tasks_lsp_ck
-					check(late_submit_p in ('t','f')),
-	requires_grade_p char(1)
-					constraint evaluations_tasks_rgp_ck
-					check(late_submit_p in ('t','f')),
+	late_submit_p	 boolean,
+	requires_grade_p boolean,
 	-- estimated time to complete the assigment
-	estimated_time	decimal,
-	points 		numeric,
-	perfect_score	numeric,
-	relative_weight numeric,
-	forums_related_p char(1) 	constraint	evaluation_tasks_frp_ck
-                  			check(forums_related_p in ('t','f'))
-
+	estimated_time	 decimal,
+	points 		 numeric,
+	perfect_score	 numeric,
+	relative_weight  numeric,
+	forums_related_p boolean
 );
 
 create index evalutaion_tasks_gid_index on evaluation_tasks(grade_item_id);
@@ -122,11 +114,9 @@ create table evaluation_student_evals (
 					constraint evaluation_stu_evals_pid_fk
 					references parties(party_id),
 	grade			numeric,
-	show_student_p	char(1)
+	show_student_p	        boolean
 					constraint evaluation_stu_evals_ssp_df
-					default 't'
-					constraint evaluation_stu_evals_ssp_ck
-					check (show_student_p in ('t','f'))
+					default true
 );
 
 create index evaluation_student_evals_tid_index on evaluation_student_evals(task_item_id);
