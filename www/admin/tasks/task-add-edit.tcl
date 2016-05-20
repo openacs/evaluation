@@ -13,7 +13,7 @@ ad_page_contract {
     upload_file:trim,optional
     upload_file.tmpfile:tmpfile,optional
     {mode "edit"}
-    return_url
+    return_url:localurl
     admin_groups_p:boolean,optional
     {add_to_more_classes_p:boolean ""}
     {attached_p:boolean "f"}

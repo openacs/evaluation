@@ -13,7 +13,7 @@ ad_page_contract {
     item_id:naturalnum,notnull,optional
     upload_file:trim,optional
     upload_file.tmpfile:tmpfile,optional
-    return_url:notnull
+    return_url:localurl,notnull
 } -validate {
     late_submit -requires { task_id:integer } {
 	if { [string equal [db_string late_turn_in { *SQL* }] "f"] && [db_string compare_dates { *SQL* } -default 0] } {

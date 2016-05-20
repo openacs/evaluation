@@ -9,7 +9,7 @@ ad_page_contract {
 } {
 	task_id:naturalnum,notnull
 	grade_id:naturalnum,notnull
-	return_url
+	return_url:localurl
 }
 
 set page_title "[_ evaluation.Delete_Task_]"

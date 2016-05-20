@@ -9,7 +9,7 @@ ad_page_contract {
 } {
     grade_id:naturalnum,notnull
     task_id:naturalnum,notnull
-    {return_url ""}
+    {return_url:localurl ""}
 }
 
 set package_id [ad_conn package_id]

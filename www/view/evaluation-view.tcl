@@ -8,7 +8,7 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     evaluation_id:naturalnum,notnull
-    {return_url ""}
+    {return_url:localurl ""}
 }
 
 set page_title "[_ evaluation.View_Evaluation]"
