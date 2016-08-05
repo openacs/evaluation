@@ -7,11 +7,11 @@
 <h1 class=blue>#evaluation.Evaluations#</h1>
 <br>
 <ul>
-      <li class="arrow"><a href="grades/grades"><text class="blue"><b>#evaluation-portlet.lt_Admin_my_Assignment_T#</b></text></a><br></li>
+      <li class="arrow"><a href="grades/grades"><text class="blue"><strong>#evaluation-portlet.lt_Admin_my_Assignment_T#</strong></text></a><br></li>
 	<text class="blue">#evaluation-portlet.admin_help#</text></li><br>
-      <li class="arrow"><a href="grades/grades-reports"><text class="blue"><b>#evaluation-portlet.view_students_grades#</b></text></a><br>
+      <li class="arrow"><a href="grades/grades-reports"><text class="blue"><strong>#evaluation-portlet.view_students_grades#</strong></text></a><br>
 	<text class="blue">#evaluation-portlet.view_grades_help#</text></li><br>
-      <li class="arrow"><text class="blue"><b>Notifications</b></text>
+      <li class="arrow"><text class="blue"><strong>Notifications</strong></text>
 	<br>
       <text class="blue">@assignments_notification_chunk;noquote@</text></li> 
 <br>

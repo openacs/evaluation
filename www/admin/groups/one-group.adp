@@ -15,7 +15,7 @@
 
    	<table>
 	<tr><th align="right">#evaluation.Group_name#</th>
-	<td><input type="text" name="group_name" value="@group_name@" size=20></td>
+	<td><input type="text" name="group_name" value="@group_name@" size="20"></td>
 	<td><input type="submit" value="#evaluation.Rename#"></td>
 	</tr>
    </form>
