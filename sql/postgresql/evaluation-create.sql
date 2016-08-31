@@ -207,7 +207,7 @@ select acs_rel_type__create_type(
         'evaluation_task_groups',
         null,
         0,
-        null,
+        null::integer,
         'user',
         null,
         0,
