@@ -327,7 +327,7 @@ ad_proc -private evaluation::now_plus_days { -ndays } {
     set interval_def [template::util::date::defaultInterval day]
     for { set i [lindex $interval_def 0] }  { $i <= 15 }  { incr i 1 } {
 	incr day
-	if { [expr {$day + $i}] >= [lindex $interval_def 1] } {
+	if { $day + $i >= [lindex $interval_def 1] } {
 	    incr month 1
 	    set day 1
 	}
