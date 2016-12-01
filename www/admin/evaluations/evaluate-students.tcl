@@ -203,6 +203,8 @@ set evaluations:rowcount $counter
 set export_vars [export_vars -form { grades_wa comments_wa show_student_wa grades_na comments_na show_student_na item_ids grades_to_edit reasons_to_edit show_student_to_edit item_to_edit_ids }]
 
 
+template::add_event_listener -CSSclass "backbuttons" -script {history.go(-1);}
+
 
 
 
