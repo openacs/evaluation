@@ -204,13 +204,18 @@ if { ![db_string file_exists { *SQL* }] } {
 	}
     }
     set evaluations_gs:rowcount $counter
+
+    if {$counter > 0} {
+        template::add_event_listener -id "backbutton" -script {history.go(-1);}
+    }
+    
     set export_vars [export_vars -form { task_id max_grade grades_gs comments_gs show_student_gs item_ids new_p_gs grades_sheet_item_id tmp_filename upload_file }]
 
     # writing the file in the file system so we can work with it later
     flush $file_handler
     close $file_handler
 
-    if {[catch {exec mv $tmp_filename "${tmp_filename}_grades_sheet"} errmsg]} { 
+    if {[catch {file rename -force -- $tmp_filename "${tmp_filename}_grades_sheet"} errmsg]} { 
 	ad_return_error "[_ evaluation.lt_Error_while_storing_f]" "[_ evaluation.lt_There_was_a_problem_s]" 
 	ad_script_abort
     } 
