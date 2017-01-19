@@ -2,7 +2,7 @@
 <property name="doc(title)">@page_title;literal@</property>
 <property name="context">@context;literal@</property>
 
-<if @simple_p@ eq 1>
+<if @simple_p;literal@ true>
 <h1 class="blue">@page_title;noquote@</h1>
 <br>
 <br>
@@ -94,8 +94,8 @@
 </else>
 <listtemplate name="evaluated_students"></listtemplate>
 <br>
-<if @forums_related_p@ eq f>
-<if @simple_p@ eq 1>
+<if @forums_related_p;literal@ false>
+<if @simple_p;literal@ true>
 <div id="evaluations">
 <table width="100%" style="border:0" alt="" cellpadding="0" cellspacing="0" height="40">
   <tr>
@@ -110,10 +110,10 @@
 <p>#evaluation.lt_These_are_the_student#</p>
 </else>
 <if @not_evaluated_wa:rowcount@ gt 0>
-<if @simple_p@ eq 0>
+<if @simple_p;literal@ false>
 <p>#evaluation.Click# <a href="download-archive/?task_id=@task_id@">#evaluation.here#</a> #evaluation.lt_if_you_want_to_downlo#</p>
 <if @number_of_members@ eq "1">
- <if @show_portrait_p@ eq "t">
+ <if @show_portrait_p;literal@ true>
 	<p>#evaluation.Click# <a href="@this_url@"> #evaluation.here# </a> #evaluation.lt_if_you_do_not_want_to#</p>
  </if><else>
 	<p>#evaluation.Click# <a href="@this_url@"> #evaluation.here# </a> #evaluation.lt_if_you_want_to_see_th#</p>
@@ -127,7 +127,7 @@
     <div><input type="hidden" name="grade_id" value="@grade_id@"></div>
 
 	<listtemplate name="not_evaluated_wa"></listtemplate>
-    <if @simple_p@ eq 1>
+    <if @simple_p;literal@ true>
 	<br>
     	<div><input type="image" src="/resources/evaluation/submit.gif"></div>
     </if>
@@ -139,7 +139,7 @@
 
 </form>
 
-<if @simple_p@ eq 0>
+<if @simple_p;literal@ false>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
     <div><input type="hidden" name="grades_sheet_item_id" value="@grades_sheet_item_id@"></div>
     <div><input type="hidden" name="task_id" value="@task_id@"></div>
@@ -187,7 +187,7 @@
 </else>
 
 <br>
-<if @simple_p@ eq 1>
+<if @simple_p;literal@ true>
 <div id="evaluations">
 <table width="100%" style="border:0px" alt="" cellpadding="0" cellspacing="0" height="40">
   <tr>
@@ -203,9 +203,9 @@
 </else>
 
 <if @not_evaluated_na:rowcount@ gt 0>
-<if @simple_p@ eq 0>
+<if @simple_p;literal@ false>
 <if @number_of_members@ eq "1">
- <if @show_portrait_p@ eq "t">
+ <if @show_portrait_p;literal@ true>
 	<p>#evaluation.Click# <a href="@this_url@"> #evaluation.here# </a> #evaluation.lt_if_you_do_not_want_to#</p>
  </if><else>
 	<p>#evaluation.Click# <a href="@this_url@"> #evaluation.here# </a> #evaluation.lt_if_you_want_to_see_th#</p>
@@ -220,7 +220,7 @@
 	<listtemplate name="not_evaluated_na"></listtemplate>
 	<table width="100%">
 	<tr>
-	        <td align="left"><if @simple_p@ eq 0><input type="submit" value="#evaluation.Grade_1#"></if>
+	        <td align="left"><if @simple_p;literal@ false><input type="submit" value="#evaluation.Grade_1#"></if>
 	<else>
 	<br>
 	<input type="image" src="/resources/evaluation/submit.gif">
@@ -231,7 +231,7 @@
 </form>
 <br>
 
-<if @simple_p@ eq 0>
+<if @simple_p;literal@ false>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
     <div><input type="hidden" name="grades_sheet_item_id" value="@grades_sheet_item_id@"></div>
     <div><input type="hidden" name="task_id" value="@task_id@"></div>
@@ -281,7 +281,7 @@
 </else>
 </if>
 <else>
-<if @simple_p@ eq 1>
+<if @simple_p;literal@ true>
 <div id="evaluations">
 <table width="100%" style="border:0px" alt="" cellpadding="0" cellspacing="0" height="40">
   <tr>
@@ -305,7 +305,7 @@
     <div><input type="hidden" name="grade_id" value="@grade_id@"></div>
 
 	<listtemplate name="class_students"></listtemplate>
-	<if @simple_p@ eq 1>
+	<if @simple_p;literal@ true>
 	<br>
 	<table width="100%">
 	<tr>
@@ -320,7 +320,7 @@
 	</else>
 
 </form>
-<if @simple_p@ eq 0>
+<if @simple_p;literal@ false>
   <form name="grades_sheet_form" enctype="multipart/form-data" method="POST" action="grades-sheet-parse.tcl">  
     <div><input type="hidden" name="grades_sheet_item_id" value="@grades_sheet_item_id@"></div>
     <div><input type="hidden" name="task_id" value="@task_id@"></div>

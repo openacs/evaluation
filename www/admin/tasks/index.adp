@@ -3,7 +3,7 @@
 <property name="context">@context;literal@</property>
 
 <property name="context">@context;literal@</property>
-<if @simple_p@ eq 1>
+<if @simple_p;literal@ true>
 <h1 class=blue>#evaluation.Evaluations#</h1>
 <br>
 <ul>
@@ -49,7 +49,7 @@
 <li>#evaluation.lt_There_are_no_tasks_to#</li>
 </if><else>
 <multiple name="grades">
-	<if @simple_p@ eq 0>
+	<if @simple_p;literal@ false>
 	<li><strong>@grades.grade_plural_name;noquote@</strong> <br>
 	</if>
 	<include src="/packages/evaluation/lib/evaluations-chunk" grade_item_id="@grades.grade_item_id;literal@" grade_id="@grades.grade_id;literal@" evaluations_orderby="@evaluations_orderby;literal@">

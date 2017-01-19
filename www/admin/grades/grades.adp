@@ -2,7 +2,7 @@
 <property name="doc(title)">@page_title;literal@</property>
 <property name="context">@context;literal@</property>
 
-<if @simple_p@ eq 1>
+<if @simple_p;literal@ true>
 <h1 class="blue">@page_title;noquote@</h1>
 <br>
 <div id="evaluations">

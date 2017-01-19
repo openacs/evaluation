@@ -3,7 +3,7 @@
     <property name="doc(title)">@page_title;literal@</property>
     <property name="context">@context;literal@</property>
 
-    <if @admin_p@ eq 1>
+    <if @admin_p;literal@ true>
       <div style="float:right">
         <a href="admin/index" class="button">#evaluation.Evaluations_Admin#</a>
       </div>
@@ -32,7 +32,7 @@
         <h2>@grades.grade_plural_name;noquote@</h2>
         <include src="/packages/evaluation/lib/evaluations-chunk" grade_item_id="@grades.grade_item_id;literal@" grade_id="@grades.grade_id;literal@" evaluations_orderby="@evaluations_orderby;literal@">
       </multiple>
-      <if @admin_p@ eq "0">
+      <if @admin_p;literal@ false>
         <p>
           #evaluation.lt_Your_total_grade_in_t# 
           <strong>@total_class_grade@/@max_possible_grade@ </strong>

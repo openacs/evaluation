@@ -1,8 +1,8 @@
 <master>
 <property name="doc(title)">@page_title;literal@</property>
 <property name="context">@context;literal@</property>
-<if @simple_p@ eq 0>
-<if @admin_p@ eq 1>
+<if @simple_p;literal@ false>
+<if @admin_p;literal@ true>
 	<a href="admin/index">#evaluation.Evaluations_Admin#</a>
 </if>
 
@@ -22,7 +22,7 @@
 </ul>
 <br>
 </if>
-<if @simple_p@ eq 0>
+<if @simple_p;literal@ false>
 <h2>#evaluation.Evaluations#</h2>
 </if>
 <else>
@@ -32,20 +32,20 @@
 <if @grades:rowcount@ eq 0>
 <li>#evaluation.lt_There_are_no_tasks_to#</li>
 </if><else>
-<if @admin_p@ eq 1>
+<if @admin_p;literal@ true>
 	<a href="admin/index">#evaluation.Evaluations_Admin#</a>
 	<br>
 	<br>
 </if>
  <multiple name="grades">
-	<if @simple_p@ eq 0>
+	<if @simple_p;literal@ false>
 	<li><strong>@grades.grade_plural_name;noquote@</strong> <br>
 	</if>
 	<include src="/packages/evaluation/lib/evaluations-chunk" grade_item_id="@grades.grade_item_id;literal@" grade_id="@grades.grade_id;literal@" evaluations_orderby="@evaluations_orderby;literal@">
         <br><br>
 	</li>
  </multiple>
- <if @admin_p@ eq "0">
+ <if @admin_p;literal@ false>
  <br>#evaluation.lt_Your_total_grade_in_t# <strong>@total_class_grade@/@max_possible_grade@ </strong>
  </if>
 </else>
