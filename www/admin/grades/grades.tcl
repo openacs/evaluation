@@ -8,7 +8,7 @@ ad_page_contract {
     @creation-date Feb 2004
     @cvs-id $Id$
 } -query {
-    {orderby:optional}
+    {orderby:token,optional}
     {set_grade_id_live:optional ""}
 }
 

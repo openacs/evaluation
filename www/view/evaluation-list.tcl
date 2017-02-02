@@ -9,7 +9,7 @@ ad_page_contract {
     @cvs-id $Id$
 
 } -query {
-	{orderby:optional}
+	{orderby:token,optional}
 }
 
 set package_id [ad_conn package_id]

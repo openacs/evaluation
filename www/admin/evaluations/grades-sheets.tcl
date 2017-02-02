@@ -9,9 +9,9 @@ ad_page_contract {
     @cvs-id $Id$
 
 } -query {
-	{orderby:optional}
+	{orderby:token,optional}
 	task_id:naturalnum,notnull
-	return_url
+	return_url:localurl
 } -validate {
 	grades_sheets {
 		if { ![db_string count_grades_sheets { *SQL* }] } {
