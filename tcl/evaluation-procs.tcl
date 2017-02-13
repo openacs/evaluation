@@ -319,7 +319,7 @@ ad_proc -private evaluation::now_plus_days { -ndays } {
 } {
     set now [list]
     foreach v [clock format [clock seconds] -format "%Y %m %d %H %M %S"] {
-	lappend now [template::util::leadingTrim $v]
+	lappend now [util::trim_leading_zeros $v]
     }
     
     set day [lindex $now 2]
