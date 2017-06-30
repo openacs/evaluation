@@ -1078,7 +1078,7 @@ ad_proc -public evaluation::public_answers_to_file_system {
     -path:required
     -folder_name:required
 } {
-    Writes all the answers of a given task in the file sytem.
+    Writes all the answers of a given task in the file system.
 } {
 
     set dir [file join ${path} ${folder_name}]
