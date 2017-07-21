@@ -43,7 +43,7 @@
 	select cu.person_id as party_id, cu.last_name||' - '||cu.first_names as party_name,  
                round(ese.grade,2) as grade,
                ese.description as comments
-         from cc_users cu left outer join evaluation_student_evalsi ese on (ese.party_id = cu.person_id
+         from cc_users cu left join evaluation_student_evalsi ese on (ese.party_id = cu.person_id
                                                                             and ese.task_item_id = :task_item_id
                                                                             and content_revision.is_live(ese.evaluation_id) = 't')
       </querytext>
@@ -56,7 +56,7 @@
                ese.description as comments
          from registered_users ru, 
 	      dotlrn_member_rels_approved app,
-	      persons p left outer join evaluation_student_evalsi ese on (ese.party_id = p.person_id
+	      persons p left join evaluation_student_evalsi ese on (ese.party_id = p.person_id
                                                                             and ese.task_item_id = :task_item_id
                                                                             and content_revision.is_live(ese.evaluation_id) = 't')
 	 where app.community_id = :community_id 
@@ -73,7 +73,7 @@
                 grade,
                 ese.description as comments
          from groups g,
-              evaluation_task_groups etg left outer join evaluation_student_evalsi ese on (ese.party_id = etg.group_id
+              evaluation_task_groups etg left join evaluation_student_evalsi ese on (ese.party_id = etg.group_id
                                                                                            and ese.task_item_id = :task_item_id
                                                                                           and content_revision.is_live(ese.evaluation_id) = 't')
          where etg.task_item_id = :task_item_id
