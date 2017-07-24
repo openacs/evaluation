@@ -7,7 +7,7 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
     
-    <version name="2.9.1b3" url="http://openacs.org/repository/download/apm/evaluation-2.9.1b3.apm">
+    <version name="2.9.1b9" url="http://openacs.org/repository/download/apm/evaluation-2.9.1b9.apm">
         <owner url="mailto:jopez@galileo.edu">Jose Pablo Escobedo Del Cid</owner>
         <summary>This package allows the users (professors and students) to use  the system to submit and grade the tasks.</summary>
         <release-date>2017-02-27</release-date>
@@ -16,11 +16,11 @@
         <maturity>2</maturity>
         <package_instance_name>#evaluation.Evaluations#</package_instance_name>
 
-        <provides url="evaluation" version="2.9.1b3"/>
+        <provides url="evaluation" version="2.9.1b9"/>
         <requires url="calendar" version="2.6.0"/>
-        <requires url="dotlrn" version="2.9.1b1"/>
-        <requires url="notifications" version="5.9.1b1"/>
-	<requires url="acs-tcl" version="5.9.1b1"/>
+        <requires url="dotlrn" version="2.9.1b9"/>
+        <requires url="notifications" version="5.9.1b9"/>
+	<requires url="acs-tcl" version="5.9.1b9"/>
 
         <callbacks>
             <callback type="after-install"  proc="evaluation::apm::package_install"/>
