@@ -136,3 +136,8 @@ db_multirow -extend { task_status due_date_pretty assignment_group grade net_gra
 set total_grade [lc_numeric [expr {$total_grade}]]
 set max_grade [lc_numeric $max_grade]
 set grade_weight [lc_numeric $grade_weight]
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

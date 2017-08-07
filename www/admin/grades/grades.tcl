@@ -8,7 +8,7 @@ ad_page_contract {
     @creation-date Feb 2004
     @cvs-id $Id$
 } -query {
-    {orderby:optional}
+    {orderby:token,optional}
     {set_grade_id_live:optional ""}
 }
 
@@ -131,3 +131,9 @@ if { ($total_weight < 100 && $total_weight > 0) || $total_weight > 100} {
 
 template::head::add_css -href "/resources/evaluation/evaluation.css"
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

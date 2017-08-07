@@ -9,7 +9,7 @@ ad_page_contract {
 } {
     grade_id:naturalnum,notnull
     task_id:naturalnum,notnull
-    {return_url ""}
+    {return_url:localurl ""}
 }
 
 set package_id [ad_conn package_id]
@@ -91,7 +91,7 @@ ad_form -extend -name task -form {
 
     {number_of_members:naturalnum
 	{label "[_ evaluation.Number_of_Members_]"}
-	{html {size 5 onChange TaskInGroups()}}
+	{html {size 5 id number_of_members}}
 	{help_text "[_ evaluation.1__Individual_]"}
     }
 
@@ -117,13 +117,21 @@ ad_form -extend -name task -form {
     }
 } -edit_request {
     
-    db_1row task_info { *SQL* }
+    db_1row task_info {}
 
     set due_date [template::util::date::from_ansi $due_date_ansi]
     set weight [lc_numeric %.2f $weight]
 
+} -on_request {
+    template::add_event_listener -id "number_of_members" -event change -script {TaskInGroups();}
 }
 
 ad_return_template
 
 
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

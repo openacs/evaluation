@@ -9,9 +9,9 @@ ad_page_contract {
     @cvs-id $Id$
 
 } -query {
-	{orderby:optional}
+	{orderby:token,optional}
 	task_id:naturalnum,notnull
-	return_url
+	return_url:localurl
 } -validate {
 	grades_sheets {
 		if { ![db_string count_grades_sheets { *SQL* }] } {
@@ -71,3 +71,9 @@ db_multirow -extend { view_url upload_date_pretty } grades_sheets get_grades_she
 }
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

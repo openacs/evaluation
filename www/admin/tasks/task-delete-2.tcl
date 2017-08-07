@@ -10,7 +10,7 @@ ad_page_contract {
     task_id:naturalnum,notnull
     grade_id:naturalnum,notnull
     operation
-    return_url
+    return_url:localurl
 } 
 
 if {$operation eq [_ evaluation.lt_Yes_I_really_want_to__3]} {
@@ -40,3 +40,9 @@ if {$operation eq [_ evaluation.lt_Yes_I_really_want_to__3]} {
 db_release_unused_handles
 
 ad_returnredirect "$return_url"
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

@@ -7,7 +7,7 @@ ad_page_contract {
     @creation-date Jun 2004
     @cvs-id $Id$
 } {
-    return_url:notnull
+    return_url:localurl,notnull
     task_id:naturalnum,notnull
     communities_packages_ids:array,optional
     item_ids:array,optional
@@ -65,3 +65,9 @@ ad_form -extend -name communities -on_submit {
 }
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

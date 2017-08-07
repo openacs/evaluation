@@ -10,7 +10,7 @@ ad_page_contract {
 
 } {
 	grade_id:naturalnum,notnull
-	{return_url "index"}
+	{return_url:localurl "index"}
 }
 
 set user_id [ad_conn user_id]
@@ -24,3 +24,9 @@ db_1row get_grade_info { *SQL* }
 set export_vars [export_vars -form -- {grade_id return_url}]
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

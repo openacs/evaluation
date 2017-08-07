@@ -10,7 +10,7 @@ ad_page_contract {
 	task_id:naturalnum,notnull
 	{orderby:token,optional}
 	{orderby_groups:optional}
-	{return_url ""}
+	{return_url:localurl ""}
 } -validate {
 	group_task {
 		if {[db_string get_number_of_members { *SQL* }] eq "1"} {
@@ -120,3 +120,9 @@ ad_return_template
 
 
  
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

@@ -87,3 +87,9 @@ ad_form -name evaluation -cancel_url $return_url -export { task_id item_id party
 }
 	    
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

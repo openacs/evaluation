@@ -2,7 +2,7 @@ ad_page_contract {
     @author Anny Flores (annyflores@viaro.net) Viaro Networks (www.viaro.net)
     
 } {
-    {return_url ""}
+    {return_url:localurl ""}
 }
 
 set portal_id [dotlrn_community::get_portal_id -community_id [dotlrn_community::get_community_id]]
@@ -30,3 +30,8 @@ ad_form -name set_version -form {
 } -after_submit {
     ad_returnredirect $return_url
 }
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

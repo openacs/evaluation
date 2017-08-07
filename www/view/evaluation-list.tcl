@@ -9,7 +9,7 @@ ad_page_contract {
     @cvs-id $Id$
 
 } -query {
-	{orderby:optional}
+	{orderby:token,optional}
 }
 
 set package_id [ad_conn package_id]
@@ -31,3 +31,9 @@ db_multirow grades get_grades { *SQL* } {
 
 template::head::add_css -href "/resources/evaluation/evaluation.css"
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

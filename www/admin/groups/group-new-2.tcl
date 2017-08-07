@@ -37,3 +37,9 @@ db_transaction {
 ad_returnredirect [export_vars -base one-task { task_id }]
 
 
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

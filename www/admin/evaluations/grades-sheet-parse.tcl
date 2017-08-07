@@ -73,7 +73,7 @@ if { ![db_string file_exists { *SQL* }] } {
 	set evaluation [split $clean_line ","] 
 	
 	if { $line_number == 3 } {
-	    set max_grade [string trim [template::util::leadingTrim [lindex $evaluation 1]]] 
+	    set max_grade [string trim [util::trim_leading_zeros [lindex $evaluation 1]]] 
 	    if { ![ad_var_type_check_number_p $max_grade] } {
 		ad_return_error "Invalid Max Grade" "Max Grade does not seem to be a real number. Please don't leave it blank."
 		return 
@@ -99,7 +99,7 @@ if { ![db_string file_exists { *SQL* }] } {
 	
 	set party_id [string trim [lindex $evaluation 0]] 
 	set party_name [db_string get_party_name { *SQL* }]
-	set grade [string trim [template::util::leadingTrim [lindex $evaluation 2]]] 
+	set grade [string trim [util::trim_leading_zeros [lindex $evaluation 2]]] 
 	# removing any " at the end or at the beginning of the grade that might come from the cvs file
 	regsub  ^\" $grade "" grade
 	regsub  \"\$ $grade "" grade
@@ -204,15 +204,26 @@ if { ![db_string file_exists { *SQL* }] } {
 	}
     }
     set evaluations_gs:rowcount $counter
+
+    if {$counter > 0} {
+        template::add_event_listener -id "backbutton" -script {history.go(-1);}
+    }
+    
     set export_vars [export_vars -form { task_id max_grade grades_gs comments_gs show_student_gs item_ids new_p_gs grades_sheet_item_id tmp_filename upload_file }]
 
     # writing the file in the file system so we can work with it later
     flush $file_handler
     close $file_handler
 
-    if {[catch {exec mv $tmp_filename "${tmp_filename}_grades_sheet"} errmsg]} { 
+    if {[catch {file rename -force -- $tmp_filename "${tmp_filename}_grades_sheet"} errmsg]} { 
 	ad_return_error "[_ evaluation.lt_Error_while_storing_f]" "[_ evaluation.lt_There_was_a_problem_s]" 
 	ad_script_abort
     } 
 }
 
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

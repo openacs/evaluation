@@ -13,7 +13,7 @@ ad_page_contract {
     upload_file:trim,optional
     upload_file.tmpfile:tmpfile,optional
     {mode "edit"}
-    return_url
+    return_url:localurl
     admin_groups_p:boolean,optional
     {add_to_more_classes_p:boolean ""}
     {attached_p:boolean "f"}
@@ -235,7 +235,7 @@ if { $simple_p } {
         {number_of_members:naturalnum
 	    {label "[_ evaluation.Number_of_Members_]"}
 	    {value "1"}
-	    {html {size 5 onChange TaskInGroups()}}
+	    {html {size 5 id number_of_members}}
 	    {help_text "[_ evaluation.1__Individual_]"}
 	    {after_html {<div id="silentDiv" style="visibility:$div_visibility;"><div class="form-help-text"><input type="checkbox" name="admin_groups_p" $checked_p> [_ evaluation.lt_Check_this_if_you_wan_1] </div></div>}}
 	}
@@ -562,6 +562,15 @@ ad_form -extend -name task -form {
 	}
 	
     }
+
+} -on_request {
+    template::add_event_listener -id "number_of_members" -event change -script {TaskInGroups();}    
 } 
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

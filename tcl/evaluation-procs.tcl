@@ -319,7 +319,7 @@ ad_proc -private evaluation::now_plus_days { -ndays } {
 } {
     set now [list]
     foreach v [clock format [clock seconds] -format "%Y %m %d %H %M %S"] {
-	lappend now [template::util::leadingTrim $v]
+	lappend now [util::trim_leading_zeros $v]
     }
     
     set day [lindex $now 2]
@@ -327,7 +327,7 @@ ad_proc -private evaluation::now_plus_days { -ndays } {
     set interval_def [template::util::date::defaultInterval day]
     for { set i [lindex $interval_def 0] }  { $i <= 15 }  { incr i 1 } {
 	incr day
-	if { [expr {$day + $i}] >= [lindex $interval_def 1] } {
+	if { $day + $i >= [lindex $interval_def 1] } {
 	    incr month 1
 	    set day 1
 	}
@@ -1078,7 +1078,7 @@ ad_proc -public evaluation::public_answers_to_file_system {
     -path:required
     -folder_name:required
 } {
-    Writes all the answers of a given task in the file sytem.
+    Writes all the answers of a given task in the file system.
 } {
 
     set dir [file join ${path} ${folder_name}]
@@ -1260,3 +1260,9 @@ ad_proc -public evaluation::set_forums_related {
 
 ad_register_proc GET /grades-sheet-csv* evaluation::generate_grades_sheet 
 ad_register_proc POST /grades-sheet-csv* evaluation::generate_grades_sheet
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

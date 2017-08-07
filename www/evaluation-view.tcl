@@ -8,7 +8,7 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     evaluation_id:naturalnum,notnull
-    {return_url ""}
+    {return_url:localurl ""}
 }
 
 set page_title "[_ evaluation.View_Evaluation]"
@@ -139,3 +139,9 @@ ad_form -extend -name evaluation -form {
 ad_return_template
 
 
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

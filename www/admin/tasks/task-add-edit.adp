@@ -2,7 +2,7 @@
   <property name="doc(title)">@page_title;literal@</property>
   <property name="context">@context;literal@</property>
 
-<script type="text/javascript">
+<script type="text/javascript"<if @::__csp_nonce@ not nil> nonce="@::__csp_nonce;literal@"</if>>
 	var browserType;
 
 	if (document.layers) {browserType = "nn4"}

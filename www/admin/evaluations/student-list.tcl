@@ -35,7 +35,10 @@ if { $simple_p } {
 set user_id [ad_conn user_id]
 
 if { $task_id eq "" } {
-    db_1row get_task_live_revision {select et.task_id from evaluation_tasks et, cr_items cri where et.task_id = cri.live_revision and et.task_item_id = :task_item_id}
+    db_1row get_task_live_revision {
+	select et.task_id
+	from evaluation_tasks et, cr_items cri
+	where et.task_id = cri.live_revision and et.task_item_id = :task_item_id}
 }
 
 db_1row get_task_info { *SQL* }
@@ -81,8 +84,10 @@ if { $community_id ne "" && $number_of_members == 1 } {
 # working with already evaluated parties
 #
 
-
-set actions "<a class=\"tlmidnav\" href=\"evaluations-edit?task_id=$task_id&grade_id=$grade_id\"><img src=\"/resources/evaluation/cross.gif\" width=\"10\" height=\"9\" hspace=\"5\" vspace=\"1\" style=\"border:0px\" alt=\"\" align=\"absmiddle\">[_ evaluation.Edit_Evaluations_]</a>"
+set href [export_vars -base evaluations-edit {task_id= grade_id}]
+set actions [subst {<a class="tlmidnav" href="[ns_quotehtml $href]"><img
+    src="/resources/evaluation/cross.gif" width="10" height="9" hspace="5" vspace="1" style="border:0px;"
+    alt="" align="absmiddle">[_ evaluation.Edit_Evaluations_]</a>}]
 
 if { !$simple_p } {
     set bulk_actions [list "[_ evaluation.Edit_Evaluations_]" [export_vars -base "evaluations-edit" { task_id }]]  
@@ -128,7 +133,7 @@ lappend elements  grade \
     [list label "[_ evaluation.Comments]" \
 	 display_template { <div style="text-align:center;">@evaluated_students.comments@</div> } \
 	]\
-   
+    
 if { !$simple_p } {
     lappend elements view \
 	[list label "" \
@@ -136,7 +141,7 @@ if { !$simple_p } {
 	     display_template {<img src="/resources/acs-subsite/Zoom16.gif" width="16" height="16" style="border:0px" alt="">} \
 	     link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id evaluation_mode }]} \
 	     link_html { title "[_ evaluation.View_evaluation_]" } \
-	]
+	    ]
 }
 lappend elements edit \
     [list label "" \
@@ -293,7 +298,7 @@ db_multirow -extend { party_url answer answer_url submission_date_pretty portrai
 	ns_set put $tag_attributes width 98
 	ns_set put $tag_attributes height 104
 	set href [export_vars -base ../grades/student-grades-report { { student_id $party_id } }]
-	set portrait [subst {<a href="[ns_quotehtml $href]">[evaluation::get_user_portrait -user_id $party_id -tag_attributes $tag_attributes]</a>]
+	set portrait [subst {<a href="[ns_quotehtml $href]">[evaluation::get_user_portrait -user_id $party_id -tag_attributes $tag_attributes]</a>}]
     } else {
 	set party_url [export_vars -base ../groups/one-task -anchor groups { task_id return_url }]
     }
@@ -304,7 +309,7 @@ db_multirow -extend { party_url answer answer_url submission_date_pretty portrai
 	set submission_date_pretty "[_ evaluation.lt_submission_date_prett_1]"
     } 
     if { $online_p } {
-    set answer "[_ evaluation.View_answer_]"
+	set answer "[_ evaluation.View_answer_]"
     }
     # working with answer stuff (if it has a file/url attached)
     if {$answer_title eq "link"} {
@@ -527,3 +532,9 @@ set grades_sheet_item_id [db_nextval acs_object_id_seq]
 
 template::head::add_css -href "/resources/evaluation/evaluation.css"
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

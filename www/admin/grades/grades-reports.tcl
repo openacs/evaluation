@@ -89,3 +89,9 @@ if { $orderby ne "" } {
 db_multirow -extend { student_url } grades_report $query_name { *SQL* } {
     set student_url [export_vars -base "student-grades-report" -url { {student_id $user_id} }]
 }
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

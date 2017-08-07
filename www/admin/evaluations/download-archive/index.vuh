@@ -11,10 +11,10 @@ ad_page_contract {
     {task_id:integer,notnull,optional}
 }
 
-if { [exists_and_not_null task_id] } {
+if { ([info exists task_id] && $task_id ne "") } {
     set download_name [db_string task_name { *SQL* }]
     set ext [evaluation::get_archive_extension]
-    if {![empty_string_p $ext]} {
+    if {$ext ne ""} {
         append download_name ".${ext}"
     }
 
@@ -61,3 +61,9 @@ ns_returnfile 200 application/octet-stream $out_file
 # clean everything up
 file delete -force $in_path
 file delete -force $out_path
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

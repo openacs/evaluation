@@ -15,7 +15,7 @@ ad_page_contract {
     upload_file.tmpfile:tmpfile,optional
     {solution_mode "edit"}
     grade_id:naturalnum,notnull
-    return_url
+    return_url:localurl
     {attached_p:boolean "f"}
 }
 
@@ -258,3 +258,9 @@ ad_form -extend -name solution -form {
 }
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

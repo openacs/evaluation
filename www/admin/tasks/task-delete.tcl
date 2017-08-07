@@ -9,7 +9,7 @@ ad_page_contract {
 } {
 	task_id:naturalnum,notnull
 	grade_id:naturalnum,notnull
-	return_url
+	return_url:localurl
 }
 
 set page_title "[_ evaluation.Delete_Task_]"
@@ -22,3 +22,9 @@ db_1row get_task_info { *SQL* }
 set export_vars [export_vars -form -- {task_id grade_id return_url}]
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:

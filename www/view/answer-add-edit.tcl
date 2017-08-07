@@ -13,7 +13,7 @@ ad_page_contract {
     item_id:naturalnum,notnull,optional
     upload_file:trim,optional
     upload_file.tmpfile:tmpfile,optional
-    return_url:notnull
+    return_url:localurl,notnull
     {comment ""}
 } -validate {
     late_submit -requires { task_id:integer } {
@@ -164,3 +164,9 @@ ad_form -extend -name answer -form {
 }
 
 ad_return_template
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:
