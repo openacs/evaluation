@@ -370,9 +370,9 @@ ad_proc -public evaluation::clone_task {
     }
 
     set item_name "${item_id}_${title}"
-    set to_folder_id [content::item::get_id -item_path "${content_type}_${to_package_id}" -resolve_index f]
-
-    set revision_id [db_nextval acs_object_id_seq]
+    set to_folder_id [content::item::get_id \
+                          -item_path "${content_type}_${to_package_id}" \
+                          -resolve_index f]
 
     set item_id [content::item::new -item_id $item_id \
 		     -parent_id $to_folder_id \
