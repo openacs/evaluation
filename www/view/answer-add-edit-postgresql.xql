@@ -23,14 +23,6 @@
       </querytext>
 </fullquery>
 
-<fullquery name="compare_dates">      
-      <querytext>
-	
-	select 1 from evaluation_tasks  where task_id = :task_id and due_date < now()
-	
-      </querytext>
-</fullquery>
-
 <fullquery name="lob_content">      
       <querytext>
 	

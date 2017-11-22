@@ -23,14 +23,6 @@
       </querytext>
 </fullquery>
 
-<fullquery name="compare_dates">      
-      <querytext>
-	
-	select 1 from evaluation_tasks  where task_id = :task_id and to_char(due_date,'YYYY-MM-DD HH24:MI:SS') < to_char(sysdate,'YYYY-MM-DD HH24:MI:SS')
-	
-      </querytext>
-</fullquery>
-
 <fullquery name="lob_content">      
       <querytext>
 
