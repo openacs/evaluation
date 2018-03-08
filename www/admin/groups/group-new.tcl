@@ -4,7 +4,7 @@ ad_page_contract {
 	Creates a evaluation group for a task.
 
 	@author jopez@galileo.edu
-	@createion-date Mar 2004
+	@creation-date Mar 2004
 	@cvs-id $Id$
 } {
 	student_ids:array,integer,notnull
