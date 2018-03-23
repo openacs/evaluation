@@ -49,7 +49,7 @@ create table evaluation_tasks (
 	-- will the students be able to submit late their answers?
 	late_submit_p	 boolean,
 	requires_grade_p boolean,
-	-- estimated time to complete the assigment
+	-- estimated time to complete the assignment
 	estimated_time	 decimal,
 	points 		 numeric,
 	perfect_score	 numeric,

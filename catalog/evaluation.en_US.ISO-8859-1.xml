@@ -327,7 +327,7 @@ is referred to as the weight. You have three choices.
   <msg key="lt_Group_administration_">Group administration </msg>
   <msg key="lt_Groups_administration">Groups administration </msg>
   <msg key="lt_Groups_for_task_task_">Groups for task %task_name% </msg>
-  <msg key="lt_If_you_administer_mor">If you administer more than one community and you want to upload an assigment in more than one community, you must set the same name for each of the assignment types in each community so the system can identify where to store the assignment.</msg>
+  <msg key="lt_If_you_administer_mor">If you administer more than one community and you want to upload an assignment in more than one community, you must set the same name for each of the assignment types in each community so the system can identify where to store the assignment.</msg>
   <msg key="lt_If_you_click_on_the_s">Click on a student's name to see their detailed grade report.</msg>
   <msg key="lt_If_you_do_not_want_to">If you do not want to grade or edit the grade of a student/group, just leave intact the fields of that row, or you can delete the whole row.</msg>
   <msg key="lt_if_you_do_not_want_to">if you do not want to see the portraits of the students</msg>
