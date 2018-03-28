@@ -331,7 +331,7 @@ is referred to as the weight. You have three choices.
   <msg key="lt_If_you_click_on_the_s">Click on a student's name to see their detailed grade report.</msg>
   <msg key="lt_If_you_do_not_want_to">If you do not want to grade or edit the grade of a student/group, just leave intact the fields of that row, or you can delete the whole row.</msg>
   <msg key="lt_if_you_do_not_want_to">if you do not want to see the portraits of the students</msg>
-  <msg key="lt_If_you_enter_the_net_">If you enter the net value, it must be less than %grade_weight%, which is the net value of %grade_plural_name% over the 100 points of the class. &lt;br&gt; After uploading the %grade_name%, the system will do the convertion and the net value will be represented as a percentage. </msg>
+  <msg key="lt_If_you_enter_the_net_">If you enter the net value, it must be less than %grade_weight%, which is the net value of %grade_plural_name% over the 100 points of the class. &lt;br&gt; After uploading the %grade_name%, the system will do the conversion and the net value will be represented as a percentage. </msg>
   <msg key="lt_if_you_want_to_downlo">to download all submissions in one file.</msg>
   <msg key="lt_if_you_want_to_see_th">if you want to see the portraits of the students</msg>
   <msg key="lt_In_order_to_generate_">In order to generate this file there must be some parties assigned to this task. </msg>
