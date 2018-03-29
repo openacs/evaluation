@@ -764,7 +764,7 @@ ad_proc -public evaluation::new_evaluation_group {
 
     Build a new group of type evlaution_groups for the tasks.
     This procedure is just a wrapper for the pl/sql function evaluation.new_evalatuion_group
-    which uses the acs_group.new funcion.
+    which uses the acs_group.new function.
 
     @param group_id The group_id that will be created.
     @param group_key Key for the group.
