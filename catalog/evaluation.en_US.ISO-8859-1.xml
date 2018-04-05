@@ -282,7 +282,7 @@ is referred to as the weight. You have three choices.
   <msg key="lt_Check_this_if_you_wan_2">Check this if you want to add the assignment to other class(es) that you administer </msg>
   <msg key="lt_Click_here_to_go_to_t">Click here to go to the Assignments Page</msg>
   <msg key="lt_Click_on_the_task_tha">Click on the task that you want the groups to be copy from</msg>
-  <msg key="lt_Commentedit_reason_on">Comment/edit reason on party_id %party_id% is larger than 4,000 characters long, which is our max lenght. Please make this comment/edit reason shorter. </msg>
+  <msg key="lt_Commentedit_reason_on">Comment/edit reason on party_id %party_id% is larger than 4,000 characters long, which is our max length. Please make this comment/edit reason shorter. </msg>
   <msg key="lt_Confirm_Your_Evaluati">Confirm Your Evaluation </msg>
   <msg key="lt_Confirm_your_evaluati">Confirm your evaluation(s) on &quot;%task_name%&quot;</msg>
   <msg key="lt_Currently_content_is_">Currently %content% is associated to this task solution, but you can associate a different url/file just by adding it here </msg>
