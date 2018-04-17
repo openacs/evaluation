@@ -520,7 +520,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_Yes_I_really_want_to__1">Yes, I really want to remove this grade </msg>
   <msg key="lt_Yes_I_really_want_to__2">Yes, I really want to remove this group </msg>
   <msg key="lt_Yes_I_really_want_to__3">Yes, I really want to remove this task </msg>
-  <msg key="lt_You_can_also_add_a_st">You can also add a student to an existing group by clicking on the &quot;Associate to group...&quot; link. Here you will be asked to select the group to wich you want to add the user.</msg>
+  <msg key="lt_You_can_also_add_a_st">You can also add a student to an existing group by clicking on the &quot;Associate to group...&quot; link. Here you will be asked to select the group to which you want to add the user.</msg>
   <msg key="lt_You_can_associate_a_l">You can associate a link to this task by entering the absolute url here (also optional) </msg>
   <msg key="lt_You_can_enter_the_wei">You can enter the weight over %grade_weight%% of %grade_plural_name% or you can enter the net value of it in the field below. </msg>
   <msg key="lt_You_can_order_the_gra">To sort by student name, total grade, or any of the assignment types, click on the column headers.&lt;br&gt;

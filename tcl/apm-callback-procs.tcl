@@ -3,7 +3,7 @@
 ad_library {
 
     Evaluations Package APM callbacks library
-    
+
     Procedures that deal with installing, instantiating, mounting.
 
     @creation-date Apr 2004
@@ -15,12 +15,12 @@ namespace eval evaluation {}
 namespace eval evaluation::apm {}
 
 
-ad_proc -public evaluation::apm::package_install {  
+ad_proc -public evaluation::apm::package_install {
 } {
-    
-    Does the integration whith the notifications package.  
+
+    Does the integration with the notifications package.
 } {
-    db_transaction { 
+    db_transaction {
 		
 		# Create the impl and aliases for one assignment
 		set impl_id [create_one_assignment_impl]
@@ -187,10 +187,10 @@ ad_proc -public evaluation::apm::package_before_upgrade {
 	}
 }
 
-ad_proc -public evaluation::apm::package_uninstall { 
+ad_proc -public evaluation::apm::package_uninstall {
 } {
 
-    Cleans the integration whith the notifications package.  
+    Cleans the integration with the notifications package.
 
 } {
     db_transaction {

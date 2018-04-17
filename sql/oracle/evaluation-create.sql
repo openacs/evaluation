@@ -68,7 +68,7 @@ create table evaluation_answers
                                 references cr_revisions,
         answer_item_id  integer constraint evaluation_sans_aiid_fk
                                 references cr_items(item_id),
-        -- person/group to wich the answer belongs
+        -- person/group to which the answer belongs
         party_id        integer constraint evaluation_sans_pid_nn
                                 not null
                                 constraint evaluation_sans_pid_fk
