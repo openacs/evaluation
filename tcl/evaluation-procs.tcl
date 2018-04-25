@@ -317,7 +317,7 @@ ad_proc -private evaluation::now_plus_days { -ndays } {
     @author jopez@galileo.edu
     @creation-date Mar 2004
 } {
-    set now [list]
+    set now {}
     foreach v [clock format [clock seconds] -format "%Y %m %d %H %M %S"] {
 	lappend now [util::trim_leading_zeros $v]
     }
@@ -905,7 +905,7 @@ ad_proc -public evaluation::generate_grades_sheet {} {
         return 
     } 
     
-    set csv_content [list] 
+    set csv_content {} 
     lappend csv_content "[_ evaluation.lt_Grades_sheet_for_assi]"  
 
     lappend csv_content "\n[_ evaluation.Max_Grade_]"
