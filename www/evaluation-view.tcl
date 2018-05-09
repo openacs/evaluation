@@ -79,7 +79,7 @@ if { $number_of_members > 1 } {
 	    {value $group_name}
 	}
     }
-    set members {}
+    set members [list]
     db_foreach group_members { *SQL* } {
 	lappend members [list "$member_name" {}]
     }
