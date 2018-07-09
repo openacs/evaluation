@@ -174,21 +174,24 @@ insert into acs_object_type_tables
     values
     ('evaluation_task_groups', 'evaluation_task_groups', 'group_id');
 
-select acs_attribute__create_attribute (	
-	'evaluation_task_groups', 	--object_type
-	'task_id', 					--oattribute_name
-	'integer', 					--datatype
-	'Task id', 					--pretty_name
-	'Task ids', 				--pretty_plural
-	'evaluation_task_groups', 	--table_name
-	'task_id',				 	--column_name
-	null,						--default_value
-	1, 						--min_n_values
-	1, 						--max_n_values
-	null, 						--sort_order
-	'type_specific', 			--storage
-	'f' 						--static_p
-);
+-- task_id used to be a column in evaluation_task_groups and was then
+-- renamed to task_item_id. Attribute was not updated accordingly and
+-- is most likely useless now. Left here for documentation.
+-- select acs_attribute__create_attribute (	
+-- 	'evaluation_task_groups', 	--object_type
+-- 	'task_id', 					--oattribute_name
+-- 	'integer', 					--datatype
+-- 	'Task id', 					--pretty_name
+-- 	'Task ids', 				--pretty_plural
+-- 	'evaluation_task_groups', 	--table_name
+-- 	'task_id',				 	--column_name
+-- 	null,						--default_value
+-- 	1, 						--min_n_values
+-- 	1, 						--max_n_values
+-- 	null, 						--sort_order
+-- 	'type_specific', 			--storage
+-- 	'f' 						--static_p
+-- );
 
 create table evaluation_user_profile_rels (
     rel_id                      integer

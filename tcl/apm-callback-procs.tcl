@@ -67,18 +67,18 @@ ad_proc -public evaluation::apm::package_install {
 
 		#Create content type attributes for content type evaluation_tasks
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
-		content::type::attribute::new -content_type evaluation_tasks -attribute_name task_name -datatype number -pretty_name task_name -column_spec integer
-		content::type::attribute::new -content_type evaluation_tasks -attribute_name number_of_members -datatype string -pretty_name number_of_members -column_spec varchar
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name task_name -datatype string -pretty_name task_name -column_spec varchar
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name number_of_members -datatype number -pretty_name number_of_members -column_spec integer
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name due_date -datatype timestamp -pretty_name due_date -column_spec timestamptz
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name grade_item_id -datatype number -pretty_name grade_item_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name weight -datatype number -pretty_name weight -column_spec numeric
-		content::type::attribute::new -content_type evaluation_tasks -attribute_name online_p -datatype string -pretty_name online_p -column_spec "varchar(1)"
-		content::type::attribute::new -content_type evaluation_tasks -attribute_name late_submit_p -datatype string -pretty_name late_submit_p -column_spec "varchar(1)"
-		content::type::attribute::new -content_type evaluation_tasks -attribute_name requires_grade_p -datatype string -pretty_name requires_grade_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name online_p -datatype boolean -pretty_name online_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name late_submit_p -datatype boolean -pretty_name late_submit_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name requires_grade_p -datatype boolean -pretty_name requires_grade_p -column_spec "varchar(1)"
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name points -datatype number -pretty_name points -column_spec "numeric"
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name perfect_score -datatype number -pretty_name perfect_score -column_spec "numeric"
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name relative_weight -datatype number -pretty_name relative_weight -column_spec "numeric"
-		content::type::attribute::new -content_type evaluation_tasks -attribute_name forums_related_p -datatype string -pretty_name forums_related_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name forums_related_p -datatype boolean -pretty_name forums_related_p -column_spec "varchar(1)"
 
 	
 
@@ -100,7 +100,7 @@ ad_proc -public evaluation::apm::package_install {
 		content::type::attribute::new -content_type evaluation_student_evals -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_student_evals -attribute_name party_id -datatype number -pretty_name party_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_student_evals -attribute_name grade -datatype number -pretty_name grade -column_spec numeric
-		content::type::attribute::new -content_type evaluation_student_evals -attribute_name show_student_p -datatype string -pretty_name show_student_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_student_evals -attribute_name show_student_p -datatype boolean -pretty_name show_student_p -column_spec "varchar(1)"
 
 		#Create content type attributes for content type evaluation_grades_sheets
 		content::type::attribute::new -content_type evaluation_grades_sheets -attribute_name grades_sheet_item_id -datatype number -pretty_name grades_sheet_item_id -column_spec integer
@@ -130,14 +130,14 @@ ad_proc -public evaluation::apm::package_before_upgrade {
 
 		#Create content type attributes for content type evaluation_tasks
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
-		content::type::attribute::new -content_type evaluation_tasks -attribute_name task_name -datatype number -pretty_name task_name -column_spec integer
-		content::type::attribute::new -content_type evaluation_tasks -attribute_name number_of_members -datatype string -pretty_name number_of_members -column_spec varchar
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name task_name -datatype string -pretty_name task_name -column_spec varchar
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name number_of_members -datatype number -pretty_name number_of_members -column_spec integer
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name due_date -datatype timestamp -pretty_name due_date -column_spec timestamptz
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name grade_item_id -datatype number -pretty_name grade_item_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_tasks -attribute_name weight -datatype number -pretty_name weight -column_spec numeric
-		content::type::attribute::new -content_type evaluation_tasks -attribute_name online_p -datatype string -pretty_name online_p -column_spec "varchar(1)"
-		content::type::attribute::new -content_type evaluation_tasks -attribute_name late_submit_p -datatype string -pretty_name late_submit_p -column_spec "varchar(1)"
-		content::type::attribute::new -content_type evaluation_tasks -attribute_name requires_grade_p -datatype string -pretty_name requires_grade_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name online_p -datatype boolean -pretty_name online_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name late_submit_p -datatype boolean -pretty_name late_submit_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_tasks -attribute_name requires_grade_p -datatype boolean -pretty_name requires_grade_p -column_spec "varchar(1)"
 
 		#Create content type attributes for content type evaluation_tasks_sols
 		content::type::attribute::new -content_type evaluation_tasks_sols -attribute_name solution_item_id -datatype number -pretty_name solution_item_id -column_spec integer
@@ -154,7 +154,7 @@ ad_proc -public evaluation::apm::package_before_upgrade {
 		content::type::attribute::new -content_type evaluation_student_evals -attribute_name task_item_id -datatype number -pretty_name task_item_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_student_evals -attribute_name party_id -datatype number -pretty_name party_id -column_spec integer
 		content::type::attribute::new -content_type evaluation_student_evals -attribute_name grade -datatype number -pretty_name grade -column_spec numeric
-		content::type::attribute::new -content_type evaluation_student_evals -attribute_name show_student_p -datatype string -pretty_name show_student_p -column_spec "varchar(1)"
+		content::type::attribute::new -content_type evaluation_student_evals -attribute_name show_student_p -datatype boolean -pretty_name show_student_p -column_spec "varchar(1)"
 
 		#Create content type attributes for content type evaluation_grades_sheets
 		content::type::attribute::new -content_type evaluation_grades_sheets -attribute_name grades_sheet_item_id -datatype number -pretty_name grades_sheet_item_id -column_spec integer
@@ -507,8 +507,15 @@ ad_proc -public evaluation::apm::after_upgrade {
 		evaluation::set_relative_weight 
 		evaluation::set_forums_related 
 	    }
-	    
-	    
+	    2.10.0d0 2.10.0d1 {
+                set attribute_id [db_string get_attribute {
+                    select attribute_id from acs_attributes
+                    where object_type = 'evaluation_task_groups'
+                    and attribute_name = 'task_id'} -default ""]
+                if {$attribute_id ne ""} {
+                    attribute::delete $attribute_id
+                }
+	    }	    
 	}
 }
 
