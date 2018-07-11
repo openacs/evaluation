@@ -22,8 +22,8 @@ ad_proc -public evaluation::notification::get_url {
     {-evaluation_id ""}
     {object_id ""}
 } { 
-    returns a full url to the object_id. 
-    handles assignments and evaluations. 
+    Returns a full url to the object_id. 
+    Handles assignments and evaluations. 
 } {  
     
     if {([info exists object_id] && $object_id ne "")} {
@@ -51,7 +51,7 @@ ad_proc -public evaluation::get_user_portrait {
     -user_id:required
     {-tag_attributes ""}
 } { 
-    returns the portrait for the given user or a default portrait if not found.
+    Returns the portrait for the given user or a default portrait if not found.
 } {  
     
     if { [db_0or1row user_portrait { *SQL* }] } {
@@ -80,7 +80,7 @@ ad_proc -public evaluation::get_user_portrait {
 ad_proc -public evaluation::safe_url_name { 
     -name:required
 } { 
-    returns the filename replacing some characters
+    Returns the filename replacing some characters.
 } {  
 
     regsub -all {[<>:\"|/@\\\#%&+\\ ,\?]} $name {_} name
@@ -92,39 +92,60 @@ ad_proc -public evaluation::safe_url_name {
 ad_proc -public evaluation::delete_grade {
     -grade_id:required
 } {
-    delete all grades
+    Delete all grades.
 } {
-    db_1row get_grade_id { select grade_item_id from evaluation_grades where grade_id = :grade_id }
+    set grade_item_id [db_string get_grade_id {
+        select grade_item_id from evaluation_grades
+         where grade_id = :grade_id
+    }]
 
-    # DRB: This should be wrapped in a transaction so a failure will rollback rather than
-    # leave the DB in an inconsistent state.  You can't nest db_foreach in a transaction
-    # so it should be rewritten using db_list (caught while merging .LRN 2.2 to HEAD)
-
-    db_foreach del_rec { select task_item_id, task_id from evaluation_tasks where grade_item_id = :grade_item_id } {
-	db_foreach evaluation_delete_student_eval { select evaluation_id from evaluation_student_evals where task_item_id = :task_item_id } {
-	    evaluation::revision_delete -revision_id $evaluation_id
-	}
-	db_foreach evaluation_delete_answer { select answer_id from evaluation_answers where task_item_id = :task_item_id } {
-	    evaluation::revision_delete -revision_id $answer_id
-	}
-	db_foreach evaluation_delete_task_sol { select solution_id from evaluation_tasks_sols where task_item_id = :task_item_id } {
-	    evaluation::revision_delete -revision_id $solution_id
-	}
-	db_foreach evaluation_delete_grades_sheet { select grades_sheet_id from evaluation_grades_sheets where task_item_id = :task_item_id } {
-	    evaluation::revision_delete -revision_id $grades_sheet_id
-	}
-	db_foreach evaluation_delete_task { select task_id from evaluation_tasks where task_item_id = :task_item_id } {
-             evaluation::revision_delete -revision_id $task_id
+    db_transaction {
+        foreach task_item_id [db_list del_rec {
+            select task_item_id from evaluation_tasks
+            where grade_item_id = :grade_item_id }] {
+            # one could avoid evaluation::revision_delete duplication
+            # by creating a big list with all the values in
+            # advance... for me this is more readable.
+            foreach revision_id [db_list evaluation_delete_student_eval {
+                select evaluation_id from evaluation_student_evals
+                where task_item_id = :task_item_id
+            }] {
+                evaluation::revision_delete -revision_id $revision_id
+            }
+            foreach revision_id [db_list evaluation_delete_answer {
+                select answer_id from evaluation_answers
+                where task_item_id = :task_item_id
+            }] {
+                evaluation::revision_delete -revision_id $revision_id
+            }
+            foreach revision_id [db_list evaluation_delete_task_sol {
+                select solution_id from evaluation_tasks_sols
+                where task_item_id = :task_item_id
+            }] {
+                evaluation::revision_delete -revision_id $revision_id
+            }
+            foreach revision_id [db_list evaluation_delete_grades_sheet {
+                select grades_sheet_id from evaluation_grades_sheets
+                where task_item_id = :task_item_id
+            }] {
+                evaluation::revision_delete -revision_id $revision_id
+            }
+            foreach revision_id [db_list evaluation_delete_task {
+                select task_id from evaluation_tasks
+                where task_item_id = :task_item_id
+            }] {
+                evaluation::revision_delete -revision_id $revision_id
+            }
         }
+        #    db_1row get_grade_id { select grade_id as grade_task_id from evaluation_grades where grade_item_id = :grade_item_id}
+        evaluation::revision_delete -revision_id $grade_id
     }
-    #    db_1row get_grade_id { select grade_id as grade_task_id from evaluation_grades where grade_item_id = :grade_item_id}
-    evaluation::revision_delete -revision_id $grade_id
 }
 
 ad_proc -public evaluation::revision_delete {
     -revision_id:required
 } {
-    wrapper for the content::revision::delete
+    Wrapper for the content::revision::delete.
 } {
     content::item::unset_live_revision -item_id [db_string get_revision_item_id {select item_id from cr_revisions where revision_id = :revision_id}]
 }
@@ -133,7 +154,7 @@ ad_proc -public evaluation::revision_delete {
 ad_proc -public evaluation::set_live_item {
     -item_id
 } {
-    wrapper for contet::item::set_live_revision, in case the way items are deleted in the eval package ever change
+    Wrapper for contet::item::set_live_revision, in case the way items are deleted in the eval package ever change.
 } {
     content::item::set_live_revision -revision_id [content::item::get_best_revision -item_id $item_id]
 }
@@ -141,40 +162,72 @@ ad_proc -public evaluation::set_live_item {
 ad_proc -public evaluation::set_live_grade {
     -grade_item_id:required
 } {
-
+    Promote best revision for this grade to live revision.
 } {
     evaluation::set_live_item -item_id $grade_item_id
 }
 
 ad_proc -public evaluation::set_live_task {
     -task_item_id:required
+} {    
+    For this task and its related student evaluations, answers,
+    solutions and grades, promote best revision to the live revision.    
 } {
-
-} {
-
-    db_foreach evaluation_deleted_student_eval { select evaluation_item_id from evaluation_student_evals, cr_items where task_item_id = :task_item_id and (live_revision = evaluation_id or latest_revision = evaluation_id) and evaluation_item_id = item_id } {
+    db_foreach evaluation_deleted_student_eval {
+        select evaluation_item_id
+          from evaluation_student_evals,
+               cr_items
+         where task_item_id = :task_item_id
+           and (live_revision = evaluation_id or
+                latest_revision = evaluation_id)
+           and evaluation_item_id = item_id
+    } {
 	evaluation::set_live_item -item_id $evaluation_item_id
     }
 
-    db_foreach evaluation_deleted_answer { select answer_item_id from evaluation_answers, cr_items where task_item_id = :task_item_id and (live_revision = answer_id or latest_revision = answer_id) and answer_item_id = item_id } {
+    db_foreach evaluation_deleted_answer {
+        select answer_item_id
+          from evaluation_answers,
+               cr_items
+         where task_item_id = :task_item_id
+           and (live_revision = answer_id or
+                latest_revision = answer_id)
+           and answer_item_id = item_id
+    } {
 	evaluation::set_live_item -item_id $answer_item_id
     }
 
-    db_foreach evaluation_deleted_task_sol { select solution_item_id from evaluation_tasks_sols, cr_items where task_item_id = :task_item_id and (live_revision = solution_id or latest_revision = solution_id) and solution_item_id = item_id } {
+    db_foreach evaluation_deleted_task_sol {
+        select solution_item_id
+          from evaluation_tasks_sols,
+               cr_items
+         where task_item_id = :task_item_id
+           and (live_revision = solution_id or
+                latest_revision = solution_id)
+           and solution_item_id = item_id
+    } {
 	evaluation::set_live_item -item_id $solution_item_id
     }
-    db_foreach evaluation_deleted_grades_sheet { select grades_sheet_item_id from evaluation_grades_sheets, cr_items where task_item_id = :task_item_id and (live_revision = grades_sheet_id or latest_revision = grades_sheet_id) and grades_sheet_item_id = item_id } {
+    
+    db_foreach evaluation_deleted_grades_sheet {
+        select grades_sheet_item_id
+         from evaluation_grades_sheets,
+              cr_items
+        where task_item_id = :task_item_id
+          and (live_revision = grades_sheet_id or
+               latest_revision = grades_sheet_id)
+          and grades_sheet_item_id = item_id
+    } {
 	evaluation::set_live_item -item_id $grades_sheet_item_id
     }
 
     evaluation::set_live_item -item_id $task_item_id
-
 }
 
 ad_proc -public evaluation::delete_task {
     -task_id:required
 } {
-    delete all tasks
+    Delete all tasks.
 } {
     db_1row get_task_id { select task_item_id from evaluation_tasks where task_id = :task_id }
     db_foreach evaluation_delete_student_eval { select evaluation_id from evaluation_student_evals where task_item_id = :task_item_id } {
@@ -195,7 +248,7 @@ ad_proc -public evaluation::delete_task {
 ad_proc -public evaluation::delete_student_eval {
     -evaluation_id:required
 } {
-    delete all tasks
+    Delete all tasks.
 } {
     evaluation::revision_delete -revision_id $evaluation_id
 }
@@ -207,7 +260,9 @@ ad_proc -public evaluation::notification::do_notification {
     {-evaluation_id ""}
     {-edit_p 0}
     {-subset {}}
-} {  
+} {
+    Issues notifications.
+} {
 
     db_1row select_names { *SQL* } 
     
@@ -256,7 +311,10 @@ ad_proc -public evaluation::notification::do_notification {
         -action_id $response_id
 } 
 
-ad_proc -public evaluation::package_key {} {
+ad_proc -public evaluation::package_key {
+} {
+    Get the package key.
+} {
     return "evaluation"
 }
 
@@ -312,7 +370,7 @@ ad_proc -public evaluation::new_grade {
 ad_proc -private evaluation::now_plus_days { -ndays } {
     Create a new Date object for the current date and time 
     plus the number of days given
-    with the default interval for minutes
+    with the default interval for minutes.
 
     @author jopez@galileo.edu
     @creation-date Mar 2004
@@ -353,7 +411,7 @@ ad_proc -public evaluation::clone_task {
     {-creation_user ""}
     {-creation_ip ""}
 } {
-    Cone a task
+    Clone a task.
 
     @param item_id The item to create.
     @param from_task_id Task to clone.
@@ -797,12 +855,12 @@ ad_proc -public evaluation::delete_evaluation_group {
     -group_id:required
 } {
 
-	Deletes an evaluation_group
+    Deletes an evaluation_group.
 
     @param group_id The group_id that will be deleted.
 
 } {
-	db_exec_plsql delete_evaluation_group { *SQL* }
+    db_exec_plsql delete_evaluation_group { *SQL* }
 } 
 
 ad_proc -public evaluation::evaluation_group_name {
@@ -812,9 +870,7 @@ ad_proc -public evaluation::evaluation_group_name {
     @param group_id
 
 } {
-
     return [db_exec_plsql evaluation_group_name { *SQL* }]
-
 } 
 
 ad_proc -public evaluation::new_grades_sheet {
@@ -892,7 +948,12 @@ ad_proc -public evaluation::new_grades_sheet {
     return $revision_id
 } 
 
-ad_proc -public evaluation::generate_grades_sheet {} {
+ad_proc -public evaluation::generate_grades_sheet {
+} {
+    Extract grades in csv format.
+
+    @return text/csv to the client connection
+} {
 
     # Get file_path from url 
     set url [ns_conn url] 
@@ -970,7 +1031,7 @@ ad_proc -public evaluation::apm::delete_one_evaluation_impl {} {
 }
 
 ad_proc -public evaluation::apm::create_one_assignment_impl {} {
-    Register the service contract implementation and return the impl_id
+    Register the service contract implementation and return the impl_id.
     @return impl_id of the created implementation 
 } {
     return [acs_sc::impl::new_from_spec -spec {
@@ -985,7 +1046,7 @@ ad_proc -public evaluation::apm::create_one_assignment_impl {} {
 }
 
 ad_proc -public evaluation::apm::create_one_evaluation_impl {} {
-    Register the service contract implementation and return the impl_id
+    Register the service contract implementation and return the impl_id.
     @return impl_id of the created implementation 
 } {
     return [acs_sc::impl::new_from_spec -spec {
@@ -1002,7 +1063,7 @@ ad_proc -public evaluation::apm::create_one_evaluation_impl {} {
 ad_proc -public evaluation::apm::create_one_assignment_type {
     -impl_id:required
 } {
-    Create the notification type for one specific assignment
+    Create the notification type for one specific assignment.
     @return the type_id of the created type
 } {
     return [notification::type::new \
@@ -1015,7 +1076,7 @@ ad_proc -public evaluation::apm::create_one_assignment_type {
 ad_proc -public evaluation::apm::create_one_evaluation_type {
     -impl_id:required
 } {
-    Create the notification type for one specific evaluation
+    Create the notification type for one specific evaluation.
     @return the type_id of the created type
 } {
     return [notification::type::new \
@@ -1028,7 +1089,7 @@ ad_proc -public evaluation::apm::create_one_evaluation_type {
 ad_proc -public evaluation::apm::enable_intervals_and_methods {
     -type_id:required
 } {
-    Enable the intervals and delivery methods of a specific type
+    Enable the intervals and delivery methods of a specific type.
 } {
     # Enable the various intervals and delivery method
     notification::type::interval_enable \
@@ -1054,7 +1115,7 @@ ad_proc -public evaluation::get_archive_command {
     {-in_file ""}
     {-out_file ""}
 } {
-    return the archive command after replacing {in_file} and {out_file} with
+    Return the archive command after replacing {in_file} and {out_file} with
     their respective values.
 } {
     set cmd [parameter::get -parameter ArchiveCommand -default "cat `find {in_file} -type f` > {out_file}"]
@@ -1120,8 +1181,8 @@ ad_proc -public evaluation::public_answers_to_file_system {
     db_foreach get_answers_for_task}
 
 ad_proc -public evaluation::get_archive_extension {} {
-    return the archive extension that should be added to the output file of
-    an archive command
+    Return the archive extension that should be added to the output file of
+    an archive command.
 } {
     return [parameter::get -parameter ArchiveExtension -default "txt"]
 }
@@ -1129,8 +1190,8 @@ ad_proc -public evaluation::get_archive_extension {} {
 
 ad_proc -public evaluation::set_points {
 } {
-    Proc called in after upgrade callback from version 0.4d3 to 0.4d4
-    Sets points field in table evaluation_tasks
+    Proc called in after upgrade callback from version 0.4d3 to 0.4d4.
+    Sets points field in table evaluation_tasks.
     
 } {
     
@@ -1149,35 +1210,35 @@ ad_proc -public evaluation::set_points {
     }
 }
 
-
-ad_proc -public evaluation::enable_due_date {
-    {-task_id}
-} {
-} {
-    set enable_p 0
-    set enable_p [db_string enable {} -default 1]
+# SQL for this proc is nowhere to be found, therefore I comment it
+# out.
+# ad_proc -public evaluation::enable_due_date {
+#     {-task_id}
+# } {
+# } {
+#     set enable_p 0
+#     set enable_p [db_string enable {} -default 1]
     
-    if {$enable_p > 1} {
-	set enable_p 0
-    }
-    return $enable_p
-}
+#     if {$enable_p > 1} {
+# 	set enable_p 0
+#     }
+#     return $enable_p
+# }
 
 ad_proc -public evaluation::set_perfect_score {
 } {
-    Proc called in after upgrade callback from version 0.4d4 to 0.4d5
-    Sets perfect_score field in table evaluation_tasks
+    Proc called in after upgrade callback from version 0.4d4 to 0.4d5.
+    Sets perfect_score field in table evaluation_tasks.
     
 } {
     set tasks [db_list_of_lists get_tasks {}]
     set perfect_score 100
-    
-    foreach task_id $tasks {
-	db_transaction {
+
+    db_transaction {
+        foreach task_id $tasks {            
 	    db_dml update_task {}
 	}
-    }
-    
+    }    
 }
 
 ad_proc -public evaluation::clone_grade {
@@ -1225,36 +1286,34 @@ ad_proc -public evaluation::clone_grade {
 
 ad_proc -public evaluation::set_relative_weight {
 } {
-    Proc called in after upgrade callback from version 0.4d5 to 0.4d6
-    Sets relative_weight field in table evaluation_tasks
+    Proc called in after upgrade callback from version 0.4d5 to 0.4d6.
+    Sets relative_weight field in table evaluation_tasks.
     
 } {
     set tasks [db_list_of_lists get_tasks {}]
     set relative_weight 1
-    
-    foreach task_id $tasks {
-	db_transaction {
+
+    db_transaction {
+        foreach task_id $tasks {
 	    db_dml update_task {}
 	}
     }
-
 }
 
 ad_proc -public evaluation::set_forums_related {
 } {
-    Proc called in after upgrade callback from version 0.4d7 to 0.4d8
-    Sets forums_related_p field in table evaluation_tasks
+    Proc called in after upgrade callback from version 0.4d7 to 0.4d8.
+    Sets forums_related_p field in table evaluation_tasks.
     
 } {
     set tasks [db_list_of_lists get_tasks {}]
     set forums_related_p "f"
-    
-    foreach task_id $tasks {
-	db_transaction {
+
+    db_transaction {
+        foreach task_id $tasks {
 	    db_dml update_task {}
 	}
     }
-
 }
 
 
