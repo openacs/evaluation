@@ -146,14 +146,14 @@ if { !$simple_p } {
 lappend elements edit \
     [list label "" \
 	 sub_class narrow \
-	 display_template {<if @simple_p@ eq 1>#evaluation.edit#</if><else><img src="/resources/acs-subsite/Edit16.gif" width="16" height="16" style="border:0px" alt=""></else>} \
+	 display_template {<if @simple_p;literal@ true>#evaluation.edit#</if><else><img src="/resources/acs-subsite/Edit16.gif" width="16" height="16" style="border:0px" alt=""></else>} \
 	 link_url_eval {[export_vars -base "one-evaluation-edit" { evaluation_id task_id }]} \
 	 link_html { title "[_ evaluation.Edit_evaluation_]" } \
 	] 
 lappend elements delete \
     [list label {} \
 	 sub_class narrow \
-	 display_template {<if @simple_p@ eq 1>#evaluation.delete# </if><else><img src="/resources/acs-subsite/Delete16.gif" width="16" height="16" style="border:0px" alt=""></else>} \
+	 display_template {<if @simple_p;literal@ true>#evaluation.delete# </if><else><img src="/resources/acs-subsite/Delete16.gif" width="16" height="16" style="border:0px" alt=""></else>} \
 	 link_url_eval {[export_vars -base "evaluation-delete" { evaluation_id return_url task_id }]} \
 	 link_html { title "[_ evaluation.Delete_evaluation_]" } \
 	] 
@@ -260,8 +260,8 @@ lappend elements answer \
 	 display_template {<a href="@not_evaluated_wa.answer_url@">@not_evaluated_wa.answer@</a>} \
 	 link_html { title "[_ evaluation.View_answer_]"}] 
 lappend elements grade \
-    [list label "[_ evaluation.Grade] <if @simple_p@ eq 0><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"><\/if><else><input type=hidden name=max_grade value=$max_grade></else>" \
-	 display_template {<div style="text-align:center;"> <input type=text name=grades_wa.@not_evaluated_wa.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p@ eq 1> <br> $max_grade max</if></div>} ] 
+    [list label "[_ evaluation.Grade] <if @simple_p;literal@ false><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"><\/if><else><input type=hidden name=max_grade value=$max_grade></else>" \
+	 display_template {<div style="text-align:center;"> <input type=text name=grades_wa.@not_evaluated_wa.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p;literal@ true> <br> $max_grade max</if></div>} ] 
 lappend elements comments \
     [list label "[_ evaluation.Comments]" \
 	 display_template { <textarea rows="3" cols="15" name=comments_wa.@not_evaluated_wa.party_id@></textarea> } \
@@ -351,8 +351,8 @@ if {$forums_related_p == "t" && $number_of_members <= 1} {
 }
 
 lappend elements grade \
-    [list label "[_ evaluation.Grade] <if @simple_p@ eq 0><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"><\/if><else><input type=hidden name=max_grade value=$max_grade></else>" \
-	 display_template { <div style="text-align:center;"><input type=text name=grades_na.@not_evaluated_na.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p@ eq 1><br>$max_grade max.</if></div>}]
+    [list label "[_ evaluation.Grade] <if @simple_p;literal@ false><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"><\/if><else><input type=hidden name=max_grade value=$max_grade></else>" \
+	 display_template { <div style="text-align:center;"><input type=text name=grades_na.@not_evaluated_na.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p;literal@ true><br>$max_grade max.</if></div>}]
 lappend elements comments \
     [list label "[_ evaluation.Comments]" \
 	 display_template { <textarea rows="3" cols="15" name=comments_na.@not_evaluated_na.party_id@></textarea> } \
@@ -454,8 +454,8 @@ if {$forums_related_p == "t" && $number_of_members <= 1} {
 }
 
 lappend elements grade \
-    [list label "[_ evaluation.Grade] <if @simple_p@ eq 0><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"><\/if><else><input type=hidden name=max_grade value=$max_grade></else>" \
-	 display_template {<div style="text-align:center;"> <input type=text name=grades_na.@class_students.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p@ eq 1><br>$max_grade max.</if></div>}]
+    [list label "[_ evaluation.Grade] <if @simple_p;literal@ false><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"><\/if><else><input type=hidden name=max_grade value=$max_grade></else>" \
+	 display_template {<div style="text-align:center;"> <input type=text name=grades_na.@class_students.party_id@ maxlength=\"6\" size=\"3\"> <if @simple_p;literal@ true><br>$max_grade max.</if></div>}]
 lappend elements comments \
     [list label "[_ evaluation.Comments]" \
 	 display_template { <textarea rows="3" cols="15" name=comments_na.@class_students.party_id@></textarea> } \
