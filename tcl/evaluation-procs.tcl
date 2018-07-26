@@ -415,7 +415,7 @@ ad_proc -public evaluation::clone_task {
 
     @param item_id The item to create.
     @param from_task_id Task to clone.
-    @param to_grade_id Grade that will "own" the task
+    @param to_grade_item_id Grade that will "own" the task
 } {
 
     db_1row from_task_info { *SQL* }
@@ -583,7 +583,7 @@ ad_proc -public evaluation::new_solution {
     @param content_type The type to make
     @param content_table
     @param new_item_p If true make a new item using item_id
-    @param task_id Task which "owns" the solution
+    @param task_item_id Task which "owns" the solution
     @param title The name of the task solution
     @param storage_type lob, file or text, depending on what are we going to store
 
@@ -666,7 +666,7 @@ ad_proc -public evaluation::new_answer {
     @param content_type The type to make
     @param content_table
     @param new_item_p If true make a new item using item_id
-    @param task_id Task which "owns" the answer
+    @param task_item_id Task which "owns" the answer
     @param title The name of the task solution
     @param storage_type lob, file or text, depending on what are we going to store
     @param party_id Group or user_id thaw owns the anser
@@ -750,7 +750,7 @@ ad_proc -public evaluation::new_evaluation {
     @param content_type The type to make
     @param content_table
     @param new_item_p If true make a new item using item_id
-    @param task_id Task been evaluated
+    @param task_item_id Task been evaluated
     @param party_id Party been evaluated
     @param grade Grade of the evaluation
     @param show_student_p If the student(s) will be able to see the grade
@@ -825,10 +825,8 @@ ad_proc -public evaluation::new_evaluation_group {
     which uses the acs_group.new function.
 
     @param group_id The group_id that will be created.
-    @param group_key Key for the group.
-    @param pretty_name 
-    @param task_id The task that will be done by the group.
-    @param context_id If not provided, it will be the package_id.
+    @param task_item_id The task that will be done by the group.
+    @param context If not provided, it will be the package_id.
 
 } {
 
@@ -897,7 +895,7 @@ ad_proc -public evaluation::new_grades_sheet {
     @param content_type The type to make
     @param content_table
     @param new_item_p If true make a new item using item_id
-    @param task_id Task which "owns" the grades sheet
+    @param task_item_id Task which "owns" the grades sheet
     @param title The name of the grades sheet
     @param storage_type lob or file 
     @param mime_type Mime tipe of the grades sheet
