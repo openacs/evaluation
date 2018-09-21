@@ -178,7 +178,7 @@ foreach party_id [array names show_student_na] {
 
 set evaluations_na:rowcount $counter
 
-# editting grades
+# editing grades
 
 # if the structure of the multirow datasource ever changes, this needs to be rewritten    
 set counter 0
