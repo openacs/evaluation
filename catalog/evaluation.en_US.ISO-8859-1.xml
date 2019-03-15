@@ -358,7 +358,7 @@ is referred to as the weight. You have three choices.
   <msg key="lt_Please_select_the_gro">Please select the group</msg>
   <msg key="lt_Projects_for_students">Projects for students </msg>
   <msg key="lt_Reuse_groups_from_ano">Reuse groups from another assignment </msg>
-  <msg key="lt_Save_the_csv_file_and">Save the csv file and KEEP THE CSV FORMAT. The CSV file can be edited with any text editor (and MS Excell) but you have to save it keeping the CSV format. If you do not keep the format, the system will not be able to parse the file.</msg>
+  <msg key="lt_Save_the_csv_file_and">Save the csv file and KEEP THE CSV FORMAT. The CSV file can be edited with any text editor (and MS Excel) but you have to save it keeping the CSV format. If you do not keep the format, the system will not be able to parse the file.</msg>
   <msg key="lt_See_grades_sheets_ass">See grade sheets associated with this task</msg>
   <msg key="lt_Send_the_file_using_t">Send the file using the &quot;Send file&quot; botton. The system will parse the file and you will be asked for a confirmation (if everything is ok with the file) for the grades.</msg>
   <msg key="lt_smallTotal_points_in_">&lt;small&gt;Total points in this category: ${total_grade}/${max_grade} &lt;br&gt;
