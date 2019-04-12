@@ -326,7 +326,7 @@ db_multirow -extend { party_url answer answer_url submission_date_pretty portrai
 }
 
 #
-# working with students that have not answered and have not been yet evaluated and do not have submited their answers
+# working with students that have not answered and have not been yet evaluated and do not have submitted their answers
 #
 
 set elements [list party_name \

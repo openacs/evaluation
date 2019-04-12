@@ -504,7 +504,7 @@ ad_proc -public evaluation::new_task {
     @param grade_item_id Grade type where the task belongs
     @param name The name of the task
     @param number_of_members If the task is in groups this parameter must be > 1
-    @param online_p If the task will be submited online
+    @param online_p If the task will be submitted online
     @param due_date Due date of the task
     @param weight Weight of the task in the grade type
     @param late_submit_p If the students will be able to submit the task after due date
@@ -1160,7 +1160,7 @@ ad_proc -public evaluation::public_answers_to_file_system {
             }
 
         } else {
-            # it is a url
+            # it is a URL
 
             set url [db_string url { *SQL* }]
 
