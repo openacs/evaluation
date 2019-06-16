@@ -264,7 +264,7 @@ ad_form -extend -name task -form {
     }
     {answer_choice:text(radio)     
 	{label "[_ evaluation.answer_choice_]"} 
-	{options {{"[_ evaluation.submitted_online_]" ol}  {"[_ evaluation.forum_r_]" fr} {"[_ evaluation.not_submited_]" ns}}}
+	{options {{"[_ evaluation.submitted_online_]" ol}  {"[_ evaluation.forum_r_]" fr} {"[_ evaluation.not_submitted_]" ns}}}
 	{value "ol"}
     }
 }

@@ -531,7 +531,7 @@ To see the assignment type details, click on the view icon at the left of the as
   <msg key="lt_You_can_upload_a_file_1">You can upload a file associated to this task by using the browse button and select the file from your computer (optional) </msg>
   <msg key="lt_You_cant_leave_the_du">You can't leave the due date empty if the students have to submit their answers online. due es ($due_date y online es $online_p )</msg>
   <msg key="lt_You_must_give_an_edit">You must give an edit reason (%old_grade% --&gt; %grade_wo_reason% </msg>
-  <msg key="lt_Your_answer_has_been_">Your answer hass been successfully submited.</msg>
+  <msg key="lt_Your_answer_has_been_">Your answer hass been successfully submitted.</msg>
   <msg key="lt_Your_total_grade_in_t">Your total grade in this class is:</msg>
   <msg key="make_it_live">(make it live!)</msg>
   <msg key="Max_Grade_">Max Grade: </msg>
@@ -567,7 +567,7 @@ To see the assignment type details, click on the view icon at the left of the as
   <msg key="not_equal_100">The sum of the Weight over %grade_plural_name% should be 100.</msg>
   <msg key="not_equal_grade_weight">The sum of the Weight over Total must be %grade_weight%.</msg>
   <msg key="Not_evaluated_">Not evaluated </msg>
-  <msg key="not_submited_">No submission</msg>
+  <msg key="not_submitted_">No submission</msg>
   <msg key="Note">that if you unassociate ALL the members or the group, THE GROUP WILL BE DELETED. </msg>
   <msg key="Number_of_Integrants">Number of Integrants</msg>
   <msg key="Number_of_Members_">Number of Members </msg>

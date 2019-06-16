@@ -645,7 +645,7 @@ esta tarea?</msg>
   <msg key="not_equal_100">La suma de los pesos de %grade_plural_name% debe ser igual a 100.</msg>
   <msg key="not_equal_grade_weight">La suma del peso sobre el total debe ser %grade_weight%.</msg>
   <msg key="Not_evaluated_">Sin evaluar</msg>
-  <msg key="not_submited_">Sin envío</msg>
+  <msg key="not_submitted_">Sin envío</msg>
   <msg key="Note">si usted desasocia a TODOS los miembros o al grupo, EL GRUPO SERA ELIMINADO. </msg>
   <msg key="Number_of_Integrants">Numero de Integrantes</msg>
   <msg key="Number_of_Members_">Número de personas en el grupo: </msg>

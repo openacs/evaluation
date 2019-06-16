@@ -409,7 +409,7 @@
   <msg key="not_equal_100">A soma dos Pesos acima das %grade_plural_name% deve ser 100.</msg>
   <msg key="not_equal_grade_weight">A soma dos Pesos acima do Total deve ser %grade_weight%.</msg>
   <msg key="Not_evaluated_">Não avaliado</msg>
-  <msg key="not_submited_">Sem envio</msg>
+  <msg key="not_submitted_">Sem envio</msg>
   <msg key="Note">que se você desassociar TODOS os membros do grupo, O GRUPO SERÁ ACABADO.</msg>
   <msg key="Number_of_Integrants">Número de Integrantes</msg>
   <msg key="Number_of_Members_">Número de Membros</msg>
