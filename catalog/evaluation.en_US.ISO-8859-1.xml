@@ -458,7 +458,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_These_are_the_grades_">These are the grades sheets used to evaluate students for this task</msg>
   <msg key="lt_These_are_the_student">These are the students that have already answered but have not been evaluated yet.</msg>
   <msg key="lt_These_are_the_student_1">These are the students that have not answered yet (if the task is online) and have not been evaluated yet.</msg>
-  <msg key="lt_This_funcionallity_al">This funcionallity allows you to upload a CSV (Comma Separated Value) file with the grades of the students. This CSV file can be edited with MS Excell and many other text editors.</msg>
+  <msg key="lt_This_funcionality_al">This funcionality allows you to upload a CSV (Comma Separated Value) file with the grades of the students. This CSV file can be edited with MS Excel and many other text editors.</msg>
   <msg key="lt_This_is_the_grades_re">The following is a summary of student grades for this course. </msg>
   <msg key="lt_This_is_the_grades_re_1">This is the grades report of the students according to one assignment type and the evaluations that you have made in this assignment type.</msg>
   <msg key="lt_This_task_can_not_be_">This task can not be submitted after the due date </msg>
@@ -481,8 +481,8 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_Total_points_in_this__2">Total points in this category: %total_grade%/%max_grade%</msg>
   <msg key="lt_Unassociate_student_f">Unassociate student for this group </msg>
   <msg key="lt_Unrecognized_value_fo">Unrecognized value for notif type: $notif_type. Possible values are one_assignment_notif and one_evaluation_notif. </msg>
-  <msg key="lt_Upload_a_file_OR_a_ur">Upload a file OR a url, and not both </msg>
-  <msg key="lt_Upload_a_file_OR_a_ur_1">Upload a file OR a url, not both </msg>
+  <msg key="lt_Upload_a_file_OR_a_ur">Upload a file OR a URL, and not both </msg>
+  <msg key="lt_Upload_a_file_OR_a_ur_1">Upload a file OR a URL, not both </msg>
   <msg key="lt_Upload_a_file_OR_a_va">Upload a file OR a valid url, and not both </msg>
   <msg key="lt_Upload_a_solution_for">Upload a solution for this assignment so the students can see it and learn from it.</msg>
   <msg key="lt_Upload_Answer_for_tas">Upload Answer for \&quot;%task_name%\&quot;</msg>
