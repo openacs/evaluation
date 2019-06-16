@@ -116,7 +116,7 @@ if { ![db_string file_exists { *SQL* }] } {
 	
 	if { $grade ne "" } { 
 	    # start validations
-	    if { ![ad_var_type_check_integer_p $party_id] } { 
+	    if { ![string is integer -strict $party_id] } { 
 		incr errors 
 		append errors_text "<li> [_ evaluation.lt_Party_id_party_id_doe]</li>" 
 	    } 
