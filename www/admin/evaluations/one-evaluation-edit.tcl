@@ -59,7 +59,7 @@ ad_form -name evaluation -cancel_url $return_url -export { task_id item_id party
 	
 } -validate {
 	{grade 
-		{ [ad_var_type_check_number_p $grade] }
+		{ [string is double -strict $grade] }
 		{ [_ evaluation.lt_The_grade_must_be_a_v_1] } 
 	}
 	{comments

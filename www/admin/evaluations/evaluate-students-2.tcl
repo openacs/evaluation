@@ -39,7 +39,7 @@ ad_page_contract {
 	    if { [info exists grades_gs($party_id)] && $grades_gs($party_id) ne "" } {
 		incr counter
 		set grades_gs($party_id) [util::trim_leading_zeros $grades_gs($party_id)]
-		if { ![ad_var_type_check_number_p $grades_gs($party_id)] } {
+		if { ![string is double -strict $grades_gs($party_id)] } {
 		    set wrong_grade $grades_gs($party_id)
 		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
 		}
@@ -55,7 +55,7 @@ ad_page_contract {
 	    if { [info exists grades_wa($party_id)] && $grades_wa($party_id) ne "" } {
 		incr counter
 		set grades_wa($party_id) [util::trim_leading_zeros $grades_wa($party_id)]
-		if { ![ad_var_type_check_number_p $grades_wa($party_id)] } {
+		if { ![string is double -strict $grades_wa($party_id)] } {
 		    set wrong_grade $grades_wa($party_id)
 		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
 		}
@@ -71,7 +71,7 @@ ad_page_contract {
 	    if { [info exists grades_na($party_id)] && $grades_na($party_id) ne ""} {
 		incr counter
 		set grades_na($party_id) [util::trim_leading_zeros $grades_na($party_id)]
-		if { ![ad_var_type_check_number_p $grades_na($party_id)] } {
+		if { ![string is double -strict $grades_na($party_id)] } {
 		    set wrong_grade $grades_na($party_id)
 		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
 		}
@@ -87,7 +87,7 @@ ad_page_contract {
 	    if { [info exists grades_to_edit($party_id)] && $grades_to_edit($party_id) ne "" } {
 		incr counter
 		set grades_to_edit($party_id) [util::trim_leading_zeros $grades_to_edit($party_id)]
-		if { ![ad_var_type_check_number_p $grades_to_edit($party_id)] } {
+		if { ![string is double -strict $grades_to_edit($party_id)] } {
 		    set wrong_grade $grades_to_edit($party_id)
 		    ad_complain "[_ evaluation.lt_The_grade_most_be_a_v]"
 		}

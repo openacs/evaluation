@@ -17,7 +17,7 @@ ad_page_contract {
 	    if { ![info exists weights($id)] } {
 		ad_complain "The task weight can't be null"
 	    } else {
-		if { ![ad_var_type_check_number_p $weights($id)] } {
+		if { ![string is double -strict $weights($id)] } {
 		    ad_complain "The task weight $weights($id) must be a valid number"
 		}
 		

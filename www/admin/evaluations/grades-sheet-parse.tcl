@@ -72,7 +72,7 @@ if { ![db_string file_exists { *SQL* }] } {
 
         if { $line_number == 3 } {
             set max_grade [string trim [util::trim_leading_zeros [lindex $evaluation 1]]]
-            if { ![ad_var_type_check_number_p $max_grade] } {
+            if { ![string is double -strict $max_grade] } {
                 ad_return_error "Invalid Max Grade" "Max Grade does not seem to be a real number. Please don't leave it blank."
                 return
             }
@@ -119,7 +119,7 @@ if { ![db_string file_exists { *SQL* }] } {
                 append errors_text "<li> [_ evaluation.lt_Party_id_party_id_doe]</li>"
             }
 
-            if { ![ad_var_type_check_number_p $grade] } {
+            if { ![string is double -strict $grade] } {
                 incr errors
                 append errors_text "<li> [_ evaluation.lt_Grade_grade_does_not_]</li>"
             }
