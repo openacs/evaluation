@@ -414,7 +414,7 @@ y haga click en OK.</msg>
 
 set page_title &amp;quot;&amp;lt;#_ Confirm Evaluation </msg>
   <msg key="lt_The_file_extension_of_1">La extensión del archivo \&quot;$file_extension\&quot; debe de ser .CSV, lo sentimos, no podemos procesarlo </msg>
-  <msg key="lt_The_file_is_too_large">El fichero es demasiado grande. (El tamaño máximo del fichero es %pretty_maxnbytes% bytes)&amp;quot; 
+  <msg key="lt_The_file_is_too_large">El fichero es demasiado grande. (El tamaño máximo del fichero es %pretty_maxnbytes%)&amp;quot; 
         return 0 
     }
     
@@ -444,7 +444,7 @@ set page_title &amp;quot;&amp;lt;#_ Confirm Evaluation </msg>
 			set max_grade [string trim [lindex $evaluation 1]] 
 			if { ![ad_var_type_check_number_p $max_grade] } {
 				ad_return_error &amp;quot;&amp;lt;#_ Invalid Max Grade </msg>
-  <msg key="lt_The_file_is_too_large_1">El archivo es muy grande. (El tamaño máximo es de %pretty_maxnbytes% bytes)</msg>
+  <msg key="lt_The_file_is_too_large_1">El archivo es muy grande. (El tamaño máximo es de %pretty_maxnbytes%)</msg>
   <msg key="lt_The_file_should_have_">El archivo debe de tener un formato predefinido para que el sistema pueda leerlo y obtener la información. Si usted desea utilizar esta herramienta debe de seguir los siguientes pasos:</msg>
   <msg key="lt_The_grade_most_be_a_v">La nota debe de ser un NUMERO VALIDO: %wrong_grade% </msg>
   <msg key="lt_The_grade_must_be_a_R">La nota debe de ser un NUMERO REAL.</msg>

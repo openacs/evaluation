@@ -271,7 +271,7 @@
   <msg key="lt_The_estimated_time_mu">O tempo estimado deve ser maior que 0</msg>
   <msg key="lt_The_file_extension_of">A extensão do arquivo é &quot;%file_extension&quot; e deveria ser CSV. Sinto muito, não podemos processá-lo&quot;}}} set page_title &quot;&lt;#_ Confirm Evaluation</msg>
   <msg key="lt_The_file_extension_of_1">A extensão do arquivo é &quot;%file_extension&quot; e deveria ser CSV. Sinto muito, não podemos processá-lo</msg>
-  <msg key="lt_The_file_is_too_large_1">O arquivo é muito grande. (O tamanho máximo para arquivos é %pretty_maxnbytes% bytes)</msg>
+  <msg key="lt_The_file_is_too_large_1">O arquivo é muito grande. (O tamanho máximo para arquivos é %pretty_maxnbytes%)</msg>
   <msg key="lt_The_file_should_have_">O arquivo deveria ter um formato pré-definido para que o sistema possa analisá-lo e obter a informação. Se você quiser usar esta funcionalidade precisa seguir os seguintes passos:</msg>
   <msg key="lt_The_grade_most_be_a_v">A nota precisa ser um número válido: %wrong_grade%</msg>
   <msg key="lt_The_grade_must_be_a_R">A nota precisa ser um NÚMERO REAL.</msg>

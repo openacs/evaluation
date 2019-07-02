@@ -382,7 +382,7 @@ is referred to as the weight. You have three choices.
 
 set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_The_file_extension_of_1">The file extension of the file is &quot;%file_extension%&quot; and it should be .CSV, we can't process it </msg>
-  <msg key="lt_The_file_is_too_large">The file is too large. (The maximun file size is %pretty_maxnbytes% bytes)&quot; 
+  <msg key="lt_The_file_is_too_large">The file is too large. (The maximun file size is %pretty_maxnbytes%)&quot; 
         return 0 
     }
     
@@ -412,7 +412,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
 			set max_grade [string trim [lindex $evaluation 1]] 
 			if { ![ad_var_type_check_number_p $max_grade] } {
 				ad_return_error &quot;&lt;#_ Invalid Max Grade </msg>
-  <msg key="lt_The_file_is_too_large_1">The file is too large. (The maximun file size is %pretty_maxnbytes% bytes) </msg>
+  <msg key="lt_The_file_is_too_large_1">The file is too large. (The maximun file size is %pretty_maxnbytes%) </msg>
   <msg key="lt_The_file_should_have_">The file should have a pre-defined format so the system can parse it and obtain the information. If you want to use this functionality you must follow the following steps:</msg>
   <msg key="lt_The_grade_most_be_a_v">The grade most be a valid number: %wrong_grade% </msg>
   <msg key="lt_The_grade_must_be_a_R">The grade must be a REAL NUMBER.</msg>

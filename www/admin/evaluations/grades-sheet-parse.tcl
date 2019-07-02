@@ -42,7 +42,7 @@ if { ![db_string file_exists { *SQL* }] } {
     set tmp_filename [ns_queryget upload_file.tmpfile]
 
     if { $max_n_bytes ne "" && ([file size "$tmp_filename"] > $max_n_bytes) } {
-        set pretty_maxnbytes [lc_numeric $max_n_bytes]
+        set pretty_maxnbytes [lc_content_size_pretty -size $max_n_bytes]
         ad_return_complaint 1 "[_ evaluation.lt_The_file_is_too_large_1]"
         return 0
     }
