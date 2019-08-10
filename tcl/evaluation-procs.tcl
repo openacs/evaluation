@@ -154,7 +154,8 @@ ad_proc -public evaluation::revision_delete {
 ad_proc -public evaluation::set_live_item {
     -item_id
 } {
-    Wrapper for contet::item::set_live_revision, in case the way items are deleted in the eval package ever change.
+    Wrapper for content::item::set_live_revision, in case the way items are
+    deleted in the eval package ever change.
 } {
     content::item::set_live_revision -revision_id [content::item::get_best_revision -item_id $item_id]
 }
@@ -898,7 +899,7 @@ ad_proc -public evaluation::new_grades_sheet {
     @param task_item_id Task which "owns" the grades sheet
     @param title The name of the grades sheet
     @param storage_type lob or file
-    @param mime_type Mime tipe of the grades sheet
+    @param mime_type Mime type of the grades sheet
 
 } {
 

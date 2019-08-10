@@ -1,7 +1,7 @@
 # /evaluation/www/admin/groups/one-task.tcl
 
 ad_page_contract {
-	Shows the students and gropus associated with a task.
+	Shows the students and groups associated with a task.
 
 	@author jopez@galileo.edu
 	@creation-date Mar 2004

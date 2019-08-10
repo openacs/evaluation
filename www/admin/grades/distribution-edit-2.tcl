@@ -53,7 +53,7 @@ foreach id [array names weights] {
     incr counter
 }
 foreach id [array names weights] { 
-    # create a list of tasks that requieres/not requires grade
+    # create a list of tasks that might require a grade
     if {$no_grade($id) == "t"} { 
 	lappend with_grade $id
     } else { 
