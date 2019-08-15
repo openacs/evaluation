@@ -401,7 +401,7 @@
   <msg key="Tasks_">Aufgaben</msg>
   <msg key="Tasks_for_students_">Aufgaben für Studenten</msg>
   <msg key="Tasks_List_">Aufgabenliste</msg>
-  <msg key="Theese">Sind die Studenten bewertet. Anmerkung: Wenn Sie die Studenten mit einem Bewertungsskala die nicht 100 ist bewertet haben, wird diese automatisch in eine mit 100 Punkten als maximaler Bewertung konvertiert.</msg>
+  <msg key="These">Sind die Studenten bewertet. Anmerkung: Wenn Sie die Studenten mit einem Bewertungsskala die nicht 100 ist bewertet haben, wird diese automatisch in eine mit 100 Punkten als maximaler Bewertung konvertiert.</msg>
   <msg key="There">bisher keine Gruppen für diese Aufgabenzuteilung</msg>
   <msg key="Total_">Insgesamt</msg>
   <msg key="Total_current_grade_">Gesamte aktueller Bewertung</msg>

@@ -623,7 +623,7 @@ To see the assignment type details, click on the view icon at the left of the as
   <msg key="Tasks_">Tasks </msg>
   <msg key="Tasks_for_students_">Tasks for students </msg>
   <msg key="Tasks_List_">Tasks List </msg>
-  <msg key="Theese">These are the evaluated students. Note that if you evaluated them over a grade different from 100, the system automatically did the conversion so the grade will be shown over 100 points. </msg>
+  <msg key="These">These are the evaluated students. Note that if you evaluated them over a grade different from 100, the system automatically did the conversion so the grade will be shown over 100 points. </msg>
   <msg key="There">are no groups for this assignment yet. </msg>
   <msg key="total">%grade_plural_name_up% TOTAL:</msg>
   <msg key="Total_">Total </msg>

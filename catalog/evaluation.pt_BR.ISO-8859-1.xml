@@ -464,7 +464,7 @@
   <msg key="Tasks_">Tarefas</msg>
   <msg key="Tasks_for_students_">Tarefas para estudantes</msg>
   <msg key="Tasks_List_">Lista das Tarefas</msg>
-  <msg key="Theese">são os estudantes avaliados. Note que se você os avaliou acima de uma nota diferente de 100, o sistema fez a conversão automaticamente para que a nota seja mostrada acima de 100 pontos.</msg>
+  <msg key="These">são os estudantes avaliados. Note que se você os avaliou acima de uma nota diferente de 100, o sistema fez a conversão automaticamente para que a nota seja mostrada acima de 100 pontos.</msg>
   <msg key="There">Não há grupos para esta tarefa ainda.</msg>
   <msg key="total">TOTAL DAS %grade_plural_name_up%:</msg>
   <msg key="Total_">Total  </msg>

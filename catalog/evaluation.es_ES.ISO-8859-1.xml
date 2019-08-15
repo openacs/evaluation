@@ -701,7 +701,7 @@ esta tarea?</msg>
   <msg key="Tasks_">Tareas</msg>
   <msg key="Tasks_for_students_">Tareas para los estudiantes</msg>
   <msg key="Tasks_List_">Lista de Tareas</msg>
-  <msg key="Theese">Estos son los estudiantes evaluados. Note que si ha evaluado a los estudiantes sobre una nota diferente de 100, el sistema automáticamente hará la conversión y la nota aparecerá sobre 100 puntos.</msg>
+  <msg key="These">Estos son los estudiantes evaluados. Note que si ha evaluado a los estudiantes sobre una nota diferente de 100, el sistema automáticamente hará la conversión y la nota aparecerá sobre 100 puntos.</msg>
   <msg key="There">todavía no hay grupos para esta asignación.</msg>
   <msg key="total">TOTAL %grade_plural_name_up%:</msg>
   <msg key="Total_">Total </msg>
