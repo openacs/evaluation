@@ -531,7 +531,7 @@ set page_title &amp;quot;&amp;lt;#_ Confirm Evaluation </msg>
                 &lt;/blockquote&gt; </msg>
   <msg key="lt_Time_estimated_to_com">Tiempo estimado para completar %grade_name% (en horas)</msg>
   <msg key="lt_To_add_this_assignmen">Si desea agregar asignaciones en varias clases o secciones seleccione la opción que se encuentra</msg>
-  <msg key="lt_To_chanche_the_name_e">Para cambiar el nombre, edite el nombre en la entrada del texto y luego haga click en el botón &quot;Renombrar Grupo&quot;.
+  <msg key="lt_To_change_the_name_e">Para cambiar el nombre, edite el nombre en la entrada del texto y luego haga click en el botón &quot;Renombrar Grupo&quot;.
 </msg>
   <msg key="lt_To_delete_the_group_c">Para eliminar el grupo, haga click en el botón &quot;Borrar Grupo&quot;</msg>
   <msg key="lt_to_submit_their_answe">¿para entregar las respuestas después de la fecha de entrega?</msg>
@@ -613,7 +613,7 @@ esta tarea?</msg>
 </msg>
   <msg key="make_it_live">(¡activar!)</msg>
   <msg key="Max_Grade_">Nota Máxima: </msg>
-  <msg key="Maximun_Grade_">Nota Máxima: </msg>
+  <msg key="Maximum_Grade_">Nota Máxima: </msg>
   <msg key="MaxNumberOfBytes">Tamaño de fichero</msg>
   <msg key="Members_">Miembros</msg>
   <msg key="Modifying_User_">Por</msg>

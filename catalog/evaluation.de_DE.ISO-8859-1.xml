@@ -289,7 +289,7 @@
   <msg key="lt_This_was_the_error___">Dies war ein fehelr: &lt;blockquote&gt; &lt;pre&gt;%errmsg%&lt;/pre&gt; &lt;/blockquote&gt;  </msg>
   <msg key="lt_Time_estimated_to_com">Geschätzte Zeit, um &quot;%grade_name%&quot; fertigzustellen (in Stunden) </msg>
   <msg key="lt_To_add_this_assignmen">Um diese Aufgabe einem anderen Kurs hinzuzufügen (in dem Sie Administrator sind)</msg>
-  <msg key="lt_To_chanche_the_name_e">Um den Namen zu ändern, ändern Sie den Namen im Texteingabefeld und klicken auf den &quot;Gruppe umbenennen&quot; Knopf.</msg>
+  <msg key="lt_To_change_the_name_e">Um den Namen zu ändern, ändern Sie den Namen im Texteingabefeld und klicken auf den &quot;Gruppe umbenennen&quot; Knopf.</msg>
   <msg key="lt_To_delete_the_group_c">Um diese Gruppe zu löschen, klicken Sie auf den &quot;Gruppe löschen&quot; Knopf.</msg>
   <msg key="lt_to_submit_their_answe">ihre Antworten nach dem Fälligkeitsdatum übermitteln?</msg>
   <msg key="lt_To_unassociate_a_memb">Um ein Gruppenmitglied aus einer Gruppe zu entfernen, klicken Sie auf &quot;Gruppenmitglied aus Gruppe entfernen&quot;</msg>
@@ -340,7 +340,7 @@
   <msg key="lt_You_must_give_an_edit">Sie müssen einen Grund für die Änderung angeben (%old_grade% --&gt; %grade_wo_reason%  </msg>
   <msg key="lt_Your_total_grade_in_t">Ihre Gesamtnote in diesem Kurs ist:</msg>
   <msg key="Max_Grade_">Maximale Bewertung</msg>
-  <msg key="Maximun_Grade_">Maximale Bewertung</msg>
+  <msg key="Maximum_Grade_">Maximale Bewertung</msg>
   <msg key="Members_">Mitglieder</msg>
   <msg key="Modifying_User_">Wer hat die Änderung vorgenommen?</msg>
   <msg key="na_">n/a</msg>

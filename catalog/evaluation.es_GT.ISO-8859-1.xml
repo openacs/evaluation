@@ -370,7 +370,7 @@ y haga click en OK.</msg>
                 &lt;/blockquote&gt; </msg>
   <msg key="lt_Time_estimated_to_com">Tiempo estimado para terminar este(a) %grade_name% (en horas)</msg>
   <msg key="lt_To_add_this_assignmen">Si desea agregar asignaciones en varias clases o secciones seleccione la opción que se encuentra</msg>
-  <msg key="lt_To_chanche_the_name_e">Para cambiar el nombre, edite el nombre en la entrada del texto y luego haga click en el botón &quot;Renombrar Grupo&quot;.
+  <msg key="lt_To_change_the_name_e">Para cambiar el nombre, edite el nombre en la entrada del texto y luego haga click en el botón &quot;Renombrar Grupo&quot;.
 </msg>
   <msg key="lt_To_delete_the_group_c">Para eliminar el grupo, haga click en el botón &quot;Borrar Grupo&quot;</msg>
   <msg key="lt_to_submit_their_answe">¿para entregar las respuestas después de la fecha de entrega?</msg>
@@ -445,7 +445,7 @@ esta tarea?</msg>
   <msg key="lt_Your_total_grade_in_t">El total de su nota es de:
 </msg>
   <msg key="Max_Grade_">Nota Máxima: </msg>
-  <msg key="Maximun_Grade_">Nota Máxima: </msg>
+  <msg key="Maximum_Grade_">Nota Máxima: </msg>
   <msg key="Members_">Miembros</msg>
   <msg key="Modifying_User_">Por</msg>
   <msg key="na_">n/a</msg>

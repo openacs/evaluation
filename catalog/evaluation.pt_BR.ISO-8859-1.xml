@@ -324,7 +324,7 @@
   <msg key="lt_This_was_the_error___">O erro foi esse: &lt;blockquote&gt; &lt;pre&gt;%errmsg%&lt;/pre&gt; &lt;/blockquote&gt; </msg>
   <msg key="lt_Time_estimated_to_com">Tempo estimado para completar esta %grade_name% (em horas)</msg>
   <msg key="lt_To_add_this_assignmen">Para adicionar esta atribuição à outras classes (onde você é administrador)</msg>
-  <msg key="lt_To_chanche_the_name_e">Para mudar o nome, mude na entrada de texto e então clique no botão &quot;Renomear Grupo&quot;.</msg>
+  <msg key="lt_To_change_the_name_e">Para mudar o nome, mude na entrada de texto e então clique no botão &quot;Renomear Grupo&quot;.</msg>
   <msg key="lt_To_delete_the_group_c">Para apagar o grupo clique no botão &quot;Apagar Grupo&quot;.</msg>
   <msg key="lt_to_submit_their_answe">para enviar as respostas deles depois da data limite?</msg>
   <msg key="lt_To_unassociate_a_memb">Para desassociar um membro do grupo, clique no link &quot;Desassociar Membro&quot;.</msg>
@@ -378,7 +378,7 @@
   <msg key="lt_You_must_give_an_edit">Você deve fornecer uam razão de edição (%old_grade% --&gt; %grade_wo_reason%</msg>
   <msg key="lt_Your_total_grade_in_t">Sua nota total nesta classe é:</msg>
   <msg key="Max_Grade_">Nota Máxima:</msg>
-  <msg key="Maximun_Grade_">Nota Máxima:</msg>
+  <msg key="Maximum_Grade_">Nota Máxima:</msg>
   <msg key="MaxNumberOfBytes">Tamanho do Arquivo a Enviar</msg>
   <msg key="Members_">Membros</msg>
   <msg key="Modifying_User_">Modificando o Usuário</msg>
