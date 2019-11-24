@@ -458,7 +458,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
   <msg key="lt_These_are_the_grades_">These are the grades sheets used to evaluate students for this task</msg>
   <msg key="lt_These_are_the_student">These are the students that have already answered but have not been evaluated yet.</msg>
   <msg key="lt_These_are_the_student_1">These are the students that have not answered yet (if the task is online) and have not been evaluated yet.</msg>
-  <msg key="lt_This_funcionality_al">This funcionality allows you to upload a CSV (Comma Separated Value) file with the grades of the students. This CSV file can be edited with MS Excel and many other text editors.</msg>
+  <msg key="lt_This_functionality_al">This funcionality allows you to upload a CSV (Comma Separated Value) file with the grades of the students. This CSV file can be edited with MS Excel and many other text editors.</msg>
   <msg key="lt_This_is_the_grades_re">The following is a summary of student grades for this course. </msg>
   <msg key="lt_This_is_the_grades_re_1">This is the grades report of the students according to one assignment type and the evaluations that you have made in this assignment type.</msg>
   <msg key="lt_This_task_can_not_be_">This task can not be submitted after the due date </msg>

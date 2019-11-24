@@ -281,7 +281,7 @@
   <msg key="lt_These_are_the_grades_">Dies sind die Bewertungstabellen, die dafür genutzt wurden, um die Aufgaben der Studenten zu bewerten.</msg>
   <msg key="lt_These_are_the_student">Liste aller Studenten, die schon geantwortet haben aber noch nicht bewertet wurden.</msg>
   <msg key="lt_These_are_the_student_1">Liste aller Studenten, die noch nicht geantwortet haben (wenn es sich um eine online Aufgabe handelt) und noch nicht bewertet wurden.</msg>
-  <msg key="lt_This_funcionallity_al">Diese Funktionalität erlaubt es Ihnen, eine CSV-Datei (comma separated value) mit den Bewertungen für die Studenten upzuloaden. Diese CSV-Datei kann mit MS Excel oder vielen Texteditoren bearbeitet werden.</msg>
+  <msg key="lt_This_functionality_al">Diese Funktionalität erlaubt es Ihnen, eine CSV-Datei (comma separated value) mit den Bewertungen für die Studenten upzuloaden. Diese CSV-Datei kann mit MS Excel oder vielen Texteditoren bearbeitet werden.</msg>
   <msg key="lt_This_is_the_grades_re">Dies ist die Leistungsübersicht für die Studenten und die von Ihnen getroffene Zuordnung der Aufgaben.</msg>
   <msg key="lt_This_is_the_grades_re_1">Dies ist die Leistungsübersicht für die Studenten für einen einzelnen Aufgabentyp und die Bewertungen, die für diesen Aufgabentyp abgegeben wurden.</msg>
   <msg key="lt_This_task_can_not_be_">Für diese Aufgabe können Lösungen nicht nach dem Fälligkeitsdatum übermittelt werden.</msg>

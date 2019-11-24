@@ -354,7 +354,7 @@ y haga click en OK.</msg>
 </msg>
   <msg key="lt_These_are_the_student">Estos son los estudiantes que ya respondieron pero que no han sido evaluados.</msg>
   <msg key="lt_These_are_the_student_1">Estos son los estudiantes que no han respondido (si la tarea se puede entregar electrónicamente) y no han sido evaluados.</msg>
-  <msg key="lt_This_funcionallity_al">Esta funcionalidad le permite subir un archivo CSV (Comm Separated Value) con las notas de los estudiantes. Este archivo CSV puede ser editado con MS Excell y con otros editores de texto.
+  <msg key="lt_This_functionality_al">Esta funcionalidad le permite subir un archivo CSV (Comm Separated Value) con las notas de los estudiantes. Este archivo CSV puede ser editado con MS Excell y con otros editores de texto.
 </msg>
   <msg key="lt_This_is_the_grades_re">Este es el reporte de notas de los estudiantes de acuerdo a las asignaciones/evaluaciones que usted hizo.</msg>
   <msg key="lt_This_is_the_grades_re_1">Este es el reporte de notas de los estudiantes de acuerdo a un tipo de asignación y a las evaluaciones que usted hizo en este tipo de asignación.

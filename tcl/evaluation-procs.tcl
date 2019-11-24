@@ -1209,15 +1209,17 @@ ad_proc -public evaluation::set_points {
     }
 }
 
-# SQL for this proc is nowhere to be found, therefore I comment it
-# out.
+#
+# The SQL query for this proc is nowhere to be found, therefore, it is
+# commented out.
+#
 # ad_proc -public evaluation::enable_due_date {
 #     {-task_id}
 # } {
 # } {
 #     set enable_p 0
 #     set enable_p [db_string enable {} -default 1]
-
+#
 #     if {$enable_p > 1} {
 #         set enable_p 0
 #     }

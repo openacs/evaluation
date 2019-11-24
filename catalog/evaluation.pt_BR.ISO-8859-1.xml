@@ -316,7 +316,7 @@
   <msg key="lt_These_are_the_grades_">Estas são folhas de nota usadas para avaliar os estudantes para esta tarefa</msg>
   <msg key="lt_These_are_the_student">Estes são os estudantes que já responderam mas ainda não foram avaliados.</msg>
   <msg key="lt_These_are_the_student_1">Este são os estudante sque ainda nã responderam (se a tarefa estiver online) e ainda não foram avaliados.</msg>
-  <msg key="lt_This_funcionallity_al">Esta funcionalidade te permite enviar um arquivo CSV (Comma Separated Value) com as notas dos alunos. Este arquivo CSV pode ser editado com o MS Excell e muitos outros editores de texto.</msg>
+  <msg key="lt_This_functionality_al">Esta funcionalidade te permite enviar um arquivo CSV (Comma Separated Value) com as notas dos alunos. Este arquivo CSV pode ser editado com o MS Excell e muitos outros editores de texto.</msg>
   <msg key="lt_This_is_the_grades_re">O seguinte é um sumário das notas dos estudantes para este curso.</msg>
   <msg key="lt_This_is_the_grades_re_1">Este é o relatório das notas dos estudantes de acordo com o tipo de atribuição e as avaliações que você fez para este tipo.</msg>
   <msg key="lt_This_task_can_not_be_">esta tarefa não pode ser enviada depois da data limite</msg>
