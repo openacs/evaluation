@@ -1,8 +1,8 @@
 # /packages/evaluation/www/admin/evaluaitons/download-archive/index.vuh
 
 ad_page_contract {
-	
-    Taken from the index.vuh of the fs package		
+
+    Taken from the index.vuh of the fs package
 
     @creation-date Jun 2004
     @version $Id$
