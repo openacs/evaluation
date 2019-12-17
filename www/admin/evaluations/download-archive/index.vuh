@@ -49,11 +49,7 @@ set out_file [file join ${out_path} ${download_name}]
 set cmd [evaluation::get_archive_command -in_file $file_name -out_file $out_file]
 
 # create the archive
-with_catch errmsg {
-    exec bash -c "cd $in_path; $cmd; cd -"
-} {
-    error $errmsg
-}
+exec bash -c "cd $in_path; $cmd; cd -"
 
 # return the archive to the connection.
 ns_returnfile 200 application/octet-stream $out_file
