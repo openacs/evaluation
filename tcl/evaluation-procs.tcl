@@ -1146,17 +1146,16 @@ ad_proc -public evaluation::public_answers_to_file_system {
 
     db_foreach get_answers_for_task { *SQL* } {
         if { $storage_type eq "lob" || $storage_type eq "file" } {
-            # it is a file
 
             regsub -all {[<>:\"|/@\\\#%&+\\ ,]} $party_name {_} file_name
             append file_name [file extension $answer_title]
 
             if {$storage_type eq "file"} {
-            # its a file
-
-                file copy -- "[cr_fs_path $cr_path]${cr_file_name}" [file join ${dir} ${file_name}]
+                # it is a file
+                set cr_fn [content::revision::get_cr_file_path -revision_id $revision_id]
+                file copy -- $cr_fn [file join ${dir} ${file_name}]
             } else {
-            # its a lob
+                # it is a lob
                 db_blob_get_file select_object_content { *SQL* } -file [file join ${dir} ${file_name}]
             }
 
