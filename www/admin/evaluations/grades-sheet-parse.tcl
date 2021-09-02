@@ -212,7 +212,7 @@ if { ![db_string file_exists { *SQL* }] } {
 
     set export_vars [export_vars -form { task_id max_grade grades_gs comments_gs show_student_gs item_ids new_p_gs grades_sheet_item_id tmp_filename upload_file }]
 
-    # writing the file in the file system so we can work with it later
+    # writing the file in the filesystem so we can work with it later
     flush $file_handler
     close $file_handler
 
