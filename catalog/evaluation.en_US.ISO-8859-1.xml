@@ -374,7 +374,7 @@ is referred to as the weight. You have three choices.
   <msg key="lt_The_assignment_task_n">The assignment &quot;%task_name%&quot; has been uploaded in this community.</msg>
   <msg key="lt_The_commentsedit_reas">The comments/edit reason is a string with no more than 4,000 characters.</msg>
   <msg key="lt_The_edit_reason_must_">The edit reason must be less than 4000 characteras long </msg>
-  <msg key="lt_The_estimated_time_mu">The estimated time must be grather than 0</msg>
+  <msg key="lt_The_estimated_time_mu">The estimated time must be greater than 0</msg>
   <msg key="lt_The_file_extension_of">The file extension of the file is &quot;%file_extension&quot; and it should be .CSV. Sorry, we can't process it&quot;
 	} 
     } 
@@ -414,7 +414,7 @@ set page_title &quot;&lt;#_ Confirm Evaluation </msg>
 				ad_return_error &quot;&lt;#_ Invalid Max Grade </msg>
   <msg key="lt_The_file_is_too_large_1">The file is too large. (The maximum file size is %pretty_maxnbytes%) </msg>
   <msg key="lt_The_file_should_have_">The file should have a pre-defined format so the system can parse it and obtain the information. If you want to use this functionality you must follow the following steps:</msg>
-  <msg key="lt_The_grade_most_be_a_v">The grade most be a valid number: %wrong_grade% </msg>
+  <msg key="lt_The_grade_most_be_a_v">The grade must be a valid number: %wrong_grade% </msg>
   <msg key="lt_The_grade_must_be_a_R">The grade must be a REAL NUMBER.</msg>
   <msg key="lt_The_grade_must_be_a_v">The grade must be a valid number: %wrong_grade% </msg>
   <msg key="lt_The_grade_must_be_a_v_1">The grade must be a valid number </msg>
@@ -598,7 +598,7 @@ To see the assignment type details, click on the view icon at the left of the as
   <msg key="Send">Send file </msg>
   <msg key="Solution_Attachment_">Solution Attachment </msg>
   <msg key="spreadsheet"> for spreadsheet grading.</msg>
-  <msg key="Studen_List_">Studen List </msg>
+  <msg key="Studen_List_">Student List </msg>
   <msg key="Student_List_">Student List </msg>
   <msg key="Student_Name_">Student Name </msg>
   <msg key="Students_List_">Students List </msg>
