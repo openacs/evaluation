@@ -61,10 +61,7 @@ ad_proc -public evaluation::get_user_portrait {
     }
 
     if { $tag_attributes ne "" } {
-        for {set i 0} { $i < [ns_set size $tag_attributes] } { incr i } {
-            set attribute_name [ns_set key $tag_attributes $i]
-            set attribute_value [ns_set value $tag_attributes $i]
-
+        foreach {attribute_name attribute_value} [ns_set array $tag_attributes] {
             if {$attribute_name eq {}} {
                 append output " $attribute_name"
             } else {
