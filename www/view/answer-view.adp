@@ -1,6 +1,6 @@
 <master>
 <property name="doc(title)">@page_title;literal@</property>
-<property name=context>@context;noquote@</property>
+<property name=context>@context;literal@</property>
 <h1 class=blue>@page_title;noquote@</h1>
 <br>
 <br>
