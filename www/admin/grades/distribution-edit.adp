@@ -10,7 +10,7 @@
 <table class="title" width="100%">
 <table width="100%" style="border:0px" alt="" cellpadding="0" cellspacing="0" height="40">
   <tr>
-    <td valign="middle" width="30%" style="padding-left: 10px;"><text class="blue"><strong>@grade_plural_name_up@</strong> (@grade_weight@% #evaluation-portlet.total_grade#)</text></td>
+    <td valign="middle" width="30%" style="padding-left: 10px;"><text class="blue"><strong>@grade_plural_name_up@</strong> (@grade_weight@ #evaluation.total_percentage#)</text></td>
   </tr>
 </table>
 </div>
