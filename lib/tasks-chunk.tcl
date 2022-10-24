@@ -50,7 +50,7 @@ if { $admin_p } {
     lappend elements delete \
         [list label "" \
              sub_class narrow \
-             display_template {<img src="/resources/acs-subsite/Delete16.gif" width="16" height="16" style="border:0px" alt="#evaluation-portlet.Delete_task_#">} \
+             display_template {<adp:icon name="trash" title="#evaluation-portlet.Delete_task_#">} \
              link_url_eval {[export_vars -base "${base_url}admin/tasks/task-delete" { grade_id task_id return_url }]} \
              link_html { title "[_ evaluation-portlet.Delete_task_]" }]
     

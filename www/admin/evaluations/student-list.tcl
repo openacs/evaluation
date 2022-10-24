@@ -153,7 +153,7 @@ lappend elements edit \
 lappend elements delete \
     [list label {} \
 	 sub_class narrow \
-	 display_template {<if @simple_p;literal@ true>#evaluation.delete# </if><else><img src="/resources/acs-subsite/Delete16.gif" width="16" height="16" style="border:0px" alt=""></else>} \
+	 display_template {<if @simple_p;literal@ true>#evaluation.delete# </if><else><adp:icon name="trash"></else>} \
 	 link_url_eval {[export_vars -base "evaluation-delete" { evaluation_id return_url task_id }]} \
 	 link_html { title "[_ evaluation.Delete_evaluation_]" } \
 	] 
