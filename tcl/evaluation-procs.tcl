@@ -667,7 +667,7 @@ ad_proc -public evaluation::new_answer {
     @param task_item_id Task which "owns" the answer
     @param title The name of the task solution
     @param storage_type lob, file or text, depending on what are we going to store
-    @param party_id Group or user_id thaw owns the anser
+    @param party_id Group or user_id thaw owns the answer
 } {
 
     if { $creation_user eq "" } {
