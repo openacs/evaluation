@@ -1,5 +1,3 @@
-# /packages/evaluation/www/admin/grades/distribution-edit-2.tcl
-
 ad_page_contract { 
     Bulk edit a set tasks
 } { 
@@ -7,9 +5,9 @@ ad_page_contract {
     no_grade:array
     weights:array
     {weight_sum "0"}
-    {points_p:boolean "0"}
+    {points_p:boolean,notnull 0}
     {info ""}
-    {relative_p:boolean 0}
+    {relative_p:boolean,notnull 0}
 } -validate {
     valid_weights {
 	db_1row grade_info { *SQL* }

@@ -1,5 +1,3 @@
-# /packages/evaluation/www/admin/tasks/task-add-edit.tcl
-
 ad_page_contract {
     Page for editing and adding tasks.
 
@@ -16,7 +14,7 @@ ad_page_contract {
     return_url:localurl
     admin_groups_p:boolean,optional
     {add_to_more_classes_p:boolean ""}
-    {attached_p:boolean "f"}
+    {attached_p:boolean,notnull "f"}
     {enable 1}
     {return_p:boolean ""}
     {simple_p:boolean ""}

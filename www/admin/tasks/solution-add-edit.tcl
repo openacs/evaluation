@@ -16,7 +16,7 @@ ad_page_contract {
     {solution_mode "edit"}
     grade_id:naturalnum,notnull
     return_url:localurl
-    {attached_p:boolean "f"}
+    {attached_p:boolean,notnull f}
 }
 
 set package_id [ad_conn package_id]
