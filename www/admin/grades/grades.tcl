@@ -112,9 +112,9 @@ db_multirow  -extend { delete_template } grades  get_class_grades { *SQL* } {
     if { $live_revision eq "" } {
 	set delete_template "<span style=\"font-style: italic; color: red; font-size: 9pt;\">[_ evaluation.Deleted]</span> <a href=[export_vars -base "grades" { {set_grade_id_live $item_id} }]>[_ evaluation.make_it_live]</a>"
     } elseif { $simple_p } {
-	set delete_template "<a href=\"[export_vars -base "grades-delete" { grade_id return_url }]\">[_ evaluation.delete]</a>"
+	set delete_template "<a href=\"[export_vars -base grades-delete { grade_id return_url }]\">[_ evaluation.delete]</a>"
     } else {
-	set delete_template "<a href=\"[export_vars -base "grades-delete" { grade_id return_url }]\"><img src=\"/resources/acs-subsite/Delete16.gif\" width=\"16\" height=\"16\" style=\"border:0px\" alt=\"\"></a>"
+	set delete_template "<a href=\"[export_vars -base grades-delete { grade_id return_url }]\"><adp:icon name=\"trash\"></a>"
     }
 }
 

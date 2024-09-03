@@ -32,7 +32,7 @@ set elements [list party_name \
 		       orderby_asc {submission_date asc} \
 		       orderby_desc {submission_date desc}] \
 		  grade \
-		  [list label "[_ evaluation.Maximun_Grade_] <if $simple_p eq 0><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"></if><else>$max_grade<input type=hidden name=max_grade value=$max_grade></else>" \
+		  [list label "[_ evaluation.Maximum_Grade_] <if $simple_p eq 0><input type=text name=\"max_grade\" maxlength=\"6\" size=\"3\" value=\"$max_grade\"></if><else>$max_grade<input type=hidden name=max_grade value=$max_grade></else>" \
 		       display_template { 
 			   <input type=text name=grades.@evaluated_students.party_id@ value=\"@evaluated_students.grade@\" maxlength=\"6\" size=\"4\"> } ] \
 		  edit_reason \

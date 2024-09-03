@@ -5,7 +5,7 @@
 
 <if @one_group:rowcount@ gt 0>
 <ul>
-<li>#evaluation.lt_To_chanche_the_name_e#</li>
+<li>#evaluation.lt_To_change_the_name_e#</li>
 <li>#evaluation.lt_To_delete_the_group_c#</li>
 <li>#evaluation.lt_To_unassociate_a_memb# #evaluation.Note# </li>
 </ul>

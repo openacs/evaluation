@@ -61,10 +61,7 @@ ad_proc -public evaluation::get_user_portrait {
     }
 
     if { $tag_attributes ne "" } {
-        for {set i 0} { $i < [ns_set size $tag_attributes] } { incr i } {
-            set attribute_name [ns_set key $tag_attributes $i]
-            set attribute_value [ns_set value $tag_attributes $i]
-
+        foreach {attribute_name attribute_value} [ns_set array $tag_attributes] {
             if {$attribute_name eq {}} {
                 append output " $attribute_name"
             } else {
@@ -154,7 +151,8 @@ ad_proc -public evaluation::revision_delete {
 ad_proc -public evaluation::set_live_item {
     -item_id
 } {
-    Wrapper for contet::item::set_live_revision, in case the way items are deleted in the eval package ever change.
+    Wrapper for content::item::set_live_revision, in case the way items are
+    deleted in the eval package ever change.
 } {
     content::item::set_live_revision -revision_id [content::item::get_best_revision -item_id $item_id]
 }
@@ -504,7 +502,7 @@ ad_proc -public evaluation::new_task {
     @param grade_item_id Grade type where the task belongs
     @param name The name of the task
     @param number_of_members If the task is in groups this parameter must be > 1
-    @param online_p If the task will be submited online
+    @param online_p If the task will be submitted online
     @param due_date Due date of the task
     @param weight Weight of the task in the grade type
     @param late_submit_p If the students will be able to submit the task after due date
@@ -669,7 +667,7 @@ ad_proc -public evaluation::new_answer {
     @param task_item_id Task which "owns" the answer
     @param title The name of the task solution
     @param storage_type lob, file or text, depending on what are we going to store
-    @param party_id Group or user_id thaw owns the anser
+    @param party_id Group or user_id thaw owns the answer
 } {
 
     if { $creation_user eq "" } {
@@ -898,7 +896,7 @@ ad_proc -public evaluation::new_grades_sheet {
     @param task_item_id Task which "owns" the grades sheet
     @param title The name of the grades sheet
     @param storage_type lob or file
-    @param mime_type Mime tipe of the grades sheet
+    @param mime_type Mime type of the grades sheet
 
 } {
 
@@ -1137,7 +1135,7 @@ ad_proc -public evaluation::public_answers_to_file_system {
     -path:required
     -folder_name:required
 } {
-    Writes all the answers of a given task in the file system.
+    Writes all the answers of a given task in the filesystem.
 } {
 
     set dir [file join ${path} ${folder_name}]
@@ -1145,22 +1143,21 @@ ad_proc -public evaluation::public_answers_to_file_system {
 
     db_foreach get_answers_for_task { *SQL* } {
         if { $storage_type eq "lob" || $storage_type eq "file" } {
-            # it is a file
 
             regsub -all {[<>:\"|/@\\\#%&+\\ ,]} $party_name {_} file_name
             append file_name [file extension $answer_title]
 
             if {$storage_type eq "file"} {
-            # its a file
-
-                file copy -- "[cr_fs_path $cr_path]${cr_file_name}" [file join ${dir} ${file_name}]
+                # it is a file
+                set cr_fn [content::revision::get_cr_file_path -revision_id $revision_id]
+                file copy -- $cr_fn [file join ${dir} ${file_name}]
             } else {
-            # its a lob
+                # it is a lob
                 db_blob_get_file select_object_content { *SQL* } -file [file join ${dir} ${file_name}]
             }
 
         } else {
-            # it is a url
+            # it is a URL
 
             set url [db_string url { *SQL* }]
 
@@ -1208,15 +1205,17 @@ ad_proc -public evaluation::set_points {
     }
 }
 
-# SQL for this proc is nowhere to be found, therefore I comment it
-# out.
+#
+# The SQL query for this proc is nowhere to be found, therefore, it is
+# commented out.
+#
 # ad_proc -public evaluation::enable_due_date {
 #     {-task_id}
 # } {
 # } {
 #     set enable_p 0
 #     set enable_p [db_string enable {} -default 1]
-
+#
 #     if {$enable_p > 1} {
 #         set enable_p 0
 #     }

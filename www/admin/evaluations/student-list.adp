@@ -90,7 +90,7 @@
 </table>
 <br>
 <h2>#evaluation.lt_Evaluated_Students_to#</h2>
-<p>#evaluation.Theese#</p>
+<p>#evaluation.These#</p>
 </else>
 <listtemplate name="evaluated_students"></listtemplate>
 <br>

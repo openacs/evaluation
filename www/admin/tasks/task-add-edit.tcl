@@ -1,5 +1,3 @@
-# /packages/evaluation/www/admin/tasks/task-add-edit.tcl
-
 ad_page_contract {
     Page for editing and adding tasks.
 
@@ -16,7 +14,7 @@ ad_page_contract {
     return_url:localurl
     admin_groups_p:boolean,optional
     {add_to_more_classes_p:boolean ""}
-    {attached_p:boolean "f"}
+    {attached_p:boolean,notnull "f"}
     {enable 1}
     {return_p:boolean ""}
     {simple_p:boolean ""}
@@ -264,7 +262,7 @@ ad_form -extend -name task -form {
     }
     {answer_choice:text(radio)     
 	{label "[_ evaluation.answer_choice_]"} 
-	{options {{"[_ evaluation.submitted_online_]" ol}  {"[_ evaluation.forum_r_]" fr} {"[_ evaluation.not_submited_]" ns}}}
+	{options {{"[_ evaluation.submitted_online_]" ol}  {"[_ evaluation.forum_r_]" fr} {"[_ evaluation.not_submitted_]" ns}}}
 	{value "ol"}
     }
 }
@@ -423,7 +421,13 @@ ad_form -extend -name task -form {
 	set due_date_p 1
 	
 	set title [evaluation::safe_url_name -name $title]
-	set cal_due_date [calendar::to_sql_datetime -date $due_date -time $due_date -time_p 1]
+        set due_hours   [template::util::date::get_property hours $due_date]
+        set due_minutes [template::util::date::get_property minutes $due_date]
+        set due_year    [template::util::date::get_property year $due_date]
+        set due_month   [template::util::date::get_property month $due_date]
+        set due_day     [template::util::date::get_property day $due_date]
+        set cal_due_date "$due_year-$due_month-$due_day $due_hours:$due_minutes"
+
 	set due_date_ansi [db_string set_date " *SQL* "]
 	
 	if {$cal_due_date eq "-- :"} {

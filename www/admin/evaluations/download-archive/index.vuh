@@ -1,8 +1,8 @@
 # /packages/evaluation/www/admin/evaluaitons/download-archive/index.vuh
 
 ad_page_contract {
-	
-    Taken from the index.vuh of the fs package		
+
+    Taken from the index.vuh of the fs package
 
     @creation-date Jun 2004
     @version $Id$
@@ -33,15 +33,13 @@ if {![db_0or1row task_name { *SQL* }]} {
 regsub -all {[<>:\"|/@\\\#%&+\\]} $task_name {_} task_name
 
 # publish the object to the file system
-set in_path [ad_tmpnam]
-file mkdir $in_path
+set in_path [ad_mktmpdir]
 
 set file [evaluation::public_answers_to_file_system -task_id $task_id -path $in_path -folder_name $task_name]
 set file_name [file tail $file]
 
 # create a temp dir to put the archive in
-set out_path [ad_tmpnam]
-file mkdir $out_path
+set out_path [ad_mktmpdir]
 
 set out_file [file join ${out_path} ${download_name}]
 
@@ -49,11 +47,7 @@ set out_file [file join ${out_path} ${download_name}]
 set cmd [evaluation::get_archive_command -in_file $file_name -out_file $out_file]
 
 # create the archive
-with_catch errmsg {
-    exec bash -c "cd $in_path; $cmd; cd -"
-} {
-    error $errmsg
-}
+exec bash -c "cd $in_path; $cmd; cd -"
 
 # return the archive to the connection.
 ns_returnfile 200 application/octet-stream $out_file

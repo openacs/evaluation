@@ -4,7 +4,7 @@
 
 <p style="text-align:justify">
 
-	#evaluation.lt_This_funcionallity_al# <br>
+	#evaluation.lt_This_functionality_al# <br>
 
 	#evaluation.lt_The_file_should_have_# <br>
 

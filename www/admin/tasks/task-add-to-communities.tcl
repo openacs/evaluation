@@ -11,7 +11,7 @@ ad_page_contract {
     task_id:naturalnum,notnull
     communities_packages_ids:array,optional
     item_ids:array,optional
-    {redirect_to_groups_p:boolean 0}
+    {redirect_to_groups_p:boolean,notnull 0}
     foo:optional
 }
 

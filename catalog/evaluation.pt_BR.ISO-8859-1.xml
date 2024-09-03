@@ -271,7 +271,7 @@
   <msg key="lt_The_estimated_time_mu">O tempo estimado deve ser maior que 0</msg>
   <msg key="lt_The_file_extension_of">A extensão do arquivo é &quot;%file_extension&quot; e deveria ser CSV. Sinto muito, não podemos processá-lo&quot;}}} set page_title &quot;&lt;#_ Confirm Evaluation</msg>
   <msg key="lt_The_file_extension_of_1">A extensão do arquivo é &quot;%file_extension&quot; e deveria ser CSV. Sinto muito, não podemos processá-lo</msg>
-  <msg key="lt_The_file_is_too_large_1">O arquivo é muito grande. (O tamanho máximo para arquivos é %pretty_maxnbytes% bytes)</msg>
+  <msg key="lt_The_file_is_too_large_1">O arquivo é muito grande. (O tamanho máximo para arquivos é %pretty_maxnbytes%)</msg>
   <msg key="lt_The_file_should_have_">O arquivo deveria ter um formato pré-definido para que o sistema possa analisá-lo e obter a informação. Se você quiser usar esta funcionalidade precisa seguir os seguintes passos:</msg>
   <msg key="lt_The_grade_most_be_a_v">A nota precisa ser um número válido: %wrong_grade%</msg>
   <msg key="lt_The_grade_must_be_a_R">A nota precisa ser um NÚMERO REAL.</msg>
@@ -316,7 +316,7 @@
   <msg key="lt_These_are_the_grades_">Estas são folhas de nota usadas para avaliar os estudantes para esta tarefa</msg>
   <msg key="lt_These_are_the_student">Estes são os estudantes que já responderam mas ainda não foram avaliados.</msg>
   <msg key="lt_These_are_the_student_1">Este são os estudante sque ainda nã responderam (se a tarefa estiver online) e ainda não foram avaliados.</msg>
-  <msg key="lt_This_funcionallity_al">Esta funcionalidade te permite enviar um arquivo CSV (Comma Separated Value) com as notas dos alunos. Este arquivo CSV pode ser editado com o MS Excell e muitos outros editores de texto.</msg>
+  <msg key="lt_This_functionality_al">Esta funcionalidade te permite enviar um arquivo CSV (Comma Separated Value) com as notas dos alunos. Este arquivo CSV pode ser editado com o MS Excell e muitos outros editores de texto.</msg>
   <msg key="lt_This_is_the_grades_re">O seguinte é um sumário das notas dos estudantes para este curso.</msg>
   <msg key="lt_This_is_the_grades_re_1">Este é o relatório das notas dos estudantes de acordo com o tipo de atribuição e as avaliações que você fez para este tipo.</msg>
   <msg key="lt_This_task_can_not_be_">esta tarefa não pode ser enviada depois da data limite</msg>
@@ -324,7 +324,7 @@
   <msg key="lt_This_was_the_error___">O erro foi esse: &lt;blockquote&gt; &lt;pre&gt;%errmsg%&lt;/pre&gt; &lt;/blockquote&gt; </msg>
   <msg key="lt_Time_estimated_to_com">Tempo estimado para completar esta %grade_name% (em horas)</msg>
   <msg key="lt_To_add_this_assignmen">Para adicionar esta atribuição à outras classes (onde você é administrador)</msg>
-  <msg key="lt_To_chanche_the_name_e">Para mudar o nome, mude na entrada de texto e então clique no botão &quot;Renomear Grupo&quot;.</msg>
+  <msg key="lt_To_change_the_name_e">Para mudar o nome, mude na entrada de texto e então clique no botão &quot;Renomear Grupo&quot;.</msg>
   <msg key="lt_To_delete_the_group_c">Para apagar o grupo clique no botão &quot;Apagar Grupo&quot;.</msg>
   <msg key="lt_to_submit_their_answe">para enviar as respostas deles depois da data limite?</msg>
   <msg key="lt_To_unassociate_a_memb">Para desassociar um membro do grupo, clique no link &quot;Desassociar Membro&quot;.</msg>
@@ -378,7 +378,7 @@
   <msg key="lt_You_must_give_an_edit">Você deve fornecer uam razão de edição (%old_grade% --&gt; %grade_wo_reason%</msg>
   <msg key="lt_Your_total_grade_in_t">Sua nota total nesta classe é:</msg>
   <msg key="Max_Grade_">Nota Máxima:</msg>
-  <msg key="Maximun_Grade_">Nota Máxima:</msg>
+  <msg key="Maximum_Grade_">Nota Máxima:</msg>
   <msg key="MaxNumberOfBytes">Tamanho do Arquivo a Enviar</msg>
   <msg key="Members_">Membros</msg>
   <msg key="Modifying_User_">Modificando o Usuário</msg>
@@ -409,7 +409,7 @@
   <msg key="not_equal_100">A soma dos Pesos acima das %grade_plural_name% deve ser 100.</msg>
   <msg key="not_equal_grade_weight">A soma dos Pesos acima do Total deve ser %grade_weight%.</msg>
   <msg key="Not_evaluated_">Não avaliado</msg>
-  <msg key="not_submited_">Sem envio</msg>
+  <msg key="not_submitted_">Sem envio</msg>
   <msg key="Note">que se você desassociar TODOS os membros do grupo, O GRUPO SERÁ ACABADO.</msg>
   <msg key="Number_of_Integrants">Número de Integrantes</msg>
   <msg key="Number_of_Members_">Número de Membros</msg>
@@ -464,7 +464,7 @@
   <msg key="Tasks_">Tarefas</msg>
   <msg key="Tasks_for_students_">Tarefas para estudantes</msg>
   <msg key="Tasks_List_">Lista das Tarefas</msg>
-  <msg key="Theese">são os estudantes avaliados. Note que se você os avaliou acima de uma nota diferente de 100, o sistema fez a conversão automaticamente para que a nota seja mostrada acima de 100 pontos.</msg>
+  <msg key="These">são os estudantes avaliados. Note que se você os avaliou acima de uma nota diferente de 100, o sistema fez a conversão automaticamente para que a nota seja mostrada acima de 100 pontos.</msg>
   <msg key="There">Não há grupos para esta tarefa ainda.</msg>
   <msg key="total">TOTAL DAS %grade_plural_name_up%:</msg>
   <msg key="Total_">Total  </msg>

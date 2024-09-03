@@ -59,7 +59,7 @@ ad_form -name evaluation -cancel_url $return_url -export { task_id item_id party
 	
 } -validate {
 	{grade 
-		{ [ad_var_type_check_number_p $grade] }
+		{ [string is double -strict $grade] }
 		{ [_ evaluation.lt_The_grade_must_be_a_v_1] } 
 	}
 	{comments
@@ -79,7 +79,7 @@ ad_form -name evaluation -cancel_url $return_url -export { task_id item_id party
 		
     }
     
-    # send the notification to everyone suscribed
+    # send the notification to everyone subscribed
     evaluation::notification::do_notification -task_id $task_id -evaluation_id $revision_id -package_id [ad_conn package_id] -notif_type one_evaluation_notif -subset [list $party_id]
     
     ad_returnredirect "$return_url"

@@ -236,8 +236,8 @@
   <msg key="lt_The_estimated_time_mu">Die geschätzte Zeit muß größer als 0 sein.</msg>
   <msg key="lt_The_file_extension_of">Die Dateiendung der Datei ist &quot;%file_extension&quot;, sollte aber.CVS sein. Leider können wir die Datei nicht verarbeiten. } } } set page_title &quot;&lt;#_ Confirm Evaluation  </msg>
   <msg key="lt_The_file_extension_of_1">Die Dateiendung ist \&quot;$file_extension\&quot; und sollte .CSV sein. Leider können wir die Datei nicht verarbeiten.</msg>
-  <msg key="lt_The_file_is_too_large">Die Datei ist zu groß. (Die maximale Dateigröße beträgt %pretty_maxnbytes% bytes)&quot; return 0 } set errors 0 set errors_text &quot;&quot; set counter 0 set line_number 0 set file_handler [open $tmp_filename {RDWR}] while { ![eof $file_handler] } { incr line_number set one_line [gets $file_handler] # jump first two lines if { $line_number &lt;= 2 } { continue } # replace enters (&lt;-|) with semicolons (;) regsub -all {(,[\r\n])} $one_line &quot;&quot; clean_line regsub -all {[\r\n]} $clean_line &quot;&quot; clean_line set evaluation [split $clean_line &quot;,&quot;] if { $line_number == 3 } { set max_grade [string trim [lindex $evaluation 1]] if { ![ad_var_type_check_number_p $max_grade] } { ad_return_error &quot;&lt;#_ Invalid Max Grade</msg>
-  <msg key="lt_The_file_is_too_large_1">Die Datei ist zu groß (die maximale Größe für Dateien ist %pretty_maxnbytes% bytes)</msg>
+  <msg key="lt_The_file_is_too_large">Die Datei ist zu groß. (Die maximale Dateigröße beträgt %pretty_maxnbytes%)&quot; return 0 } set errors 0 set errors_text &quot;&quot; set counter 0 set line_number 0 set file_handler [open $tmp_filename {RDWR}] while { ![eof $file_handler] } { incr line_number set one_line [gets $file_handler] # jump first two lines if { $line_number &lt;= 2 } { continue } # replace enters (&lt;-|) with semicolons (;) regsub -all {(,[\r\n])} $one_line &quot;&quot; clean_line regsub -all {[\r\n]} $clean_line &quot;&quot; clean_line set evaluation [split $clean_line &quot;,&quot;] if { $line_number == 3 } { set max_grade [string trim [lindex $evaluation 1]] if { ![ad_var_type_check_number_p $max_grade] } { ad_return_error &quot;&lt;#_ Invalid Max Grade</msg>
+  <msg key="lt_The_file_is_too_large_1">Die Datei ist zu groß (die maximale Größe für Dateien ist %pretty_maxnbytes%)</msg>
   <msg key="lt_The_file_should_have_">Die Datei sollte ein vordefiniertes Format haben, so dass das System es analysieren und Informationen daraus gewinnen kann. Wenn Sie diese Funktionalität nutzen möchten, müssen Sie folgenden Schritten folgen:</msg>
   <msg key="lt_The_grade_most_be_a_v">Die Bewertung muss eine gültige Zahl sein: %wrong_grade%  </msg>
   <msg key="lt_The_grade_must_be_a_R">Die Bewertung muss eine reele Nummer sein.</msg>
@@ -281,7 +281,7 @@
   <msg key="lt_These_are_the_grades_">Dies sind die Bewertungstabellen, die dafür genutzt wurden, um die Aufgaben der Studenten zu bewerten.</msg>
   <msg key="lt_These_are_the_student">Liste aller Studenten, die schon geantwortet haben aber noch nicht bewertet wurden.</msg>
   <msg key="lt_These_are_the_student_1">Liste aller Studenten, die noch nicht geantwortet haben (wenn es sich um eine online Aufgabe handelt) und noch nicht bewertet wurden.</msg>
-  <msg key="lt_This_funcionallity_al">Diese Funktionalität erlaubt es Ihnen, eine CSV-Datei (comma separated value) mit den Bewertungen für die Studenten upzuloaden. Diese CSV-Datei kann mit MS Excel oder vielen Texteditoren bearbeitet werden.</msg>
+  <msg key="lt_This_functionality_al">Diese Funktionalität erlaubt es Ihnen, eine CSV-Datei (comma separated value) mit den Bewertungen für die Studenten upzuloaden. Diese CSV-Datei kann mit MS Excel oder vielen Texteditoren bearbeitet werden.</msg>
   <msg key="lt_This_is_the_grades_re">Dies ist die Leistungsübersicht für die Studenten und die von Ihnen getroffene Zuordnung der Aufgaben.</msg>
   <msg key="lt_This_is_the_grades_re_1">Dies ist die Leistungsübersicht für die Studenten für einen einzelnen Aufgabentyp und die Bewertungen, die für diesen Aufgabentyp abgegeben wurden.</msg>
   <msg key="lt_This_task_can_not_be_">Für diese Aufgabe können Lösungen nicht nach dem Fälligkeitsdatum übermittelt werden.</msg>
@@ -289,7 +289,7 @@
   <msg key="lt_This_was_the_error___">Dies war ein fehelr: &lt;blockquote&gt; &lt;pre&gt;%errmsg%&lt;/pre&gt; &lt;/blockquote&gt;  </msg>
   <msg key="lt_Time_estimated_to_com">Geschätzte Zeit, um &quot;%grade_name%&quot; fertigzustellen (in Stunden) </msg>
   <msg key="lt_To_add_this_assignmen">Um diese Aufgabe einem anderen Kurs hinzuzufügen (in dem Sie Administrator sind)</msg>
-  <msg key="lt_To_chanche_the_name_e">Um den Namen zu ändern, ändern Sie den Namen im Texteingabefeld und klicken auf den &quot;Gruppe umbenennen&quot; Knopf.</msg>
+  <msg key="lt_To_change_the_name_e">Um den Namen zu ändern, ändern Sie den Namen im Texteingabefeld und klicken auf den &quot;Gruppe umbenennen&quot; Knopf.</msg>
   <msg key="lt_To_delete_the_group_c">Um diese Gruppe zu löschen, klicken Sie auf den &quot;Gruppe löschen&quot; Knopf.</msg>
   <msg key="lt_to_submit_their_answe">ihre Antworten nach dem Fälligkeitsdatum übermitteln?</msg>
   <msg key="lt_To_unassociate_a_memb">Um ein Gruppenmitglied aus einer Gruppe zu entfernen, klicken Sie auf &quot;Gruppenmitglied aus Gruppe entfernen&quot;</msg>
@@ -340,7 +340,7 @@
   <msg key="lt_You_must_give_an_edit">Sie müssen einen Grund für die Änderung angeben (%old_grade% --&gt; %grade_wo_reason%  </msg>
   <msg key="lt_Your_total_grade_in_t">Ihre Gesamtnote in diesem Kurs ist:</msg>
   <msg key="Max_Grade_">Maximale Bewertung</msg>
-  <msg key="Maximun_Grade_">Maximale Bewertung</msg>
+  <msg key="Maximum_Grade_">Maximale Bewertung</msg>
   <msg key="Members_">Mitglieder</msg>
   <msg key="Modifying_User_">Wer hat die Änderung vorgenommen?</msg>
   <msg key="na_">n/a</msg>
@@ -401,7 +401,7 @@
   <msg key="Tasks_">Aufgaben</msg>
   <msg key="Tasks_for_students_">Aufgaben für Studenten</msg>
   <msg key="Tasks_List_">Aufgabenliste</msg>
-  <msg key="Theese">Sind die Studenten bewertet. Anmerkung: Wenn Sie die Studenten mit einem Bewertungsskala die nicht 100 ist bewertet haben, wird diese automatisch in eine mit 100 Punkten als maximaler Bewertung konvertiert.</msg>
+  <msg key="These">Sind die Studenten bewertet. Anmerkung: Wenn Sie die Studenten mit einem Bewertungsskala die nicht 100 ist bewertet haben, wird diese automatisch in eine mit 100 Punkten als maximaler Bewertung konvertiert.</msg>
   <msg key="There">bisher keine Gruppen für diese Aufgabenzuteilung</msg>
   <msg key="Total_">Insgesamt</msg>
   <msg key="Total_current_grade_">Gesamte aktueller Bewertung</msg>

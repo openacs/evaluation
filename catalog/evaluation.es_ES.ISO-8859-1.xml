@@ -414,7 +414,7 @@ y haga click en OK.</msg>
 
 set page_title &amp;quot;&amp;lt;#_ Confirm Evaluation </msg>
   <msg key="lt_The_file_extension_of_1">La extensión del archivo \&quot;$file_extension\&quot; debe de ser .CSV, lo sentimos, no podemos procesarlo </msg>
-  <msg key="lt_The_file_is_too_large">El fichero es demasiado grande. (El tamaño máximo del fichero es %pretty_maxnbytes% bytes)&amp;quot; 
+  <msg key="lt_The_file_is_too_large">El fichero es demasiado grande. (El tamaño máximo del fichero es %pretty_maxnbytes%)&amp;quot; 
         return 0 
     }
     
@@ -444,7 +444,7 @@ set page_title &amp;quot;&amp;lt;#_ Confirm Evaluation </msg>
 			set max_grade [string trim [lindex $evaluation 1]] 
 			if { ![ad_var_type_check_number_p $max_grade] } {
 				ad_return_error &amp;quot;&amp;lt;#_ Invalid Max Grade </msg>
-  <msg key="lt_The_file_is_too_large_1">El archivo es muy grande. (El tamaño máximo es de %pretty_maxnbytes% bytes)</msg>
+  <msg key="lt_The_file_is_too_large_1">El archivo es muy grande. (El tamaño máximo es de %pretty_maxnbytes%)</msg>
   <msg key="lt_The_file_should_have_">El archivo debe de tener un formato predefinido para que el sistema pueda leerlo y obtener la información. Si usted desea utilizar esta herramienta debe de seguir los siguientes pasos:</msg>
   <msg key="lt_The_grade_most_be_a_v">La nota debe de ser un NUMERO VALIDO: %wrong_grade% </msg>
   <msg key="lt_The_grade_must_be_a_R">La nota debe de ser un NUMERO REAL.</msg>
@@ -515,7 +515,7 @@ set page_title &amp;quot;&amp;lt;#_ Confirm Evaluation </msg>
 </msg>
   <msg key="lt_These_are_the_student">Estos son los estudiantes que ya respondieron pero que no han sido evaluados.</msg>
   <msg key="lt_These_are_the_student_1">Estos son los estudiantes que no han respondido (si la tarea se puede entregar electrónicamente) y no han sido evaluados.</msg>
-  <msg key="lt_This_funcionallity_al">Esta funcionalidad le permite subir un archivo CSV (Comm Separated Value) con las notas de los estudiantes. Este archivo CSV puede ser editado con MS Excell y con otros editores de texto.
+  <msg key="lt_This_functionality_al">Esta funcionalidad le permite subir un archivo CSV (Comm Separated Value) con las notas de los estudiantes. Este archivo CSV puede ser editado con MS Excell y con otros editores de texto.
 </msg>
   <msg key="lt_This_is_the_grades_re">Este es el reporte de notas de los estudiantes de acuerdo a las asignaciones/evaluaciones que usted hizo.</msg>
   <msg key="lt_This_is_the_grades_re_1">Este es el reporte de notas de los estudiantes de acuerdo a un tipo de asignación y a las evaluaciones que usted hizo en este tipo de asignación.
@@ -531,7 +531,7 @@ set page_title &amp;quot;&amp;lt;#_ Confirm Evaluation </msg>
                 &lt;/blockquote&gt; </msg>
   <msg key="lt_Time_estimated_to_com">Tiempo estimado para completar %grade_name% (en horas)</msg>
   <msg key="lt_To_add_this_assignmen">Si desea agregar asignaciones en varias clases o secciones seleccione la opción que se encuentra</msg>
-  <msg key="lt_To_chanche_the_name_e">Para cambiar el nombre, edite el nombre en la entrada del texto y luego haga click en el botón &quot;Renombrar Grupo&quot;.
+  <msg key="lt_To_change_the_name_e">Para cambiar el nombre, edite el nombre en la entrada del texto y luego haga click en el botón &quot;Renombrar Grupo&quot;.
 </msg>
   <msg key="lt_To_delete_the_group_c">Para eliminar el grupo, haga click en el botón &quot;Borrar Grupo&quot;</msg>
   <msg key="lt_to_submit_their_answe">¿para entregar las respuestas después de la fecha de entrega?</msg>
@@ -613,7 +613,7 @@ esta tarea?</msg>
 </msg>
   <msg key="make_it_live">(¡activar!)</msg>
   <msg key="Max_Grade_">Nota Máxima: </msg>
-  <msg key="Maximun_Grade_">Nota Máxima: </msg>
+  <msg key="Maximum_Grade_">Nota Máxima: </msg>
   <msg key="MaxNumberOfBytes">Tamaño de fichero</msg>
   <msg key="Members_">Miembros</msg>
   <msg key="Modifying_User_">Por</msg>
@@ -645,7 +645,7 @@ esta tarea?</msg>
   <msg key="not_equal_100">La suma de los pesos de %grade_plural_name% debe ser igual a 100.</msg>
   <msg key="not_equal_grade_weight">La suma del peso sobre el total debe ser %grade_weight%.</msg>
   <msg key="Not_evaluated_">Sin evaluar</msg>
-  <msg key="not_submited_">Sin envío</msg>
+  <msg key="not_submitted_">Sin envío</msg>
   <msg key="Note">si usted desasocia a TODOS los miembros o al grupo, EL GRUPO SERA ELIMINADO. </msg>
   <msg key="Number_of_Integrants">Numero de Integrantes</msg>
   <msg key="Number_of_Members_">Número de personas en el grupo: </msg>
@@ -701,7 +701,7 @@ esta tarea?</msg>
   <msg key="Tasks_">Tareas</msg>
   <msg key="Tasks_for_students_">Tareas para los estudiantes</msg>
   <msg key="Tasks_List_">Lista de Tareas</msg>
-  <msg key="Theese">Estos son los estudiantes evaluados. Note que si ha evaluado a los estudiantes sobre una nota diferente de 100, el sistema automáticamente hará la conversión y la nota aparecerá sobre 100 puntos.</msg>
+  <msg key="These">Estos son los estudiantes evaluados. Note que si ha evaluado a los estudiantes sobre una nota diferente de 100, el sistema automáticamente hará la conversión y la nota aparecerá sobre 100 puntos.</msg>
   <msg key="There">todavía no hay grupos para esta asignación.</msg>
   <msg key="total">TOTAL %grade_plural_name_up%:</msg>
   <msg key="Total_">Total </msg>

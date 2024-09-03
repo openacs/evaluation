@@ -16,13 +16,13 @@
 
 	( select
 	CASE 
-	  WHEN et3.number_of_members = 1 THEN $user_id
+	  WHEN et3.number_of_members = 1 THEN :user_id
 	  ELSE 
 	(select etg2.group_id from evaluation_task_groups etg2,
                                                       evaluation_tasks et2,
                                                       acs_rels map
                                                       where map.object_id_one = etg2.group_id
-                                                        and map.object_id_two = $user_id
+                                                        and map.object_id_two = :user_id
                                                         and etg2.task_item_id = et2.task_item_id
                                                         and et2.task_id = et.task_id)
 
